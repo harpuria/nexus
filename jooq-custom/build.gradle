@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.qwerty'
+version = '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    runtimeOnly 'org.postgresql:postgresql:42.7.5'
+    implementation "org.jooq:jooq-codegen:${jooqVersion}"
+}
+
+test {
+    useJUnitPlatform()
+}

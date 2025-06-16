@@ -1,0 +1,109 @@
+buildscript {
+	ext {
+		jooqVersion = '3.19.23'
+	}
+}
+
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.0'
+	id 'io.spring.dependency-management' version '1.1.7'
+
+	// jooq codegen
+	id "org.jooq.jooq-codegen-gradle" version "${jooqVersion}"
+}
+
+group = 'com.qwerty'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-jooq'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	jooqCodegen project(':jooq-custom')
+	jooqCodegen "org.jooq:jooq:${jooqVersion}"
+	jooqCodegen "org.jooq:jooq-meta:${jooqVersion}"
+}
+
+jooq {
+	configuration {
+		jdbc {
+			driver = "org.postgresql.Driver"
+			url = "jdbc:postgresql://localhost:5432/nexus"
+			user = "${user}"
+			password = "${password}"
+
+			properties {
+				property {
+					key = "user"
+					value = "postgres"
+				}
+				property {
+					key = "password"
+					value = "root"
+				}
+			}
+		}
+		generator {
+			database {
+				name = "org.jooq.meta.postgres.PostgresDatabase"
+				inputSchema = "nexus"
+			}
+
+			// Generation flags: See advanced configuration properties
+			generate {
+				daos = true
+				records = true
+				immutablePojos = false
+				fluentSetters = true
+				javaTimeTypes = true
+				deprecated = false
+			}
+			target {
+				directory = "src/generated"
+			}
+
+			// 추가생성전략
+			strategy {
+				name = "jooq.custom.generator.JPrefixGeneratorStrategy"
+			}
+		}
+	}
+}
+
+sourceSets {
+	main {
+		java {
+			// src/generated 폴더에 있는 것들을 리소스로 활용 하기 위함
+			srcDirs = ["src/main/java", "src/generated"]
+		}
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
