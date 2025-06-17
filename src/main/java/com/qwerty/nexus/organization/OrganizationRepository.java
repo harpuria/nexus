@@ -21,6 +21,10 @@ public class OrganizationRepository {
         this.dao = new OrganizationDao(configuration);
     }
 
+    public void testDaoInsert(Organization organization) {
+        dao.insert(organization);
+    }
+
     public void testRecordInsert (){
         OrganizationRecord record = dslContext.newRecord(ORGANIZATION);
         record.setOrgNm("그리즐리소프트");

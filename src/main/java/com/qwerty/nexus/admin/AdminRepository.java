@@ -1,14 +1,22 @@
 package com.qwerty.nexus.admin;
 
 import lombok.extern.log4j.Log4j2;
+import org.jooq.Condition;
+import org.jooq.Configuration;
+import org.jooq.DSLContext;
+import org.jooq.generated.tables.JAdmin;
+import org.jooq.generated.tables.daos.AdminDao;
+import org.jooq.generated.tables.pojos.Admin;
+import org.jooq.generated.tables.records.AdminRecord;
+import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Log4j2
 @Repository
 public class AdminRepository {
-    /* 이전에 쓰던거 가져옴
-
-     private final DSLContext dslContext;
+    private final DSLContext dslContext;
     private final JAdmin ADMIN = JAdmin.ADMIN;
     private final AdminDao dao;
 
@@ -17,7 +25,34 @@ public class AdminRepository {
         this.dao = new AdminDao(configuration);
     }
 
-    // id 중복 체크
+    /**
+     * 회원 등록
+     * @param admin
+     * @return admin
+     */
+    public Admin insertAdmin(Admin admin){
+        AdminRecord record = dslContext.newRecord(ADMIN);
+
+        // dao 하면 오류가 나네??? record 로 바꿔야겄다.
+        dao.insert(admin);
+        return admin;
+    }
+
+    /**
+     * 회원 정보 갱신
+     * @param admin
+     * @return admin
+     */
+    public Admin updateAdmin(Admin admin){
+        dao.update(admin);
+        return admin;
+    }
+
+    /**
+     * 아이디 중복 체크
+     * @param admin
+     * @return integer
+     */
     public Integer isUserAlreadyRegistered(Admin admin){
         return dslContext.selectCount()
                 .from(ADMIN)
@@ -25,7 +60,11 @@ public class AdminRepository {
                 .fetchOneInto(Integer.class);
     }
 
-    // email 중복 체크
+    /**
+     * 이메일 중복 체크
+     * @param admin
+     * @return integer
+     */
     public Integer existsByEmail(Admin admin){
         return dslContext.selectCount()
                 .from(ADMIN)
@@ -33,20 +72,12 @@ public class AdminRepository {
                 .fetchOneInto(Integer.class);
     }
 
-    // 회원등록
-    public Admin insertAdmin(Admin admin) {
-        dao.insert(admin);
-        return admin;
-    }
-
-    // 회원수정
-    public Admin updateAdmin(Admin admin) {
-        dao.update(admin);
-        return admin;
-    }
-
-    // 회원 정보 한건 가져오기
-    public Admin selectOneAdmin(Admin admin) {
+    /**
+     * 한 건의 회원 정보 조회
+     * @param admin
+     * @return
+     */
+    public Admin selectOneAdmin(Admin admin){
         // 조건 설정
         Condition condition = DSL.noCondition();
         if(!admin.getLoginId().isEmpty()){
@@ -62,11 +93,12 @@ public class AdminRepository {
                 .fetchOneInto(Admin.class);
     }
 
-    // 회원 정보 전체 가져오기 (상황에 따라서 페이징, 검색조건 처리도 필요함)
+    /**
+     * 전체 회원 정보 조회 (추후 페이징, 검색 조건 처리 등 필요)
+     * @return
+     */
     public List<Admin> selectListAdmin(){
         return dslContext.selectFrom(ADMIN)
                 .fetchInto(Admin.class);
     }
-
-     */
 }

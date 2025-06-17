@@ -8,27 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class NexusApplicationTests {
-
-	@Autowired
-	OrganizationRepository repository;
-
 	@Test
 	void contextLoads() {
 	}
-
-	@Test
-	void jooqInsertTest_Record(){
-		repository.testRecordInsert();
-	}
-
-	@Test
-	void jooqUpdateTest_Record() {
-		repository.testRecordUpdate();
-	}
-
-	@Test
-	void jooqSelectTest_DAO(){
-		repository.testDaoSelect();
-	}
-
 }

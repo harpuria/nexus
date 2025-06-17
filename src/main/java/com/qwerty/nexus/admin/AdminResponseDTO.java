@@ -1,34 +1,40 @@
 package com.qwerty.nexus.admin;
 
-public class AdminResponseDTO {
+import com.qwerty.nexus.global.dto.BaseResponseDTO;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.jooq.generated.tables.pojos.Admin;
 
-    /*
-     이전에 쓰던거
+import java.time.OffsetDateTime;
+
+@EqualsAndHashCode(callSuper = true)
+@Data
+public class AdminResponseDTO extends BaseResponseDTO {
     private Integer adminId;
+    private Integer orgId;
+    private Integer gameId;
     private String loginId;
     private String loginPw;
     private String adminRole;
     private String adminEmail;
-    private String orgNm;
     private String adminNm;
-    private String approvedBy;
-    private String isAuth;
-    private LocalDateTime createdAt;
+    private String isApprove;
+    private OffsetDateTime createdAt;
     private String createdBy;
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
     private String updatedBy;
     private String isDel;
 
     public AdminResponseDTO convertPojoToDTO(Admin admin) {
         this.setAdminId(admin.getAdminId());
-        this.setLoginId(admin.getLoginId());
+        this.setOrgId(admin.getOrgId());
+        this.setGameId(admin.getGameId());
+        this.setLoginId(admin.getLoginPw());
         this.setLoginPw(admin.getLoginPw());
         this.setAdminRole(admin.getAdminRole());
         this.setAdminEmail(admin.getAdminEmail());
-        this.setOrgNm(admin.getOrgNm());
         this.setAdminNm(admin.getAdminNm());
-        this.setApprovedBy(admin.getApprovedBy());
-        this.setIsAuth(admin.getIsAuth());
+        this.setIsApprove(admin.getIsApprove());
         this.setCreatedAt(admin.getCreatedAt());
         this.setCreatedBy(admin.getCreatedBy());
         this.setUpdatedAt(admin.getUpdatedAt());
@@ -36,7 +42,4 @@ public class AdminResponseDTO {
         this.setIsDel(admin.getIsDel());
         return this;
     }
-
-     */
-
 }

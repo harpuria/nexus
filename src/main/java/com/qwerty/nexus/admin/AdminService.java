@@ -1,5 +1,6 @@
 package com.qwerty.nexus.admin;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.generated.tables.pojos.Admin;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -10,9 +11,11 @@ import java.util.Optional;
 
 @Log4j2
 @Service
+@RequiredArgsConstructor
 public class AdminService {
-    /* 이전에 쓰던거 일단 가져와봄
+
     private final AdminRepository adminRepository;
+
     public AdminResponseDTO login(Admin admin) {
         AdminResponseDTO rst = new AdminResponseDTO();
 
@@ -120,5 +123,4 @@ public class AdminService {
 
         return rst;
     }
-    */
 }

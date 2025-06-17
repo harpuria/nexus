@@ -1,4 +1,4 @@
-package com.qwerty.nexus.organization;
+package com.qwerty.nexus.game;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -7,6 +7,5 @@ import org.springframework.stereotype.Service;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-public class OrganizationService {
-    private final OrganizationRepository organizationRepository;
+public class GameService {
 }
