@@ -42,8 +42,8 @@ public class AdminController {
      * @param id 수정할 관리자의 회원 번호
      * @return ResponseEntity<AdminResponseDTO>
      */
-    @GetMapping
-    public ResponseEntity<AdminResponseDTO> getOneAdmin(@RequestParam Integer id){
+    @GetMapping("/{adminId}")
+    public ResponseEntity<AdminResponseDTO> getOneAdmin(@PathVariable("adminId") Integer id){
         AdminResponseDTO responseDTO = new AdminResponseDTO();
         adminService.selectOneAdmin(id);
         return ResponseEntity.ok(responseDTO);
