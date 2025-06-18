@@ -28,9 +28,10 @@ public class OrganizationRepository {
      * @param organization
      * @return Organization
      */
-    public Organization insertOrganization(Organization organization){
-        dao.insert(organization);
-        return organization;
+    public int insertOrganization(Organization organization){
+        OrganizationRecord record = dslContext.newRecord(ORGANIZATION, organization);
+        record.store();
+        return record.getOrgId();
     }
 
     /**

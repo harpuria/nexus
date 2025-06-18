@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class OrganizationService {
-    private final AdminService adminService;
     private final OrganizationRepository organizationRepository;
 
     /**
@@ -21,8 +20,8 @@ public class OrganizationService {
     public void update(OrganizationRequestDTO organization) {
         // 업데이트를 하는 사람이 해당 조직의 소속된 사람인지, SUPER 권한을 가졌는지 확인
         // true 면 아래 update 진행
-        AdminResponseDTO admin = adminService.selectOneAdmin(organization.getAdmin().getAdminId());
-        admin.getOrgId();
+        //AdminResponseDTO admin = adminService.selectOneAdmin(organization.getAdmin().getAdminId());
+        //admin.getOrgId();
 
         organizationRepository.updateOrganization(organization);
     }
@@ -31,7 +30,7 @@ public class OrganizationService {
      *
      * @param organization
      */
-    public void register(Organization organization) {
-        organizationRepository.insertOrganization(organization);
+    public int register(Organization organization) {
+        return organizationRepository.insertOrganization(organization);
     }
 }

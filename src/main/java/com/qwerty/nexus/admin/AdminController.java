@@ -33,8 +33,7 @@ public class AdminController {
      */
     @PatchMapping
     public ResponseEntity<AdminResponseDTO> updateAdmin(@RequestBody Admin admin){
-        AdminResponseDTO responseDTO = new AdminResponseDTO();
-        adminService.update(admin);
+        AdminResponseDTO responseDTO = adminService.update(admin);
         return ResponseEntity.ok(responseDTO);
     }
 

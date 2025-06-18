@@ -75,8 +75,8 @@ public class AdminService {
         // 1. 맞으면 단체 정보 등록 추가
         // 2. 아니면 바로 다음으로 넘어감
         if(admin.getAdminRole().equals(AdminRole.SUPER.name())){
-            // 여기에 단체 정보 등록 하면 됨
-            orgService.register(admin.getOrganization());
+            // 단체 정보 생성 후 orgId 넣기
+            admin.setOrgId(orgService.register(admin.getOrganization()));
         }
 
         // 비밀번호 암호화 처리
@@ -100,10 +100,10 @@ public class AdminService {
         AdminResponseDTO rst = new AdminResponseDTO();
 
         // 변경할 비밀번호가 있는 경우 암호화 처리
-        if(!admin.getLoginPw().isEmpty()){
+        Optional.ofNullable(admin.getLoginPw()).ifPresent(loginPw -> {
             PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            admin.setLoginPw(passwordEncoder.encode(admin.getLoginPw()));
-        }
+            admin.setLoginPw(passwordEncoder.encode(loginPw));
+        });
 
         Optional<Admin> updateRst = Optional.ofNullable(adminRepository.updateAdmin(admin));
 
