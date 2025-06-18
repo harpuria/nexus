@@ -9,6 +9,8 @@ import org.jooq.generated.tables.pojos.Organization;
 import org.jooq.generated.tables.records.OrganizationRecord;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Log4j2
 @Repository
 public class OrganizationRepository {
@@ -21,29 +23,40 @@ public class OrganizationRepository {
         this.dao = new OrganizationDao(configuration);
     }
 
-    public void testDaoInsert(Organization organization) {
+    /**
+     * 단체 정보 생성
+     * @param organization
+     * @return Organization
+     */
+    public Organization insertOrganization(Organization organization){
         dao.insert(organization);
+        return organization;
     }
 
-    public void testRecordInsert (){
-        OrganizationRecord record = dslContext.newRecord(ORGANIZATION);
-        record.setOrgNm("그리즐리소프트");
-        record.setOrgCd("123-45-67890");
-        record.setCreatedBy("test");
-        record.setUpdatedBy("test");
-        record.store();
-        log.info("testRecordInsert orgId = {}", record.getOrgId());
-    }
-
-    public void testRecordUpdate() {
-        OrganizationRecord record = dslContext.newRecord(ORGANIZATION);
-        record.setOrgId(44);
-        record.setOrgNm("구리구리소프트");
+    /**
+     * 단체 정보 갱신
+     * @param organization
+     * @return
+     */
+    public Organization updateOrganization(Organization organization){
+        OrganizationRecord record = dslContext.newRecord(ORGANIZATION, organization);
+        // 각 필드가 null 값이 아닌 경우(true)에만 변경처리
+        record.changed(ORGANIZATION.ORG_ID, organization.getOrgId() != null);
+        record.changed(ORGANIZATION.ORG_NM, organization.getOrgNm() != null);
+        record.changed(ORGANIZATION.ORG_CD, organization.getOrgCd() != null);
+        record.changed(ORGANIZATION.IS_DEL, organization.getIsDel() != null);
         record.update();
+        return organization;
     }
 
-    public void testDaoSelect() {
-        Organization org = dao.findById(43);
-        log.info("testDaoSelect org = {}", org);
+    /**
+     * 한 건의 단체 정보 가져오기
+     * @param id
+     * @return
+     */
+    public Organization selectOneOrganization(Integer id){
+        return dslContext.selectFrom(ORGANIZATION)
+                .where(ORGANIZATION.ORG_ID.eq(id))
+                .fetchOneInto(Organization.class);
     }
 }

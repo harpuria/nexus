@@ -73,8 +73,6 @@ jooq {
 				name = "org.jooq.meta.postgres.PostgresDatabase"
 				inputSchema = "nexus"
 			}
-
-			// Generation flags: See advanced configuration properties
 			generate {
 				daos = true
 				records = true

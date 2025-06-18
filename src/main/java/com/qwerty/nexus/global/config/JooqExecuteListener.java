@@ -5,6 +5,8 @@ import org.jooq.*;
 import org.jooq.impl.DSL;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 
 /***
  * JooqExecuteListener
@@ -21,12 +23,12 @@ public class JooqExecuteListener implements ExecuteListener {
             log.info("===== INSERT START (DSL) =====");
             log.info(insertQuery.getParams().toString());
 
-            insertQuery.addValue(DSL.field("CREATED_AT"), DSL.currentOffsetDateTime());
-            insertQuery.addValue(DSL.field("UPDATED_AT"), DSL.currentOffsetDateTime());
+            insertQuery.addValue(DSL.field("CREATED_AT"), OffsetDateTime.now(ZoneOffset.UTC));
+            insertQuery.addValue(DSL.field("UPDATED_AT"), OffsetDateTime.now(ZoneOffset.UTC));
         }
         else if(query instanceof UpdateQuery<?> updateQuery){
             log.info("===== UPDATE START (DSL) =====");
-            updateQuery.addValue(DSL.field("UPDATED_AT"), DSL.currentOffsetDateTime());
+            updateQuery.addValue(DSL.field("UPDATED_AT"), OffsetDateTime.now(ZoneOffset.UTC));
         }
     }
 }

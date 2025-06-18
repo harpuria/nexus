@@ -31,9 +31,6 @@ public class AdminRepository {
      * @return admin
      */
     public Admin insertAdmin(Admin admin){
-        AdminRecord record = dslContext.newRecord(ADMIN);
-
-        // dao 하면 오류가 나네??? record 로 바꿔야겄다.
         dao.insert(admin);
         return admin;
     }
@@ -44,7 +41,17 @@ public class AdminRepository {
      * @return admin
      */
     public Admin updateAdmin(Admin admin){
-        dao.update(admin);
+        AdminRecord record = dslContext.newRecord(ADMIN, admin);
+        record.changed(ADMIN.LOGIN_ID, admin.getLoginId() != null);
+        record.changed(ADMIN.LOGIN_PW, admin.getLoginPw() != null);
+        record.changed(ADMIN.ADMIN_ROLE, admin.getAdminRole() != null);
+        record.changed(ADMIN.ADMIN_NM, admin.getAdminNm() != null);
+        record.changed(ADMIN.IS_APPROVE, admin.getIsApprove() != null);
+        record.changed(ADMIN.ADMIN_EMAIL, admin.getAdminEmail() != null);
+        record.changed(ADMIN.IS_DEL, admin.getIsDel() != null);
+        record.changed(ADMIN.ORG_ID, admin.getOrgId() != null);
+        record.changed(ADMIN.GAME_ID, admin.getGameId() != null);
+        record.update();
         return admin;
     }
 

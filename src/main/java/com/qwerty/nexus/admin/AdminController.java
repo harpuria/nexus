@@ -20,7 +20,7 @@ public class AdminController {
      * @since 250617
      */
     @PostMapping
-    public ResponseEntity<AdminResponseDTO> registerAdmin(@RequestBody Admin admin){
+    public ResponseEntity<AdminResponseDTO> registerAdmin(@RequestBody AdminRequestDTO admin){
         AdminResponseDTO responseDTO = new AdminResponseDTO();
         adminService.register(admin);
         return ResponseEntity.ok(responseDTO);

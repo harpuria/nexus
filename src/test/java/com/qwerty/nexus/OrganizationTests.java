@@ -15,22 +15,25 @@ public class OrganizationTests {
     private OrganizationRepository repository;
 
     @Test
-    public void insert(){
-
+    void insert(){
+        Organization organization = new Organization();
+        organization.setOrgNm("그리즐리소프트111");
+        organization.setOrgCd("123-123-123456");
+        organization.setCreatedBy("test");
+        organization.setUpdatedBy("test");
+        repository.insertOrganization(organization);
     }
 
     @Test
-    void jooqInsertTest_Record(){
-        repository.testRecordInsert();
+    void update(){
+        Organization organization = new Organization();
+        organization.setOrgId(48);
+        organization.setOrgNm("피플인소프트111");
+        repository.updateOrganization(organization);
     }
 
     @Test
-    void jooqUpdateTest_Record() {
-        repository.testRecordUpdate();
-    }
-
-    @Test
-    void jooqSelectTest_DAO(){
-        repository.testDaoSelect();
+    void selectOne(){
+        System.out.println(repository.selectOneOrganization(51));
     }
 }

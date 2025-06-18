@@ -19,11 +19,6 @@ public class AdminResponseDTO extends BaseResponseDTO {
     private String adminEmail;
     private String adminNm;
     private String isApprove;
-    private OffsetDateTime createdAt;
-    private String createdBy;
-    private OffsetDateTime updatedAt;
-    private String updatedBy;
-    private String isDel;
 
     public AdminResponseDTO convertPojoToDTO(Admin admin) {
         this.setAdminId(admin.getAdminId());
