@@ -28,7 +28,7 @@ public class OrganizationRepository {
      * @param organization
      * @return Organization
      */
-    public int insertOrganization(Organization organization){
+    public int insertOrganization(OrganizationRecord organization){
         OrganizationRecord record = dslContext.newRecord(ORGANIZATION, organization);
         record.store();
         return record.getOrgId();
@@ -39,7 +39,7 @@ public class OrganizationRepository {
      * @param organization
      * @return
      */
-    public Organization updateOrganization(Organization organization){
+    public OrganizationRecord updateOrganization(OrganizationRecord organization){
         OrganizationRecord record = dslContext.newRecord(ORGANIZATION, organization);
         // 각 필드가 null 값이 아닌 경우(true)에만 변경처리
         record.changed(ORGANIZATION.ORG_ID, organization.getOrgId() != null);
@@ -55,9 +55,9 @@ public class OrganizationRepository {
      * @param id
      * @return
      */
-    public Organization selectOneOrganization(Integer id){
+    public OrganizationRecord selectOneOrganization(Integer id){
         return dslContext.selectFrom(ORGANIZATION)
                 .where(ORGANIZATION.ORG_ID.eq(id))
-                .fetchOneInto(Organization.class);
+                .fetchOne();
     }
 }

@@ -3,6 +3,7 @@ package com.qwerty.nexus;
 import com.qwerty.nexus.admin.AdminRepository;
 import com.qwerty.nexus.admin.AdminRole;
 import org.jooq.generated.tables.pojos.Admin;
+import org.jooq.generated.tables.records.AdminRecord;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,7 +19,7 @@ public class AdminTests {
 
     @Test
     public void insert(){
-        Admin admin = new Admin();
+        AdminRecord admin = new AdminRecord();
         admin.setOrgId(48);
         admin.setLoginId("admin");
         admin.setLoginPw(passwordEncoder.encode("admin"));
@@ -32,7 +33,7 @@ public class AdminTests {
 
     @Test
     public void update(){
-        Admin admin = new Admin();
+        AdminRecord admin = new AdminRecord();
         admin.setAdminId(2);
         admin.setAdminNm("변경된이름");
         admin.setLoginPw(passwordEncoder.encode("passwd"));

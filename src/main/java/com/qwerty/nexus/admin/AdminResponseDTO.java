@@ -4,6 +4,7 @@ import com.qwerty.nexus.global.dto.BaseResponseDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.jooq.generated.tables.pojos.Admin;
+import org.jooq.generated.tables.records.AdminRecord;
 
 import java.time.OffsetDateTime;
 
@@ -20,7 +21,7 @@ public class AdminResponseDTO extends BaseResponseDTO {
     private String adminNm;
     private String isApprove;
 
-    public AdminResponseDTO convertPojoToDTO(Admin admin) {
+    public AdminResponseDTO convertPojoToDTO(AdminRecord admin) {
         this.setAdminId(admin.getAdminId());
         this.setOrgId(admin.getOrgId());
         this.setGameId(admin.getGameId());

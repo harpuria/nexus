@@ -5,6 +5,7 @@ import com.qwerty.nexus.admin.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.generated.tables.pojos.Organization;
+import org.jooq.generated.tables.records.OrganizationRecord;
 import org.springframework.stereotype.Service;
 
 @Log4j2
@@ -23,14 +24,14 @@ public class OrganizationService {
         //AdminResponseDTO admin = adminService.selectOneAdmin(organization.getAdmin().getAdminId());
         //admin.getOrgId();
 
-        organizationRepository.updateOrganization(organization);
+        organizationRepository.updateOrganization(organization.toAdminRecord());
     }
 
     /**
      *
      * @param organization
      */
-    public int register(Organization organization) {
+    public int register(OrganizationRecord organization) {
         return organizationRepository.insertOrganization(organization);
     }
 }

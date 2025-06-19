@@ -17,7 +17,6 @@ public class AdminController {
      * 관리자 등록
      * @param admin 등록할 관리자의 회원 정보
      * @return ResponseEntity<AdminResponseDTO>
-     * @since 250617
      */
     @PostMapping
     public ResponseEntity<AdminResponseDTO> registerAdmin(@RequestBody AdminRequestDTO admin){
@@ -32,7 +31,7 @@ public class AdminController {
      * @return ResponseEntity<AdminResponseDTO>
      */
     @PatchMapping
-    public ResponseEntity<AdminResponseDTO> updateAdmin(@RequestBody Admin admin){
+    public ResponseEntity<AdminResponseDTO> updateAdmin(@RequestBody AdminRequestDTO admin){
         AdminResponseDTO responseDTO = adminService.update(admin);
         return ResponseEntity.ok(responseDTO);
     }

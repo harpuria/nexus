@@ -6,7 +6,6 @@ import org.jooq.Configuration;
 import org.jooq.DSLContext;
 import org.jooq.generated.tables.JAdmin;
 import org.jooq.generated.tables.daos.AdminDao;
-import org.jooq.generated.tables.pojos.Admin;
 import org.jooq.generated.tables.records.AdminRecord;
 import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
@@ -30,8 +29,9 @@ public class AdminRepository {
      * @param admin
      * @return admin
      */
-    public Admin insertAdmin(Admin admin){
-        dao.insert(admin);
+    public AdminRecord insertAdmin(AdminRecord admin){
+        AdminRecord record = dslContext.newRecord(ADMIN, admin);
+        record.store();
         return admin;
     }
 
@@ -40,7 +40,7 @@ public class AdminRepository {
      * @param admin
      * @return admin
      */
-    public Admin updateAdmin(Admin admin){
+    public AdminRecord updateAdmin(AdminRecord admin){
         AdminRecord record = dslContext.newRecord(ADMIN, admin);
         record.changed(ADMIN.LOGIN_ID, admin.getLoginId() != null);
         record.changed(ADMIN.LOGIN_PW, admin.getLoginPw() != null);
@@ -60,7 +60,7 @@ public class AdminRepository {
      * @param admin
      * @return integer
      */
-    public Integer isUserAlreadyRegistered(Admin admin){
+    public Integer isUserAlreadyRegistered(AdminRecord admin){
         return dslContext.selectCount()
                 .from(ADMIN)
                 .where(ADMIN.LOGIN_ID.eq(admin.getLoginId()))
@@ -72,7 +72,7 @@ public class AdminRepository {
      * @param admin
      * @return integer
      */
-    public Integer existsByEmail(Admin admin){
+    public Integer existsByEmail(AdminRecord admin){
         return dslContext.selectCount()
                 .from(ADMIN)
                 .where(ADMIN.ADMIN_EMAIL.eq(admin.getAdminEmail()))
@@ -84,10 +84,10 @@ public class AdminRepository {
      * @param admin
      * @return
      */
-    public Admin selectOneAdmin(Admin admin){
+    public AdminRecord selectOneAdmin(AdminRecord admin){
         // 조건 설정
         Condition condition = DSL.noCondition();
-        if(!admin.getLoginId().isEmpty()){
+        if(admin.getLoginId() != null && !admin.getLoginId().isEmpty()){
             condition.and(ADMIN.LOGIN_ID.eq(admin.getLoginId()));
         }
 
@@ -97,15 +97,15 @@ public class AdminRepository {
 
         return dslContext.selectFrom(ADMIN)
                 .where(condition)
-                .fetchOneInto(Admin.class);
+                .fetchOne();
     }
 
     /**
      * 전체 회원 정보 조회 (추후 페이징, 검색 조건 처리 등 필요)
      * @return
      */
-    public List<Admin> selectListAdmin(){
+    public List<AdminRecord> selectListAdmin(){
         return dslContext.selectFrom(ADMIN)
-                .fetchInto(Admin.class);
+                .fetch();
     }
 }
