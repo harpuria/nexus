@@ -88,11 +88,11 @@ public class AdminRepository {
         // 조건 설정
         Condition condition = DSL.noCondition();
         if(admin.getLoginId() != null && !admin.getLoginId().isEmpty()){
-            condition.and(ADMIN.LOGIN_ID.eq(admin.getLoginId()));
+            condition = condition.and(ADMIN.LOGIN_ID.eq(admin.getLoginId()));
         }
 
         if(admin.getAdminId() != null){
-            condition.and(ADMIN.ADMIN_ID.eq(admin.getAdminId()));
+            condition = condition.and(ADMIN.ADMIN_ID.eq(admin.getAdminId()));
         }
 
         return dslContext.selectFrom(ADMIN)

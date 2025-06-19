@@ -7,6 +7,7 @@ package org.jooq.generated.tables.daos;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.jooq.Configuration;
 import org.jooq.generated.tables.JGame;
@@ -97,6 +98,36 @@ public class GameDao extends DAOImpl<GameRecord, Game, Integer> {
      */
     public List<Game> fetchByJName(String... values) {
         return fetch(JGame.GAME.NAME, values);
+    }
+
+    /**
+     * Fetch records that have <code>CLIENT_APP_ID BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<Game> fetchRangeOfJClientAppId(UUID lowerInclusive, UUID upperInclusive) {
+        return fetchRange(JGame.GAME.CLIENT_APP_ID, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>CLIENT_APP_ID IN (values)</code>
+     */
+    public List<Game> fetchByJClientAppId(UUID... values) {
+        return fetch(JGame.GAME.CLIENT_APP_ID, values);
+    }
+
+    /**
+     * Fetch records that have <code>SIGNATURE_KEY BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<Game> fetchRangeOfJSignatureKey(UUID lowerInclusive, UUID upperInclusive) {
+        return fetchRange(JGame.GAME.SIGNATURE_KEY, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>SIGNATURE_KEY IN (values)</code>
+     */
+    public List<Game> fetchByJSignatureKey(UUID... values) {
+        return fetch(JGame.GAME.SIGNATURE_KEY, values);
     }
 
     /**

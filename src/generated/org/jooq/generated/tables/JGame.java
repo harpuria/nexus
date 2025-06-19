@@ -8,6 +8,7 @@ import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import org.jooq.Check;
 import org.jooq.Condition;
@@ -76,6 +77,16 @@ public class JGame extends TableImpl<GameRecord> {
      * The column <code>nexus.GAME.NAME</code>. 게임 이름
      */
     public final TableField<GameRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(255).nullable(false), this, "게임 이름");
+
+    /**
+     * The column <code>nexus.GAME.CLIENT_APP_ID</code>. 클라이언트 앱 아이디
+     */
+    public final TableField<GameRecord, UUID> CLIENT_APP_ID = createField(DSL.name("CLIENT_APP_ID"), SQLDataType.UUID.nullable(false), this, "클라이언트 앱 아이디");
+
+    /**
+     * The column <code>nexus.GAME.SIGNATURE_KEY</code>. 서명 키 (절대 노출 금지)
+     */
+    public final TableField<GameRecord, UUID> SIGNATURE_KEY = createField(DSL.name("SIGNATURE_KEY"), SQLDataType.UUID.nullable(false), this, "서명 키 (절대 노출 금지)");
 
     /**
      * The column <code>nexus.GAME.STATUS</code>. 게임 상태 값

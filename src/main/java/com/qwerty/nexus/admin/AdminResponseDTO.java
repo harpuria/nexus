@@ -25,7 +25,7 @@ public class AdminResponseDTO extends BaseResponseDTO {
         this.setAdminId(admin.getAdminId());
         this.setOrgId(admin.getOrgId());
         this.setGameId(admin.getGameId());
-        this.setLoginId(admin.getLoginPw());
+        this.setLoginId(admin.getLoginId());
         this.setLoginPw(admin.getLoginPw());
         this.setAdminRole(admin.getAdminRole());
         this.setAdminEmail(admin.getAdminEmail());

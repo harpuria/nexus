@@ -43,8 +43,7 @@ public class AdminController {
      */
     @GetMapping("/{adminId}")
     public ResponseEntity<AdminResponseDTO> getOneAdmin(@PathVariable("adminId") Integer id){
-        AdminResponseDTO responseDTO = new AdminResponseDTO();
-        adminService.selectOneAdmin(id);
+        AdminResponseDTO responseDTO = adminService.selectOneAdmin(id);
         return ResponseEntity.ok(responseDTO);
     }
 }

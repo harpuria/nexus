@@ -5,6 +5,7 @@ package org.jooq.generated.tables.records;
 
 
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 import org.jooq.Record1;
 import org.jooq.generated.tables.JGame;
@@ -66,10 +67,40 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
     }
 
     /**
+     * Setter for <code>nexus.GAME.CLIENT_APP_ID</code>. 클라이언트 앱 아이디
+     */
+    public GameRecord setClientAppId(UUID value) {
+        set(3, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.GAME.CLIENT_APP_ID</code>. 클라이언트 앱 아이디
+     */
+    public UUID getClientAppId() {
+        return (UUID) get(3);
+    }
+
+    /**
+     * Setter for <code>nexus.GAME.SIGNATURE_KEY</code>. 서명 키 (절대 노출 금지)
+     */
+    public GameRecord setSignatureKey(UUID value) {
+        set(4, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.GAME.SIGNATURE_KEY</code>. 서명 키 (절대 노출 금지)
+     */
+    public UUID getSignatureKey() {
+        return (UUID) get(4);
+    }
+
+    /**
      * Setter for <code>nexus.GAME.STATUS</code>. 게임 상태 값
      */
     public GameRecord setStatus(String value) {
-        set(3, value);
+        set(5, value);
         return this;
     }
 
@@ -77,14 +108,14 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
      * Getter for <code>nexus.GAME.STATUS</code>. 게임 상태 값
      */
     public String getStatus() {
-        return (String) get(3);
+        return (String) get(5);
     }
 
     /**
      * Setter for <code>nexus.GAME.CREATED_AT</code>. 데이터 생성 날짜
      */
     public GameRecord setCreatedAt(OffsetDateTime value) {
-        set(4, value);
+        set(6, value);
         return this;
     }
 
@@ -92,14 +123,14 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
      * Getter for <code>nexus.GAME.CREATED_AT</code>. 데이터 생성 날짜
      */
     public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(4);
+        return (OffsetDateTime) get(6);
     }
 
     /**
      * Setter for <code>nexus.GAME.CREATED_BY</code>. 데이터 생성자 ID
      */
     public GameRecord setCreatedBy(String value) {
-        set(5, value);
+        set(7, value);
         return this;
     }
 
@@ -107,14 +138,14 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
      * Getter for <code>nexus.GAME.CREATED_BY</code>. 데이터 생성자 ID
      */
     public String getCreatedBy() {
-        return (String) get(5);
+        return (String) get(7);
     }
 
     /**
      * Setter for <code>nexus.GAME.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public GameRecord setUpdatedAt(OffsetDateTime value) {
-        set(6, value);
+        set(8, value);
         return this;
     }
 
@@ -122,14 +153,14 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
      * Getter for <code>nexus.GAME.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(6);
+        return (OffsetDateTime) get(8);
     }
 
     /**
      * Setter for <code>nexus.GAME.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public GameRecord setUpdatedBy(String value) {
-        set(7, value);
+        set(9, value);
         return this;
     }
 
@@ -137,14 +168,14 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
      * Getter for <code>nexus.GAME.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public String getUpdatedBy() {
-        return (String) get(7);
+        return (String) get(9);
     }
 
     /**
      * Setter for <code>nexus.GAME.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public GameRecord setIsDel(String value) {
-        set(8, value);
+        set(10, value);
         return this;
     }
 
@@ -152,7 +183,7 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
      * Getter for <code>nexus.GAME.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public String getIsDel() {
-        return (String) get(8);
+        return (String) get(10);
     }
 
     // -------------------------------------------------------------------------
@@ -178,12 +209,14 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
     /**
      * Create a detached, initialised GameRecord
      */
-    public GameRecord(Integer gameId, Integer orgId, String name, String status, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public GameRecord(Integer gameId, Integer orgId, String name, UUID clientAppId, UUID signatureKey, String status, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JGame.GAME);
 
         setGameId(gameId);
         setOrgId(orgId);
         setName(name);
+        setClientAppId(clientAppId);
+        setSignatureKey(signatureKey);
         setStatus(status);
         setCreatedAt(createdAt);
         setCreatedBy(createdBy);
@@ -203,6 +236,8 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
             setGameId(value.getGameId());
             setOrgId(value.getOrgId());
             setName(value.getName());
+            setClientAppId(value.getClientAppId());
+            setSignatureKey(value.getSignatureKey());
             setStatus(value.getStatus());
             setCreatedAt(value.getCreatedAt());
             setCreatedBy(value.getCreatedBy());

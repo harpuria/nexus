@@ -6,6 +6,7 @@ package org.jooq.generated.tables.pojos;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;
+import java.util.UUID;
 
 
 /**
@@ -19,6 +20,8 @@ public class Game implements Serializable {
     private Integer gameId;
     private Integer orgId;
     private String name;
+    private UUID clientAppId;
+    private UUID signatureKey;
     private String status;
     private OffsetDateTime createdAt;
     private String createdBy;
@@ -32,6 +35,8 @@ public class Game implements Serializable {
         this.gameId = value.gameId;
         this.orgId = value.orgId;
         this.name = value.name;
+        this.clientAppId = value.clientAppId;
+        this.signatureKey = value.signatureKey;
         this.status = value.status;
         this.createdAt = value.createdAt;
         this.createdBy = value.createdBy;
@@ -44,6 +49,8 @@ public class Game implements Serializable {
         Integer gameId,
         Integer orgId,
         String name,
+        UUID clientAppId,
+        UUID signatureKey,
         String status,
         OffsetDateTime createdAt,
         String createdBy,
@@ -54,6 +61,8 @@ public class Game implements Serializable {
         this.gameId = gameId;
         this.orgId = orgId;
         this.name = name;
+        this.clientAppId = clientAppId;
+        this.signatureKey = signatureKey;
         this.status = status;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
@@ -104,6 +113,36 @@ public class Game implements Serializable {
      */
     public Game setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.GAME.CLIENT_APP_ID</code>. 클라이언트 앱 아이디
+     */
+    public UUID getClientAppId() {
+        return this.clientAppId;
+    }
+
+    /**
+     * Setter for <code>nexus.GAME.CLIENT_APP_ID</code>. 클라이언트 앱 아이디
+     */
+    public Game setClientAppId(UUID clientAppId) {
+        this.clientAppId = clientAppId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.GAME.SIGNATURE_KEY</code>. 서명 키 (절대 노출 금지)
+     */
+    public UUID getSignatureKey() {
+        return this.signatureKey;
+    }
+
+    /**
+     * Setter for <code>nexus.GAME.SIGNATURE_KEY</code>. 서명 키 (절대 노출 금지)
+     */
+    public Game setSignatureKey(UUID signatureKey) {
+        this.signatureKey = signatureKey;
         return this;
     }
 
@@ -224,6 +263,18 @@ public class Game implements Serializable {
         }
         else if (!this.name.equals(other.name))
             return false;
+        if (this.clientAppId == null) {
+            if (other.clientAppId != null)
+                return false;
+        }
+        else if (!this.clientAppId.equals(other.clientAppId))
+            return false;
+        if (this.signatureKey == null) {
+            if (other.signatureKey != null)
+                return false;
+        }
+        else if (!this.signatureKey.equals(other.signatureKey))
+            return false;
         if (this.status == null) {
             if (other.status != null)
                 return false;
@@ -270,6 +321,8 @@ public class Game implements Serializable {
         result = prime * result + ((this.gameId == null) ? 0 : this.gameId.hashCode());
         result = prime * result + ((this.orgId == null) ? 0 : this.orgId.hashCode());
         result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.clientAppId == null) ? 0 : this.clientAppId.hashCode());
+        result = prime * result + ((this.signatureKey == null) ? 0 : this.signatureKey.hashCode());
         result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
@@ -286,6 +339,8 @@ public class Game implements Serializable {
         sb.append(gameId);
         sb.append(", ").append(orgId);
         sb.append(", ").append(name);
+        sb.append(", ").append(clientAppId);
+        sb.append(", ").append(signatureKey);
         sb.append(", ").append(status);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(createdBy);
