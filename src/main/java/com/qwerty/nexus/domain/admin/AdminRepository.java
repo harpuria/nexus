@@ -1,4 +1,4 @@
-package com.qwerty.nexus.admin;
+package com.qwerty.nexus.domain.admin;
 
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Condition;
@@ -42,15 +42,20 @@ public class AdminRepository {
      */
     public AdminRecord updateAdmin(AdminRecord admin){
         AdminRecord record = dslContext.newRecord(ADMIN, admin);
+        record.changed(ADMIN.ADMIN_ID, admin.getAdminId() != null);
         record.changed(ADMIN.LOGIN_ID, admin.getLoginId() != null);
         record.changed(ADMIN.LOGIN_PW, admin.getLoginPw() != null);
         record.changed(ADMIN.ADMIN_ROLE, admin.getAdminRole() != null);
         record.changed(ADMIN.ADMIN_NM, admin.getAdminNm() != null);
         record.changed(ADMIN.IS_APPROVE, admin.getIsApprove() != null);
         record.changed(ADMIN.ADMIN_EMAIL, admin.getAdminEmail() != null);
-        record.changed(ADMIN.IS_DEL, admin.getIsDel() != null);
         record.changed(ADMIN.ORG_ID, admin.getOrgId() != null);
         record.changed(ADMIN.GAME_ID, admin.getGameId() != null);
+        record.changed(ADMIN.CREATED_AT, admin.getCreatedAt() != null);
+        record.changed(ADMIN.UPDATED_AT, admin.getUpdatedAt() != null);
+        record.changed(ADMIN.CREATED_BY, admin.getCreatedBy() != null);
+        record.changed(ADMIN.UPDATED_BY, admin.getUpdatedBy() != null);
+        record.changed(ADMIN.IS_DEL, admin.getIsDel() != null);
         record.update();
         return admin;
     }

@@ -1,10 +1,7 @@
-package com.qwerty.nexus.organization;
+package com.qwerty.nexus.domain.organization;
 
-import com.qwerty.nexus.admin.AdminResponseDTO;
-import com.qwerty.nexus.admin.AdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.jooq.generated.tables.pojos.Organization;
 import org.jooq.generated.tables.records.OrganizationRecord;
 import org.springframework.stereotype.Service;
 

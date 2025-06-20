@@ -1,8 +1,7 @@
-package com.qwerty.nexus.admin;
+package com.qwerty.nexus.domain.admin;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.jooq.generated.tables.pojos.Admin;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

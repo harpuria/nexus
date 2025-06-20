@@ -1,12 +1,9 @@
-package com.qwerty.nexus.admin;
+package com.qwerty.nexus.domain.admin;
 
 import com.qwerty.nexus.global.dto.BaseResponseDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.jooq.generated.tables.pojos.Admin;
 import org.jooq.generated.tables.records.AdminRecord;
-
-import java.time.OffsetDateTime;
 
 @EqualsAndHashCode(callSuper = true)
 @Data

@@ -1,4 +1,4 @@
-package com.qwerty.nexus.organization;
+package com.qwerty.nexus.domain.organization;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

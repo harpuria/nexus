@@ -1,8 +1,7 @@
 package com.qwerty.nexus;
 
-import com.qwerty.nexus.admin.AdminRepository;
-import com.qwerty.nexus.admin.AdminRole;
-import org.jooq.generated.tables.pojos.Admin;
+import com.qwerty.nexus.domain.admin.AdminRepository;
+import com.qwerty.nexus.domain.admin.AdminRole;
 import org.jooq.generated.tables.records.AdminRecord;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

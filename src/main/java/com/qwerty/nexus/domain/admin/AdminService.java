@@ -1,10 +1,8 @@
-package com.qwerty.nexus.admin;
+package com.qwerty.nexus.domain.admin;
 
-import com.qwerty.nexus.organization.OrganizationService;
+import com.qwerty.nexus.domain.organization.OrganizationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.jooq.generated.tables.pojos.Admin;
-import org.jooq.generated.tables.pojos.Organization;
 import org.jooq.generated.tables.records.AdminRecord;
 import org.jooq.generated.tables.records.OrganizationRecord;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

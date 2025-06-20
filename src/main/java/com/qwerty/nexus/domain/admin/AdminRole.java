@@ -1,4 +1,4 @@
-package com.qwerty.nexus.admin;
+package com.qwerty.nexus.domain.admin;
 
 public enum AdminRole {
     NEXUS,      // 넥서스 관리자

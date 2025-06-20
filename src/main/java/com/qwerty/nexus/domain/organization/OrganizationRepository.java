@@ -1,4 +1,4 @@
-package com.qwerty.nexus.organization;
+package com.qwerty.nexus.domain.organization;
 
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Configuration;
@@ -45,6 +45,10 @@ public class OrganizationRepository {
         record.changed(ORGANIZATION.ORG_ID, organization.getOrgId() != null);
         record.changed(ORGANIZATION.ORG_NM, organization.getOrgNm() != null);
         record.changed(ORGANIZATION.ORG_CD, organization.getOrgCd() != null);
+        record.changed(ORGANIZATION.CREATED_BY, organization.getCreatedBy() != null);
+        record.changed(ORGANIZATION.UPDATED_BY, organization.getUpdatedBy() != null);
+        record.changed(ORGANIZATION.CREATED_AT, organization.getCreatedAt() != null);
+        record.changed(ORGANIZATION.UPDATED_AT, organization.getUpdatedAt() != null);
         record.changed(ORGANIZATION.IS_DEL, organization.getIsDel() != null);
         record.update();
         return organization;

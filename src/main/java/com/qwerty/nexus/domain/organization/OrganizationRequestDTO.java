@@ -1,4 +1,4 @@
-package com.qwerty.nexus.organization;
+package com.qwerty.nexus.domain.organization;
 
 import lombok.Data;
 import org.jooq.generated.tables.pojos.Admin;
