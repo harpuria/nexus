@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.admin;
 
+import com.qwerty.nexus.domain.organization.OrganizationRequestDTO;
 import com.qwerty.nexus.domain.organization.OrganizationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -19,10 +20,10 @@ public class AdminService {
     private final AdminRepository adminRepository;
     private final OrganizationService orgService;
 
-    public AdminResponseDTO login(AdminRecord admin) {
+    public AdminResponseDTO login(AdminRequestDTO admin) {
         AdminResponseDTO rst = new AdminResponseDTO();
 
-        Optional<AdminRecord> opt = Optional.ofNullable(adminRepository.selectOneAdmin(admin));
+        Optional<AdminRecord> opt = Optional.ofNullable(adminRepository.selectOneAdmin(admin.toAdminRecord()));
 
         if (opt.isEmpty()) {
             rst.setMessage("존재하지 않는 회원입니다.");
@@ -76,7 +77,7 @@ public class AdminService {
         // 2. 아니면 바로 다음으로 넘어감
         if(admin.getAdminRole().equals(AdminRole.SUPER.name())){
             // 단체 정보 생성 후 orgId 넣기
-            OrganizationRecord orgRecord = new OrganizationRecord();
+            OrganizationRequestDTO orgRecord = new OrganizationRequestDTO();
             orgRecord.setOrgNm(admin.getOrganization().getOrgNm());
             orgRecord.setOrgCd(admin.getOrganization().getOrgCd());
             orgRecord.setCreatedBy(admin.getCreatedBy());

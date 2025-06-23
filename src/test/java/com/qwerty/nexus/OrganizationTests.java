@@ -18,13 +18,13 @@ public class OrganizationTests {
     @Test
     @DisplayName("단체 정보 생성 <일반적으로 단독 생성할 일은 없음>")
     public void createOrganization(){
-        OrganizationRecord record = new OrganizationRecord();
-        record.setOrgNm("정말구린소프트");
-        record.setOrgCd("123-456-789123");
-        record.setCreatedBy("admin");
-        record.setUpdatedBy("admin");
+        OrganizationRequestDTO organizationRequestDTO = new OrganizationRequestDTO();
+        organizationRequestDTO.setOrgNm("정말구린소프트");
+        organizationRequestDTO.setOrgCd("123-456-789123");
+        organizationRequestDTO.setCreatedBy("admin");
+        organizationRequestDTO.setUpdatedBy("admin");
 
-        organizationService.register(record);
+        organizationService.register(organizationRequestDTO);
     }
 
     @Test

@@ -28,7 +28,7 @@ public class OrganizationService {
      *
      * @param organization
      */
-    public int register(OrganizationRecord organization) {
-        return organizationRepository.insertOrganization(organization);
+    public int register(OrganizationRequestDTO organization) {
+        return organizationRepository.insertOrganization(organization.toAdminRecord());
     }
 }
