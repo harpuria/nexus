@@ -1,8 +1,10 @@
 package com.qwerty.nexus;
 
-import com.qwerty.nexus.domain.admin.AdminRepository;
+import com.qwerty.nexus.domain.admin.AdminRequestDTO;
 import com.qwerty.nexus.domain.admin.AdminRole;
-import org.jooq.generated.tables.records.AdminRecord;
+import com.qwerty.nexus.domain.admin.AdminService;
+import org.jooq.generated.tables.pojos.Organization;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -11,31 +13,49 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringBootTest
 public class AdminTests {
     @Autowired
-    private AdminRepository adminRepository;
+    private AdminService adminService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Test
-    public void insert(){
-        AdminRecord admin = new AdminRecord();
-        admin.setOrgId(48);
-        admin.setLoginId("admin");
-        admin.setLoginPw(passwordEncoder.encode("admin"));
-        admin.setAdminNm("운영자");
-        admin.setAdminEmail("abcd@naver.com");
-        admin.setAdminRole(AdminRole.NEXUS.name());
-        admin.setCreatedBy("홍길동");
-        admin.setUpdatedBy("홍길동");
-        adminRepository.insertAdmin(admin);
+    @DisplayName("SUPER 관리자 등록 케이스")
+    public void registerAdmin(){
+        AdminRequestDTO adminRequestDTO = new AdminRequestDTO();
+        adminRequestDTO.setLoginId("admin");
+        adminRequestDTO.setLoginPw(passwordEncoder.encode("admin"));
+        adminRequestDTO.setAdminNm("윤홍훈");
+        adminRequestDTO.setAdminEmail("grizzly@naver.com");
+        adminRequestDTO.setAdminRole(AdminRole.SUPER.name());
+        adminRequestDTO.setCreatedBy("admin");
+        adminRequestDTO.setUpdatedBy("admin");
+
+        // SUPER 인 경우 단체 정보 기입
+        Organization organization = new Organization();
+        organization.setOrgNm("그리즐리소프트");
+        organization.setOrgCd("123-456-789123");
+        organization.setCreatedBy("admin");
+        organization.setUpdatedBy("admin");
+
+        adminRequestDTO.setOrganization(organization);
+
+        adminService.register(adminRequestDTO);
     }
 
     @Test
-    public void update(){
-        AdminRecord admin = new AdminRecord();
-        admin.setAdminId(2);
-        admin.setAdminNm("변경된이름");
-        admin.setLoginPw(passwordEncoder.encode("passwd"));
-        adminRepository.updateAdmin(admin);
+    @DisplayName("관리자 수정 케이스")
+    public void updateAdmin(){
+        AdminRequestDTO adminRequestDTO = new AdminRequestDTO();
+        adminRequestDTO.setAdminId(1); // 상황에 따라서 수정
+        adminRequestDTO.setIsApprove("Y");
+
+        adminService.update(adminRequestDTO);
+    }
+
+    @Test
+    @DisplayName("한 명의 관리자 조회 케이스")
+    public void selectOneAdmin(){
+        int adminId = 1; // 상황에 따라서 수정
+        System.out.println(adminService.selectOneAdmin(adminId));
     }
 }

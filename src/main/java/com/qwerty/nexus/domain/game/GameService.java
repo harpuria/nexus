@@ -6,6 +6,7 @@ import org.jooq.generated.tables.records.GameRecord;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Log4j2
 @Service
@@ -18,8 +19,15 @@ public class GameService {
      * @param gameRequestDTO
      * @return
      */
-    public GameResponseDTO create(GameRequestDTO gameRequestDTO) {
+    public GameResponseDTO createGame(GameRequestDTO gameRequestDTO) {
         GameResponseDTO rst = new GameResponseDTO();
+
+        gameRequestDTO.setStatus(GameStatus.STOPPED.name());
+
+        // clientAppId, signatureKey 생성
+        gameRequestDTO.setClientAppId(UUID.randomUUID());
+        gameRequestDTO.setSignatureKey(UUID.randomUUID());
+
         Optional<GameRecord> insertRst = Optional.ofNullable(gameRepository.insertGame(gameRequestDTO.toAdminRecord()));
 
         if(insertRst.isPresent()) {

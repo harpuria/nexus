@@ -5,11 +5,10 @@ import org.jooq.Configuration;
 import org.jooq.DSLContext;
 import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.daos.GameDao;
-import org.jooq.generated.tables.daos.OrganizationDao;
-import org.jooq.generated.tables.records.AdminRecord;
 import org.jooq.generated.tables.records.GameRecord;
-import org.springframework.boot.context.annotation.Configurations;
 import org.springframework.stereotype.Repository;
+
+import java.util.UUID;
 
 @Log4j2
 @Repository
