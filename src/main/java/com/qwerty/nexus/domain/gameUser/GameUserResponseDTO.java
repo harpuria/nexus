@@ -4,6 +4,7 @@ import com.qwerty.nexus.global.dto.BaseResponseDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.jooq.generated.tables.pojos.GameUser;
+import org.jooq.generated.tables.records.GameUserRecord;
 
 import java.time.OffsetDateTime;
 
@@ -24,7 +25,7 @@ public class GameUserResponseDTO extends BaseResponseDTO {
     private OffsetDateTime withdrawalDate;
     private String withdrawalReason;
 
-    public GameUserResponseDTO convertPojoToDTO(GameUser gameUser){
+    public GameUserResponseDTO convertPojoToDTO(GameUserRecord gameUser){
         this.setUserId(gameUser.getUserId());
         this.setGameId(gameUser.getGameId());
         this.setUserLId(gameUser.getUserLId());

@@ -25,24 +25,24 @@ public class GameUserRequestDTO {
     private String isDel;
 
     // jOOQ Record Type 으로 변환하는 메서드
-    public GameUserRecord toGameUserRecord(GameUserRequestDTO gameUserRequestDTO) {
+    public GameUserRecord toGameUserRecord() {
         GameUserRecord record = new GameUserRecord();
-        record.setUserId(gameUserRequestDTO.userId);
-        record.setGameId(gameUserRequestDTO.gameId);
-        record.setUserLId(gameUserRequestDTO.userLId);
-        record.setUserLPw(gameUserRequestDTO.userLPw);
-        record.setNickname(gameUserRequestDTO.nickname);
-        record.setLoginType(gameUserRequestDTO.loginType);
-        record.setDevice(gameUserRequestDTO.device);
-        record.setBlockStartDate(gameUserRequestDTO.blockStartDate);
-        record.setBlockEndDate(gameUserRequestDTO.blockEndDate);
-        record.setBlockReason(gameUserRequestDTO.blockReason);
-        record.setIsWithdrawal(gameUserRequestDTO.isWithdrawal);
-        record.setWithdrawalDate(gameUserRequestDTO.withdrawalDate);
-        record.setWithdrawalReason(gameUserRequestDTO.withdrawalReason);
-        record.setCreatedBy(gameUserRequestDTO.createdBy);
-        record.setUpdatedBy(gameUserRequestDTO.updatedBy);
-        record.setIsDel(gameUserRequestDTO.isDel);
+        record.setUserId(this.userId);
+        record.setGameId(this.gameId);
+        record.setUserLId(this.userLId);
+        record.setUserLPw(this.userLPw);
+        record.setNickname(this.nickname);
+        record.setLoginType(this.loginType);
+        record.setDevice(this.device);
+        record.setBlockStartDate(this.blockStartDate);
+        record.setBlockEndDate(this.blockEndDate);
+        record.setBlockReason(this.blockReason);
+        record.setIsWithdrawal(this.isWithdrawal);
+        record.setWithdrawalDate(this.withdrawalDate);
+        record.setWithdrawalReason(this.withdrawalReason);
+        record.setCreatedBy(this.createdBy);
+        record.setUpdatedBy(this.updatedBy);
+        record.setIsDel(this.isDel);
         return record;
     }
 }
