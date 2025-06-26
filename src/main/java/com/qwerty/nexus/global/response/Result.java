@@ -1,4 +1,4 @@
-package com.qwerty.nexus.global;
+package com.qwerty.nexus.global.response;
 
 /**
  * 응답용으로 사용할 공통 Result interface
