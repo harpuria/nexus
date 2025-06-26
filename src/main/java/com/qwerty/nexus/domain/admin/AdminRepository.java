@@ -36,7 +36,7 @@ public class AdminRepository {
     }
 
     /**
-     * 회원 정보 갱신
+     * 회원 정보 수정
      * @param admin
      * @return admin
      */

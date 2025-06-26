@@ -35,7 +35,7 @@ public class OrganizationRepository {
     }
 
     /**
-     * 단체 정보 갱신
+     * 단체 정보 수정
      * @param organization
      * @return
      */
