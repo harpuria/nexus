@@ -17,6 +17,14 @@ public class OrganizationController {
 
     /**
      *
+     * 개발할 API 정리
+     *
+     * 단체 정보 수정	PUT /api/v1/orgs/{orgId}
+     *
+     */
+
+    /**
+     *
      * @param organization
      * @return
      */

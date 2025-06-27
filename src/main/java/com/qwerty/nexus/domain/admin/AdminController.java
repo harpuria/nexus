@@ -13,6 +13,20 @@ public class AdminController {
     private final AdminService adminService;
 
     /**
+     *
+     * 개발할 API 정리
+     *
+     * 초기 사용자 등록	POST /api/v1/admin/initialize
+     * 관리자 생성	POST /api/v1/admins
+     * 관리자 정보 수정	PUT /api/v1/admins/{adminId}
+     * 관리자 삭제	DELETE /api/v1/admins/{adminId}
+     * 관리자 상세 조회	GET /api/v1/admins/{adminId}
+     * 관리자 목록 조회 및 페이징	GET /api/v1/admins
+     * 관리자 로그인	POST /api/v1/auth/login
+     * 관리자 로그아웃	POST /api/v1/auth/logout
+     */
+
+    /**
      * 관리자 등록
      * @param admin 등록할 관리자의 회원 정보
      * @return ResponseEntity<AdminResponseDTO>
