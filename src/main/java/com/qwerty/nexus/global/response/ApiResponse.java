@@ -8,7 +8,7 @@ import java.time.OffsetDateTime;
 import java.util.Objects;
 
 /**
- * 모든 API 응답의 표준 래퍼 클래스
+ * RestController 에서 응답용으로 쓸 공통 API Response
  *
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)

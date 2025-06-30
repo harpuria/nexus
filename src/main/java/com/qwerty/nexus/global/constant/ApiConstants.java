@@ -28,12 +28,10 @@ public final class ApiConstants {
         public static final String API_BASE_PATH = "/api/" + API_VERSION;
 
         // 도메인별 기본 경로
-        public static final String USERS_PATH = API_BASE_PATH + "/users";
-        public static final String ORDERS_PATH = API_BASE_PATH + "/orders";
-        public static final String PRODUCTS_PATH = API_BASE_PATH + "/products";
-        public static final String AUTH_PATH = API_BASE_PATH + "/auth";
-        public static final String FILES_PATH = API_BASE_PATH + "/files";
         public static final String ADMIN_PATH = API_BASE_PATH + "/admin";
+        public static final String ORG_PATH = API_BASE_PATH + "/org";
+        public static final String GAME_PATH = API_BASE_PATH + "/game";
+        public static final String GAME_USER_PATH = API_BASE_PATH + "/game-user";
 
         // 특수 경로
         public static final String HEALTH_CHECK_PATH = "/health";

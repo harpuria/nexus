@@ -1,7 +1,7 @@
 package com.qwerty.nexus.global.response;
 
 /**
- * 응답용으로 사용할 공통 Result interface
+ * Service 에서 Controller 로 결과를 반환할 용도로 사용하는 공통 Result interface
  * @param <T>
  */
 public sealed interface Result<T> permits Result.Success, Result.Failure {

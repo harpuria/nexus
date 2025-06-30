@@ -2,6 +2,8 @@ package com.qwerty.nexus.domain.admin;
 
 import com.qwerty.nexus.domain.organization.OrganizationRequestDTO;
 import com.qwerty.nexus.domain.organization.OrganizationService;
+import com.qwerty.nexus.global.exception.ErrorCode;
+import com.qwerty.nexus.global.response.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.generated.tables.records.AdminRecord;
@@ -20,56 +22,24 @@ public class AdminService {
     private final AdminRepository adminRepository;
     private final OrganizationService orgService;
 
-    public AdminResponseDTO login(AdminRequestDTO admin) {
-        AdminResponseDTO rst = new AdminResponseDTO();
-
-        Optional<AdminRecord> opt = Optional.ofNullable(adminRepository.selectOneAdmin(admin.toAdminRecord()));
-
-        if (opt.isEmpty()) {
-            rst.setMessage("존재하지 않는 회원입니다.");
-        }
-        else{
-            AdminRecord adminInfo = opt.get();
-            rst.convertPojoToDTO(adminInfo);
-
-            // 비밀번호 매치 체크
-            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            if(!passwordEncoder.matches(admin.getLoginPw(), adminInfo.getLoginPw())){
-                rst.setMessage("잘못된 비밀번호 입니다.");
-                return rst;
-            }
-
-            if(adminInfo.getAdminRole().equals(AdminRole.NO_ROLE.name())){
-                rst.setMessage("권한 승인 되지 않은 회원입니다. 넥서스 관리자에게 문의하세요.");
-                return rst;
-            }
-            else{
-                rst.setMessage("로그인 성공");
-                rst.setCode(1); // 임시 스테이터스 1은 성공
-            }
-            // 로그인을 했으니 로그인 정보를 세션에 등록하자.
-            // JWT 를 써도 될거 같은데.. 그냥 운영툴이니 세션에 등록하는게 편할거 같기도 하고.
-            // 세션 클러스터링도 고려해야함 (WAS 가 여러개 (docker) 인 경우가 있으니)
-        }
-
-        return rst;
-    }
-
-    public AdminResponseDTO register(AdminRequestDTO admin) {
+    /**
+     * 관리자 등록
+     * @param admin
+     * @return
+     */
+    public Result<AdminResponseDTO> register(AdminRequestDTO admin) {
         AdminResponseDTO rst = new AdminResponseDTO();
 
         // 회원 중복 확인
         boolean isUser = adminRepository.isUserAlreadyRegistered(admin.toAdminRecord()) > 0;
         if(isUser) {
-            rst.setMessage("이미 존재하는 회원입니다.");
-            return rst;
+            return Result.Failure.of("이미 존재하는 회원입니다.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
         // 이메일 중복 확인
         boolean isEmail = adminRepository.existsByEmail(admin.toAdminRecord()) > 0;
         if(isEmail) {
-            rst.setMessage("이미 사용중인 이메일 주소 입니다.");
-            return rst;
+            return Result.Failure.of("이미 사용중인 이메일 주소 입니다.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
         // 총괄(SUPER) 관리자 아이디 신청 여부 확인
@@ -96,13 +66,18 @@ public class AdminService {
             rst.setMessage("회원가입이 정상적으로 수행되었습니다.");
         }
         else{
-            rst.setMessage("회원가입이 실패하였습니다. 넥서스 관리자에게 문의해주세요.");
+            return Result.Failure.of("회원가입이 실패하였습니다. 넥서스 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return rst;
+        return Result.Success.of(rst);
     }
 
-    public AdminResponseDTO update(AdminRequestDTO admin) {
+    /**
+     * 관리자 정보 수정
+     * @param admin
+     * @return
+     */
+    public Result<AdminResponseDTO> update(AdminRequestDTO admin) {
         AdminResponseDTO rst = new AdminResponseDTO();
 
         // 변경할 비밀번호가 있는 경우 암호화 처리
@@ -115,13 +90,19 @@ public class AdminService {
 
         if(updateRst.isPresent()) {
             rst.convertPojoToDTO(updateRst.get());
-            rst.setMessage("회원정보가 정상적으로 수정되었습니다.");
+
+            if(admin.getIsDel().equals("Y")){
+                rst.setMessage("회원정보가 정상적으로 삭제되었습니다.");
+            }else{
+                rst.setMessage("회원정보가 정상적으로 수정되었습니다.");
+            }
+
         }
         else{
-            rst.setMessage("회원정보 수정에 실패하였습니다. 총괄 관리자에게 문의해주세요.");
+            return Result.Failure.of("회원정보 수정에 실패하였습니다. 총괄 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return rst;
+        return Result.Success.of(rst);
     }
 
     public AdminResponseDTO selectOneAdmin(int adminId) {
