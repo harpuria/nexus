@@ -105,7 +105,12 @@ public class AdminService {
         return Result.Success.of(rst);
     }
 
-    public AdminResponseDTO selectOneAdmin(int adminId) {
+    /**
+     * 하나의 관리자 정보 조회
+     * @param adminId
+     * @return
+     */
+    public Result<AdminResponseDTO> selectOneAdmin(int adminId) {
         AdminResponseDTO rst = new AdminResponseDTO();
 
         AdminRecord admin = new AdminRecord();
@@ -116,9 +121,9 @@ public class AdminService {
             rst.convertPojoToDTO(selectRst.get());
             rst.setMessage("관리자 회원 정보가 정상적으로 검색되었습니다.");
         }else{
-            rst.setMessage("관리자 회원 정보가 존재하지 않습니다.");
+            return Result.Failure.of("관리자 회원 정보가 존재하지 않습니다.",  ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return rst;
+        return Result.Success.of(rst);
     }
 }

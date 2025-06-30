@@ -3,7 +3,6 @@ package com.qwerty.nexus.domain.admin;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.Result;
-import jdk.jshell.Snippet;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -50,7 +49,14 @@ public class AdminController {
     public ResponseEntity<ApiResponse<AdminResponseDTO>> createAdmin(@RequestBody AdminRequestDTO admin){
         Result<AdminResponseDTO> result = adminService.register(admin);
 
-        return null;
+        return switch(result){
+            case Result.Success<AdminResponseDTO> success ->
+                ResponseEntity.status(HttpStatus.CREATED)
+                        .body(ApiResponse.success(success.message(), success.data()));
+            case Result.Failure<AdminResponseDTO> failure ->
+                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(ApiResponse.error(failure.message(), failure.errorCode()));
+        };
     }
 
     /**
@@ -103,8 +109,16 @@ public class AdminController {
      */
     @GetMapping("/{adminId}")
     public ResponseEntity<ApiResponse<AdminResponseDTO>> selectOneAdmin(@PathVariable("adminId") Integer adminId){
-        AdminResponseDTO responseDTO = adminService.selectOneAdmin(adminId);
-        return null;
+        Result<AdminResponseDTO> result = adminService.selectOneAdmin(adminId);
+
+        return switch(result){
+            case Result.Success<AdminResponseDTO> success ->
+                ResponseEntity.status(HttpStatus.OK)
+                        .body(ApiResponse.success(success.message(), success.data()));
+            case Result.Failure<AdminResponseDTO> failure ->
+                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body(ApiResponse.error(failure.message(), failure.errorCode()));
+        };
     }
 
     /**
@@ -136,30 +150,5 @@ public class AdminController {
     @PostMapping("/logout")
     public ResponseEntity<ApiResponse<AdminResponseDTO>> logout(@RequestBody AdminRequestDTO admin){
         return null;
-    }
-
-    // 여기 아래는 초기에 쓰던 것들임
-
-    /**
-     * 관리자 등록
-     * @param admin 등록할 관리자의 회원 정보
-     * @return ResponseEntity<AdminResponseDTO>
-     */
-    @PostMapping
-    public ResponseEntity<AdminResponseDTO> registerAdmin(@RequestBody AdminRequestDTO admin){
-        AdminResponseDTO responseDTO = new AdminResponseDTO();
-        adminService.register(admin);
-        return ResponseEntity.ok(responseDTO);
-    }
-
-    /**
-     * 하나의 관리자 정보 조회
-     * @param id 수정할 관리자의 회원 번호
-     * @return ResponseEntity<AdminResponseDTO>
-     */
-    @GetMapping("/{adminId}")
-    public ResponseEntity<AdminResponseDTO> getOneAdmin(@PathVariable("adminId") Integer id){
-        AdminResponseDTO responseDTO = adminService.selectOneAdmin(id);
-        return ResponseEntity.ok(responseDTO);
     }
 }
