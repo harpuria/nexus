@@ -1,5 +1,9 @@
-package com.qwerty.nexus.domain.game;
+package com.qwerty.nexus.domain.game.service;
 
+import com.qwerty.nexus.domain.game.GameStatus;
+import com.qwerty.nexus.domain.game.dto.request.GameRequestDTO;
+import com.qwerty.nexus.domain.game.dto.response.GameResponseDTO;
+import com.qwerty.nexus.domain.game.repository.GameRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.generated.tables.records.GameRecord;

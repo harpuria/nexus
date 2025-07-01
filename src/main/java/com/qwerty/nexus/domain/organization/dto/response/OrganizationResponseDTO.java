@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.organization;
+package com.qwerty.nexus.domain.organization.dto.response;
 
 import com.qwerty.nexus.global.dto.BaseResponseDTO;
 import lombok.Data;

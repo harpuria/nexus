@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.gameUser;
+package com.qwerty.nexus.domain.gameUser.dto.request;
 
 import lombok.Data;
 import org.jooq.generated.tables.records.GameUserRecord;

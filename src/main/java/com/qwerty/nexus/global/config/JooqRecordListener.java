@@ -9,7 +9,7 @@ import org.jooq.impl.DSL;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
-/***
+/**
  * JooqRecordListener
  * jOOQ 에서 만들어진 DAO 들과 Record 는 이 Listener 가 감지할 수 있음
  */

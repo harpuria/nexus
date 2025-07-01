@@ -5,6 +5,10 @@ import org.springframework.boot.autoconfigure.jooq.DefaultConfigurationCustomize
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * JooqConfig
+ * Jooq 관련 설정 (리스터 등록 등)
+ */
 @Configuration
 public class JooqConfig {
     @Bean

@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.game;
+package com.qwerty.nexus.domain.game.repository;
 
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Configuration;
@@ -7,8 +7,6 @@ import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.daos.GameDao;
 import org.jooq.generated.tables.records.GameRecord;
 import org.springframework.stereotype.Repository;
-
-import java.util.UUID;
 
 @Log4j2
 @Repository

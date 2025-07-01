@@ -1,5 +1,8 @@
-package com.qwerty.nexus.domain.organization;
+package com.qwerty.nexus.domain.organization.controller;
 
+import com.qwerty.nexus.domain.organization.dto.request.OrganizationRequestDTO;
+import com.qwerty.nexus.domain.organization.dto.response.OrganizationResponseDTO;
+import com.qwerty.nexus.domain.organization.service.OrganizationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.admin;
+package com.qwerty.nexus.domain.admin.repository;
 
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Condition;

@@ -1,14 +1,14 @@
-package com.qwerty.nexus.domain.admin;
+package com.qwerty.nexus.domain.admin.dto.request;
 
 import lombok.Data;
 import org.jooq.generated.tables.pojos.Organization;
 import org.jooq.generated.tables.records.AdminRecord;
-import org.jooq.generated.tables.records.OrganizationRecord;
 
-import java.time.OffsetDateTime;
-
+/**
+ * 관리자 전체 데이터 요청용 DTO
+ */
 @Data
-public class AdminRequestDTO {
+public class AdminRequestDto {
     private Integer adminId;
     private Integer orgId;
     private Integer gameId;

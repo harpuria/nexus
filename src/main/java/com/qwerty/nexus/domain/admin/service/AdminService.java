@@ -1,13 +1,16 @@
-package com.qwerty.nexus.domain.admin;
+package com.qwerty.nexus.domain.admin.service;
 
-import com.qwerty.nexus.domain.organization.OrganizationRequestDTO;
-import com.qwerty.nexus.domain.organization.OrganizationService;
+import com.qwerty.nexus.domain.admin.repository.AdminRepository;
+import com.qwerty.nexus.domain.admin.AdminRole;
+import com.qwerty.nexus.domain.admin.dto.request.AdminRequestDto;
+import com.qwerty.nexus.domain.admin.dto.response.AdminResponseDto;
+import com.qwerty.nexus.domain.organization.dto.request.OrganizationRequestDTO;
+import com.qwerty.nexus.domain.organization.service.OrganizationService;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.response.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.generated.tables.records.AdminRecord;
-import org.jooq.generated.tables.records.OrganizationRecord;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,8 +30,8 @@ public class AdminService {
      * @param admin
      * @return
      */
-    public Result<AdminResponseDTO> register(AdminRequestDTO admin) {
-        AdminResponseDTO rst = new AdminResponseDTO();
+    public Result<AdminResponseDto> register(AdminRequestDto admin) {
+        AdminResponseDto rst = new AdminResponseDto();
 
         // 회원 중복 확인
         boolean isUser = adminRepository.isUserAlreadyRegistered(admin.toAdminRecord()) > 0;
@@ -77,8 +80,8 @@ public class AdminService {
      * @param admin
      * @return
      */
-    public Result<AdminResponseDTO> update(AdminRequestDTO admin) {
-        AdminResponseDTO rst = new AdminResponseDTO();
+    public Result<AdminResponseDto> update(AdminRequestDto admin) {
+        AdminResponseDto rst = new AdminResponseDto();
 
         // 변경할 비밀번호가 있는 경우 암호화 처리
         Optional.ofNullable(admin.getLoginPw()).ifPresent(loginPw -> {
@@ -110,8 +113,8 @@ public class AdminService {
      * @param adminId
      * @return
      */
-    public Result<AdminResponseDTO> selectOneAdmin(int adminId) {
-        AdminResponseDTO rst = new AdminResponseDTO();
+    public Result<AdminResponseDto> selectOneAdmin(int adminId) {
+        AdminResponseDto rst = new AdminResponseDto();
 
         AdminRecord admin = new AdminRecord();
         admin.setAdminId(adminId);

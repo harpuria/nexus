@@ -1,8 +1,10 @@
-package com.qwerty.nexus.domain.gameUser;
+package com.qwerty.nexus.domain.gameUser.service;
 
+import com.qwerty.nexus.domain.gameUser.dto.request.GameUserRequestDTO;
+import com.qwerty.nexus.domain.gameUser.dto.response.GameUserResponseDTO;
+import com.qwerty.nexus.domain.gameUser.repository.GameUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.jooq.generated.tables.records.GameRecord;
 import org.jooq.generated.tables.records.GameUserRecord;
 import org.springframework.stereotype.Service;
 

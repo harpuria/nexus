@@ -7,8 +7,12 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.server.SecurityWebFilterChain;
 
+/**
+ * SecurityConfig
+ * 시큐리티 관련 설정
+ *
+ */
 @Configuration
 public class SecurityConfig {
     @Bean

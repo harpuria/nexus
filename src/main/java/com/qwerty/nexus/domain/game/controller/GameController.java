@@ -1,5 +1,8 @@
-package com.qwerty.nexus.domain.game;
+package com.qwerty.nexus.domain.game.controller;
 
+import com.qwerty.nexus.domain.game.dto.request.GameRequestDTO;
+import com.qwerty.nexus.domain.game.dto.response.GameResponseDTO;
+import com.qwerty.nexus.domain.game.service.GameService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;

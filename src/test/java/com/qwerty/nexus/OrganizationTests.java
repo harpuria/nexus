@@ -1,9 +1,7 @@
 package com.qwerty.nexus;
 
-import com.qwerty.nexus.domain.organization.OrganizationRepository;
-import com.qwerty.nexus.domain.organization.OrganizationRequestDTO;
-import com.qwerty.nexus.domain.organization.OrganizationService;
-import org.jooq.generated.tables.records.OrganizationRecord;
+import com.qwerty.nexus.domain.organization.dto.request.OrganizationRequestDTO;
+import com.qwerty.nexus.domain.organization.service.OrganizationService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

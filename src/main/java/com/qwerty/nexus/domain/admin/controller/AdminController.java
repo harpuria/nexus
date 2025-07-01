@@ -1,8 +1,17 @@
-package com.qwerty.nexus.domain.admin;
+package com.qwerty.nexus.domain.admin.controller;
 
+import com.qwerty.nexus.domain.admin.AdminRole;
+import com.qwerty.nexus.domain.admin.dto.request.AdminCreateRequestDto;
+import com.qwerty.nexus.domain.admin.service.AdminService;
+import com.qwerty.nexus.domain.admin.dto.request.AdminRequestDto;
+import com.qwerty.nexus.domain.admin.dto.response.AdminResponseDto;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.Result;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -15,6 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping(ApiConstants.Path.ADMIN_PATH)
 @RequiredArgsConstructor
+@Tag(name = "관리자", description = "관리자 관련 API")
 public class AdminController {
     private final AdminService adminService;
 
@@ -24,17 +34,19 @@ public class AdminController {
      * @return
      */
     @PostMapping("/initialize")
-    public ResponseEntity<ApiResponse<AdminResponseDTO>> initializeAdmin(@RequestBody AdminRequestDTO admin){
+    @Operation(summary = "초기 사용자 등록", description = "설치 후 첫 사용자(SUPER 관리자) 등록 API")
+    public ResponseEntity<ApiResponse<AdminResponseDto>> initializeAdmin(
+            @Parameter @RequestBody AdminCreateRequestDto admin){
         // 초기 사용자는 무조건 SUPER 관리자로 등록
         admin.setAdminRole(AdminRole.SUPER.name());
 
-        Result<AdminResponseDTO> result = adminService.register(admin);
+        Result<AdminResponseDto> result = adminService.register(admin);
 
         return switch(result){
-            case Result.Success<AdminResponseDTO> success ->
+            case Result.Success<AdminResponseDto> success ->
                 ResponseEntity.status(HttpStatus.CREATED)
                         .body(ApiResponse.success(success.message(), success.data()));
-            case Result.Failure<AdminResponseDTO> failure ->
+            case Result.Failure<AdminResponseDto> failure ->
                 ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(ApiResponse.error(failure.message(), failure.errorCode()));
         };
@@ -46,14 +58,14 @@ public class AdminController {
      * @return
      */
     @PostMapping
-    public ResponseEntity<ApiResponse<AdminResponseDTO>> createAdmin(@RequestBody AdminRequestDTO admin){
-        Result<AdminResponseDTO> result = adminService.register(admin);
+    public ResponseEntity<ApiResponse<AdminResponseDto>> createAdmin(@RequestBody AdminRequestDto admin){
+        Result<AdminResponseDto> result = adminService.register(admin);
 
         return switch(result){
-            case Result.Success<AdminResponseDTO> success ->
+            case Result.Success<AdminResponseDto> success ->
                 ResponseEntity.status(HttpStatus.CREATED)
                         .body(ApiResponse.success(success.message(), success.data()));
-            case Result.Failure<AdminResponseDTO> failure ->
+            case Result.Failure<AdminResponseDto> failure ->
                 ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(ApiResponse.error(failure.message(), failure.errorCode()));
         };
@@ -66,15 +78,15 @@ public class AdminController {
      * @return
      */
     @PatchMapping("/{adminId}")
-    public ResponseEntity<ApiResponse<AdminResponseDTO>> updateAdmin(@PathVariable("adminId") Integer adminId, @RequestBody AdminRequestDTO admin){
+    public ResponseEntity<ApiResponse<AdminResponseDto>> updateAdmin(@PathVariable("adminId") Integer adminId, @RequestBody AdminRequestDto admin){
         admin.setAdminId(adminId);
 
-        Result<AdminResponseDTO> result = adminService.update(admin);
+        Result<AdminResponseDto> result = adminService.update(admin);
 
         return switch(result) {
-            case Result.Success<AdminResponseDTO> success -> ResponseEntity.status(HttpStatus.OK)
+            case Result.Success<AdminResponseDto> success -> ResponseEntity.status(HttpStatus.OK)
                     .body(ApiResponse.success(success.message(), success.data()));
-            case Result.Failure<AdminResponseDTO> failure -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+            case Result.Failure<AdminResponseDto> failure -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ApiResponse.error(failure.message(), failure.errorCode()));
         };
     }
@@ -85,18 +97,18 @@ public class AdminController {
      * @return
      */
     @DeleteMapping("/{adminId}")
-    public ResponseEntity<ApiResponse<AdminResponseDTO>> deleteAdmin(@PathVariable("adminId") Integer adminId){
-        AdminRequestDTO admin = new AdminRequestDTO();
+    public ResponseEntity<ApiResponse<AdminResponseDto>> deleteAdmin(@PathVariable("adminId") Integer adminId){
+        AdminRequestDto admin = new AdminRequestDto();
         admin.setAdminId(adminId);
         admin.setIsDel("Y");
 
-        Result<AdminResponseDTO> result = adminService.update(admin);
+        Result<AdminResponseDto> result = adminService.update(admin);
 
         return switch(result){
-            case Result.Success<AdminResponseDTO> success ->
+            case Result.Success<AdminResponseDto> success ->
                 ResponseEntity.status(HttpStatus.OK)
                         .body(ApiResponse.success(success.message(), success.data()));
-            case Result.Failure<AdminResponseDTO> failure ->
+            case Result.Failure<AdminResponseDto> failure ->
                 ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(ApiResponse.error(failure.message(), failure.errorCode()));
         };
@@ -108,14 +120,14 @@ public class AdminController {
      * @return
      */
     @GetMapping("/{adminId}")
-    public ResponseEntity<ApiResponse<AdminResponseDTO>> selectOneAdmin(@PathVariable("adminId") Integer adminId){
-        Result<AdminResponseDTO> result = adminService.selectOneAdmin(adminId);
+    public ResponseEntity<ApiResponse<AdminResponseDto>> selectOneAdmin(@PathVariable("adminId") Integer adminId){
+        Result<AdminResponseDto> result = adminService.selectOneAdmin(adminId);
 
         return switch(result){
-            case Result.Success<AdminResponseDTO> success ->
+            case Result.Success<AdminResponseDto> success ->
                 ResponseEntity.status(HttpStatus.OK)
                         .body(ApiResponse.success(success.message(), success.data()));
-            case Result.Failure<AdminResponseDTO> failure ->
+            case Result.Failure<AdminResponseDto> failure ->
                 ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(ApiResponse.error(failure.message(), failure.errorCode()));
         };
@@ -127,7 +139,7 @@ public class AdminController {
      * @return
      */
     @GetMapping("/list")
-    public ResponseEntity<ApiResponse<List<AdminResponseDTO>>> selectAdminList(@RequestBody AdminRequestDTO admin){
+    public ResponseEntity<ApiResponse<List<AdminResponseDto>>> selectAdminList(@RequestBody AdminRequestDto admin){
         return null;
     }
 
@@ -138,7 +150,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<AdminResponseDTO>> login(@RequestBody AdminRequestDTO admin){
+    public ResponseEntity<ApiResponse<AdminResponseDto>> login(@RequestBody AdminRequestDto admin){
         return null;
     }
 
@@ -148,7 +160,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("/logout")
-    public ResponseEntity<ApiResponse<AdminResponseDTO>> logout(@RequestBody AdminRequestDTO admin){
+    public ResponseEntity<ApiResponse<AdminResponseDto>> logout(@RequestBody AdminRequestDto admin){
         return null;
     }
 }

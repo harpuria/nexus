@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.admin;
+package com.qwerty.nexus.domain.admin.dto.response;
 
 import com.qwerty.nexus.global.dto.BaseResponseDTO;
 import lombok.Data;
@@ -7,7 +7,7 @@ import org.jooq.generated.tables.records.AdminRecord;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class AdminResponseDTO extends BaseResponseDTO {
+public class AdminResponseDto extends BaseResponseDTO {
     private Integer adminId;
     private Integer orgId;
     private Integer gameId;
@@ -18,7 +18,7 @@ public class AdminResponseDTO extends BaseResponseDTO {
     private String adminNm;
     private String isApprove;
 
-    public AdminResponseDTO convertPojoToDTO(AdminRecord admin) {
+    public AdminResponseDto convertPojoToDTO(AdminRecord admin) {
         this.setAdminId(admin.getAdminId());
         this.setOrgId(admin.getOrgId());
         this.setGameId(admin.getGameId());

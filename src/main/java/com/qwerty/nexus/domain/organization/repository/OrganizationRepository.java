@@ -1,15 +1,12 @@
-package com.qwerty.nexus.domain.organization;
+package com.qwerty.nexus.domain.organization.repository;
 
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.daos.OrganizationDao;
-import org.jooq.generated.tables.pojos.Organization;
 import org.jooq.generated.tables.records.OrganizationRecord;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Log4j2
 @Repository

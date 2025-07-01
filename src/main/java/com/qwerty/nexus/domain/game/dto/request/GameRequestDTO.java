@@ -1,11 +1,8 @@
-package com.qwerty.nexus.domain.game;
+package com.qwerty.nexus.domain.game.dto.request;
 
 import lombok.Data;
-import org.jooq.generated.tables.pojos.Organization;
-import org.jooq.generated.tables.records.AdminRecord;
 import org.jooq.generated.tables.records.GameRecord;
 
-import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Data
