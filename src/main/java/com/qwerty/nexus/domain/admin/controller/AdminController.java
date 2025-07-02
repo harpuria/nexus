@@ -33,7 +33,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("/initialize")
-    @Operation(summary = "초기 사용자 등록", description = "설치 후 첫 사용자(SUPER 관리자) 등록 API")
+    @Operation(summary = "초기 사용자 등록 (SUPER 관리자)")
     public ResponseEntity<ApiResponse<AdminResponseDto>> initializeAdmin(
             @Parameter @RequestBody AdminCreateRequestDto admin){
         // 초기 사용자는 무조건 SUPER 관리자로 등록
@@ -57,6 +57,7 @@ public class AdminController {
      * @return
      */
     @PostMapping
+    @Operation(summary = "관리자 생성 (SUPER 관리자가 생성)")
     public ResponseEntity<ApiResponse<AdminResponseDto>> createAdmin(
             @Parameter @RequestBody AdminCreateRequestDto admin){
         Result<AdminResponseDto> result = adminService.register(admin.toAdminCommand());
@@ -78,6 +79,7 @@ public class AdminController {
      * @return
      */
     @PatchMapping("/{adminId}")
+    @Operation(summary = "관리자 정보 수정")
     public ResponseEntity<ApiResponse<AdminResponseDto>> updateAdmin(@PathVariable("adminId") Integer adminId,
                                                                      @Parameter @RequestBody AdminUpdateRequestDto admin){
         admin.setAdminId(adminId);
@@ -93,11 +95,12 @@ public class AdminController {
     }
 
     /**
-     * 관리자 정보 삭제 (논리적 삭제)
+     * 관리자 삭제 (논리적 삭제 처리)
      * @param adminId
      * @return
      */
     @DeleteMapping("/{adminId}")
+    @Operation(summary = "관리자 삭제 (논리적 삭제 처리)")
     public ResponseEntity<ApiResponse<AdminResponseDto>> deleteAdmin(@PathVariable("adminId") Integer adminId){
         AdminUpdateRequestDto admin = new AdminUpdateRequestDto();
         admin.setAdminId(adminId);
@@ -121,6 +124,7 @@ public class AdminController {
      * @return
      */
     @GetMapping("/{adminId}")
+    @Operation(summary = "한 건의 관리자 정보 조회")
     public ResponseEntity<ApiResponse<AdminResponseDto>> selectOneAdmin(@PathVariable("adminId") Integer adminId){
         Result<AdminResponseDto> result = adminService.selectOneAdmin(adminId);
 
@@ -139,6 +143,7 @@ public class AdminController {
      * @return
      */
     @GetMapping("/list")
+    @Operation(summary = "관리자 목록 조회")
     public ResponseEntity<ApiResponse<List<AdminResponseDto>>> selectAdminList(){
         return null;
     }
@@ -150,6 +155,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("/login")
+    @Operation(summary = "관리자 로그인")
     public ResponseEntity<ApiResponse<AdminResponseDto>> login(@RequestBody AdminLoginRequestDto admin){
         return null;
     }
@@ -160,6 +166,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("/logout")
+    @Operation(summary = "관리자 로그아웃")
     public ResponseEntity<ApiResponse<AdminResponseDto>> logout(@RequestBody AdminLogoutRequestDto admin){
         return null;
     }
