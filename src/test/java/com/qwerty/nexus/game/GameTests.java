@@ -1,4 +1,4 @@
-package com.qwerty.nexus;
+package com.qwerty.nexus.game;
 
 import com.qwerty.nexus.domain.game.dto.request.GameRequestDTO;
 import com.qwerty.nexus.domain.game.service.GameService;

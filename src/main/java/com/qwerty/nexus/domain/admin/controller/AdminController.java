@@ -1,9 +1,8 @@
 package com.qwerty.nexus.domain.admin.controller;
 
 import com.qwerty.nexus.domain.admin.AdminRole;
-import com.qwerty.nexus.domain.admin.dto.request.AdminCreateRequestDto;
+import com.qwerty.nexus.domain.admin.dto.request.*;
 import com.qwerty.nexus.domain.admin.service.AdminService;
-import com.qwerty.nexus.domain.admin.dto.request.AdminRequestDto;
 import com.qwerty.nexus.domain.admin.dto.response.AdminResponseDto;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
@@ -40,7 +39,7 @@ public class AdminController {
         // 초기 사용자는 무조건 SUPER 관리자로 등록
         admin.setAdminRole(AdminRole.SUPER.name());
 
-        Result<AdminResponseDto> result = adminService.register(admin);
+        Result<AdminResponseDto> result = adminService.register(admin.toAdminCommand());
 
         return switch(result){
             case Result.Success<AdminResponseDto> success ->
@@ -58,8 +57,9 @@ public class AdminController {
      * @return
      */
     @PostMapping
-    public ResponseEntity<ApiResponse<AdminResponseDto>> createAdmin(@RequestBody AdminRequestDto admin){
-        Result<AdminResponseDto> result = adminService.register(admin);
+    public ResponseEntity<ApiResponse<AdminResponseDto>> createAdmin(
+            @Parameter @RequestBody AdminCreateRequestDto admin){
+        Result<AdminResponseDto> result = adminService.register(admin.toAdminCommand());
 
         return switch(result){
             case Result.Success<AdminResponseDto> success ->
@@ -78,10 +78,11 @@ public class AdminController {
      * @return
      */
     @PatchMapping("/{adminId}")
-    public ResponseEntity<ApiResponse<AdminResponseDto>> updateAdmin(@PathVariable("adminId") Integer adminId, @RequestBody AdminRequestDto admin){
+    public ResponseEntity<ApiResponse<AdminResponseDto>> updateAdmin(@PathVariable("adminId") Integer adminId,
+                                                                     @Parameter @RequestBody AdminUpdateRequestDto admin){
         admin.setAdminId(adminId);
 
-        Result<AdminResponseDto> result = adminService.update(admin);
+        Result<AdminResponseDto> result = adminService.update(admin.toAdminCommand());
 
         return switch(result) {
             case Result.Success<AdminResponseDto> success -> ResponseEntity.status(HttpStatus.OK)
@@ -98,11 +99,11 @@ public class AdminController {
      */
     @DeleteMapping("/{adminId}")
     public ResponseEntity<ApiResponse<AdminResponseDto>> deleteAdmin(@PathVariable("adminId") Integer adminId){
-        AdminRequestDto admin = new AdminRequestDto();
+        AdminUpdateRequestDto admin = new AdminUpdateRequestDto();
         admin.setAdminId(adminId);
         admin.setIsDel("Y");
 
-        Result<AdminResponseDto> result = adminService.update(admin);
+        Result<AdminResponseDto> result = adminService.update(admin.toAdminCommand());
 
         return switch(result){
             case Result.Success<AdminResponseDto> success ->
@@ -135,11 +136,10 @@ public class AdminController {
 
     /**
      * 관리자 목록 조회
-     * @param admin
      * @return
      */
     @GetMapping("/list")
-    public ResponseEntity<ApiResponse<List<AdminResponseDto>>> selectAdminList(@RequestBody AdminRequestDto admin){
+    public ResponseEntity<ApiResponse<List<AdminResponseDto>>> selectAdminList(){
         return null;
     }
 
@@ -150,7 +150,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse<AdminResponseDto>> login(@RequestBody AdminRequestDto admin){
+    public ResponseEntity<ApiResponse<AdminResponseDto>> login(@RequestBody AdminLoginRequestDto admin){
         return null;
     }
 
@@ -160,7 +160,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("/logout")
-    public ResponseEntity<ApiResponse<AdminResponseDto>> logout(@RequestBody AdminRequestDto admin){
+    public ResponseEntity<ApiResponse<AdminResponseDto>> logout(@RequestBody AdminLogoutRequestDto admin){
         return null;
     }
 }

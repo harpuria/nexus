@@ -1,4 +1,4 @@
-package com.qwerty.nexus;
+package com.qwerty.nexus.gameUser;
 
 import com.qwerty.nexus.domain.gameUser.service.GameUserService;
 import org.springframework.beans.factory.annotation.Autowired;

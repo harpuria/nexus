@@ -1,4 +1,4 @@
-package com.qwerty.nexus;
+package com.qwerty.nexus.organization;
 
 import com.qwerty.nexus.domain.organization.dto.request.OrganizationRequestDTO;
 import com.qwerty.nexus.domain.organization.service.OrganizationService;

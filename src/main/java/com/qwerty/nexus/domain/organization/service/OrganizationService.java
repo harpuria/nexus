@@ -1,9 +1,11 @@
 package com.qwerty.nexus.domain.organization.service;
 
+import com.qwerty.nexus.domain.organization.command.OrganizationCreateCommand;
 import com.qwerty.nexus.domain.organization.dto.request.OrganizationRequestDTO;
 import com.qwerty.nexus.domain.organization.repository.OrganizationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.jooq.generated.tables.records.OrganizationRecord;
 import org.springframework.stereotype.Service;
 
 @Log4j2
@@ -29,7 +31,13 @@ public class OrganizationService {
      *
      * @param organization
      */
-    public int register(OrganizationRequestDTO organization) {
-        return organizationRepository.insertOrganization(organization.toAdminRecord());
+    public int register(OrganizationCreateCommand organization) {
+        OrganizationRecord record = new OrganizationRecord();
+        record.setOrgNm(organization.getOrgNm());
+        record.setOrgCd(organization.getOrgCd());
+        record.setCreatedBy(organization.getCreateBy());
+        record.setUpdatedBy(organization.getCreateBy());
+
+        return organizationRepository.insertOrganization(record);
     }
 }
