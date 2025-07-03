@@ -47,7 +47,6 @@ public class AdminRepository {
         record.changed(ADMIN.LOGIN_PW, admin.getLoginPw() != null);
         record.changed(ADMIN.ADMIN_ROLE, admin.getAdminRole() != null);
         record.changed(ADMIN.ADMIN_NM, admin.getAdminNm() != null);
-        record.changed(ADMIN.IS_APPROVE, admin.getIsApprove() != null);
         record.changed(ADMIN.ADMIN_EMAIL, admin.getAdminEmail() != null);
         record.changed(ADMIN.ORG_ID, admin.getOrgId() != null);
         record.changed(ADMIN.GAME_ID, admin.getGameId() != null);
@@ -112,5 +111,18 @@ public class AdminRepository {
     public List<AdminRecord> selectListAdmin(){
         return dslContext.selectFrom(ADMIN)
                 .fetch();
+    }
+
+
+    /**
+     * admin_id(PK) 로 login_id 가져오기
+     * @param adminId
+     * @return
+     */
+    public String selectOneLoginId(int adminId){
+        return dslContext.select(ADMIN.LOGIN_ID)
+                .from(ADMIN)
+                .where(ADMIN.ADMIN_ID.eq(adminId))
+                .fetchOneInto(String.class);
     }
 }

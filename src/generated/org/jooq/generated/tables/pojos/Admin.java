@@ -24,7 +24,6 @@ public class Admin implements Serializable {
     private String adminRole;
     private String adminEmail;
     private String adminNm;
-    private String isApprove;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;
@@ -42,7 +41,6 @@ public class Admin implements Serializable {
         this.adminRole = value.adminRole;
         this.adminEmail = value.adminEmail;
         this.adminNm = value.adminNm;
-        this.isApprove = value.isApprove;
         this.createdAt = value.createdAt;
         this.createdBy = value.createdBy;
         this.updatedAt = value.updatedAt;
@@ -59,7 +57,6 @@ public class Admin implements Serializable {
         String adminRole,
         String adminEmail,
         String adminNm,
-        String isApprove,
         OffsetDateTime createdAt,
         String createdBy,
         OffsetDateTime updatedAt,
@@ -74,7 +71,6 @@ public class Admin implements Serializable {
         this.adminRole = adminRole;
         this.adminEmail = adminEmail;
         this.adminNm = adminNm;
-        this.isApprove = isApprove;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.updatedAt = updatedAt;
@@ -199,21 +195,6 @@ public class Admin implements Serializable {
      */
     public Admin setAdminNm(String adminNm) {
         this.adminNm = adminNm;
-        return this;
-    }
-
-    /**
-     * Getter for <code>nexus.ADMIN.IS_APPROVE</code>. 아이디 사용 승인 여부
-     */
-    public String getIsApprove() {
-        return this.isApprove;
-    }
-
-    /**
-     * Setter for <code>nexus.ADMIN.IS_APPROVE</code>. 아이디 사용 승인 여부
-     */
-    public Admin setIsApprove(String isApprove) {
-        this.isApprove = isApprove;
         return this;
     }
 
@@ -349,12 +330,6 @@ public class Admin implements Serializable {
         }
         else if (!this.adminNm.equals(other.adminNm))
             return false;
-        if (this.isApprove == null) {
-            if (other.isApprove != null)
-                return false;
-        }
-        else if (!this.isApprove.equals(other.isApprove))
-            return false;
         if (this.createdAt == null) {
             if (other.createdAt != null)
                 return false;
@@ -400,7 +375,6 @@ public class Admin implements Serializable {
         result = prime * result + ((this.adminRole == null) ? 0 : this.adminRole.hashCode());
         result = prime * result + ((this.adminEmail == null) ? 0 : this.adminEmail.hashCode());
         result = prime * result + ((this.adminNm == null) ? 0 : this.adminNm.hashCode());
-        result = prime * result + ((this.isApprove == null) ? 0 : this.isApprove.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
@@ -421,7 +395,6 @@ public class Admin implements Serializable {
         sb.append(", ").append(adminRole);
         sb.append(", ").append(adminEmail);
         sb.append(", ").append(adminNm);
-        sb.append(", ").append(isApprove);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(createdBy);
         sb.append(", ").append(updatedAt);

@@ -16,4 +16,5 @@ public class AdminCreateCommand {
     private String adminRole;
     private String orgNm;
     private String orgCd;
+    private int orgId;
 }

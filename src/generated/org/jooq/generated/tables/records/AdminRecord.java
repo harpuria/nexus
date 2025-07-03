@@ -141,25 +141,10 @@ public class AdminRecord extends UpdatableRecordImpl<AdminRecord> {
     }
 
     /**
-     * Setter for <code>nexus.ADMIN.IS_APPROVE</code>. 아이디 사용 승인 여부
-     */
-    public AdminRecord setIsApprove(String value) {
-        set(8, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>nexus.ADMIN.IS_APPROVE</code>. 아이디 사용 승인 여부
-     */
-    public String getIsApprove() {
-        return (String) get(8);
-    }
-
-    /**
      * Setter for <code>nexus.ADMIN.CREATED_AT</code>. 데이터 생성 날짜
      */
     public AdminRecord setCreatedAt(OffsetDateTime value) {
-        set(9, value);
+        set(8, value);
         return this;
     }
 
@@ -167,14 +152,14 @@ public class AdminRecord extends UpdatableRecordImpl<AdminRecord> {
      * Getter for <code>nexus.ADMIN.CREATED_AT</code>. 데이터 생성 날짜
      */
     public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(9);
+        return (OffsetDateTime) get(8);
     }
 
     /**
      * Setter for <code>nexus.ADMIN.CREATED_BY</code>. 데이터 생성자 ID
      */
     public AdminRecord setCreatedBy(String value) {
-        set(10, value);
+        set(9, value);
         return this;
     }
 
@@ -182,14 +167,14 @@ public class AdminRecord extends UpdatableRecordImpl<AdminRecord> {
      * Getter for <code>nexus.ADMIN.CREATED_BY</code>. 데이터 생성자 ID
      */
     public String getCreatedBy() {
-        return (String) get(10);
+        return (String) get(9);
     }
 
     /**
      * Setter for <code>nexus.ADMIN.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public AdminRecord setUpdatedAt(OffsetDateTime value) {
-        set(11, value);
+        set(10, value);
         return this;
     }
 
@@ -197,14 +182,14 @@ public class AdminRecord extends UpdatableRecordImpl<AdminRecord> {
      * Getter for <code>nexus.ADMIN.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(11);
+        return (OffsetDateTime) get(10);
     }
 
     /**
      * Setter for <code>nexus.ADMIN.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public AdminRecord setUpdatedBy(String value) {
-        set(12, value);
+        set(11, value);
         return this;
     }
 
@@ -212,14 +197,14 @@ public class AdminRecord extends UpdatableRecordImpl<AdminRecord> {
      * Getter for <code>nexus.ADMIN.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public String getUpdatedBy() {
-        return (String) get(12);
+        return (String) get(11);
     }
 
     /**
      * Setter for <code>nexus.ADMIN.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public AdminRecord setIsDel(String value) {
-        set(13, value);
+        set(12, value);
         return this;
     }
 
@@ -227,7 +212,7 @@ public class AdminRecord extends UpdatableRecordImpl<AdminRecord> {
      * Getter for <code>nexus.ADMIN.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public String getIsDel() {
-        return (String) get(13);
+        return (String) get(12);
     }
 
     // -------------------------------------------------------------------------
@@ -253,7 +238,7 @@ public class AdminRecord extends UpdatableRecordImpl<AdminRecord> {
     /**
      * Create a detached, initialised AdminRecord
      */
-    public AdminRecord(Integer adminId, Integer orgId, Integer gameId, String loginId, String loginPw, String adminRole, String adminEmail, String adminNm, String isApprove, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public AdminRecord(Integer adminId, Integer orgId, Integer gameId, String loginId, String loginPw, String adminRole, String adminEmail, String adminNm, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JAdmin.ADMIN);
 
         setAdminId(adminId);
@@ -264,7 +249,6 @@ public class AdminRecord extends UpdatableRecordImpl<AdminRecord> {
         setAdminRole(adminRole);
         setAdminEmail(adminEmail);
         setAdminNm(adminNm);
-        setIsApprove(isApprove);
         setCreatedAt(createdAt);
         setCreatedBy(createdBy);
         setUpdatedAt(updatedAt);
@@ -288,7 +272,6 @@ public class AdminRecord extends UpdatableRecordImpl<AdminRecord> {
             setAdminRole(value.getAdminRole());
             setAdminEmail(value.getAdminEmail());
             setAdminNm(value.getAdminNm());
-            setIsApprove(value.getIsApprove());
             setCreatedAt(value.getCreatedAt());
             setCreatedBy(value.getCreatedBy());
             setUpdatedAt(value.getUpdatedAt());

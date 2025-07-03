@@ -203,21 +203,6 @@ public class AdminDao extends DAOImpl<AdminRecord, Admin, Integer> {
     }
 
     /**
-     * Fetch records that have <code>IS_APPROVE BETWEEN lowerInclusive AND
-     * upperInclusive</code>
-     */
-    public List<Admin> fetchRangeOfJIsApprove(String lowerInclusive, String upperInclusive) {
-        return fetchRange(JAdmin.ADMIN.IS_APPROVE, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>IS_APPROVE IN (values)</code>
-     */
-    public List<Admin> fetchByJIsApprove(String... values) {
-        return fetch(JAdmin.ADMIN.IS_APPROVE, values);
-    }
-
-    /**
      * Fetch records that have <code>CREATED_AT BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */

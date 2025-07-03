@@ -72,6 +72,11 @@ public class JOrganization extends TableImpl<OrganizationRecord> {
     public final TableField<OrganizationRecord, String> ORG_CD = createField(DSL.name("ORG_CD"), SQLDataType.VARCHAR(100), this, "단체 코드(사업자번호 등, 생략가능)");
 
     /**
+     * The column <code>nexus.ORGANIZATION.LOGO_PATH</code>. 단체 로고 이미지 경로
+     */
+    public final TableField<OrganizationRecord, String> LOGO_PATH = createField(DSL.name("LOGO_PATH"), SQLDataType.VARCHAR(255), this, "단체 로고 이미지 경로");
+
+    /**
      * The column <code>nexus.ORGANIZATION.CREATED_AT</code>. 데이터 생성 날짜
      */
     public final TableField<OrganizationRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 생성 날짜");

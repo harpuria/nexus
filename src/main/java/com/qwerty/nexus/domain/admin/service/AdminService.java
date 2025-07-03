@@ -42,6 +42,7 @@ public class AdminService {
         adminRecord.setAdminRole(admin.getAdminRole());
         adminRecord.setCreatedBy(admin.getLoginId());
         adminRecord.setUpdatedBy(admin.getLoginId());
+        adminRecord.setOrgId(admin.getOrgId());
 
         // 회원 중복 확인
         boolean isUser = adminRepository.isUserAlreadyRegistered(adminRecord) > 0;
@@ -101,6 +102,7 @@ public class AdminService {
         adminRecord.setAdminRole(admin.getAdminRole());
 
         // admin id 를 가지고 admin login id 를 가져오는 repository 하나 만들어서 넣기
+        // String loginId = adminRepository.selectOneLoginId(admin.getAdminId());
 
         // 변경할 비밀번호가 있는 경우 암호화 처리
         Optional.ofNullable(admin.getLoginPw()).ifPresent(loginPw -> {

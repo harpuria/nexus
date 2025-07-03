@@ -100,11 +100,6 @@ public class JAdmin extends TableImpl<AdminRecord> {
     public final TableField<AdminRecord, String> ADMIN_NM = createField(DSL.name("ADMIN_NM"), SQLDataType.VARCHAR(32).nullable(false), this, "관리자 이름");
 
     /**
-     * The column <code>nexus.ADMIN.IS_APPROVE</code>. 아이디 사용 승인 여부
-     */
-    public final TableField<AdminRecord, String> IS_APPROVE = createField(DSL.name("IS_APPROVE"), SQLDataType.CHAR(1).nullable(false).defaultValue(DSL.field(DSL.raw("'N'::bpchar"), SQLDataType.CHAR)), this, "아이디 사용 승인 여부");
-
-    /**
      * The column <code>nexus.ADMIN.CREATED_AT</code>. 데이터 생성 날짜
      */
     public final TableField<AdminRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 생성 날짜");

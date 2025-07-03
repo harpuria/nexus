@@ -12,24 +12,27 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AdminCreateRequestDto {
-    @Schema(example = "admin2")
+public class AdminInitCreateRequestDto {
+    @Schema(example = "admin")
     private String loginId;
 
-    @Schema(example = "admin2")
+    @Schema(example = "admin")
     private String loginPw;
 
-    @Schema(example = "nexus2@qwerty.io")
+    @Schema(example = "nexus@qwerty.io")
     private String adminEmail;
 
-    @Schema(example = "박길동")
+    @Schema(example = "홍길동")
     private String adminNm;
 
-    @Schema(examples = "ADMIN")
+    @Schema(examples = "SUPER")
     private String adminRole;
 
-    @Schema(example = "1")
-    private int orgId;
+    @Schema(example = "쿼티")
+    private String orgNm;
+
+    @Schema(example = "123-456-78912")
+    private String orgCd;
 
     // Service 전달 파라미터로 쓸 Command 객체 변환
     public AdminCreateCommand toAdminCommand() {
@@ -39,7 +42,8 @@ public class AdminCreateRequestDto {
                 .adminEmail(this.adminEmail)
                 .adminNm(this.adminNm)
                 .adminRole(this.adminRole)
-                .orgId(this.orgId)
+                .orgNm(this.orgNm)
+                .orgCd(this.orgCd)
                 .build();
     }
 }

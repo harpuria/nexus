@@ -100,6 +100,21 @@ public class OrganizationDao extends DAOImpl<OrganizationRecord, Organization, I
     }
 
     /**
+     * Fetch records that have <code>LOGO_PATH BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<Organization> fetchRangeOfJLogoPath(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JOrganization.ORGANIZATION.LOGO_PATH, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>LOGO_PATH IN (values)</code>
+     */
+    public List<Organization> fetchByJLogoPath(String... values) {
+        return fetch(JOrganization.ORGANIZATION.LOGO_PATH, values);
+    }
+
+    /**
      * Fetch records that have <code>CREATED_AT BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */

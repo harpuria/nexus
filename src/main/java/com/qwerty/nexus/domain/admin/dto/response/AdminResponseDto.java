@@ -16,7 +16,6 @@ public class AdminResponseDto extends BaseResponseDTO {
     private String adminRole;
     private String adminEmail;
     private String adminNm;
-    private String isApprove;
 
     public AdminResponseDto convertPojoToDTO(AdminRecord admin) {
         this.setAdminId(admin.getAdminId());
@@ -27,7 +26,6 @@ public class AdminResponseDto extends BaseResponseDTO {
         this.setAdminRole(admin.getAdminRole());
         this.setAdminEmail(admin.getAdminEmail());
         this.setAdminNm(admin.getAdminNm());
-        this.setIsApprove(admin.getIsApprove());
         this.setCreatedAt(admin.getCreatedAt());
         this.setCreatedBy(admin.getCreatedBy());
         this.setUpdatedAt(admin.getUpdatedAt());

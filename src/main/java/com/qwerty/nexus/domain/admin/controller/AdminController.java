@@ -9,7 +9,6 @@ import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -35,7 +34,7 @@ public class AdminController {
     @PostMapping("/initialize")
     @Operation(summary = "초기 사용자 등록 (SUPER 관리자)")
     public ResponseEntity<ApiResponse<AdminResponseDto>> initializeAdmin(
-            @Parameter @RequestBody AdminCreateRequestDto admin){
+            @Parameter @RequestBody AdminInitCreateRequestDto admin){
         // 초기 사용자는 무조건 SUPER 관리자로 등록
         admin.setAdminRole(AdminRole.SUPER.name());
 

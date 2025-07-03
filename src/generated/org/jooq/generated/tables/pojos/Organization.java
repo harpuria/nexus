@@ -19,6 +19,7 @@ public class Organization implements Serializable {
     private Integer orgId;
     private String orgNm;
     private String orgCd;
+    private String logoPath;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;
@@ -31,6 +32,7 @@ public class Organization implements Serializable {
         this.orgId = value.orgId;
         this.orgNm = value.orgNm;
         this.orgCd = value.orgCd;
+        this.logoPath = value.logoPath;
         this.createdAt = value.createdAt;
         this.createdBy = value.createdBy;
         this.updatedAt = value.updatedAt;
@@ -42,6 +44,7 @@ public class Organization implements Serializable {
         Integer orgId,
         String orgNm,
         String orgCd,
+        String logoPath,
         OffsetDateTime createdAt,
         String createdBy,
         OffsetDateTime updatedAt,
@@ -51,6 +54,7 @@ public class Organization implements Serializable {
         this.orgId = orgId;
         this.orgNm = orgNm;
         this.orgCd = orgCd;
+        this.logoPath = logoPath;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.updatedAt = updatedAt;
@@ -102,6 +106,21 @@ public class Organization implements Serializable {
      */
     public Organization setOrgCd(String orgCd) {
         this.orgCd = orgCd;
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.ORGANIZATION.LOGO_PATH</code>. 단체 로고 이미지 경로
+     */
+    public String getLogoPath() {
+        return this.logoPath;
+    }
+
+    /**
+     * Setter for <code>nexus.ORGANIZATION.LOGO_PATH</code>. 단체 로고 이미지 경로
+     */
+    public Organization setLogoPath(String logoPath) {
+        this.logoPath = logoPath;
         return this;
     }
 
@@ -207,6 +226,12 @@ public class Organization implements Serializable {
         }
         else if (!this.orgCd.equals(other.orgCd))
             return false;
+        if (this.logoPath == null) {
+            if (other.logoPath != null)
+                return false;
+        }
+        else if (!this.logoPath.equals(other.logoPath))
+            return false;
         if (this.createdAt == null) {
             if (other.createdAt != null)
                 return false;
@@ -247,6 +272,7 @@ public class Organization implements Serializable {
         result = prime * result + ((this.orgId == null) ? 0 : this.orgId.hashCode());
         result = prime * result + ((this.orgNm == null) ? 0 : this.orgNm.hashCode());
         result = prime * result + ((this.orgCd == null) ? 0 : this.orgCd.hashCode());
+        result = prime * result + ((this.logoPath == null) ? 0 : this.logoPath.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
@@ -262,6 +288,7 @@ public class Organization implements Serializable {
         sb.append(orgId);
         sb.append(", ").append(orgNm);
         sb.append(", ").append(orgCd);
+        sb.append(", ").append(logoPath);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(createdBy);
         sb.append(", ").append(updatedAt);
