@@ -67,6 +67,10 @@ public class AdminService {
                     .createBy(admin.getLoginId())
                     .build();
 
+            // TODO : SUPER 가 SUPER 를 만드는 상황도 고려해야할듯
+            // 이미 조직 정보가 만들어져 있는지 여부 판단하는 거 넣고, 있으면 orgService,register 제외
+            // 근데 service 에서는 다른 service 호출하는거보다는, repository 호출해서 사용하는 것이 바람직함.
+
             adminRecord.setOrgId(orgService.register(orgCmd));
         }
 
