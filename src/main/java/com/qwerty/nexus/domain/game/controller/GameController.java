@@ -1,8 +1,11 @@
 package com.qwerty.nexus.domain.game.controller;
 
+import com.qwerty.nexus.domain.game.dto.request.GameCreateRequestDto;
 import com.qwerty.nexus.domain.game.dto.request.GameRequestDTO;
 import com.qwerty.nexus.domain.game.dto.response.GameResponseDTO;
 import com.qwerty.nexus.domain.game.service.GameService;
+import com.qwerty.nexus.global.response.ApiResponse;
+import com.qwerty.nexus.global.response.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +20,17 @@ public class GameController {
 
     /**
      * 게임 정보 생성
-     * @param gameRequestDTO
+     * @param gameCreateRequestDto
      * @return
      */
     @PostMapping
-    public ResponseEntity<GameResponseDTO> createGame(@RequestBody GameRequestDTO gameRequestDTO){
-        GameResponseDTO responseDTO = gameService.createGame(gameRequestDTO);
-        return ResponseEntity.ok(responseDTO);
+    public ResponseEntity<ApiResponse<GameResponseDTO>> createGame(@RequestBody GameCreateRequestDto gameCreateRequestDto){
+        Result<GameResponseDTO> result = gameService.createGame(gameCreateRequestDto.toGameCommand());
+
+        return switch(result){
+            case Result.Success<GameResponseDTO> success -> null;
+            case Result.Failure<GameResponseDTO> failure -> null;
+        };
     }
 
     /**
