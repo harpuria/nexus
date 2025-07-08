@@ -2,12 +2,14 @@ package com.qwerty.nexus.domain.game.controller;
 
 import com.qwerty.nexus.domain.game.dto.request.GameCreateRequestDto;
 import com.qwerty.nexus.domain.game.dto.request.GameRequestDTO;
+import com.qwerty.nexus.domain.game.dto.request.GameUpdateRequestDto;
 import com.qwerty.nexus.domain.game.dto.response.GameResponseDTO;
 import com.qwerty.nexus.domain.game.service.GameService;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,20 +30,32 @@ public class GameController {
         Result<GameResponseDTO> result = gameService.createGame(gameCreateRequestDto.toGameCommand());
 
         return switch(result){
-            case Result.Success<GameResponseDTO> success -> null;
-            case Result.Failure<GameResponseDTO> failure -> null;
+            case Result.Success<GameResponseDTO> success ->
+                    ResponseEntity.status(HttpStatus.CREATED)
+                            .body(ApiResponse.success(success.message(), success.data()));
+            case Result.Failure<GameResponseDTO> failure ->
+                    ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(ApiResponse.error(failure.message()));
         };
     }
 
     /**
      * 게임 정보 수정
-     * @param gameRequestDTO
+     * @param gameUpdateRequestDto
      * @return
      */
     @PatchMapping
-    public ResponseEntity<GameResponseDTO> updateGame(@RequestBody GameRequestDTO gameRequestDTO){
-        GameResponseDTO responseDTO = gameService.updateGame(gameRequestDTO);
-        return ResponseEntity.ok(responseDTO);
+    public ResponseEntity<ApiResponse<GameResponseDTO>> updateGame(@RequestBody GameUpdateRequestDto gameUpdateRequestDto){
+        Result<GameResponseDTO> result = gameService.updateGame(gameUpdateRequestDto.toGameCommand());
+
+        return switch(result){
+            case Result.Success<GameResponseDTO> success ->
+                    ResponseEntity.status(HttpStatus.OK)
+                            .body(ApiResponse.success(success.message(), success.data()));
+            case Result.Failure<GameResponseDTO> failure ->
+                    ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(ApiResponse.error(failure.message()));
+        };
     }
 
     /**

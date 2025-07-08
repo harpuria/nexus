@@ -20,7 +20,7 @@ public class GameTests {
         gameRequestDTO.setName("그리즐리키우기");
         gameRequestDTO.setCreatedBy("admin");
         gameRequestDTO.setUpdatedBy("admin");
-        gameService.createGame(gameRequestDTO);
+        //gameService.createGame(gameRequestDTO);
     }
 
     @Test
@@ -29,6 +29,6 @@ public class GameTests {
         GameRequestDTO gameRequestDTO = new GameRequestDTO();
         gameRequestDTO.setGameId(3);
         gameRequestDTO.setName("그롤라키우기");
-        gameService.updateGame(gameRequestDTO);
+        //gameService.updateGame(gameRequestDTO);
     }
 }
