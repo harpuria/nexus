@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * 관리자 생성용 Command
+ * 관리자 생성 Command
  */
 @Getter
 @Builder

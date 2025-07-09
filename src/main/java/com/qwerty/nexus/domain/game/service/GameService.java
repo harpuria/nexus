@@ -3,7 +3,6 @@ package com.qwerty.nexus.domain.game.service;
 import com.qwerty.nexus.domain.game.GameStatus;
 import com.qwerty.nexus.domain.game.command.GameCreateCommand;
 import com.qwerty.nexus.domain.game.command.GameUpdateCommand;
-import com.qwerty.nexus.domain.game.dto.request.GameRequestDTO;
 import com.qwerty.nexus.domain.game.dto.response.GameResponseDTO;
 import com.qwerty.nexus.domain.game.repository.GameRepository;
 import com.qwerty.nexus.global.exception.ErrorCode;

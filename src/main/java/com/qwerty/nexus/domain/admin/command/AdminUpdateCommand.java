@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
- * 관리자 정보 수정용 Command
+ * 관리자 정보 수정 Command
  */
 @Getter
 @Builder

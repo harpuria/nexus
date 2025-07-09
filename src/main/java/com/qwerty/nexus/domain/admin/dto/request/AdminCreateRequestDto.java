@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * 초기 관리자 생성 요청용 DTO
+ * 관리자 생성 요청 DTO
  */
 @Getter
 @Setter

@@ -1,12 +1,12 @@
 package com.qwerty.nexus.domain.game.controller;
 
 import com.qwerty.nexus.domain.game.dto.request.GameCreateRequestDto;
-import com.qwerty.nexus.domain.game.dto.request.GameRequestDTO;
 import com.qwerty.nexus.domain.game.dto.request.GameUpdateRequestDto;
 import com.qwerty.nexus.domain.game.dto.response.GameResponseDTO;
 import com.qwerty.nexus.domain.game.service.GameService;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.Result;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/game")
 @RequiredArgsConstructor
+@Tag(name = "게임", description = "게임 관련 API")
 public class GameController {
     private final GameService gameService;
 

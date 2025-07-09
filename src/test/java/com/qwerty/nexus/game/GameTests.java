@@ -1,6 +1,5 @@
 package com.qwerty.nexus.game;
 
-import com.qwerty.nexus.domain.game.dto.request.GameRequestDTO;
 import com.qwerty.nexus.domain.game.service.GameService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -2,8 +2,10 @@ package com.qwerty.nexus.domain.game.command;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
+/**
+ * 게임 정보 수정용 Command
+ */
 @Getter
 @Builder
 public class GameUpdateCommand {
