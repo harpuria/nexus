@@ -65,8 +65,16 @@ public class GameController {
      * @return
      */
     @GetMapping("/{gameId}")
-    public ResponseEntity<GameResponseDTO> selectOneGame(@PathVariable("gameId") Integer gameId){
-        GameResponseDTO responseDTO = gameService.selectOneGame(gameId);
-        return ResponseEntity.ok(responseDTO);
+    public ResponseEntity<ApiResponse<GameResponseDTO>> selectOneGame(@PathVariable("gameId") Integer gameId){
+        Result<GameResponseDTO> result = gameService.selectOneGame(gameId);
+
+        return switch (result){
+            case Result.Success<GameResponseDTO> success ->
+                ResponseEntity.status(HttpStatus.OK)
+                        .body(ApiResponse.success(success.message(), success.data()));
+            case Result.Failure<GameResponseDTO> failure ->
+                ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(ApiResponse.error(failure.message()));
+        };
     }
 }

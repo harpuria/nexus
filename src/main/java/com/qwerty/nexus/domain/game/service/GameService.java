@@ -81,13 +81,13 @@ public class GameService {
     }
 
     /**
-     *
+     * 하나의 게임 정보 조회
      * @param id
      * @return
      */
-    public GameResponseDTO selectOneGame(Integer id){
+    public Result<GameResponseDTO> selectOneGame(Integer id){
         GameResponseDTO rst = new GameResponseDTO();
         GameRecord game = gameRepository.selectOneGame(id);
-        return rst;
+        return Result.Success.of(rst);
     }
 }
