@@ -13,7 +13,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AdminUpdateRequestDto {
-    @Schema(example = "1")
     private int adminId;
 
     @Schema(example = "1")

@@ -119,7 +119,7 @@ public class AdminService {
         if(updateRst.isPresent()) {
             rst.convertPojoToDTO(updateRst.get());
 
-            if(admin.getIsDel().equals("Y")){
+            if(admin.getIsDel() != null && admin.getIsDel().equalsIgnoreCase("Y")){
                 rst.setMessage("회원정보가 정상적으로 삭제되었습니다.");
             }else{
                 rst.setMessage("회원정보가 정상적으로 수정되었습니다.");

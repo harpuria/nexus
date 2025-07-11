@@ -12,7 +12,6 @@ public class AdminResponseDto extends BaseResponseDTO {
     private Integer orgId;
     private Integer gameId;
     private String loginId;
-    private String loginPw;
     private String adminRole;
     private String adminEmail;
     private String adminNm;
@@ -22,7 +21,6 @@ public class AdminResponseDto extends BaseResponseDTO {
         this.setOrgId(admin.getOrgId());
         this.setGameId(admin.getGameId());
         this.setLoginId(admin.getLoginId());
-        this.setLoginPw(admin.getLoginPw());
         this.setAdminRole(admin.getAdminRole());
         this.setAdminEmail(admin.getAdminEmail());
         this.setAdminNm(admin.getAdminNm());
