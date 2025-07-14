@@ -34,6 +34,6 @@ public class OrganizationController {
     public ResponseEntity<ApiResponse<OrganizationResponseDTO>> updateOrganization(@RequestBody OrganizationUpdateCommand organization){
         Result<OrganizationResponseDTO> result = organizationService.update(organization.toOrganizationCommand());
 
-        return ResponseEntity.ok(responseDTO);
+        return null;
     }
 }
