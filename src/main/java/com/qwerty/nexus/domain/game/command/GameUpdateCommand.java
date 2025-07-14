@@ -12,5 +12,5 @@ public class GameUpdateCommand {
     private String name;
     private String status;
     private String isDel;
-    private String updateBy;
+    private String updatedBy;
 }

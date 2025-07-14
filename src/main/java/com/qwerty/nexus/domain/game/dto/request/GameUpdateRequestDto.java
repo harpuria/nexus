@@ -1,7 +1,5 @@
 package com.qwerty.nexus.domain.game.dto.request;
 
-import com.qwerty.nexus.domain.game.GameStatus;
-import com.qwerty.nexus.domain.game.command.GameCreateCommand;
 import com.qwerty.nexus.domain.game.command.GameUpdateCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -30,7 +28,7 @@ public class GameUpdateRequestDto {
                 .name(this.name)
                 .status(this.status)
                 .isDel(this.isDel)
-                .updateBy(this.updateBy)
+                .updatedBy(this.updateBy)
                 .build();
     }
 }

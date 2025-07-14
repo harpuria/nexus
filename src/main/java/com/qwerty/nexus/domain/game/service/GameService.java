@@ -65,7 +65,7 @@ public class GameService {
         record.setName(gameUpdateCommand.getName());
         record.setStatus(gameUpdateCommand.getStatus());
         record.setIsDel(gameUpdateCommand.getIsDel());
-        record.setUpdatedBy(gameUpdateCommand.getUpdateBy());
+        record.setUpdatedBy(gameUpdateCommand.getUpdatedBy());
 
         Optional<GameRecord> updateRst = Optional.ofNullable(gameRepository.updateGame(record));
 

@@ -9,4 +9,5 @@ public class OrganizationCreateCommand {
     private String orgNm;
     private String orgCd;
     private String createBy;
+    private String updateBy;
 }

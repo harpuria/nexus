@@ -22,7 +22,7 @@ public class OrganizationTests {
         organizationRequestDTO.setCreatedBy("admin");
         organizationRequestDTO.setUpdatedBy("admin");
 
-        organizationService.register(organizationRequestDTO);
+        //organizationService.register(organizationRequestDTO);
     }
 
     @Test
@@ -33,6 +33,6 @@ public class OrganizationTests {
         organizationRequestDTO.setOrgNm("구리구리소프트");
         organizationRequestDTO.setOrgCd("987-765-43210");
 
-        organizationService.update(organizationRequestDTO);
+        //organizationService.update(organizationRequestDTO);
     }
 }

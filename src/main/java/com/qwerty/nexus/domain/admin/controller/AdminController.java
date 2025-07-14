@@ -142,7 +142,7 @@ public class AdminController {
      * @return
      */
     @GetMapping("/list")
-    @Operation(summary = "관리자 목록 조회")
+    @Operation(summary = "관리자 목록 조회 (개발중)")
     public ResponseEntity<ApiResponse<List<AdminResponseDto>>> selectAdminList(){
         return null;
     }
@@ -154,7 +154,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("/login")
-    @Operation(summary = "관리자 로그인")
+    @Operation(summary = "관리자 로그인 (개발중)")
     public ResponseEntity<ApiResponse<AdminResponseDto>> login(@RequestBody AdminLoginRequestDto admin){
         return null;
     }
@@ -165,7 +165,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("/logout")
-    @Operation(summary = "관리자 로그아웃")
+    @Operation(summary = "관리자 로그아웃 (개발중)")
     public ResponseEntity<ApiResponse<AdminResponseDto>> logout(@RequestBody AdminLogoutRequestDto admin){
         return null;
     }
