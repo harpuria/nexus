@@ -57,14 +57,14 @@ public class AdminController {
      */
     @PostMapping
     @Operation(summary = "관리자 생성 (SUPER 관리자가 생성)")
-    public ResponseEntity<ApiResponse<AdminResponseDto>> createAdmin(
+    public ResponseEntity<ApiResponse<Void>> createAdmin(
             @Parameter @RequestBody AdminCreateRequestDto admin){
         Result<AdminResponseDto> result = adminService.register(admin.toAdminCommand());
 
         return switch(result){
             case Result.Success<AdminResponseDto> success ->
                 ResponseEntity.status(HttpStatus.CREATED)
-                        .body(ApiResponse.success(success.message(), success.data()));
+                        .body(ApiResponse.success(success.message()));
             case Result.Failure<AdminResponseDto> failure ->
                 ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(ApiResponse.error(failure.message(), failure.errorCode()));
@@ -79,7 +79,7 @@ public class AdminController {
      */
     @PatchMapping("/{adminId}")
     @Operation(summary = "관리자 정보 수정")
-    public ResponseEntity<ApiResponse<AdminResponseDto>> updateAdmin(@PathVariable("adminId") Integer adminId,
+    public ResponseEntity<ApiResponse<Void>> updateAdmin(@PathVariable("adminId") Integer adminId,
                                                                      @Parameter @RequestBody AdminUpdateRequestDto admin){
         admin.setAdminId(adminId);
 
@@ -87,7 +87,7 @@ public class AdminController {
 
         return switch(result) {
             case Result.Success<AdminResponseDto> success -> ResponseEntity.status(HttpStatus.OK)
-                    .body(ApiResponse.success(success.message(), success.data()));
+                    .body(ApiResponse.success(success.message()));
             case Result.Failure<AdminResponseDto> failure -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ApiResponse.error(failure.message(), failure.errorCode()));
         };
@@ -100,7 +100,7 @@ public class AdminController {
      */
     @DeleteMapping("/{adminId}")
     @Operation(summary = "관리자 삭제 (논리적 삭제 처리)")
-    public ResponseEntity<ApiResponse<AdminResponseDto>> deleteAdmin(@PathVariable("adminId") Integer adminId){
+    public ResponseEntity<ApiResponse<Void>> deleteAdmin(@PathVariable("adminId") Integer adminId){
         AdminUpdateRequestDto admin = new AdminUpdateRequestDto();
         admin.setAdminId(adminId);
         admin.setIsDel("Y");
@@ -110,7 +110,7 @@ public class AdminController {
         return switch(result){
             case Result.Success<AdminResponseDto> success ->
                 ResponseEntity.status(HttpStatus.OK)
-                        .body(ApiResponse.success(success.message(), success.data()));
+                        .body(ApiResponse.success(success.message()));
             case Result.Failure<AdminResponseDto> failure ->
                 ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(ApiResponse.error(failure.message(), failure.errorCode()));
