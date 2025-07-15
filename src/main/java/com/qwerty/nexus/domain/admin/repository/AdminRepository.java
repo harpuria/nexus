@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.admin.repository;
 
+import com.qwerty.nexus.domain.admin.entity.AdminEntity;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Condition;
 import org.jooq.Configuration;
@@ -29,7 +30,7 @@ public class AdminRepository {
      * @param admin
      * @return admin
      */
-    public AdminRecord insertAdmin(AdminRecord admin){
+    public AdminEntity insertAdmin(AdminEntity admin){
         AdminRecord record = dslContext.newRecord(ADMIN, admin);
         record.store();
         return admin;
@@ -64,7 +65,7 @@ public class AdminRepository {
      * @param admin
      * @return integer
      */
-    public Integer isUserAlreadyRegistered(AdminRecord admin){
+    public Integer isUserAlreadyRegistered(AdminEntity admin){
         return dslContext.selectCount()
                 .from(ADMIN)
                 .where(ADMIN.LOGIN_ID.eq(admin.getLoginId()))
@@ -76,7 +77,7 @@ public class AdminRepository {
      * @param admin
      * @return integer
      */
-    public Integer existsByEmail(AdminRecord admin){
+    public Integer existsByEmail(AdminEntity admin){
         return dslContext.selectCount()
                 .from(ADMIN)
                 .where(ADMIN.ADMIN_EMAIL.eq(admin.getAdminEmail()))

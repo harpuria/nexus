@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.organization.repository;
 
+import com.qwerty.nexus.domain.organization.entity.OrganizationEntity;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
@@ -25,10 +26,13 @@ public class OrganizationRepository {
      * @param organization
      * @return Organization
      */
-    public int insertOrganization(OrganizationRecord organization){
+    public OrganizationEntity insertOrganization(OrganizationEntity organization){
         OrganizationRecord record = dslContext.newRecord(ORGANIZATION, organization);
         record.store();
-        return record.getOrgId();
+
+        return OrganizationEntity.builder()
+                .orgId(record.getOrgId())
+                .build();
     }
 
     /**

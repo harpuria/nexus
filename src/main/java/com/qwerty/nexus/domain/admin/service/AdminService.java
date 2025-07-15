@@ -2,10 +2,13 @@ package com.qwerty.nexus.domain.admin.service;
 
 import com.qwerty.nexus.domain.admin.command.AdminCreateCommand;
 import com.qwerty.nexus.domain.admin.command.AdminUpdateCommand;
+import com.qwerty.nexus.domain.admin.entity.AdminEntity;
 import com.qwerty.nexus.domain.admin.repository.AdminRepository;
 import com.qwerty.nexus.domain.admin.AdminRole;
 import com.qwerty.nexus.domain.admin.dto.response.AdminResponseDto;
 import com.qwerty.nexus.domain.organization.command.OrganizationCreateCommand;
+import com.qwerty.nexus.domain.organization.entity.OrganizationEntity;
+import com.qwerty.nexus.domain.organization.repository.OrganizationRepository;
 import com.qwerty.nexus.domain.organization.service.OrganizationService;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.response.Result;
@@ -26,6 +29,8 @@ public class AdminService {
     private final AdminRepository adminRepository;
     private final OrganizationService orgService;
 
+    private final OrganizationRepository organizationRepository;
+
     /**
      * 관리자 등록
      * @param admin
@@ -34,24 +39,27 @@ public class AdminService {
     public Result<AdminResponseDto> register(AdminCreateCommand admin) {
         AdminResponseDto rst = new AdminResponseDto();
 
-        AdminRecord adminRecord = new AdminRecord();
-        adminRecord.setLoginId(admin.getLoginId());
-        adminRecord.setLoginPw(admin.getLoginPw());
-        adminRecord.setAdminEmail(admin.getAdminEmail());
-        adminRecord.setAdminNm(admin.getAdminNm());
-        adminRecord.setAdminRole(admin.getAdminRole());
-        adminRecord.setCreatedBy(admin.getLoginId());
-        adminRecord.setUpdatedBy(admin.getLoginId());
-        adminRecord.setOrgId(admin.getOrgId());
+        // 비밀번호 암호화 인코더
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        AdminEntity adminEntity = AdminEntity.builder()
+                .loginId(admin.getLoginId())
+                .loginPw(passwordEncoder.encode(admin.getLoginPw()))
+                .adminEmail(admin.getAdminEmail())
+                .adminRole(admin.getAdminRole())
+                .createdBy(admin.getLoginId())
+                .updatedBy(admin.getLoginId())
+                .orgId(admin.getOrgId())
+                .build();
 
         // 회원 중복 확인
-        boolean isUser = adminRepository.isUserAlreadyRegistered(adminRecord) > 0;
+        boolean isUser = adminRepository.isUserAlreadyRegistered(adminEntity) > 0;
         if(isUser) {
             return Result.Failure.of("이미 존재하는 회원입니다.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
         // 이메일 중복 확인
-        boolean isEmail = adminRepository.existsByEmail(adminRecord) > 0;
+        boolean isEmail = adminRepository.existsByEmail(adminEntity) > 0;
         if(isEmail) {
             return Result.Failure.of("이미 사용중인 이메일 주소 입니다.", ErrorCode.INTERNAL_ERROR.getCode());
         }
@@ -61,27 +69,34 @@ public class AdminService {
         // 2. 아니면 바로 다음으로 넘어감
         if(admin.getAdminRole().equals(AdminRole.SUPER.name())){
             // 단체 정보 생성 후 orgId 넣기
-            OrganizationCreateCommand orgCmd = OrganizationCreateCommand.builder()
+            OrganizationEntity organizationEntity = OrganizationEntity.builder()
                     .orgNm(admin.getOrgNm())
                     .orgCd(admin.getOrgCd())
-                    .createBy(admin.getLoginId())
+                    .createdBy(admin.getLoginId())
+                    .updatedBy(admin.getLoginId())
                     .build();
 
             // TODO : SUPER 가 SUPER 를 만드는 상황도 고려해야할듯
             // 이미 조직 정보가 만들어져 있는지 여부 판단하는 거 넣고, 있으면 orgService,register 제외
             // 근데 service 에서는 다른 service 호출하는거보다는, repository 호출해서 사용하는 것이 바람직함.
 
-            adminRecord.setOrgId(orgService.register(orgCmd));
+            organizationEntity = organizationRepository.insertOrganization(organizationEntity);
+
+            adminEntity = AdminEntity.builder()
+                    .loginId(admin.getLoginId())
+                    .orgId(organizationEntity.getOrgId())
+                    .loginPw(passwordEncoder.encode(admin.getLoginPw()))
+                    .adminEmail(admin.getAdminEmail())
+                    .adminRole(admin.getAdminRole())
+                    .createdBy(admin.getLoginId())
+                    .updatedBy(admin.getLoginId())
+                    .orgId(admin.getOrgId())
+                    .build();
         }
 
-        // 비밀번호 암호화 처리
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        adminRecord.setLoginPw(passwordEncoder.encode(admin.getLoginPw()));
-
         // 중복 확인이 끝났으면 회원 등록(INSERT) 수행
-        Optional<AdminRecord> insertRst = Optional.ofNullable(adminRepository.insertAdmin(adminRecord));
+        Optional<AdminEntity> insertRst = Optional.ofNullable(adminRepository.insertAdmin(adminEntity));
         if(insertRst.isPresent()) {
-            rst.convertPojoToDTO(insertRst.get());
             rst.setMessage("회원가입이 정상적으로 수행되었습니다.");
         }
         else{
