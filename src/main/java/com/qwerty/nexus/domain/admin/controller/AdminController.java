@@ -87,7 +87,7 @@ public class AdminController {
 
         return switch(result) {
             case Result.Success<AdminResponseDto> success -> ResponseEntity.status(HttpStatus.OK)
-                    .body(ApiResponse.success(success.message()));
+                    .body(ApiResponse.success(success.data().getMessage()));
             case Result.Failure<AdminResponseDto> failure -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ApiResponse.error(failure.message(), failure.errorCode()));
         };
@@ -110,7 +110,7 @@ public class AdminController {
         return switch(result){
             case Result.Success<AdminResponseDto> success ->
                 ResponseEntity.status(HttpStatus.OK)
-                        .body(ApiResponse.success(success.message()));
+                        .body(ApiResponse.success(success.data().getMessage()));
             case Result.Failure<AdminResponseDto> failure ->
                 ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(ApiResponse.error(failure.message(), failure.errorCode()));
