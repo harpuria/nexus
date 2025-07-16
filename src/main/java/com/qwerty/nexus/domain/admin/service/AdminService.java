@@ -27,8 +27,6 @@ import java.util.Optional;
 public class AdminService {
 
     private final AdminRepository adminRepository;
-    private final OrganizationService orgService;
-
     private final OrganizationRepository organizationRepository;
 
     /**
@@ -41,15 +39,16 @@ public class AdminService {
 
         // 비밀번호 암호화 인코더
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(admin.getLoginPw());
 
         AdminEntity adminEntity = AdminEntity.builder()
                 .loginId(admin.getLoginId())
-                .loginPw(passwordEncoder.encode(admin.getLoginPw()))
+                .loginPw(encodedPassword)
+                .adminNm(admin.getAdminNm())
                 .adminEmail(admin.getAdminEmail())
                 .adminRole(admin.getAdminRole())
                 .createdBy(admin.getLoginId())
                 .updatedBy(admin.getLoginId())
-                .orgId(admin.getOrgId())
                 .build();
 
         // 회원 중복 확인
@@ -85,12 +84,12 @@ public class AdminService {
             adminEntity = AdminEntity.builder()
                     .loginId(admin.getLoginId())
                     .orgId(organizationEntity.getOrgId())
-                    .loginPw(passwordEncoder.encode(admin.getLoginPw()))
+                    .loginPw(encodedPassword)
+                    .adminNm(admin.getAdminNm())
                     .adminEmail(admin.getAdminEmail())
                     .adminRole(admin.getAdminRole())
                     .createdBy(admin.getLoginId())
                     .updatedBy(admin.getLoginId())
-                    .orgId(admin.getOrgId())
                     .build();
         }
 

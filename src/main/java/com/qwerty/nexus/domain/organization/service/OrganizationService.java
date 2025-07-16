@@ -3,6 +3,7 @@ package com.qwerty.nexus.domain.organization.service;
 import com.qwerty.nexus.domain.organization.command.OrganizationCreateCommand;
 import com.qwerty.nexus.domain.organization.command.OrganizationUpdateCommand;
 import com.qwerty.nexus.domain.organization.dto.response.OrganizationResponseDTO;
+import com.qwerty.nexus.domain.organization.entity.OrganizationEntity;
 import com.qwerty.nexus.domain.organization.repository.OrganizationRepository;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.response.Result;
@@ -49,16 +50,26 @@ public class OrganizationService {
     }
 
     /**
-     *
+     * 단체 정보 생성
      * @param organization
      */
-    public int register(OrganizationCreateCommand organization) {
-        OrganizationRecord record = new OrganizationRecord();
-        record.setOrgNm(organization.getOrgNm());
-        record.setOrgCd(organization.getOrgCd());
-        record.setCreatedBy(organization.getCreateBy());
-        record.setUpdatedBy(organization.getCreateBy());
+    public Result<OrganizationResponseDTO> register(OrganizationCreateCommand organization) {
+        OrganizationResponseDTO rst = new OrganizationResponseDTO();
 
-        return organizationRepository.insertOrganization(record);
+        OrganizationEntity entity = OrganizationEntity.builder()
+                .orgNm(organization.getOrgNm())
+                .orgCd(organization.getOrgCd())
+                .createdBy(organization.getCreateBy())
+                .updatedBy(organization.getCreateBy())
+                .build();
+
+        Optional<OrganizationEntity> insertRst = Optional.ofNullable(organizationRepository.insertOrganization(entity));
+        if(insertRst.isPresent()){
+            rst.setMessage("단체 정보가 정상적으로 생성되었습니다.");
+        }else{
+            return Result.Failure.of("단체 정보 생성에 실패하였습니다. 넥서스 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
+        }
+
+        return Result.Success.of(rst);
     }
 }
