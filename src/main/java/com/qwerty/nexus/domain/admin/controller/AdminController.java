@@ -33,7 +33,7 @@ public class AdminController {
      */
     @PostMapping("/initialize")
     @Operation(summary = "초기 사용자 등록 (SUPER 관리자)")
-    public ResponseEntity<ApiResponse<AdminResponseDto>> initializeAdmin(
+    public ResponseEntity<ApiResponse<Void>> initializeAdmin(
             @Parameter @RequestBody AdminInitCreateRequestDto admin){
         // 초기 사용자는 무조건 SUPER 관리자로 등록
         admin.setAdminRole(AdminRole.SUPER.name());
@@ -43,7 +43,7 @@ public class AdminController {
         return switch(result){
             case Result.Success<AdminResponseDto> success ->
                 ResponseEntity.status(HttpStatus.CREATED)
-                        .body(ApiResponse.success(success.message(), success.data()));
+                        .body(ApiResponse.success(success.data().getMessage()));
             case Result.Failure<AdminResponseDto> failure ->
                 ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body(ApiResponse.error(failure.message(), failure.errorCode()));

@@ -18,7 +18,7 @@ public class AdminUpdateRequestDto {
     @Schema(example = "1")
     private int gameId;
 
-    @Schema(example = "1")
+    @Schema(example = "admin2")
     private String loginPw;
 
     @Schema(example = "SUPER")

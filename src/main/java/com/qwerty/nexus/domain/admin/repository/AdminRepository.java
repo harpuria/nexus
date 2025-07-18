@@ -33,7 +33,10 @@ public class AdminRepository {
     public AdminEntity insertAdmin(AdminEntity admin){
         AdminRecord record = dslContext.newRecord(ADMIN, admin);
         record.store();
-        return admin;
+
+        return AdminEntity.builder()
+                .adminId(record.getAdminId())
+                .build();
     }
 
     /**
@@ -85,11 +88,24 @@ public class AdminRepository {
     }
 
     /**
+     * 비밀번호 체크
+     * @param admin
+     * @return
+     */
+    public Integer checkPassword(AdminEntity admin){
+        return dslContext.selectCount()
+                .from(ADMIN)
+                .where(ADMIN.ADMIN_ID.eq(admin.getAdminId())
+                        .and(ADMIN.LOGIN_PW.eq(admin.getLoginPw())))
+                .fetchOneInto(Integer.class);
+    }
+
+    /**
      * 한 건의 회원 정보 조회
      * @param admin
      * @return
      */
-    public AdminRecord selectOneAdmin(AdminRecord admin){
+    public AdminEntity selectOneAdmin(AdminEntity admin){
         // 조건 설정
         Condition condition = DSL.noCondition();
         if(admin.getLoginId() != null && !admin.getLoginId().isEmpty()){
@@ -102,7 +118,7 @@ public class AdminRepository {
 
         return dslContext.selectFrom(ADMIN)
                 .where(condition)
-                .fetchOne();
+                .fetchOneInto(AdminEntity.class);
     }
 
     /**

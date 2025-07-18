@@ -1,9 +1,9 @@
 package com.qwerty.nexus.domain.admin.dto.response;
 
+import com.qwerty.nexus.domain.admin.entity.AdminEntity;
 import com.qwerty.nexus.global.dto.BaseResponseDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.jooq.generated.tables.records.AdminRecord;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -16,7 +16,7 @@ public class AdminResponseDto extends BaseResponseDTO {
     private String adminEmail;
     private String adminNm;
 
-    public AdminResponseDto convertPojoToDTO(AdminRecord admin) {
+    public AdminResponseDto convertEntityToDTO(AdminEntity admin) {
         this.setAdminId(admin.getAdminId());
         this.setOrgId(admin.getOrgId());
         this.setGameId(admin.getGameId());
