@@ -110,19 +110,22 @@ public class AdminService {
     public Result<AdminResponseDto> update(AdminUpdateCommand admin) {
         AdminResponseDto rst = new AdminResponseDto();
 
-        AdminRecord adminRecord = new AdminRecord();
-        adminRecord.setAdminId(admin.getAdminId());
-        adminRecord.setAdminNm(admin.getAdminNm());
-        adminRecord.setAdminEmail(admin.getAdminEmail());
-        adminRecord.setAdminRole(admin.getAdminRole());
-
         // 변경할 비밀번호가 있는 경우 암호화 처리
-        Optional.ofNullable(admin.getLoginPw()).ifPresent(loginPw -> {
+        String modifiedPw = null;
+        if(admin.getLoginPw() != null){
             PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            adminRecord.setLoginPw(passwordEncoder.encode(loginPw));
-        });
+            modifiedPw = passwordEncoder.encode(admin.getLoginPw());
+        }
 
-        Optional<AdminRecord> updateRst = Optional.ofNullable(adminRepository.updateAdmin(adminRecord));
+        AdminEntity adminEntity = AdminEntity.builder()
+                .adminId(admin.getAdminId())
+                .adminNm(admin.getAdminNm())
+                .loginPw(modifiedPw)
+                .adminEmail(admin.getAdminEmail())
+                .adminRole(admin.getAdminRole())
+                .build();
+
+        Optional<AdminEntity> updateRst = Optional.ofNullable(adminRepository.updateAdmin(adminEntity));
 
         if(updateRst.isPresent()) {
             if(admin.getIsDel() != null && admin.getIsDel().equalsIgnoreCase("Y")){

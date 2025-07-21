@@ -29,7 +29,7 @@ public class AdminController {
     /**
      * 초기 사용자 등록 (SUPER 관리자)
      * @param admin 초기 생성할 관리자 정보를 담은 객체 (DTO)
-     * @return
+     * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @PostMapping("/initialize")
     @Operation(summary = "초기 사용자 등록 (SUPER 관리자)")
@@ -53,7 +53,7 @@ public class AdminController {
     /**
      * 관리자 생성
      * @param admin 생성할 관리자 정보를 담은 객체 (DTO)
-     * @return
+     * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @PostMapping
     @Operation(summary = "관리자 생성 (SUPER 관리자가 생성)")
@@ -75,7 +75,7 @@ public class AdminController {
      * 관리자 정보 수정
      * @param adminId 관리자 아이디 (PK)
      * @param admin 수정할 관리자 정보를 담은 객체 (DTO)
-     * @return
+     * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @PatchMapping("/{adminId}")
     @Operation(summary = "관리자 정보 수정")
@@ -96,7 +96,7 @@ public class AdminController {
     /**
      * 관리자 삭제 (논리적 삭제 처리)
      * @param adminId 관리자 아이디 (PK)
-     * @return
+     * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @DeleteMapping("/{adminId}")
     @Operation(summary = "관리자 삭제 (논리적 삭제 처리)")
@@ -120,7 +120,7 @@ public class AdminController {
     /**
      * 한 건의 관리자 정보 조회
      * @param adminId 관리자 아이디 (PK)
-     * @return
+     * @return 한 건의 관리자 정보를 담은 객체 (DTO)
      */
     @GetMapping("/{adminId}")
     @Operation(summary = "한 건의 관리자 정보 조회")
@@ -139,7 +139,7 @@ public class AdminController {
 
     /**
      * 관리자 목록 조회
-     * @return
+     * @return 복수의 관리자 정보를 담은 리스트 객체 (DTO)
      */
     @GetMapping("/list")
     @Operation(summary = "관리자 목록 조회 (미개발)")
@@ -150,7 +150,7 @@ public class AdminController {
 
     /**
      * 관리자 로그인
-     * @param admin
+     * @param admin 관리자 정보를 담은 객체 (DTO)
      * @return
      */
     @PostMapping("/login")
@@ -161,7 +161,7 @@ public class AdminController {
 
     /**
      * 관리자 로그아웃
-     * @param admin
+     * @param admin 관리자 정보를 담은 객체 (DTO)
      * @return
      */
     @PostMapping("/logout")

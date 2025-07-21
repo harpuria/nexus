@@ -44,7 +44,7 @@ public class AdminRepository {
      * @param admin
      * @return admin
      */
-    public AdminRecord updateAdmin(AdminRecord admin){
+    public AdminEntity updateAdmin(AdminEntity admin){
         AdminRecord record = dslContext.newRecord(ADMIN, admin);
         record.changed(ADMIN.ADMIN_ID, admin.getAdminId() != null);
         record.changed(ADMIN.LOGIN_ID, admin.getLoginId() != null);
@@ -125,9 +125,9 @@ public class AdminRepository {
      * 전체 회원 정보 조회 (추후 페이징, 검색 조건 처리 등 필요)
      * @return
      */
-    public List<AdminRecord> selectListAdmin(){
+    public List<AdminEntity> selectListAdmin(){
         return dslContext.selectFrom(ADMIN)
-                .fetch();
+                .fetchInto(AdminEntity.class);
     }
 
 
