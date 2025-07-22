@@ -47,6 +47,7 @@ public class AdminService {
                 .adminRole(admin.getAdminRole())
                 .createdBy(admin.getLoginId())
                 .updatedBy(admin.getLoginId())
+                .orgId(admin.getOrgId())
                 .build();
 
         // 회원 중복 확인
@@ -117,18 +118,21 @@ public class AdminService {
             modifiedPw = passwordEncoder.encode(admin.getLoginPw());
         }
 
+        // TODO : 추가로 update 니까 updateBy 를 넣어주는 것이 좋을듯.
         AdminEntity adminEntity = AdminEntity.builder()
                 .adminId(admin.getAdminId())
                 .adminNm(admin.getAdminNm())
                 .loginPw(modifiedPw)
                 .adminEmail(admin.getAdminEmail())
                 .adminRole(admin.getAdminRole())
+                .isDel(admin.getIsDel())
                 .build();
 
         Optional<AdminEntity> updateRst = Optional.ofNullable(adminRepository.updateAdmin(adminEntity));
 
         if(updateRst.isPresent()) {
             if(admin.getIsDel() != null && admin.getIsDel().equalsIgnoreCase("Y")){
+                // TODO : 추후 실제 삭제처리가 되었는지 여부가 필요. (ex :이미 삭제된 회원입니다. 같은 메시지 나오게)
                 rst.setMessage("회원정보가 정상적으로 삭제되었습니다.");
             }else{
                 rst.setMessage("회원정보가 정상적으로 수정되었습니다.");
