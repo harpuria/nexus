@@ -40,7 +40,7 @@ public class OrganizationRepository {
      * @param organization
      * @return
      */
-    public OrganizationRecord updateOrganization(OrganizationRecord organization){
+    public OrganizationEntity updateOrganization(OrganizationEntity organization){
         OrganizationRecord record = dslContext.newRecord(ORGANIZATION, organization);
         // 각 필드가 null 값이 아닌 경우(true)에만 변경처리
         record.changed(ORGANIZATION.ORG_ID, organization.getOrgId() != null);
@@ -48,8 +48,6 @@ public class OrganizationRepository {
         record.changed(ORGANIZATION.ORG_CD, organization.getOrgCd() != null);
         record.changed(ORGANIZATION.CREATED_BY, organization.getCreatedBy() != null);
         record.changed(ORGANIZATION.UPDATED_BY, organization.getUpdatedBy() != null);
-        record.changed(ORGANIZATION.CREATED_AT, organization.getCreatedAt() != null);
-        record.changed(ORGANIZATION.UPDATED_AT, organization.getUpdatedAt() != null);
         record.changed(ORGANIZATION.IS_DEL, organization.getIsDel() != null);
         record.update();
         return organization;

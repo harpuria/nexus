@@ -1,6 +1,5 @@
 package com.qwerty.nexus.organization;
 
-import com.qwerty.nexus.domain.organization.dto.request.OrganizationRequestDTO;
 import com.qwerty.nexus.domain.organization.service.OrganizationService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,7 @@ public class OrganizationTests {
     @Test
     @DisplayName("단체 정보 생성 <일반적으로 단독 생성할 일은 없음>")
     public void createOrganization(){
-        OrganizationRequestDTO organizationRequestDTO = new OrganizationRequestDTO();
+        OrganizationRequestDto organizationRequestDTO = new OrganizationRequestDto();
         organizationRequestDTO.setOrgNm("정말구린소프트");
         organizationRequestDTO.setOrgCd("123-456-789123");
         organizationRequestDTO.setCreatedBy("admin");
@@ -28,7 +27,7 @@ public class OrganizationTests {
     @Test
     @DisplayName("단체 정보 수정")
     public void updateOrganization(){
-        OrganizationRequestDTO organizationRequestDTO = new OrganizationRequestDTO();
+        OrganizationRequestDto organizationRequestDTO = new OrganizationRequestDto();
         organizationRequestDTO.setOrgId(2); // 상황에 따라 수정
         organizationRequestDTO.setOrgNm("구리구리소프트");
         organizationRequestDTO.setOrgCd("987-765-43210");

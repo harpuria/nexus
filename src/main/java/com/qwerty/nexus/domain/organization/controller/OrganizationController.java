@@ -1,15 +1,16 @@
 package com.qwerty.nexus.domain.organization.controller;
 
-import com.qwerty.nexus.domain.organization.command.OrganizationUpdateCommand;
-import com.qwerty.nexus.domain.organization.dto.request.OrganizationRequestDTO;
+import com.qwerty.nexus.domain.organization.dto.request.OrganizationUpdateRequestDto;
 import com.qwerty.nexus.domain.organization.dto.response.OrganizationResponseDTO;
 import com.qwerty.nexus.domain.organization.service.OrganizationService;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.Result;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,10 +31,17 @@ public class OrganizationController {
      * @return
      */
     @PatchMapping
-    @Operation(description = "단체 정보 수정")
-    public ResponseEntity<ApiResponse<OrganizationResponseDTO>> updateOrganization(@RequestBody OrganizationUpdateCommand organization){
-        Result<OrganizationResponseDTO> result = organizationService.update(organization.toOrganizationCommand());
+    @Operation(summary = "단체 정보 수정")
+    public ResponseEntity<ApiResponse<Void>> updateOrganization(@Parameter @RequestBody OrganizationUpdateRequestDto organization){
+        Result<OrganizationResponseDTO> result = organizationService.update(organization.toOrgCommand());
 
-        return null;
+        return switch(result){
+            case Result.Success<OrganizationResponseDTO> success ->
+                    ResponseEntity.status(HttpStatus.OK)
+                            .body(ApiResponse.success(success.data().getMessage()));
+            case Result.Failure<OrganizationResponseDTO> failure ->
+                    ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body(ApiResponse.error(failure.message(), failure.errorCode()));
+        };
     }
 }

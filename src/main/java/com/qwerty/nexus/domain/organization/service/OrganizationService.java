@@ -21,7 +21,7 @@ public class OrganizationService {
     private final OrganizationRepository organizationRepository;
 
     /**
-     *
+     * 단체 정보 수정
      * @param organization
      */
     public Result<OrganizationResponseDTO> update(OrganizationUpdateCommand organization) {
@@ -32,12 +32,14 @@ public class OrganizationService {
 
         OrganizationResponseDTO rst = new OrganizationResponseDTO();
 
-        OrganizationRecord record = new OrganizationRecord();
-        record.setOrgNm(organization.getOrgNm());
-        record.setOrgCd(organization.getOrgCd());
-        record.setUpdatedBy(organization.getUpdatedBy());
+        OrganizationEntity orgEntity = OrganizationEntity.builder()
+                .orgId(organization.getOrgId())
+                .orgNm(organization.getOrgNm())
+                .orgCd(organization.getOrgCd())
+                .updatedBy(organization.getUpdatedBy())
+                .build();
 
-        Optional<OrganizationRecord> updateRst = Optional.ofNullable(organizationRepository.updateOrganization(record));
+        Optional<OrganizationEntity> updateRst = Optional.ofNullable(organizationRepository.updateOrganization(orgEntity));
         if(updateRst.isPresent()){
             rst.setMessage("단체 정보 수정에 성공하였습니다.");
         }
