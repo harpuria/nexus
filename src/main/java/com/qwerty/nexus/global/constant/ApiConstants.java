@@ -32,12 +32,6 @@ public final class ApiConstants {
         public static final String ORG_PATH = API_BASE_PATH + "/org";
         public static final String GAME_PATH = API_BASE_PATH + "/game";
         public static final String GAME_USER_PATH = API_BASE_PATH + "/game-user";
-
-        // 특수 경로
-        public static final String HEALTH_CHECK_PATH = "/health";
-        public static final String METRICS_PATH = "/metrics";
-        public static final String DOCS_PATH = "/docs";
-        public static final String SWAGGER_UI_PATH = "/swagger-ui";
     }
 
     // =================================================================

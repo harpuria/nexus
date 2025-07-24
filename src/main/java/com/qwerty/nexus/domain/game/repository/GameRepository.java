@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.repository;
 
+import com.qwerty.nexus.domain.game.entity.GameEntity;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
@@ -25,10 +26,10 @@ public class GameRepository {
      * @param game
      * @return
      */
-    public GameRecord insertGame(GameRecord game) {
+    public GameEntity insertGame(GameEntity game) {
         GameRecord record = dslContext.newRecord(GAME, game);
         record.store();
-        return record;
+        return game;
     }
 
     /**
@@ -36,7 +37,7 @@ public class GameRepository {
      * @param game
      * @return
      */
-    public GameRecord updateGame(GameRecord game) {
+    public GameEntity updateGame(GameEntity game) {
         GameRecord record = dslContext.newRecord(GAME, game);
         record.changed(GAME.GAME_ID, game.getGameId() != null);
         record.changed(GAME.ORG_ID, game.getOrgId() != null);
@@ -48,7 +49,7 @@ public class GameRepository {
         record.changed(GAME.UPDATED_BY, game.getUpdatedBy() != null);
         record.changed(GAME.IS_DEL, game.getIsDel() != null);
         record.update();
-        return record;
+        return game;
     }
 
     /**
@@ -56,9 +57,9 @@ public class GameRepository {
      * @param id
      * @return
      */
-    public GameRecord selectOneGame(Integer id){
+    public GameEntity selectOneGame(Integer id){
         return dslContext.selectFrom(GAME)
                 .where(GAME.GAME_ID.eq(id))
-                .fetchOne();
+                .fetchOneInto(GameEntity.class);
     }
 }

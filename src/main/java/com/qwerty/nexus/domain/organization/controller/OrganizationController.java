@@ -3,6 +3,7 @@ package com.qwerty.nexus.domain.organization.controller;
 import com.qwerty.nexus.domain.organization.dto.request.OrganizationUpdateRequestDto;
 import com.qwerty.nexus.domain.organization.dto.response.OrganizationResponseDto;
 import com.qwerty.nexus.domain.organization.service.OrganizationService;
+import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.Result;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Log4j2
 @RestController
-@RequestMapping("/org")
+@RequestMapping(ApiConstants.Path.ORG_PATH)
 @RequiredArgsConstructor
 @Tag(name = "단체", description = "단체 관련 API")
 public class OrganizationController {

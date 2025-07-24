@@ -4,6 +4,7 @@ import com.qwerty.nexus.domain.game.GameStatus;
 import com.qwerty.nexus.domain.game.command.GameCreateCommand;
 import com.qwerty.nexus.domain.game.command.GameUpdateCommand;
 import com.qwerty.nexus.domain.game.dto.response.GameResponseDTO;
+import com.qwerty.nexus.domain.game.entity.GameEntity;
 import com.qwerty.nexus.domain.game.repository.GameRepository;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.response.Result;
@@ -23,27 +24,24 @@ public class GameService {
 
     /**
      * 게임 정보 생성
-     * @param game
+     * @param gameCreateCommand
      * @return
      */
-    public Result<GameResponseDTO> createGame(GameCreateCommand game) {
+    public Result<GameResponseDTO> createGame(GameCreateCommand gameCreateCommand) {
         GameResponseDTO rst = new GameResponseDTO();
 
-        GameRecord record = new GameRecord();
-        record.setName(game.getName());
-        record.setCreatedBy(game.getCreateBy());
-        record.setUpdatedBy(game.getCreateBy());
+        GameEntity gameEntity = GameEntity.builder()
+                .name(gameCreateCommand.getName())
+                .createdBy(gameCreateCommand.getCreateBy())
+                .updatedBy(gameCreateCommand.getCreateBy())
+                .status(GameStatus.STOPPED.name())
+                .clientAppId(UUID.randomUUID())
+                .signatureKey(UUID.randomUUID())
+                .build();
 
-        record.setStatus(GameStatus.STOPPED.name());
-
-        // clientAppId, signatureKey 생성
-        record.setClientAppId(UUID.randomUUID());
-        record.setSignatureKey(UUID.randomUUID());
-
-        Optional<GameRecord> insertRst = Optional.ofNullable(gameRepository.insertGame(record));
+        Optional<GameEntity> insertRst = Optional.ofNullable(gameRepository.insertGame(gameEntity));
 
         if(insertRst.isPresent()) {
-            rst.convertPojoToDTO(insertRst.get());
             rst.setMessage("정상적으로 게임이 생성되었습니다");
         }
         else{
@@ -61,16 +59,18 @@ public class GameService {
     public Result<GameResponseDTO> updateGame(GameUpdateCommand gameUpdateCommand){
         GameResponseDTO rst = new GameResponseDTO();
 
-        GameRecord record = new GameRecord();
-        record.setName(gameUpdateCommand.getName());
-        record.setStatus(gameUpdateCommand.getStatus());
-        record.setIsDel(gameUpdateCommand.getIsDel());
-        record.setUpdatedBy(gameUpdateCommand.getUpdatedBy());
+        GameEntity gameEntity = GameEntity.builder()
+                .gameId(gameUpdateCommand.getGameId())
+                .name(gameUpdateCommand.getName())
+                .status(gameUpdateCommand.getStatus())
+                .isDel(gameUpdateCommand.getIsDel())
+                .updatedBy(gameUpdateCommand.getUpdatedBy())
+                .build();
 
-        Optional<GameRecord> updateRst = Optional.ofNullable(gameRepository.updateGame(record));
+        Optional<GameEntity> updateRst = Optional.ofNullable(gameRepository.updateGame(gameEntity));
 
         if(updateRst.isPresent()){
-            rst.convertPojoToDTO(updateRst.get());
+
             rst.setMessage("게임 정보 수정이 정상적으로 진행되었습니다.");
         }
         else{
@@ -87,7 +87,7 @@ public class GameService {
      */
     public Result<GameResponseDTO> selectOneGame(Integer id){
         GameResponseDTO rst = new GameResponseDTO();
-        GameRecord game = gameRepository.selectOneGame(id);
+        GameEntity game = gameRepository.selectOneGame(id);
         return Result.Success.of(rst);
     }
 }

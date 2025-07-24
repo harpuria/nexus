@@ -3,6 +3,8 @@ package com.qwerty.nexus.domain.gameUser.controller;
 import com.qwerty.nexus.domain.gameUser.dto.request.GameUserRequestDTO;
 import com.qwerty.nexus.domain.gameUser.dto.response.GameUserResponseDTO;
 import com.qwerty.nexus.domain.gameUser.service.GameUserService;
+import com.qwerty.nexus.global.constant.ApiConstants;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 @Log4j2
 @RestController
-@RequestMapping("/gameUser")
+@RequestMapping(ApiConstants.Path.GAME_USER_PATH)
 @RequiredArgsConstructor
+@Tag(name = "게임 유저", description = "게임 유저 관련 API")
 public class GameUserController {
     private final GameUserService gameUserService;
 
