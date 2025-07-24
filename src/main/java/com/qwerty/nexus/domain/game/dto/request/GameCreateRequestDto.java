@@ -10,6 +10,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class GameCreateRequestDto {
+    @Schema(example = "1")
+    private int orgId;
+
     @Schema(example = "그리즐리키우기")
     private String name;
 
@@ -19,6 +22,7 @@ public class GameCreateRequestDto {
     // Service 전달 파라미터로 쓸 Command 객체 변환
     public GameCreateCommand toGameCommand(){
         return GameCreateCommand.builder()
+                .orgId(this.orgId)
                 .name(this.name)
                 .createBy(this.createBy)
                 .build();

@@ -31,14 +31,14 @@ public class GameController {
      * @return
      */
     @PostMapping
-    @Operation(description = "게임 정보 생성")
-    public ResponseEntity<ApiResponse<GameResponseDTO>> createGame(@RequestBody GameCreateRequestDto gameCreateRequestDto){
+    @Operation(summary = "게임 정보 생성")
+    public ResponseEntity<ApiResponse<Void>> createGame(@RequestBody GameCreateRequestDto gameCreateRequestDto){
         Result<GameResponseDTO> result = gameService.createGame(gameCreateRequestDto.toGameCommand());
 
         return switch(result){
             case Result.Success<GameResponseDTO> success ->
                     ResponseEntity.status(HttpStatus.CREATED)
-                            .body(ApiResponse.success(success.message(), success.data()));
+                            .body(ApiResponse.success(success.data().getMessage()));
             case Result.Failure<GameResponseDTO> failure ->
                     ResponseEntity.status(HttpStatus.BAD_REQUEST)
                             .body(ApiResponse.error(failure.message()));
@@ -50,15 +50,18 @@ public class GameController {
      * @param gameUpdateRequestDto
      * @return
      */
-    @PatchMapping
-    @Operation(description = "게임 정보 수정")
-    public ResponseEntity<ApiResponse<GameResponseDTO>> updateGame(@RequestBody GameUpdateRequestDto gameUpdateRequestDto){
+    @PatchMapping("/{gameId}")
+    @Operation(summary = "게임 정보 수정")
+    public ResponseEntity<ApiResponse<Void>> updateGame(@PathVariable("gameId") int gameId, @RequestBody GameUpdateRequestDto gameUpdateRequestDto){
+
+        gameUpdateRequestDto.setGameId(gameId);
+
         Result<GameResponseDTO> result = gameService.updateGame(gameUpdateRequestDto.toGameCommand());
 
         return switch(result){
             case Result.Success<GameResponseDTO> success ->
                     ResponseEntity.status(HttpStatus.OK)
-                            .body(ApiResponse.success(success.message(), success.data()));
+                            .body(ApiResponse.success(success.data().getMessage()));
             case Result.Failure<GameResponseDTO> failure ->
                     ResponseEntity.status(HttpStatus.BAD_REQUEST)
                             .body(ApiResponse.error(failure.message()));
@@ -71,7 +74,7 @@ public class GameController {
      * @return
      */
     @GetMapping("/{gameId}")
-    @Operation(description = "한 건의 게임 정보 조회")
+    @Operation(summary = "한 건의 게임 정보 조회")
     public ResponseEntity<ApiResponse<GameResponseDTO>> selectOneGame(@PathVariable("gameId") Integer gameId){
         Result<GameResponseDTO> result = gameService.selectOneGame(gameId);
 
@@ -90,7 +93,7 @@ public class GameController {
      * @return
      */
     @GetMapping("/list")
-    @Operation(description = "게임 목록 조회 (개발중)")
+    @Operation(summary = "게임 목록 조회 (개발중)")
     public ResponseEntity<ApiResponse<List<GameResponseDTO>>> selectGameList(){
         return null;
     }

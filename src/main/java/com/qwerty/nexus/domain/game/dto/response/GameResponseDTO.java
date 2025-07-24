@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.dto.response;
 
+import com.qwerty.nexus.domain.game.entity.GameEntity;
 import com.qwerty.nexus.global.dto.BaseResponseDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +21,7 @@ public class GameResponseDTO extends BaseResponseDTO {
     private String updatedBy;
     private String isDel;
 
-    public GameResponseDTO convertPojoToDTO(GameRecord admin) {
+    public GameResponseDTO convertEntityToDTO(GameEntity admin) {
         this.setGameId(admin.getGameId());
         this.setOrgId(admin.getOrgId());
         this.setName(admin.getName());

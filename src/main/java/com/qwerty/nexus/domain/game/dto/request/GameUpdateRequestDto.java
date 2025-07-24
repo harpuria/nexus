@@ -10,7 +10,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class GameUpdateRequestDto {
-    @Schema(example = "그리글리키우기")
+    private int gameId;
+
+    @Schema(example = "그리즐리키우기(변경)")
     private String name;
 
     @Schema(example = "OPERATING")
@@ -25,6 +27,7 @@ public class GameUpdateRequestDto {
     // Service 전달 파라미터로 쓸 Command 객체 변환
     public GameUpdateCommand toGameCommand(){
         return GameUpdateCommand.builder()
+                .gameId(this.gameId)
                 .name(this.name)
                 .status(this.status)
                 .isDel(this.isDel)

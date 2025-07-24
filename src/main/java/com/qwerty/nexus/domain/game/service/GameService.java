@@ -31,6 +31,7 @@ public class GameService {
         GameResponseDTO rst = new GameResponseDTO();
 
         GameEntity gameEntity = GameEntity.builder()
+                .orgId(gameCreateCommand.getOrgId())
                 .name(gameCreateCommand.getName())
                 .createdBy(gameCreateCommand.getCreateBy())
                 .updatedBy(gameCreateCommand.getCreateBy())
@@ -87,7 +88,16 @@ public class GameService {
      */
     public Result<GameResponseDTO> selectOneGame(Integer id){
         GameResponseDTO rst = new GameResponseDTO();
-        GameEntity game = gameRepository.selectOneGame(id);
+
+        Optional<GameEntity> selectRst = Optional.ofNullable(gameRepository.selectOneGame(id));
+        if(selectRst.isPresent()){
+            rst = rst.convertEntityToDTO(selectRst.get());
+            rst.setMessage("게임 정보가 정상적으로 조회되었습니다.");
+        }
+        else{
+            return Result.Failure.of("게임 정보가 존재하지 않습니다.", ErrorCode.INTERNAL_ERROR.getCode());
+        }
+
         return Result.Success.of(rst);
     }
 }

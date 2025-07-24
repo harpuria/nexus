@@ -39,7 +39,6 @@ public class GameRepository {
      */
     public GameEntity updateGame(GameEntity game) {
         GameRecord record = dslContext.newRecord(GAME, game);
-        record.changed(GAME.GAME_ID, game.getGameId() != null);
         record.changed(GAME.ORG_ID, game.getOrgId() != null);
         record.changed(GAME.NAME, game.getName() != null);
         record.changed(GAME.CLIENT_APP_ID, game.getClientAppId() != null);
