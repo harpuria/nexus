@@ -42,8 +42,6 @@ public class OrganizationRepository {
      */
     public OrganizationEntity updateOrganization(OrganizationEntity organization){
         OrganizationRecord record = dslContext.newRecord(ORGANIZATION, organization);
-        // 각 필드가 null 값이 아닌 경우(true)에만 변경처리
-        record.changed(ORGANIZATION.ORG_ID, organization.getOrgId() != null);
         record.changed(ORGANIZATION.ORG_NM, organization.getOrgNm() != null);
         record.changed(ORGANIZATION.ORG_CD, organization.getOrgCd() != null);
         record.changed(ORGANIZATION.CREATED_BY, organization.getCreatedBy() != null);
@@ -55,12 +53,12 @@ public class OrganizationRepository {
 
     /**
      * 한 건의 단체 정보 가져오기
-     * @param id
+     * @param orgId
      * @return
      */
-    public OrganizationRecord selectOneOrganization(Integer id){
+    public OrganizationEntity selectOneOrganization(Integer orgId){
         return dslContext.selectFrom(ORGANIZATION)
-                .where(ORGANIZATION.ORG_ID.eq(id))
-                .fetchOne();
+                .where(ORGANIZATION.ORG_ID.eq(orgId))
+                .fetchOneInto(OrganizationEntity.class);
     }
 }

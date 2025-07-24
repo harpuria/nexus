@@ -1,15 +1,14 @@
 package com.qwerty.nexus.domain.organization.service;
 
-import com.qwerty.nexus.domain.organization.command.OrganizationCreateCommand;
 import com.qwerty.nexus.domain.organization.command.OrganizationUpdateCommand;
-import com.qwerty.nexus.domain.organization.dto.response.OrganizationResponseDTO;
+import com.qwerty.nexus.domain.organization.dto.response.OrganizationResponseDto;
 import com.qwerty.nexus.domain.organization.entity.OrganizationEntity;
 import com.qwerty.nexus.domain.organization.repository.OrganizationRepository;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.response.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.jooq.generated.tables.records.OrganizationRecord;
+import org.jooq.impl.DefaultDSLContext;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,13 +23,13 @@ public class OrganizationService {
      * 단체 정보 수정
      * @param organization
      */
-    public Result<OrganizationResponseDTO> update(OrganizationUpdateCommand organization) {
+    public Result<OrganizationResponseDto> update(OrganizationUpdateCommand organization) {
         // 업데이트를 하는 사람이 해당 조직의 소속된 사람인지, SUPER 권한을 가졌는지 확인
         // true 면 아래 update 진행
         //AdminResponseDTO admin = adminService.selectOneAdmin(organization.getAdmin().getAdminId());
         //admin.getOrgId();
 
-        OrganizationResponseDTO rst = new OrganizationResponseDTO();
+        OrganizationResponseDto rst = new OrganizationResponseDto();
 
         OrganizationEntity orgEntity = OrganizationEntity.builder()
                 .orgId(organization.getOrgId())
@@ -52,24 +51,20 @@ public class OrganizationService {
     }
 
     /**
-     * 단체 정보 생성
-     * @param organization
+     * 한 건의 단체 정보 가져오기
+     * @param orgId 단체 아이디 (PK)
+     * @return
      */
-    public Result<OrganizationResponseDTO> register(OrganizationCreateCommand organization) {
-        OrganizationResponseDTO rst = new OrganizationResponseDTO();
+    public Result<OrganizationResponseDto> selectOneOrganization(int orgId) {
+        OrganizationResponseDto rst = new OrganizationResponseDto();
 
-        OrganizationEntity entity = OrganizationEntity.builder()
-                .orgNm(organization.getOrgNm())
-                .orgCd(organization.getOrgCd())
-                .createdBy(organization.getCreateBy())
-                .updatedBy(organization.getCreateBy())
-                .build();
-
-        Optional<OrganizationEntity> insertRst = Optional.ofNullable(organizationRepository.insertOrganization(entity));
-        if(insertRst.isPresent()){
-            rst.setMessage("단체 정보가 정상적으로 생성되었습니다.");
-        }else{
-            return Result.Failure.of("단체 정보 생성에 실패하였습니다. 넥서스 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
+        Optional<OrganizationEntity> selectRst = Optional.ofNullable(organizationRepository.selectOneOrganization(orgId));
+        if(selectRst.isPresent()){
+            rst = rst.convertEntityToDTO(selectRst.get());
+            rst.setMessage("단체 정보가 정상적으로 검색되었습니다.");
+        }
+        else{
+            return Result.Failure.of("단체 정보가 존재하지 않습니다.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
         return Result.Success.of(rst);
