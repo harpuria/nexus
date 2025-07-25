@@ -12,9 +12,9 @@ import org.springframework.stereotype.Repository;
 @Log4j2
 @Repository
 public class GameRepository {
-    private DSLContext dslContext;
-    private JGame GAME = JGame.GAME;
-    private GameDao dao;
+    private final DSLContext dslContext;
+    private final JGame GAME = JGame.GAME;
+    private final GameDao dao;
 
     public GameRepository(Configuration configuration, DSLContext dslContext) {
         this.dslContext = dslContext;

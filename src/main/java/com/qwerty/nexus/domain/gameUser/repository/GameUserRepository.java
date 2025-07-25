@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.gameUser.repository;
 
+import com.qwerty.nexus.domain.gameUser.entity.GameUserEntity;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
@@ -25,10 +26,10 @@ public class GameUserRepository {
      * @param gameUser
      * @return
      */
-    public GameUserRecord createGameUser(GameUserRecord gameUser){
+    public GameUserEntity createGameUser(GameUserEntity gameUser){
         GameUserRecord record = dslContext.newRecord(GAME_USER, gameUser);
         record.store();
-        return record;
+        return gameUser;
     }
 
     /**

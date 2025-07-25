@@ -1,9 +1,11 @@
 package com.qwerty.nexus.domain.gameUser.controller;
 
+import com.qwerty.nexus.domain.gameUser.dto.request.GameUserCreateRequestDto;
 import com.qwerty.nexus.domain.gameUser.dto.request.GameUserRequestDTO;
 import com.qwerty.nexus.domain.gameUser.dto.response.GameUserResponseDTO;
 import com.qwerty.nexus.domain.gameUser.service.GameUserService;
 import com.qwerty.nexus.global.constant.ApiConstants;
+import com.qwerty.nexus.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -21,22 +23,23 @@ public class GameUserController {
     /**
      *
      * 개발할 API 정리
-     * 게임 생성	POST /api/v1/games
-     * 게임 정보 수정	PUT /api/v1/games/{gameId}
-     * 게임 삭제	DELETE /api/v1/games/{gameId}
-     * 게임 목록 조회 및 페이징	GET /api/v1/games
-     * 게임 상세 조회	GET /api/v1/games/{gameId}
-     *
+     * 게임 유저 생성	POST /api/v1/game-user
+     * 게임 유저 정보 수정	PATCH /api/v1/game-user/{gameUserId}
+     * 게임 유저 로그인 POST /api/v1/game-user/login/{gameUserId}
+     * 게임 유저 로그아웃 POST /api/v1/game-user/logout/{gameUserId}
+     * 게임 유저 정지 처리
+     * 게임 유저 탈퇴 처리
+     * 등등
      */
 
     /**
      * 게임 유저 생성
-     * @param gameUserRequestDTO
+     * @param gameUserCreateRequestDto
      * @return
      */
     @PostMapping
-    public ResponseEntity<GameUserResponseDTO> createGameUser(@RequestBody GameUserRequestDTO gameUserRequestDTO) {
-        GameUserResponseDTO gameUserResponseDTO = gameUserService.createGameUser(gameUserRequestDTO);
+    public ResponseEntity<ApiResponse<Void>> createGameUser(@RequestBody GameUserCreateRequestDto gameUserCreateRequestDto) {
+        GameUserResponseDTO gameUserResponseDTO = gameUserService.createGameUser(gameUserCreateRequestDto.toGameCommand());
         return ResponseEntity.ok(gameUserResponseDTO);
     }
 

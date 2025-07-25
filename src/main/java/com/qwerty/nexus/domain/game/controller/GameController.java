@@ -27,8 +27,8 @@ public class GameController {
 
     /**
      * 게임 정보 생성
-     * @param gameCreateRequestDto
-     * @return
+     * @param gameCreateRequestDto 생성할 게임 정보를 담은 객체 (DTO)
+     * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @PostMapping
     @Operation(summary = "게임 정보 생성")
@@ -47,8 +47,9 @@ public class GameController {
 
     /**
      * 게임 정보 수정
-     * @param gameUpdateRequestDto
-     * @return
+     * @param gameId 게임 아이디 (PK)
+     * @param gameUpdateRequestDto 수정할 게임 정보를 담은 객체 (DTO)
+     * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @PatchMapping("/{gameId}")
     @Operation(summary = "게임 정보 수정")
@@ -70,8 +71,8 @@ public class GameController {
 
     /**
      * 한 건의 게임 정보 가져오기
-     * @param gameId
-     * @return
+     * @param gameId 게임 아이디 (PK)
+     * @return 한 건의 게임 정보를 담은 객체 (DTO)
      */
     @GetMapping("/{gameId}")
     @Operation(summary = "한 건의 게임 정보 조회")

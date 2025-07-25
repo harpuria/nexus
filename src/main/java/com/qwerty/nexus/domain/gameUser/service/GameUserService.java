@@ -1,7 +1,10 @@
 package com.qwerty.nexus.domain.gameUser.service;
 
+import com.qwerty.nexus.domain.gameUser.command.GameUserCreateCommand;
+import com.qwerty.nexus.domain.gameUser.dto.request.GameUserCreateRequestDto;
 import com.qwerty.nexus.domain.gameUser.dto.request.GameUserRequestDTO;
 import com.qwerty.nexus.domain.gameUser.dto.response.GameUserResponseDTO;
+import com.qwerty.nexus.domain.gameUser.entity.GameUserEntity;
 import com.qwerty.nexus.domain.gameUser.repository.GameUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -18,16 +21,27 @@ public class GameUserService {
 
     /**
      * 게임 유저 생성
-     * @param gameUserRequestDTO
+     * @param gameUserCreateCommand
      * @return
      */
-    public GameUserResponseDTO createGameUser(GameUserRequestDTO gameUserRequestDTO) {
+    public GameUserResponseDTO createGameUser(GameUserCreateCommand gameUserCreateCommand) {
         GameUserResponseDTO rst = new GameUserResponseDTO();
 
-        Optional<GameUserRecord> insertRst = Optional.ofNullable(gameUserRepository.createGameUser(gameUserRequestDTO.toGameUserRecord()));
+        GameUserEntity gameUserEntity = GameUserEntity.builder()
+                .gameId(gameUserCreateCommand.getGameId())
+                .userLId(gameUserCreateCommand.getUserLId())
+                .userLPw(gameUserCreateCommand.getUserLPw())
+                .nickname(gameUserCreateCommand.getNickname())
+                .loginType(gameUserCreateCommand.getLoginType())
+                .device(gameUserCreateCommand.getDevice())
+                .createdBy(gameUserCreateCommand.getCreatedBy())
+                .updatedBy(gameUserCreateCommand.getCreatedBy())
+                .build();
+
+        Optional<GameUserEntity> insertRst = Optional.ofNullable(gameUserRepository.createGameUser(gameUserEntity));
 
         if(insertRst.isPresent()){
-            rst.convertPojoToDTO(insertRst.get());
+            //rst.convertPojoToDTO(insertRst.get());
             rst.setMessage("유저가 정상적으로 생성되었습니다.");
         }else{
             rst.setMessage("유저 생성 중 오류가 발생하였습니다. 넥서스 관리자에게 문의해주세요.");
