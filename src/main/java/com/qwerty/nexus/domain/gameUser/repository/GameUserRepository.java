@@ -37,7 +37,7 @@ public class GameUserRepository {
      * @param gameUser
      * @return
      */
-    public GameUserRecord updateGameUser(GameUserRecord gameUser){
+    public GameUserEntity updateGameUser(GameUserEntity gameUser){
         GameUserRecord record = dslContext.newRecord(GAME_USER, gameUser);
         record.changed(GAME_USER.USER_ID, gameUser.getUserId() != null);
         record.changed(GAME_USER.GAME_ID, gameUser.getUserId() != null);
@@ -56,6 +56,6 @@ public class GameUserRepository {
         record.changed(GAME_USER.UPDATED_BY,  gameUser.getUpdatedBy() != null);
         record.changed(GAME_USER.IS_DEL,  gameUser.getIsDel() != null);
         record.update();
-        return record;
+        return gameUser;
     }
 }

@@ -1,6 +1,7 @@
 package com.qwerty.nexus.domain.gameUser.service;
 
 import com.qwerty.nexus.domain.gameUser.command.GameUserCreateCommand;
+import com.qwerty.nexus.domain.gameUser.command.GameUserUpdateCommand;
 import com.qwerty.nexus.domain.gameUser.dto.request.GameUserCreateRequestDto;
 import com.qwerty.nexus.domain.gameUser.dto.request.GameUserRequestDTO;
 import com.qwerty.nexus.domain.gameUser.dto.response.GameUserResponseDTO;
@@ -41,7 +42,7 @@ public class GameUserService {
         Optional<GameUserEntity> insertRst = Optional.ofNullable(gameUserRepository.createGameUser(gameUserEntity));
 
         if(insertRst.isPresent()){
-            //rst.convertPojoToDTO(insertRst.get());
+            rst.convertEntityToDTO(insertRst.get());
             rst.setMessage("유저가 정상적으로 생성되었습니다.");
         }else{
             rst.setMessage("유저 생성 중 오류가 발생하였습니다. 넥서스 관리자에게 문의해주세요.");
@@ -52,17 +53,38 @@ public class GameUserService {
 
     /**
      * 게임 유저 수정
-     * @param gameUserRequestDTO
+     * @param gameUserUpdateCommand
      * @return
      */
-    public GameUserResponseDTO updateGameUser(GameUserRequestDTO gameUserRequestDTO) {
+    public GameUserResponseDTO updateGameUser(GameUserUpdateCommand gameUserUpdateCommand) {
         GameUserResponseDTO rst = new GameUserResponseDTO();
 
-        Optional<GameUserRecord> updateRst = Optional.ofNullable(gameUserRepository.updateGameUser(gameUserRequestDTO.toGameUserRecord()));
+        /**
+         *     private Integer gameId;
+         *     private String userLId;
+         *     private String userLPw;
+         *     private String nickname;
+         *     private String loginType;
+         *     private String device;
+         *     private OffsetDateTime blockStartDate;
+         *     private OffsetDateTime blockEndDate;
+         *     private String blockReason;
+         *     private String isWithdrawal;
+         *     private OffsetDateTime withdrawalDate;
+         *     private String withdrawalReason;
+         *     private String updatedBy;
+         *     private String isDel;
+         */
+
+        GameUserEntity gameUserEntity = GameUserEntity.builder()
+                .gameId(gameUserUpdateCommand.getGameId())
+                .build();
+
+        Optional<GameUserEntity> updateRst = Optional.ofNullable(gameUserRepository.updateGameUser(gameUserEntity));
 
         if(updateRst.isPresent()){
+            rst.convertEntityToDTO(updateRst.get());
             rst.setMessage("유저 정보가 정상적으로 수정되었습니다.");
-            rst.convertPojoToDTO(updateRst.get());
         }else{
             rst.setMessage("유저 정보 수정 중 오류가 발생하였습니다. 넥서스 관리자에게 문의해주세요.");
         }

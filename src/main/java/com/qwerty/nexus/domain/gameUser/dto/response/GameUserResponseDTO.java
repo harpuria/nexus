@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.gameUser.dto.response;
 
+import com.qwerty.nexus.domain.gameUser.entity.GameUserEntity;
 import com.qwerty.nexus.global.dto.BaseResponseDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -24,7 +25,7 @@ public class GameUserResponseDTO extends BaseResponseDTO {
     private OffsetDateTime withdrawalDate;
     private String withdrawalReason;
 
-    public GameUserResponseDTO convertPojoToDTO(GameUserRecord gameUser){
+    public GameUserResponseDTO convertEntityToDTO(GameUserEntity gameUser){
         this.setUserId(gameUser.getUserId());
         this.setGameId(gameUser.getGameId());
         this.setUserLId(gameUser.getUserLId());
