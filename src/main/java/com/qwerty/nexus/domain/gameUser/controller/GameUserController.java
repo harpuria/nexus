@@ -23,8 +23,6 @@ public class GameUserController {
     /**
      *
      * 개발할 API 정리
-     * 게임 유저 생성	POST /api/v1/game-user
-     * 게임 유저 정보 수정	PATCH /api/v1/game-user/{gameUserId}
      * 게임 유저 로그인 POST /api/v1/game-user/login/{gameUserId}
      * 게임 유저 로그아웃 POST /api/v1/game-user/logout/{gameUserId}
      * 게임 유저 정지 처리
@@ -48,9 +46,34 @@ public class GameUserController {
      * @param gameUserRequestDTO
      * @return
      */
-    @PatchMapping
-    public ResponseEntity<GameUserResponseDTO> updateGameUser(@RequestBody GameUserRequestDTO gameUserRequestDTO) {
+    @PatchMapping("/{gameUserId}")
+    public ResponseEntity<ApiResponse<Void>> updateGameUser(@PathVariable("gameUserId") int gameUserId, @RequestBody GameUserRequestDTO gameUserRequestDTO) {
+        gameUserRequestDTO.setUserId(gameUserId);
+
         GameUserResponseDTO gameUserResponseDTO = gameUserService.updateGameUser(gameUserRequestDTO);
         return ResponseEntity.ok(gameUserResponseDTO);
     }
+
+    /**
+     *
+     * @param gameUserId
+     * @return
+     */
+    @PostMapping("/login/{gameUserId}")
+    public ResponseEntity<ApiResponse<Void>> gameLogin(@PathVariable("gameUserId") int gameUserId){
+        // jwt (or session) 등록 처리
+        return null;
+    }
+
+    /**
+     *
+     * @param gameUserId
+     * @return
+     */
+    @PostMapping("/logout/{gameUserId}")
+    public ResponseEntity<ApiResponse<Void>> gameLogout(@PathVariable("gameUserId") int gameUserId){
+        // jwt (or session) 초기화 처리
+        return null;
+    }
+
 }
