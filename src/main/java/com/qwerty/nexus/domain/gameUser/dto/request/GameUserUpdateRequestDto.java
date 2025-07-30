@@ -12,6 +12,7 @@ import java.time.OffsetDateTime;
 @Setter
 @NoArgsConstructor
 public class GameUserUpdateRequestDto {
+    private Integer userId;
     private Integer gameId;
     private String userLId;
     private String userLPw;
@@ -30,6 +31,7 @@ public class GameUserUpdateRequestDto {
     // Service 전달 파라미터로 쓸 Command 객체 변환
     public GameUserUpdateCommand toGameCommand(){
         return GameUserUpdateCommand.builder()
+                .userId(this.userId)
                 .gameId(this.gameId)
                 .userLId(this.userLId)
                 .userLPw(this.userLPw)

@@ -91,7 +91,7 @@ public class GameService {
 
         Optional<GameEntity> selectRst = Optional.ofNullable(gameRepository.selectOneGame(id));
         if(selectRst.isPresent()){
-            rst = rst.convertEntityToDTO(selectRst.get());
+            rst.convertEntityToDTO(selectRst.get());
             rst.setMessage("게임 정보가 정상적으로 조회되었습니다.");
         }
         else{

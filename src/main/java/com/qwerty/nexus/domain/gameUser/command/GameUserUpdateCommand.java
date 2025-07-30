@@ -8,6 +8,7 @@ import java.time.OffsetDateTime;
 @Getter
 @Builder
 public class GameUserUpdateCommand {
+    private Integer userId;
     private Integer gameId;
     private String userLId;
     private String userLPw;

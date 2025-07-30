@@ -160,7 +160,7 @@ public class AdminService {
 
         Optional<AdminEntity> selectRst = Optional.ofNullable(adminRepository.selectOneAdmin(admin));
         if(selectRst.isPresent()) {
-            rst = rst.convertEntityToDTO(selectRst.get());
+            st.convertEntityToDTO(selectRst.get());
             rst.setMessage("관리자 회원 정보가 정상적으로 검색되었습니다.");
         }else{
             return Result.Failure.of("관리자 회원 정보가 존재하지 않습니다.",  ErrorCode.INTERNAL_ERROR.getCode());

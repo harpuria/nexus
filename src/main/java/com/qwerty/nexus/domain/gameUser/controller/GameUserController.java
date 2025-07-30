@@ -2,6 +2,7 @@ package com.qwerty.nexus.domain.gameUser.controller;
 
 import com.qwerty.nexus.domain.gameUser.dto.request.GameUserCreateRequestDto;
 import com.qwerty.nexus.domain.gameUser.dto.request.GameUserRequestDTO;
+import com.qwerty.nexus.domain.gameUser.dto.request.GameUserUpdateRequestDto;
 import com.qwerty.nexus.domain.gameUser.dto.response.GameUserResponseDTO;
 import com.qwerty.nexus.domain.gameUser.service.GameUserService;
 import com.qwerty.nexus.global.constant.ApiConstants;
@@ -23,8 +24,6 @@ public class GameUserController {
     /**
      *
      * 개발할 API 정리
-     * 게임 유저 로그인 POST /api/v1/game-user/login/{gameUserId}
-     * 게임 유저 로그아웃 POST /api/v1/game-user/logout/{gameUserId}
      * 게임 유저 정지 처리
      * 게임 유저 탈퇴 처리
      * 등등
@@ -32,7 +31,7 @@ public class GameUserController {
 
     /**
      * 게임 유저 생성
-     * @param gameUserCreateRequestDto
+     * @param gameUserCreateRequestDto 생성할 게임 유저 정보를 담은 객체 (DTO)
      * @return
      */
     @PostMapping
@@ -43,14 +42,14 @@ public class GameUserController {
 
     /**
      * 게임 유저 수정
-     * @param gameUserRequestDTO
+     * @param gameUserUpdateRequestDto 수정할 게임 유저 정보를 담은 객체 (DTO)
      * @return
      */
     @PatchMapping("/{gameUserId}")
-    public ResponseEntity<ApiResponse<Void>> updateGameUser(@PathVariable("gameUserId") int gameUserId, @RequestBody GameUserRequestDTO gameUserRequestDTO) {
-        gameUserRequestDTO.setUserId(gameUserId);
+    public ResponseEntity<ApiResponse<Void>> updateGameUser(@PathVariable("gameUserId") int gameUserId, @RequestBody GameUserUpdateRequestDto gameUserUpdateRequestDto) {
+        gameUserUpdateRequestDto.setUserId(gameUserId);
 
-        GameUserResponseDTO gameUserResponseDTO = gameUserService.updateGameUser(gameUserRequestDTO);
+        GameUserResponseDTO gameUserResponseDTO = gameUserService.updateGameUser(gameUserUpdateRequestDto.toGameCommand());
         return ResponseEntity.ok(gameUserResponseDTO);
     }
 

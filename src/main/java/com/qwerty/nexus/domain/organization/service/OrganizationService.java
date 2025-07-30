@@ -60,7 +60,7 @@ public class OrganizationService {
 
         Optional<OrganizationEntity> selectRst = Optional.ofNullable(organizationRepository.selectOneOrganization(orgId));
         if(selectRst.isPresent()){
-            rst = rst.convertEntityToDTO(selectRst.get());
+            rst.convertEntityToDTO(selectRst.get());
             rst.setMessage("단체 정보가 정상적으로 검색되었습니다.");
         }
         else{
