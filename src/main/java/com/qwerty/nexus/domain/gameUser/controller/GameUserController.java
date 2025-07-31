@@ -7,9 +7,12 @@ import com.qwerty.nexus.domain.gameUser.dto.response.GameUserResponseDTO;
 import com.qwerty.nexus.domain.gameUser.service.GameUserService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
+import com.qwerty.nexus.global.response.Result;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,8 +39,16 @@ public class GameUserController {
      */
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> createGameUser(@RequestBody GameUserCreateRequestDto gameUserCreateRequestDto) {
-        GameUserResponseDTO gameUserResponseDTO = gameUserService.createGameUser(gameUserCreateRequestDto.toGameCommand());
-        return ResponseEntity.ok(gameUserResponseDTO);
+        Result<GameUserResponseDTO> result = gameUserService.createGameUser(gameUserCreateRequestDto.toGameCommand());
+
+        return switch(result){
+          case Result.Success<GameUserResponseDTO> success ->
+                  ResponseEntity.status(HttpStatus.CREATED)
+                          .body(ApiResponse.success(success.data().getMessage()));
+          case Result.Failure<GameUserResponseDTO> failure ->
+              ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                      .body(ApiResponse.error(failure.message()));
+        };
     }
 
     /**
@@ -49,8 +60,16 @@ public class GameUserController {
     public ResponseEntity<ApiResponse<Void>> updateGameUser(@PathVariable("gameUserId") int gameUserId, @RequestBody GameUserUpdateRequestDto gameUserUpdateRequestDto) {
         gameUserUpdateRequestDto.setUserId(gameUserId);
 
-        GameUserResponseDTO gameUserResponseDTO = gameUserService.updateGameUser(gameUserUpdateRequestDto.toGameCommand());
-        return ResponseEntity.ok(gameUserResponseDTO);
+        Result<GameUserResponseDTO> result = gameUserService.updateGameUser(gameUserUpdateRequestDto.toGameCommand());
+
+        return switch(result){
+            case Result.Success<GameUserResponseDTO> success ->
+                    ResponseEntity.status(HttpStatus.OK)
+                            .body(ApiResponse.success(success.data().getMessage()));
+            case Result.Failure<GameUserResponseDTO> failure ->
+                    ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                            .body(ApiResponse.error(failure.message()));
+        };
     }
 
     /**
