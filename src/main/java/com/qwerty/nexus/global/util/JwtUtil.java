@@ -13,6 +13,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * JWT 관련 유틸리티 클래스
+ */
+
 @Component
 @Log4j2
 public class JwtUtil {
