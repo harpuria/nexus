@@ -131,6 +131,36 @@ public class GameDao extends DAOImpl<GameRecord, Game, Integer> {
     }
 
     /**
+     * Fetch records that have <code>GOOGLE_CLIENT_ID BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<Game> fetchRangeOfJGoogleClientId(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JGame.GAME.GOOGLE_CLIENT_ID, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>GOOGLE_CLIENT_ID IN (values)</code>
+     */
+    public List<Game> fetchByJGoogleClientId(String... values) {
+        return fetch(JGame.GAME.GOOGLE_CLIENT_ID, values);
+    }
+
+    /**
+     * Fetch records that have <code>GOOGLE_CLIENT_SECRET BETWEEN lowerInclusive
+     * AND upperInclusive</code>
+     */
+    public List<Game> fetchRangeOfJGoogleClientSecret(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JGame.GAME.GOOGLE_CLIENT_SECRET, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>GOOGLE_CLIENT_SECRET IN (values)</code>
+     */
+    public List<Game> fetchByJGoogleClientSecret(String... values) {
+        return fetch(JGame.GAME.GOOGLE_CLIENT_SECRET, values);
+    }
+
+    /**
      * Fetch records that have <code>STATUS BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */

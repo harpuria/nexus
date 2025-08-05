@@ -37,7 +37,36 @@ public class UserColumnDataDao extends DAOImpl<UserColumnDataRecord, UserColumnD
 
     @Override
     public Integer getId(UserColumnData object) {
-        return object.getUserId();
+        return object.getUserColumnId();
+    }
+
+    /**
+     * Fetch records that have <code>USER_COLUMN_ID BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<UserColumnData> fetchRangeOfJUserColumnId(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(JUserColumnData.USER_COLUMN_DATA.USER_COLUMN_ID, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>USER_COLUMN_ID IN (values)</code>
+     */
+    public List<UserColumnData> fetchByJUserColumnId(Integer... values) {
+        return fetch(JUserColumnData.USER_COLUMN_DATA.USER_COLUMN_ID, values);
+    }
+
+    /**
+     * Fetch a unique record that has <code>USER_COLUMN_ID = value</code>
+     */
+    public UserColumnData fetchOneByJUserColumnId(Integer value) {
+        return fetchOne(JUserColumnData.USER_COLUMN_DATA.USER_COLUMN_ID, value);
+    }
+
+    /**
+     * Fetch a unique record that has <code>USER_COLUMN_ID = value</code>
+     */
+    public Optional<UserColumnData> fetchOptionalByJUserColumnId(Integer value) {
+        return fetchOptional(JUserColumnData.USER_COLUMN_DATA.USER_COLUMN_ID, value);
     }
 
     /**
@@ -56,17 +85,18 @@ public class UserColumnDataDao extends DAOImpl<UserColumnDataRecord, UserColumnD
     }
 
     /**
-     * Fetch a unique record that has <code>USER_ID = value</code>
+     * Fetch records that have <code>TABLE_ID BETWEEN lowerInclusive AND
+     * upperInclusive</code>
      */
-    public UserColumnData fetchOneByJUserId(Integer value) {
-        return fetchOne(JUserColumnData.USER_COLUMN_DATA.USER_ID, value);
+    public List<UserColumnData> fetchRangeOfJTableId(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(JUserColumnData.USER_COLUMN_DATA.TABLE_ID, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch a unique record that has <code>USER_ID = value</code>
+     * Fetch records that have <code>TABLE_ID IN (values)</code>
      */
-    public Optional<UserColumnData> fetchOptionalByJUserId(Integer value) {
-        return fetchOptional(JUserColumnData.USER_COLUMN_DATA.USER_ID, value);
+    public List<UserColumnData> fetchByJTableId(Integer... values) {
+        return fetch(JUserColumnData.USER_COLUMN_DATA.TABLE_ID, values);
     }
 
     /**
@@ -85,18 +115,63 @@ public class UserColumnDataDao extends DAOImpl<UserColumnDataRecord, UserColumnD
     }
 
     /**
-     * Fetch records that have <code>VALUE BETWEEN lowerInclusive AND
+     * Fetch records that have <code>RECORD_ID BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<UserColumnData> fetchRangeOfJValue(String lowerInclusive, String upperInclusive) {
-        return fetchRange(JUserColumnData.USER_COLUMN_DATA.VALUE, lowerInclusive, upperInclusive);
+    public List<UserColumnData> fetchRangeOfJRecordId(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(JUserColumnData.USER_COLUMN_DATA.RECORD_ID, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>VALUE IN (values)</code>
+     * Fetch records that have <code>RECORD_ID IN (values)</code>
      */
-    public List<UserColumnData> fetchByJValue(String... values) {
-        return fetch(JUserColumnData.USER_COLUMN_DATA.VALUE, values);
+    public List<UserColumnData> fetchByJRecordId(Integer... values) {
+        return fetch(JUserColumnData.USER_COLUMN_DATA.RECORD_ID, values);
+    }
+
+    /**
+     * Fetch records that have <code>VALUE_STRING BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<UserColumnData> fetchRangeOfJValueString(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JUserColumnData.USER_COLUMN_DATA.VALUE_STRING, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>VALUE_STRING IN (values)</code>
+     */
+    public List<UserColumnData> fetchByJValueString(String... values) {
+        return fetch(JUserColumnData.USER_COLUMN_DATA.VALUE_STRING, values);
+    }
+
+    /**
+     * Fetch records that have <code>VALUE_NUMBER BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<UserColumnData> fetchRangeOfJValueNumber(Long lowerInclusive, Long upperInclusive) {
+        return fetchRange(JUserColumnData.USER_COLUMN_DATA.VALUE_NUMBER, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>VALUE_NUMBER IN (values)</code>
+     */
+    public List<UserColumnData> fetchByJValueNumber(Long... values) {
+        return fetch(JUserColumnData.USER_COLUMN_DATA.VALUE_NUMBER, values);
+    }
+
+    /**
+     * Fetch records that have <code>VALUE_DATE BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<UserColumnData> fetchRangeOfJValueDate(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
+        return fetchRange(JUserColumnData.USER_COLUMN_DATA.VALUE_DATE, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>VALUE_DATE IN (values)</code>
+     */
+    public List<UserColumnData> fetchByJValueDate(OffsetDateTime... values) {
+        return fetch(JUserColumnData.USER_COLUMN_DATA.VALUE_DATE, values);
     }
 
     /**

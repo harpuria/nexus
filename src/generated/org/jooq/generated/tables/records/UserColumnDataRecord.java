@@ -21,55 +21,140 @@ public class UserColumnDataRecord extends UpdatableRecordImpl<UserColumnDataReco
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>nexus.USER_COLUMN_DATA.USER_ID</code>.
+     * Setter for <code>nexus.USER_COLUMN_DATA.USER_COLUMN_ID</code>.
+     * USER_COLUNM_DATA 테이블 기본키 (PK)
      */
-    public UserColumnDataRecord setUserId(Integer value) {
+    public UserColumnDataRecord setUserColumnId(Integer value) {
         set(0, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.USER_COLUMN_DATA.USER_ID</code>.
+     * Getter for <code>nexus.USER_COLUMN_DATA.USER_COLUMN_ID</code>.
+     * USER_COLUNM_DATA 테이블 기본키 (PK)
      */
-    public Integer getUserId() {
+    public Integer getUserColumnId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>nexus.USER_COLUMN_DATA.COLUMN_ID</code>.
+     * Setter for <code>nexus.USER_COLUMN_DATA.USER_ID</code>. GAME_USER 기본키
+     * (PK)
      */
-    public UserColumnDataRecord setColumnId(Integer value) {
+    public UserColumnDataRecord setUserId(Integer value) {
         set(1, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.USER_COLUMN_DATA.COLUMN_ID</code>.
+     * Getter for <code>nexus.USER_COLUMN_DATA.USER_ID</code>. GAME_USER 기본키
+     * (PK)
      */
-    public Integer getColumnId() {
+    public Integer getUserId() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>nexus.USER_COLUMN_DATA.VALUE</code>.
+     * Setter for <code>nexus.USER_COLUMN_DATA.TABLE_ID</code>. GAME_TABLE 기본키
+     * (PK)
      */
-    public UserColumnDataRecord setValue(String value) {
+    public UserColumnDataRecord setTableId(Integer value) {
         set(2, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.USER_COLUMN_DATA.VALUE</code>.
+     * Getter for <code>nexus.USER_COLUMN_DATA.TABLE_ID</code>. GAME_TABLE 기본키
+     * (PK)
      */
-    public String getValue() {
-        return (String) get(2);
+    public Integer getTableId() {
+        return (Integer) get(2);
+    }
+
+    /**
+     * Setter for <code>nexus.USER_COLUMN_DATA.COLUMN_ID</code>. TABLE_COLUMN
+     * 기본키 (PK)
+     */
+    public UserColumnDataRecord setColumnId(Integer value) {
+        set(3, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.USER_COLUMN_DATA.COLUMN_ID</code>. TABLE_COLUMN
+     * 기본키 (PK)
+     */
+    public Integer getColumnId() {
+        return (Integer) get(3);
+    }
+
+    /**
+     * Setter for <code>nexus.USER_COLUMN_DATA.RECORD_ID</code>. 해당 테이블에 여러 행을
+     * 넣기 위한 구분자
+     */
+    public UserColumnDataRecord setRecordId(Integer value) {
+        set(4, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.USER_COLUMN_DATA.RECORD_ID</code>. 해당 테이블에 여러 행을
+     * 넣기 위한 구분자
+     */
+    public Integer getRecordId() {
+        return (Integer) get(4);
+    }
+
+    /**
+     * Setter for <code>nexus.USER_COLUMN_DATA.VALUE_STRING</code>. STRING 타입 값
+     */
+    public UserColumnDataRecord setValueString(String value) {
+        set(5, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.USER_COLUMN_DATA.VALUE_STRING</code>. STRING 타입 값
+     */
+    public String getValueString() {
+        return (String) get(5);
+    }
+
+    /**
+     * Setter for <code>nexus.USER_COLUMN_DATA.VALUE_NUMBER</code>. NUMBER 타입 값
+     */
+    public UserColumnDataRecord setValueNumber(Long value) {
+        set(6, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.USER_COLUMN_DATA.VALUE_NUMBER</code>. NUMBER 타입 값
+     */
+    public Long getValueNumber() {
+        return (Long) get(6);
+    }
+
+    /**
+     * Setter for <code>nexus.USER_COLUMN_DATA.VALUE_DATE</code>. DATE 타입 값
+     */
+    public UserColumnDataRecord setValueDate(OffsetDateTime value) {
+        set(7, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.USER_COLUMN_DATA.VALUE_DATE</code>. DATE 타입 값
+     */
+    public OffsetDateTime getValueDate() {
+        return (OffsetDateTime) get(7);
     }
 
     /**
      * Setter for <code>nexus.USER_COLUMN_DATA.CREATED_AT</code>. 데이터 생성 날짜
      */
     public UserColumnDataRecord setCreatedAt(OffsetDateTime value) {
-        set(3, value);
+        set(8, value);
         return this;
     }
 
@@ -77,14 +162,14 @@ public class UserColumnDataRecord extends UpdatableRecordImpl<UserColumnDataReco
      * Getter for <code>nexus.USER_COLUMN_DATA.CREATED_AT</code>. 데이터 생성 날짜
      */
     public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(3);
+        return (OffsetDateTime) get(8);
     }
 
     /**
      * Setter for <code>nexus.USER_COLUMN_DATA.CREATED_BY</code>. 데이터 생성자 ID
      */
     public UserColumnDataRecord setCreatedBy(String value) {
-        set(4, value);
+        set(9, value);
         return this;
     }
 
@@ -92,14 +177,14 @@ public class UserColumnDataRecord extends UpdatableRecordImpl<UserColumnDataReco
      * Getter for <code>nexus.USER_COLUMN_DATA.CREATED_BY</code>. 데이터 생성자 ID
      */
     public String getCreatedBy() {
-        return (String) get(4);
+        return (String) get(9);
     }
 
     /**
      * Setter for <code>nexus.USER_COLUMN_DATA.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public UserColumnDataRecord setUpdatedAt(OffsetDateTime value) {
-        set(5, value);
+        set(10, value);
         return this;
     }
 
@@ -107,14 +192,14 @@ public class UserColumnDataRecord extends UpdatableRecordImpl<UserColumnDataReco
      * Getter for <code>nexus.USER_COLUMN_DATA.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(5);
+        return (OffsetDateTime) get(10);
     }
 
     /**
      * Setter for <code>nexus.USER_COLUMN_DATA.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public UserColumnDataRecord setUpdatedBy(String value) {
-        set(6, value);
+        set(11, value);
         return this;
     }
 
@@ -122,14 +207,14 @@ public class UserColumnDataRecord extends UpdatableRecordImpl<UserColumnDataReco
      * Getter for <code>nexus.USER_COLUMN_DATA.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public String getUpdatedBy() {
-        return (String) get(6);
+        return (String) get(11);
     }
 
     /**
      * Setter for <code>nexus.USER_COLUMN_DATA.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public UserColumnDataRecord setIsDel(String value) {
-        set(7, value);
+        set(12, value);
         return this;
     }
 
@@ -137,7 +222,7 @@ public class UserColumnDataRecord extends UpdatableRecordImpl<UserColumnDataReco
      * Getter for <code>nexus.USER_COLUMN_DATA.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public String getIsDel() {
-        return (String) get(7);
+        return (String) get(12);
     }
 
     // -------------------------------------------------------------------------
@@ -163,12 +248,17 @@ public class UserColumnDataRecord extends UpdatableRecordImpl<UserColumnDataReco
     /**
      * Create a detached, initialised UserColumnDataRecord
      */
-    public UserColumnDataRecord(Integer userId, Integer columnId, String value, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public UserColumnDataRecord(Integer userColumnId, Integer userId, Integer tableId, Integer columnId, Integer recordId, String valueString, Long valueNumber, OffsetDateTime valueDate, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JUserColumnData.USER_COLUMN_DATA);
 
+        setUserColumnId(userColumnId);
         setUserId(userId);
+        setTableId(tableId);
         setColumnId(columnId);
-        setValue(value);
+        setRecordId(recordId);
+        setValueString(valueString);
+        setValueNumber(valueNumber);
+        setValueDate(valueDate);
         setCreatedAt(createdAt);
         setCreatedBy(createdBy);
         setUpdatedAt(updatedAt);
@@ -184,9 +274,14 @@ public class UserColumnDataRecord extends UpdatableRecordImpl<UserColumnDataReco
         super(JUserColumnData.USER_COLUMN_DATA);
 
         if (value != null) {
+            setUserColumnId(value.getUserColumnId());
             setUserId(value.getUserId());
+            setTableId(value.getTableId());
             setColumnId(value.getColumnId());
-            setValue(value.getValue());
+            setRecordId(value.getRecordId());
+            setValueString(value.getValueString());
+            setValueNumber(value.getValueNumber());
+            setValueDate(value.getValueDate());
             setCreatedAt(value.getCreatedAt());
             setCreatedBy(value.getCreatedBy());
             setUpdatedAt(value.getUpdatedAt());

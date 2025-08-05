@@ -33,7 +33,7 @@ public class GameUserController {
      */
 
     /**
-     * 게임 유저 생성
+     * 게임 유저 생성 (소셜 로그인 고려 X)
      * @param gameUserCreateRequestDto 생성할 게임 유저 정보를 담은 객체 (DTO)
      * @return
      */
@@ -73,7 +73,7 @@ public class GameUserController {
     }
 
     /**
-     *
+     * 유저 로그인 (소셜 로그인 O)
      * @param gameUserId
      * @return
      */

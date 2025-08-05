@@ -21,7 +21,8 @@ public class TableColumnRecord extends UpdatableRecordImpl<TableColumnRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>nexus.TABLE_COLUMN.COLUMN_ID</code>.
+     * Setter for <code>nexus.TABLE_COLUMN.COLUMN_ID</code>. TABLE_COLUMN 테이블
+     * 기본키 (PK)
      */
     public TableColumnRecord setColumnId(Integer value) {
         set(0, value);
@@ -29,14 +30,15 @@ public class TableColumnRecord extends UpdatableRecordImpl<TableColumnRecord> {
     }
 
     /**
-     * Getter for <code>nexus.TABLE_COLUMN.COLUMN_ID</code>.
+     * Getter for <code>nexus.TABLE_COLUMN.COLUMN_ID</code>. TABLE_COLUMN 테이블
+     * 기본키 (PK)
      */
     public Integer getColumnId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>nexus.TABLE_COLUMN.TABLE_ID</code>.
+     * Setter for <code>nexus.TABLE_COLUMN.TABLE_ID</code>. GAME_TABLE 기본키 (PK)
      */
     public TableColumnRecord setTableId(Integer value) {
         set(1, value);
@@ -44,14 +46,14 @@ public class TableColumnRecord extends UpdatableRecordImpl<TableColumnRecord> {
     }
 
     /**
-     * Getter for <code>nexus.TABLE_COLUMN.TABLE_ID</code>.
+     * Getter for <code>nexus.TABLE_COLUMN.TABLE_ID</code>. GAME_TABLE 기본키 (PK)
      */
     public Integer getTableId() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>nexus.TABLE_COLUMN.COLUMN_NAME</code>.
+     * Setter for <code>nexus.TABLE_COLUMN.COLUMN_NAME</code>. 컬럼 이름
      */
     public TableColumnRecord setColumnName(String value) {
         set(2, value);
@@ -59,14 +61,14 @@ public class TableColumnRecord extends UpdatableRecordImpl<TableColumnRecord> {
     }
 
     /**
-     * Getter for <code>nexus.TABLE_COLUMN.COLUMN_NAME</code>.
+     * Getter for <code>nexus.TABLE_COLUMN.COLUMN_NAME</code>. 컬럼 이름
      */
     public String getColumnName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>nexus.TABLE_COLUMN.COLUMN_DESC</code>.
+     * Setter for <code>nexus.TABLE_COLUMN.COLUMN_DESC</code>. 컬럼 설명
      */
     public TableColumnRecord setColumnDesc(String value) {
         set(3, value);
@@ -74,14 +76,14 @@ public class TableColumnRecord extends UpdatableRecordImpl<TableColumnRecord> {
     }
 
     /**
-     * Getter for <code>nexus.TABLE_COLUMN.COLUMN_DESC</code>.
+     * Getter for <code>nexus.TABLE_COLUMN.COLUMN_DESC</code>. 컬럼 설명
      */
     public String getColumnDesc() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>nexus.TABLE_COLUMN.COLUMN_TYPE</code>.
+     * Setter for <code>nexus.TABLE_COLUMN.COLUMN_TYPE</code>. 컬럼 타입
      */
     public TableColumnRecord setColumnType(String value) {
         set(4, value);
@@ -89,14 +91,14 @@ public class TableColumnRecord extends UpdatableRecordImpl<TableColumnRecord> {
     }
 
     /**
-     * Getter for <code>nexus.TABLE_COLUMN.COLUMN_TYPE</code>.
+     * Getter for <code>nexus.TABLE_COLUMN.COLUMN_TYPE</code>. 컬럼 타입
      */
     public String getColumnType() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>nexus.TABLE_COLUMN.DEFAULT_VALUE</code>.
+     * Setter for <code>nexus.TABLE_COLUMN.DEFAULT_VALUE</code>. 컬럼 기본값
      */
     public TableColumnRecord setDefaultValue(String value) {
         set(5, value);
@@ -104,7 +106,7 @@ public class TableColumnRecord extends UpdatableRecordImpl<TableColumnRecord> {
     }
 
     /**
-     * Getter for <code>nexus.TABLE_COLUMN.DEFAULT_VALUE</code>.
+     * Getter for <code>nexus.TABLE_COLUMN.DEFAULT_VALUE</code>. 컬럼 기본값
      */
     public String getDefaultValue() {
         return (String) get(5);

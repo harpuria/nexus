@@ -58,19 +58,49 @@ public class JUserColumnData extends TableImpl<UserColumnDataRecord> {
     }
 
     /**
-     * The column <code>nexus.USER_COLUMN_DATA.USER_ID</code>.
+     * The column <code>nexus.USER_COLUMN_DATA.USER_COLUMN_ID</code>.
+     * USER_COLUNM_DATA 테이블 기본키 (PK)
      */
-    public final TableField<UserColumnDataRecord, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"USER_COLUMN_DATA_USER_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "");
+    public final TableField<UserColumnDataRecord, Integer> USER_COLUMN_ID = createField(DSL.name("USER_COLUMN_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"USER_COLUMN_DATA_USER_COLUMN_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "USER_COLUNM_DATA 테이블 기본키 (PK)");
 
     /**
-     * The column <code>nexus.USER_COLUMN_DATA.COLUMN_ID</code>.
+     * The column <code>nexus.USER_COLUMN_DATA.USER_ID</code>. GAME_USER 기본키
+     * (PK)
      */
-    public final TableField<UserColumnDataRecord, Integer> COLUMN_ID = createField(DSL.name("COLUMN_ID"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<UserColumnDataRecord, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER.nullable(false), this, "GAME_USER 기본키 (PK)");
 
     /**
-     * The column <code>nexus.USER_COLUMN_DATA.VALUE</code>.
+     * The column <code>nexus.USER_COLUMN_DATA.TABLE_ID</code>. GAME_TABLE 기본키
+     * (PK)
      */
-    public final TableField<UserColumnDataRecord, String> VALUE = createField(DSL.name("VALUE"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<UserColumnDataRecord, Integer> TABLE_ID = createField(DSL.name("TABLE_ID"), SQLDataType.INTEGER.nullable(false), this, "GAME_TABLE 기본키 (PK)");
+
+    /**
+     * The column <code>nexus.USER_COLUMN_DATA.COLUMN_ID</code>. TABLE_COLUMN
+     * 기본키 (PK)
+     */
+    public final TableField<UserColumnDataRecord, Integer> COLUMN_ID = createField(DSL.name("COLUMN_ID"), SQLDataType.INTEGER.nullable(false), this, "TABLE_COLUMN 기본키 (PK)");
+
+    /**
+     * The column <code>nexus.USER_COLUMN_DATA.RECORD_ID</code>. 해당 테이블에 여러 행을
+     * 넣기 위한 구분자
+     */
+    public final TableField<UserColumnDataRecord, Integer> RECORD_ID = createField(DSL.name("RECORD_ID"), SQLDataType.INTEGER.nullable(false), this, "해당 테이블에 여러 행을 넣기 위한 구분자");
+
+    /**
+     * The column <code>nexus.USER_COLUMN_DATA.VALUE_STRING</code>. STRING 타입 값
+     */
+    public final TableField<UserColumnDataRecord, String> VALUE_STRING = createField(DSL.name("VALUE_STRING"), SQLDataType.VARCHAR(255).nullable(false), this, "STRING 타입 값");
+
+    /**
+     * The column <code>nexus.USER_COLUMN_DATA.VALUE_NUMBER</code>. NUMBER 타입 값
+     */
+    public final TableField<UserColumnDataRecord, Long> VALUE_NUMBER = createField(DSL.name("VALUE_NUMBER"), SQLDataType.BIGINT.nullable(false), this, "NUMBER 타입 값");
+
+    /**
+     * The column <code>nexus.USER_COLUMN_DATA.VALUE_DATE</code>. DATE 타입 값
+     */
+    public final TableField<UserColumnDataRecord, OffsetDateTime> VALUE_DATE = createField(DSL.name("VALUE_DATE"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "DATE 타입 값");
 
     /**
      * The column <code>nexus.USER_COLUMN_DATA.CREATED_AT</code>. 데이터 생성 날짜

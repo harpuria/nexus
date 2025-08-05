@@ -89,6 +89,17 @@ public class JGame extends TableImpl<GameRecord> {
     public final TableField<GameRecord, UUID> SIGNATURE_KEY = createField(DSL.name("SIGNATURE_KEY"), SQLDataType.UUID.nullable(false), this, "서명 키 (절대 노출 금지)");
 
     /**
+     * The column <code>nexus.GAME.GOOGLE_CLIENT_ID</code>. 구글 로그인 클라이언트 키
+     */
+    public final TableField<GameRecord, String> GOOGLE_CLIENT_ID = createField(DSL.name("GOOGLE_CLIENT_ID"), SQLDataType.VARCHAR(255).nullable(false), this, "구글 로그인 클라이언트 키");
+
+    /**
+     * The column <code>nexus.GAME.GOOGLE_CLIENT_SECRET</code>. 구글 로그인 클라이언트 보안
+     * 키
+     */
+    public final TableField<GameRecord, String> GOOGLE_CLIENT_SECRET = createField(DSL.name("GOOGLE_CLIENT_SECRET"), SQLDataType.VARCHAR(255).nullable(false), this, "구글 로그인 클라이언트 보안 키");
+
+    /**
      * The column <code>nexus.GAME.STATUS</code>. 게임 상태 값
      */
     public final TableField<GameRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'STOPPED'::character varying"), SQLDataType.VARCHAR)), this, "게임 상태 값");

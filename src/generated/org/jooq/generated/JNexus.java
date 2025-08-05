@@ -109,7 +109,7 @@ public class JNexus extends SchemaImpl {
             Sequences.GAME_USER_USER_ID_SEQ,
             Sequences.ORGANIZATION_ORG_ID_SEQ,
             Sequences.TABLE_COLUMN_COLUMN_ID_SEQ,
-            Sequences.USER_COLUMN_DATA_USER_ID_SEQ
+            Sequences.USER_COLUMN_DATA_USER_COLUMN_ID_SEQ
         );
     }
 

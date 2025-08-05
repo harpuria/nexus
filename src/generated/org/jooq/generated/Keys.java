@@ -49,7 +49,7 @@ public class Keys {
     public static final UniqueKey<GameUserRecord> GAME_USER_PKEY = Internal.createUniqueKey(JGameUser.GAME_USER, DSL.name("GAME_USER_pkey"), new TableField[] { JGameUser.GAME_USER.USER_ID }, true);
     public static final UniqueKey<OrganizationRecord> ORGANIZATION_PKEY = Internal.createUniqueKey(JOrganization.ORGANIZATION, DSL.name("ORGANIZATION_pkey"), new TableField[] { JOrganization.ORGANIZATION.ORG_ID }, true);
     public static final UniqueKey<TableColumnRecord> TABLE_COLUMN_PKEY = Internal.createUniqueKey(JTableColumn.TABLE_COLUMN, DSL.name("TABLE_COLUMN_pkey"), new TableField[] { JTableColumn.TABLE_COLUMN.COLUMN_ID }, true);
-    public static final UniqueKey<UserColumnDataRecord> USER_COLUMN_DATA_PKEY = Internal.createUniqueKey(JUserColumnData.USER_COLUMN_DATA, DSL.name("USER_COLUMN_DATA_pkey"), new TableField[] { JUserColumnData.USER_COLUMN_DATA.USER_ID }, true);
+    public static final UniqueKey<UserColumnDataRecord> USER_COLUMN_DATA_PKEY = Internal.createUniqueKey(JUserColumnData.USER_COLUMN_DATA, DSL.name("USER_COLUMN_DATA_pkey"), new TableField[] { JUserColumnData.USER_COLUMN_DATA.USER_COLUMN_ID }, true);
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions

@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.jooq.Check;
 import org.jooq.Condition;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
@@ -32,6 +33,7 @@ import org.jooq.generated.tables.JGameTable.GameTablePath;
 import org.jooq.generated.tables.JUserColumnData.UserColumnDataPath;
 import org.jooq.generated.tables.records.TableColumnRecord;
 import org.jooq.impl.DSL;
+import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
@@ -58,34 +60,35 @@ public class JTableColumn extends TableImpl<TableColumnRecord> {
     }
 
     /**
-     * The column <code>nexus.TABLE_COLUMN.COLUMN_ID</code>.
+     * The column <code>nexus.TABLE_COLUMN.COLUMN_ID</code>. TABLE_COLUMN 테이블
+     * 기본키 (PK)
      */
-    public final TableField<TableColumnRecord, Integer> COLUMN_ID = createField(DSL.name("COLUMN_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"TABLE_COLUMN_COLUMN_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "");
+    public final TableField<TableColumnRecord, Integer> COLUMN_ID = createField(DSL.name("COLUMN_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"TABLE_COLUMN_COLUMN_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "TABLE_COLUMN 테이블 기본키 (PK)");
 
     /**
-     * The column <code>nexus.TABLE_COLUMN.TABLE_ID</code>.
+     * The column <code>nexus.TABLE_COLUMN.TABLE_ID</code>. GAME_TABLE 기본키 (PK)
      */
-    public final TableField<TableColumnRecord, Integer> TABLE_ID = createField(DSL.name("TABLE_ID"), SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<TableColumnRecord, Integer> TABLE_ID = createField(DSL.name("TABLE_ID"), SQLDataType.INTEGER.nullable(false), this, "GAME_TABLE 기본키 (PK)");
 
     /**
-     * The column <code>nexus.TABLE_COLUMN.COLUMN_NAME</code>.
+     * The column <code>nexus.TABLE_COLUMN.COLUMN_NAME</code>. 컬럼 이름
      */
-    public final TableField<TableColumnRecord, String> COLUMN_NAME = createField(DSL.name("COLUMN_NAME"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<TableColumnRecord, String> COLUMN_NAME = createField(DSL.name("COLUMN_NAME"), SQLDataType.VARCHAR(255).nullable(false), this, "컬럼 이름");
 
     /**
-     * The column <code>nexus.TABLE_COLUMN.COLUMN_DESC</code>.
+     * The column <code>nexus.TABLE_COLUMN.COLUMN_DESC</code>. 컬럼 설명
      */
-    public final TableField<TableColumnRecord, String> COLUMN_DESC = createField(DSL.name("COLUMN_DESC"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<TableColumnRecord, String> COLUMN_DESC = createField(DSL.name("COLUMN_DESC"), SQLDataType.VARCHAR(255).nullable(false), this, "컬럼 설명");
 
     /**
-     * The column <code>nexus.TABLE_COLUMN.COLUMN_TYPE</code>.
+     * The column <code>nexus.TABLE_COLUMN.COLUMN_TYPE</code>. 컬럼 타입
      */
-    public final TableField<TableColumnRecord, String> COLUMN_TYPE = createField(DSL.name("COLUMN_TYPE"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<TableColumnRecord, String> COLUMN_TYPE = createField(DSL.name("COLUMN_TYPE"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'STRING'::character varying"), SQLDataType.VARCHAR)), this, "컬럼 타입");
 
     /**
-     * The column <code>nexus.TABLE_COLUMN.DEFAULT_VALUE</code>.
+     * The column <code>nexus.TABLE_COLUMN.DEFAULT_VALUE</code>. 컬럼 기본값
      */
-    public final TableField<TableColumnRecord, String> DEFAULT_VALUE = createField(DSL.name("DEFAULT_VALUE"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<TableColumnRecord, String> DEFAULT_VALUE = createField(DSL.name("DEFAULT_VALUE"), SQLDataType.VARCHAR(255).nullable(false), this, "컬럼 기본값");
 
     /**
      * The column <code>nexus.TABLE_COLUMN.CREATED_AT</code>. 데이터 생성 날짜
@@ -212,6 +215,13 @@ public class JTableColumn extends TableImpl<TableColumnRecord> {
             _userColumnData = new UserColumnDataPath(this, null, Keys.USER_COLUMN_DATA__USER_COLUMN_DATA_COLUMN_ID_FOREIGN.getInverseKey());
 
         return _userColumnData;
+    }
+
+    @Override
+    public List<Check<TableColumnRecord>> getChecks() {
+        return Arrays.asList(
+            Internal.createCheck(this, DSL.name("TABLE_COLUMN_COLUMN_TYPE_check"), "(((\"COLUMN_TYPE\")::text = ANY ((ARRAY['STRING'::character varying, 'NUMBER'::character varying, 'DATE'::character varying, 'BOOLEAN'::character varying])::text[])))", true)
+        );
     }
 
     @Override

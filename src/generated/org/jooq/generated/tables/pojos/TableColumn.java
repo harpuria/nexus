@@ -71,14 +71,16 @@ public class TableColumn implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.TABLE_COLUMN.COLUMN_ID</code>.
+     * Getter for <code>nexus.TABLE_COLUMN.COLUMN_ID</code>. TABLE_COLUMN 테이블
+     * 기본키 (PK)
      */
     public Integer getColumnId() {
         return this.columnId;
     }
 
     /**
-     * Setter for <code>nexus.TABLE_COLUMN.COLUMN_ID</code>.
+     * Setter for <code>nexus.TABLE_COLUMN.COLUMN_ID</code>. TABLE_COLUMN 테이블
+     * 기본키 (PK)
      */
     public TableColumn setColumnId(Integer columnId) {
         this.columnId = columnId;
@@ -86,14 +88,14 @@ public class TableColumn implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.TABLE_COLUMN.TABLE_ID</code>.
+     * Getter for <code>nexus.TABLE_COLUMN.TABLE_ID</code>. GAME_TABLE 기본키 (PK)
      */
     public Integer getTableId() {
         return this.tableId;
     }
 
     /**
-     * Setter for <code>nexus.TABLE_COLUMN.TABLE_ID</code>.
+     * Setter for <code>nexus.TABLE_COLUMN.TABLE_ID</code>. GAME_TABLE 기본키 (PK)
      */
     public TableColumn setTableId(Integer tableId) {
         this.tableId = tableId;
@@ -101,14 +103,14 @@ public class TableColumn implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.TABLE_COLUMN.COLUMN_NAME</code>.
+     * Getter for <code>nexus.TABLE_COLUMN.COLUMN_NAME</code>. 컬럼 이름
      */
     public String getColumnName() {
         return this.columnName;
     }
 
     /**
-     * Setter for <code>nexus.TABLE_COLUMN.COLUMN_NAME</code>.
+     * Setter for <code>nexus.TABLE_COLUMN.COLUMN_NAME</code>. 컬럼 이름
      */
     public TableColumn setColumnName(String columnName) {
         this.columnName = columnName;
@@ -116,14 +118,14 @@ public class TableColumn implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.TABLE_COLUMN.COLUMN_DESC</code>.
+     * Getter for <code>nexus.TABLE_COLUMN.COLUMN_DESC</code>. 컬럼 설명
      */
     public String getColumnDesc() {
         return this.columnDesc;
     }
 
     /**
-     * Setter for <code>nexus.TABLE_COLUMN.COLUMN_DESC</code>.
+     * Setter for <code>nexus.TABLE_COLUMN.COLUMN_DESC</code>. 컬럼 설명
      */
     public TableColumn setColumnDesc(String columnDesc) {
         this.columnDesc = columnDesc;
@@ -131,14 +133,14 @@ public class TableColumn implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.TABLE_COLUMN.COLUMN_TYPE</code>.
+     * Getter for <code>nexus.TABLE_COLUMN.COLUMN_TYPE</code>. 컬럼 타입
      */
     public String getColumnType() {
         return this.columnType;
     }
 
     /**
-     * Setter for <code>nexus.TABLE_COLUMN.COLUMN_TYPE</code>.
+     * Setter for <code>nexus.TABLE_COLUMN.COLUMN_TYPE</code>. 컬럼 타입
      */
     public TableColumn setColumnType(String columnType) {
         this.columnType = columnType;
@@ -146,14 +148,14 @@ public class TableColumn implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.TABLE_COLUMN.DEFAULT_VALUE</code>.
+     * Getter for <code>nexus.TABLE_COLUMN.DEFAULT_VALUE</code>. 컬럼 기본값
      */
     public String getDefaultValue() {
         return this.defaultValue;
     }
 
     /**
-     * Setter for <code>nexus.TABLE_COLUMN.DEFAULT_VALUE</code>.
+     * Setter for <code>nexus.TABLE_COLUMN.DEFAULT_VALUE</code>. 컬럼 기본값
      */
     public TableColumn setDefaultValue(String defaultValue) {
         this.defaultValue = defaultValue;

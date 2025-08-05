@@ -22,6 +22,8 @@ public class Game implements Serializable {
     private String name;
     private UUID clientAppId;
     private UUID signatureKey;
+    private String googleClientId;
+    private String googleClientSecret;
     private String status;
     private OffsetDateTime createdAt;
     private String createdBy;
@@ -37,6 +39,8 @@ public class Game implements Serializable {
         this.name = value.name;
         this.clientAppId = value.clientAppId;
         this.signatureKey = value.signatureKey;
+        this.googleClientId = value.googleClientId;
+        this.googleClientSecret = value.googleClientSecret;
         this.status = value.status;
         this.createdAt = value.createdAt;
         this.createdBy = value.createdBy;
@@ -51,6 +55,8 @@ public class Game implements Serializable {
         String name,
         UUID clientAppId,
         UUID signatureKey,
+        String googleClientId,
+        String googleClientSecret,
         String status,
         OffsetDateTime createdAt,
         String createdBy,
@@ -63,6 +69,8 @@ public class Game implements Serializable {
         this.name = name;
         this.clientAppId = clientAppId;
         this.signatureKey = signatureKey;
+        this.googleClientId = googleClientId;
+        this.googleClientSecret = googleClientSecret;
         this.status = status;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
@@ -143,6 +151,38 @@ public class Game implements Serializable {
      */
     public Game setSignatureKey(UUID signatureKey) {
         this.signatureKey = signatureKey;
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.GAME.GOOGLE_CLIENT_ID</code>. 구글 로그인 클라이언트 키
+     */
+    public String getGoogleClientId() {
+        return this.googleClientId;
+    }
+
+    /**
+     * Setter for <code>nexus.GAME.GOOGLE_CLIENT_ID</code>. 구글 로그인 클라이언트 키
+     */
+    public Game setGoogleClientId(String googleClientId) {
+        this.googleClientId = googleClientId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.GAME.GOOGLE_CLIENT_SECRET</code>. 구글 로그인 클라이언트 보안
+     * 키
+     */
+    public String getGoogleClientSecret() {
+        return this.googleClientSecret;
+    }
+
+    /**
+     * Setter for <code>nexus.GAME.GOOGLE_CLIENT_SECRET</code>. 구글 로그인 클라이언트 보안
+     * 키
+     */
+    public Game setGoogleClientSecret(String googleClientSecret) {
+        this.googleClientSecret = googleClientSecret;
         return this;
     }
 
@@ -275,6 +315,18 @@ public class Game implements Serializable {
         }
         else if (!this.signatureKey.equals(other.signatureKey))
             return false;
+        if (this.googleClientId == null) {
+            if (other.googleClientId != null)
+                return false;
+        }
+        else if (!this.googleClientId.equals(other.googleClientId))
+            return false;
+        if (this.googleClientSecret == null) {
+            if (other.googleClientSecret != null)
+                return false;
+        }
+        else if (!this.googleClientSecret.equals(other.googleClientSecret))
+            return false;
         if (this.status == null) {
             if (other.status != null)
                 return false;
@@ -323,6 +375,8 @@ public class Game implements Serializable {
         result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
         result = prime * result + ((this.clientAppId == null) ? 0 : this.clientAppId.hashCode());
         result = prime * result + ((this.signatureKey == null) ? 0 : this.signatureKey.hashCode());
+        result = prime * result + ((this.googleClientId == null) ? 0 : this.googleClientId.hashCode());
+        result = prime * result + ((this.googleClientSecret == null) ? 0 : this.googleClientSecret.hashCode());
         result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
@@ -341,6 +395,8 @@ public class Game implements Serializable {
         sb.append(", ").append(name);
         sb.append(", ").append(clientAppId);
         sb.append(", ").append(signatureKey);
+        sb.append(", ").append(googleClientId);
+        sb.append(", ").append(googleClientSecret);
         sb.append(", ").append(status);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(createdBy);
