@@ -13,4 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Tag(name = "유저 데이터", description = "유저 데이터 관련 API")
 public class UserColumnDataController {
+    /*
+     * 유저 데이터 생성
+     * 유저 데이터 수정 (덮어쓰기, 덧셈, 뺄샘, 곱셈, 나눗셈 등 연산 처리)
+     * 유저 데이터 삭제
+     */
 }

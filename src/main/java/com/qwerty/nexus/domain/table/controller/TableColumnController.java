@@ -11,4 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Tag(name = "테이블 컬럼", description = "테이블 컬럼 관련 API")
 public class TableColumnController {
+    /*
+     * 컬럼 생성
+     * 컬럼 수정
+     * 컬럼 삭제
+     */
 }
