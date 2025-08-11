@@ -2,6 +2,7 @@ package com.qwerty.nexus.domain.gameUser.dto.request;
 
 import com.qwerty.nexus.domain.game.command.GameCreateCommand;
 import com.qwerty.nexus.domain.gameUser.command.GameUserCreateCommand;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,12 +11,25 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class GameUserCreateRequestDto {
+    @Schema(example = "1")
     private Integer gameId;
+
+    @Schema(example = "userTest")
     private String userLId;
+
+    @Schema(example = "userTest")
     private String userLPw;
+
+    @Schema(example = "테스트유저")
     private String nickname;
+
+    @Schema(example = "GOOGLE")
     private String loginType;
+
+    @Schema(example = "SAMSUNG")
     private String device;
+
+    @Schema(example = "userTest")
     private String createdBy;
 
     // Service 전달 파라미터로 쓸 Command 객체 변환

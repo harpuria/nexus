@@ -1,10 +1,11 @@
 package com.qwerty.nexus.domain.table.controller;
 
-import com.qwerty.nexus.domain.table.dto.TableCreateRequestDto;
-import com.qwerty.nexus.domain.table.dto.TableUpdateRequestDto;
+import com.qwerty.nexus.domain.table.dto.request.TableCreateRequestDto;
+import com.qwerty.nexus.domain.table.dto.request.TableUpdateRequestDto;
 import com.qwerty.nexus.domain.table.service.GameTableService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class GameTableController {
      * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @PostMapping
+    @Operation(summary = "테이블 생성")
     public ResponseEntity<ApiResponse<Void>> createTable(@Parameter @RequestBody TableCreateRequestDto dto){
         return null;
     }
@@ -38,6 +40,7 @@ public class GameTableController {
      * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @PatchMapping("/{tableId}")
+    @Operation(summary = "테이블 수정")
     public ResponseEntity<ApiResponse<Void>> updateTable(@PathVariable("tableId") int tableId,
                                                          @Parameter @RequestBody TableUpdateRequestDto dto){
         return null;
@@ -49,6 +52,7 @@ public class GameTableController {
      * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @DeleteMapping("/{tableId}")
+    @Operation(summary = "테이블 삭제")
     public ResponseEntity<ApiResponse<Void>> deleteTable(@PathVariable("tableId") int tableId){
         return null;
     }

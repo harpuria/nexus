@@ -2,8 +2,6 @@ package com.qwerty.nexus.domain.gameUser.service;
 
 import com.qwerty.nexus.domain.gameUser.command.GameUserCreateCommand;
 import com.qwerty.nexus.domain.gameUser.command.GameUserUpdateCommand;
-import com.qwerty.nexus.domain.gameUser.dto.request.GameUserCreateRequestDto;
-import com.qwerty.nexus.domain.gameUser.dto.request.GameUserRequestDTO;
 import com.qwerty.nexus.domain.gameUser.dto.response.GameUserResponseDTO;
 import com.qwerty.nexus.domain.gameUser.entity.GameUserEntity;
 import com.qwerty.nexus.domain.gameUser.repository.GameUserRepository;

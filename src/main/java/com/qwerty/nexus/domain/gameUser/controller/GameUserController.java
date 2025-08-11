@@ -1,13 +1,13 @@
 package com.qwerty.nexus.domain.gameUser.controller;
 
 import com.qwerty.nexus.domain.gameUser.dto.request.GameUserCreateRequestDto;
-import com.qwerty.nexus.domain.gameUser.dto.request.GameUserRequestDTO;
 import com.qwerty.nexus.domain.gameUser.dto.request.GameUserUpdateRequestDto;
 import com.qwerty.nexus.domain.gameUser.dto.response.GameUserResponseDTO;
 import com.qwerty.nexus.domain.gameUser.service.GameUserService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.Result;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -38,6 +38,7 @@ public class GameUserController {
      * @return
      */
     @PostMapping
+    @Operation(summary = "게임 유저 생성")
     public ResponseEntity<ApiResponse<Void>> createGameUser(@RequestBody GameUserCreateRequestDto gameUserCreateRequestDto) {
         Result<GameUserResponseDTO> result = gameUserService.createGameUser(gameUserCreateRequestDto.toGameCommand());
 
@@ -57,6 +58,7 @@ public class GameUserController {
      * @return
      */
     @PatchMapping("/{gameUserId}")
+    @Operation(summary = "게임 유저 수정")
     public ResponseEntity<ApiResponse<Void>> updateGameUser(@PathVariable("gameUserId") int gameUserId, @RequestBody GameUserUpdateRequestDto gameUserUpdateRequestDto) {
         gameUserUpdateRequestDto.setUserId(gameUserId);
 
@@ -78,6 +80,7 @@ public class GameUserController {
      * @return
      */
     @PostMapping("/login/{gameUserId}")
+    @Operation(summary = "유저 로그인 (개발중)")
     public ResponseEntity<ApiResponse<Void>> gameLogin(@PathVariable("gameUserId") int gameUserId){
         // jwt (or session) 등록 처리
         return null;
@@ -89,6 +92,7 @@ public class GameUserController {
      * @return
      */
     @PostMapping("/logout/{gameUserId}")
+    @Operation(summary = "유저 로그아웃 (개발중)")
     public ResponseEntity<ApiResponse<Void>> gameLogout(@PathVariable("gameUserId") int gameUserId){
         // jwt (or session) 초기화 처리
         return null;
