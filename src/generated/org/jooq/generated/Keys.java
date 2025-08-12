@@ -9,6 +9,7 @@ import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.generated.tables.JAdmin;
 import org.jooq.generated.tables.JCouponList;
+import org.jooq.generated.tables.JCurrency;
 import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.JGameCoupon;
 import org.jooq.generated.tables.JGameTable;
@@ -16,8 +17,10 @@ import org.jooq.generated.tables.JGameUser;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JTableColumn;
 import org.jooq.generated.tables.JUserColumnData;
+import org.jooq.generated.tables.JUserCurrency;
 import org.jooq.generated.tables.records.AdminRecord;
 import org.jooq.generated.tables.records.CouponListRecord;
+import org.jooq.generated.tables.records.CurrencyRecord;
 import org.jooq.generated.tables.records.GameCouponRecord;
 import org.jooq.generated.tables.records.GameRecord;
 import org.jooq.generated.tables.records.GameTableRecord;
@@ -25,6 +28,7 @@ import org.jooq.generated.tables.records.GameUserRecord;
 import org.jooq.generated.tables.records.OrganizationRecord;
 import org.jooq.generated.tables.records.TableColumnRecord;
 import org.jooq.generated.tables.records.UserColumnDataRecord;
+import org.jooq.generated.tables.records.UserCurrencyRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
 
@@ -43,6 +47,7 @@ public class Keys {
     public static final UniqueKey<AdminRecord> ADMIN_ADMIN_EMAIL_UNIQUE = Internal.createUniqueKey(JAdmin.ADMIN, DSL.name("admin_admin_email_unique"), new TableField[] { JAdmin.ADMIN.ADMIN_EMAIL }, true);
     public static final UniqueKey<AdminRecord> ADMIN_LOGIN_ID_UNIQUE = Internal.createUniqueKey(JAdmin.ADMIN, DSL.name("admin_login_id_unique"), new TableField[] { JAdmin.ADMIN.LOGIN_ID }, true);
     public static final UniqueKey<AdminRecord> ADMIN_PKEY = Internal.createUniqueKey(JAdmin.ADMIN, DSL.name("ADMIN_pkey"), new TableField[] { JAdmin.ADMIN.ADMIN_ID }, true);
+    public static final UniqueKey<CurrencyRecord> CURRENCY_PKEY = Internal.createUniqueKey(JCurrency.CURRENCY, DSL.name("CURRENCY_pkey"), new TableField[] { JCurrency.CURRENCY.CURRENCY_ID }, true);
     public static final UniqueKey<GameRecord> GAME_PKEY = Internal.createUniqueKey(JGame.GAME, DSL.name("GAME_pkey"), new TableField[] { JGame.GAME.GAME_ID }, true);
     public static final UniqueKey<GameCouponRecord> GAME_COUPON_PKEY = Internal.createUniqueKey(JGameCoupon.GAME_COUPON, DSL.name("GAME_COUPON_pkey"), new TableField[] { JGameCoupon.GAME_COUPON.COUPON_ID }, true);
     public static final UniqueKey<GameTableRecord> GAME_TABLE_PKEY = Internal.createUniqueKey(JGameTable.GAME_TABLE, DSL.name("GAME_TABLE_pkey"), new TableField[] { JGameTable.GAME_TABLE.TABLE_ID }, true);
@@ -50,6 +55,7 @@ public class Keys {
     public static final UniqueKey<OrganizationRecord> ORGANIZATION_PKEY = Internal.createUniqueKey(JOrganization.ORGANIZATION, DSL.name("ORGANIZATION_pkey"), new TableField[] { JOrganization.ORGANIZATION.ORG_ID }, true);
     public static final UniqueKey<TableColumnRecord> TABLE_COLUMN_PKEY = Internal.createUniqueKey(JTableColumn.TABLE_COLUMN, DSL.name("TABLE_COLUMN_pkey"), new TableField[] { JTableColumn.TABLE_COLUMN.COLUMN_ID }, true);
     public static final UniqueKey<UserColumnDataRecord> USER_COLUMN_DATA_PKEY = Internal.createUniqueKey(JUserColumnData.USER_COLUMN_DATA, DSL.name("USER_COLUMN_DATA_pkey"), new TableField[] { JUserColumnData.USER_COLUMN_DATA.USER_COLUMN_ID }, true);
+    public static final UniqueKey<UserCurrencyRecord> USER_CURRENCY_PKEY = Internal.createUniqueKey(JUserCurrency.USER_CURRENCY, DSL.name("USER_CURRENCY_pkey"), new TableField[] { JUserCurrency.USER_CURRENCY.USER_CURRENCY_ID }, true);
 
     // -------------------------------------------------------------------------
     // FOREIGN KEY definitions
@@ -58,6 +64,7 @@ public class Keys {
     public static final ForeignKey<AdminRecord, GameRecord> ADMIN__ADMIN_GAME_ID_FOREIGN = Internal.createForeignKey(JAdmin.ADMIN, DSL.name("admin_game_id_foreign"), new TableField[] { JAdmin.ADMIN.GAME_ID }, Keys.GAME_PKEY, new TableField[] { JGame.GAME.GAME_ID }, true);
     public static final ForeignKey<AdminRecord, OrganizationRecord> ADMIN__ADMIN_ORG_ID_FOREIGN = Internal.createForeignKey(JAdmin.ADMIN, DSL.name("admin_org_id_foreign"), new TableField[] { JAdmin.ADMIN.ORG_ID }, Keys.ORGANIZATION_PKEY, new TableField[] { JOrganization.ORGANIZATION.ORG_ID }, true);
     public static final ForeignKey<CouponListRecord, GameCouponRecord> COUPON_LIST__COUPON_LIST_COUPON_ID_FOREIGN = Internal.createForeignKey(JCouponList.COUPON_LIST, DSL.name("coupon_list_coupon_id_foreign"), new TableField[] { JCouponList.COUPON_LIST.COUPON_ID }, Keys.GAME_COUPON_PKEY, new TableField[] { JGameCoupon.GAME_COUPON.COUPON_ID }, true);
+    public static final ForeignKey<CurrencyRecord, GameRecord> CURRENCY__CURRENCY_GAME_ID_FOREIGN = Internal.createForeignKey(JCurrency.CURRENCY, DSL.name("currency_game_id_foreign"), new TableField[] { JCurrency.CURRENCY.GAME_ID }, Keys.GAME_PKEY, new TableField[] { JGame.GAME.GAME_ID }, true);
     public static final ForeignKey<GameRecord, OrganizationRecord> GAME__GAME_ORG_ID_FOREIGN = Internal.createForeignKey(JGame.GAME, DSL.name("game_org_id_foreign"), new TableField[] { JGame.GAME.ORG_ID }, Keys.ORGANIZATION_PKEY, new TableField[] { JOrganization.ORGANIZATION.ORG_ID }, true);
     public static final ForeignKey<GameCouponRecord, GameRecord> GAME_COUPON__GAME_COUPON_GAME_ID_FOREIGN = Internal.createForeignKey(JGameCoupon.GAME_COUPON, DSL.name("game_coupon_game_id_foreign"), new TableField[] { JGameCoupon.GAME_COUPON.GAME_ID }, Keys.GAME_PKEY, new TableField[] { JGame.GAME.GAME_ID }, true);
     public static final ForeignKey<GameTableRecord, GameRecord> GAME_TABLE__GAME_TABLE_GAME_ID_FOREIGN = Internal.createForeignKey(JGameTable.GAME_TABLE, DSL.name("game_table_game_id_foreign"), new TableField[] { JGameTable.GAME_TABLE.GAME_ID }, Keys.GAME_PKEY, new TableField[] { JGame.GAME.GAME_ID }, true);
@@ -65,4 +72,6 @@ public class Keys {
     public static final ForeignKey<TableColumnRecord, GameTableRecord> TABLE_COLUMN__TABLE_COLUMN_TABLE_ID_FOREIGN = Internal.createForeignKey(JTableColumn.TABLE_COLUMN, DSL.name("table_column_table_id_foreign"), new TableField[] { JTableColumn.TABLE_COLUMN.TABLE_ID }, Keys.GAME_TABLE_PKEY, new TableField[] { JGameTable.GAME_TABLE.TABLE_ID }, true);
     public static final ForeignKey<UserColumnDataRecord, TableColumnRecord> USER_COLUMN_DATA__USER_COLUMN_DATA_COLUMN_ID_FOREIGN = Internal.createForeignKey(JUserColumnData.USER_COLUMN_DATA, DSL.name("user_column_data_column_id_foreign"), new TableField[] { JUserColumnData.USER_COLUMN_DATA.COLUMN_ID }, Keys.TABLE_COLUMN_PKEY, new TableField[] { JTableColumn.TABLE_COLUMN.COLUMN_ID }, true);
     public static final ForeignKey<UserColumnDataRecord, GameUserRecord> USER_COLUMN_DATA__USER_COLUMN_DATA_USER_ID_FOREIGN = Internal.createForeignKey(JUserColumnData.USER_COLUMN_DATA, DSL.name("user_column_data_user_id_foreign"), new TableField[] { JUserColumnData.USER_COLUMN_DATA.USER_ID }, Keys.GAME_USER_PKEY, new TableField[] { JGameUser.GAME_USER.USER_ID }, true);
+    public static final ForeignKey<UserCurrencyRecord, CurrencyRecord> USER_CURRENCY__USER_CURRENCY_CURRENCY_ID_FOREIGN = Internal.createForeignKey(JUserCurrency.USER_CURRENCY, DSL.name("user_currency_currency_id_foreign"), new TableField[] { JUserCurrency.USER_CURRENCY.CURRENCY_ID }, Keys.CURRENCY_PKEY, new TableField[] { JCurrency.CURRENCY.CURRENCY_ID }, true);
+    public static final ForeignKey<UserCurrencyRecord, GameUserRecord> USER_CURRENCY__USER_CURRENCY_USER_ID_FOREIGN = Internal.createForeignKey(JUserCurrency.USER_CURRENCY, DSL.name("user_currency_user_id_foreign"), new TableField[] { JUserCurrency.USER_CURRENCY.USER_ID }, Keys.GAME_USER_PKEY, new TableField[] { JGameUser.GAME_USER.USER_ID }, true);
 }

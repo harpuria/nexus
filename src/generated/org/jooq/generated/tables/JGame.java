@@ -31,6 +31,7 @@ import org.jooq.UniqueKey;
 import org.jooq.generated.JNexus;
 import org.jooq.generated.Keys;
 import org.jooq.generated.tables.JAdmin.AdminPath;
+import org.jooq.generated.tables.JCurrency.CurrencyPath;
 import org.jooq.generated.tables.JGameCoupon.GameCouponPath;
 import org.jooq.generated.tables.JGameTable.GameTablePath;
 import org.jooq.generated.tables.JGameUser.GameUserPath;
@@ -228,6 +229,19 @@ public class JGame extends TableImpl<GameRecord> {
             _admin = new AdminPath(this, null, Keys.ADMIN__ADMIN_GAME_ID_FOREIGN.getInverseKey());
 
         return _admin;
+    }
+
+    private transient CurrencyPath _currency;
+
+    /**
+     * Get the implicit to-many join path to the <code>nexus.CURRENCY</code>
+     * table
+     */
+    public CurrencyPath currency() {
+        if (_currency == null)
+            _currency = new CurrencyPath(this, null, Keys.CURRENCY__CURRENCY_GAME_ID_FOREIGN.getInverseKey());
+
+        return _currency;
     }
 
     private transient GameCouponPath _gameCoupon;

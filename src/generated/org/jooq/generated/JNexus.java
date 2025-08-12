@@ -13,6 +13,7 @@ import org.jooq.Table;
 import org.jooq.generated.tables.JAdmin;
 import org.jooq.generated.tables.JBase;
 import org.jooq.generated.tables.JCouponList;
+import org.jooq.generated.tables.JCurrency;
 import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.JGameCoupon;
 import org.jooq.generated.tables.JGameTable;
@@ -20,6 +21,7 @@ import org.jooq.generated.tables.JGameUser;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JTableColumn;
 import org.jooq.generated.tables.JUserColumnData;
+import org.jooq.generated.tables.JUserCurrency;
 import org.jooq.impl.SchemaImpl;
 
 
@@ -50,6 +52,11 @@ public class JNexus extends SchemaImpl {
      * The table <code>nexus.COUPON_LIST</code>.
      */
     public final JCouponList COUPON_LIST = JCouponList.COUPON_LIST;
+
+    /**
+     * The table <code>nexus.CURRENCY</code>.
+     */
+    public final JCurrency CURRENCY = JCurrency.CURRENCY;
 
     /**
      * The table <code>nexus.GAME</code>.
@@ -87,6 +94,11 @@ public class JNexus extends SchemaImpl {
     public final JUserColumnData USER_COLUMN_DATA = JUserColumnData.USER_COLUMN_DATA;
 
     /**
+     * The table <code>nexus.USER_CURRENCY</code>.
+     */
+    public final JUserCurrency USER_CURRENCY = JUserCurrency.USER_CURRENCY;
+
+    /**
      * No further instances allowed
      */
     private JNexus() {
@@ -103,13 +115,15 @@ public class JNexus extends SchemaImpl {
     public final List<Sequence<?>> getSequences() {
         return Arrays.asList(
             Sequences.ADMIN_ADMIN_ID_SEQ,
+            Sequences.CURRENCY_CURRENCY_ID_SEQ,
             Sequences.GAME_COUPON_COUPON_ID_SEQ,
             Sequences.GAME_GAME_ID_SEQ,
             Sequences.GAME_TABLE_TABLE_ID_SEQ,
             Sequences.GAME_USER_USER_ID_SEQ,
             Sequences.ORGANIZATION_ORG_ID_SEQ,
             Sequences.TABLE_COLUMN_COLUMN_ID_SEQ,
-            Sequences.USER_COLUMN_DATA_USER_COLUMN_ID_SEQ
+            Sequences.USER_COLUMN_DATA_USER_COLUMN_ID_SEQ,
+            Sequences.USER_CURRENCY_USER_CURRENCY_ID_SEQ
         );
     }
 
@@ -119,13 +133,15 @@ public class JNexus extends SchemaImpl {
             JAdmin.ADMIN,
             JBase.BASE,
             JCouponList.COUPON_LIST,
+            JCurrency.CURRENCY,
             JGame.GAME,
             JGameCoupon.GAME_COUPON,
             JGameTable.GAME_TABLE,
             JGameUser.GAME_USER,
             JOrganization.ORGANIZATION,
             JTableColumn.TABLE_COLUMN,
-            JUserColumnData.USER_COLUMN_DATA
+            JUserColumnData.USER_COLUMN_DATA,
+            JUserCurrency.USER_CURRENCY
         );
     }
 }

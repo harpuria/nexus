@@ -21,6 +21,11 @@ public class Sequences {
     public static final Sequence<Integer> ADMIN_ADMIN_ID_SEQ = Internal.createSequence("ADMIN_ADMIN_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 
     /**
+     * The sequence <code>nexus.CURRENCY_CURRENCY_ID_seq</code>
+     */
+    public static final Sequence<Integer> CURRENCY_CURRENCY_ID_SEQ = Internal.createSequence("CURRENCY_CURRENCY_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
      * The sequence <code>nexus.GAME_COUPON_COUPON_ID_seq</code>
      */
     public static final Sequence<Integer> GAME_COUPON_COUPON_ID_SEQ = Internal.createSequence("GAME_COUPON_COUPON_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
@@ -54,4 +59,9 @@ public class Sequences {
      * The sequence <code>nexus.USER_COLUMN_DATA_USER_COLUMN_ID_seq</code>
      */
     public static final Sequence<Integer> USER_COLUMN_DATA_USER_COLUMN_ID_SEQ = Internal.createSequence("USER_COLUMN_DATA_USER_COLUMN_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
+     * The sequence <code>nexus.USER_CURRENCY_USER_CURRENCY_ID_seq</code>
+     */
+    public static final Sequence<Integer> USER_CURRENCY_USER_CURRENCY_ID_SEQ = Internal.createSequence("USER_CURRENCY_USER_CURRENCY_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 }

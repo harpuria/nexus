@@ -31,6 +31,7 @@ import org.jooq.generated.JNexus;
 import org.jooq.generated.Keys;
 import org.jooq.generated.tables.JGame.GamePath;
 import org.jooq.generated.tables.JUserColumnData.UserColumnDataPath;
+import org.jooq.generated.tables.JUserCurrency.UserCurrencyPath;
 import org.jooq.generated.tables.records.GameUserRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
@@ -250,6 +251,19 @@ public class JGameUser extends TableImpl<GameUserRecord> {
             _userColumnData = new UserColumnDataPath(this, null, Keys.USER_COLUMN_DATA__USER_COLUMN_DATA_USER_ID_FOREIGN.getInverseKey());
 
         return _userColumnData;
+    }
+
+    private transient UserCurrencyPath _userCurrency;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>nexus.USER_CURRENCY</code> table
+     */
+    public UserCurrencyPath userCurrency() {
+        if (_userCurrency == null)
+            _userCurrency = new UserCurrencyPath(this, null, Keys.USER_CURRENCY__USER_CURRENCY_USER_ID_FOREIGN.getInverseKey());
+
+        return _userCurrency;
     }
 
     @Override

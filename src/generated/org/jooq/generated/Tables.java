@@ -7,6 +7,7 @@ package org.jooq.generated;
 import org.jooq.generated.tables.JAdmin;
 import org.jooq.generated.tables.JBase;
 import org.jooq.generated.tables.JCouponList;
+import org.jooq.generated.tables.JCurrency;
 import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.JGameCoupon;
 import org.jooq.generated.tables.JGameTable;
@@ -14,6 +15,7 @@ import org.jooq.generated.tables.JGameUser;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JTableColumn;
 import org.jooq.generated.tables.JUserColumnData;
+import org.jooq.generated.tables.JUserCurrency;
 
 
 /**
@@ -36,6 +38,11 @@ public class Tables {
      * The table <code>nexus.COUPON_LIST</code>.
      */
     public static final JCouponList COUPON_LIST = JCouponList.COUPON_LIST;
+
+    /**
+     * The table <code>nexus.CURRENCY</code>.
+     */
+    public static final JCurrency CURRENCY = JCurrency.CURRENCY;
 
     /**
      * The table <code>nexus.GAME</code>.
@@ -71,4 +78,9 @@ public class Tables {
      * The table <code>nexus.USER_COLUMN_DATA</code>.
      */
     public static final JUserColumnData USER_COLUMN_DATA = JUserColumnData.USER_COLUMN_DATA;
+
+    /**
+     * The table <code>nexus.USER_CURRENCY</code>.
+     */
+    public static final JUserCurrency USER_CURRENCY = JUserCurrency.USER_CURRENCY;
 }
