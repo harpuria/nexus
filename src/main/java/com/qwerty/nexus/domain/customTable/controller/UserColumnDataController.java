@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(ApiConstants.Path.USER_COLUMN_DATA_PATH)
 @RequiredArgsConstructor
-@Tag(name = "유저 데이터", description = "유저 데이터 관련 API")
+//@Tag(name = "유저 데이터", description = "유저 데이터 관련 API")
 public class UserColumnDataController {
     /*
      * 유저 데이터 생성

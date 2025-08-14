@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(ApiConstants.Path.GAME_TABLE_PATH)
 @RequiredArgsConstructor
-@Tag(name = "게임 테이블", description = "게임 테이블 관련 API")
+//@Tag(name = "게임 테이블", description = "게임 테이블 관련 API")
 public class GameTableController {
 
     private final GameTableService gameTableService;
@@ -28,7 +28,7 @@ public class GameTableController {
      * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @PostMapping
-    @Operation(summary = "테이블 생성")
+    //@Operation(summary = "테이블 생성")
     public ResponseEntity<ApiResponse<Void>> createTable(@Parameter @RequestBody TableCreateRequestDto dto){
         return null;
     }
@@ -40,7 +40,7 @@ public class GameTableController {
      * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @PatchMapping("/{tableId}")
-    @Operation(summary = "테이블 수정")
+    //@Operation(summary = "테이블 수정")
     public ResponseEntity<ApiResponse<Void>> updateTable(@PathVariable("tableId") int tableId,
                                                          @Parameter @RequestBody TableUpdateRequestDto dto){
         return null;
@@ -52,7 +52,7 @@ public class GameTableController {
      * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @DeleteMapping("/{tableId}")
-    @Operation(summary = "테이블 삭제")
+    //@Operation(summary = "테이블 삭제")
     public ResponseEntity<ApiResponse<Void>> deleteTable(@PathVariable("tableId") int tableId){
         return null;
     }
