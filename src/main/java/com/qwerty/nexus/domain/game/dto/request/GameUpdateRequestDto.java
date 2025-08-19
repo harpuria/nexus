@@ -25,7 +25,7 @@ public class GameUpdateRequestDto {
     private String updateBy;
 
     // Service 전달 파라미터로 쓸 Command 객체 변환
-    public GameUpdateCommand toGameCommand(){
+    public GameUpdateCommand toCommand(){
         return GameUpdateCommand.builder()
                 .gameId(this.gameId)
                 .name(this.name)

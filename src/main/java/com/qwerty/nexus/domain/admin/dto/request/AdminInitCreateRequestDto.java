@@ -35,7 +35,7 @@ public class AdminInitCreateRequestDto {
     private String orgCd;
 
     // Service 전달 파라미터로 쓸 Command 객체 변환
-    public AdminCreateCommand toAdminCommand() {
+    public AdminCreateCommand toCommand() {
         return AdminCreateCommand.builder()
                 .loginId(this.loginId)
                 .loginPw(this.loginPw)

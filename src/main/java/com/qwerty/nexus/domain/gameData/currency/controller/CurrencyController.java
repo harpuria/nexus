@@ -6,6 +6,7 @@ import com.qwerty.nexus.domain.gameData.currency.dto.response.CurrencyResponseDt
 import com.qwerty.nexus.domain.gameData.currency.service.CurrencyService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -28,6 +29,7 @@ public class CurrencyController {
      * @return
      */
     @PostMapping
+    @Operation(summary = "재화 정보 생성")
     public ResponseEntity<ApiResponse<Void>> createCurrency(@RequestBody CurrencyCreateRequestDto dto){
         return null;
     }
@@ -38,6 +40,7 @@ public class CurrencyController {
      * @return
      */
     @PatchMapping("/{currencyId}")
+    @Operation(summary = "재화 정보 수정")
     public ResponseEntity<ApiResponse<Void>> updateCurrency(@PathVariable("currencyId") String currencyId, @RequestBody CurrencyUpdateRequestDto dto){
         return null;
     }
@@ -48,6 +51,7 @@ public class CurrencyController {
      * @return
      */
     @DeleteMapping("/{currencyId}")
+    @Operation(summary = "재화 정보 삭제")
     public ResponseEntity<ApiResponse<Void>> deleteCurrency(@PathVariable("currencyId") String currencyId){
         return null;
     }
@@ -58,6 +62,7 @@ public class CurrencyController {
      * @return
      */
     @GetMapping("/{currencyId}")
+    @Operation(summary = "한 건의 재화 정보 조회")
     public ResponseEntity<ApiResponse<CurrencyResponseDto>> selectOneCurrency(@PathVariable("currencyId") String currencyId){
         return null;
     }
@@ -67,6 +72,7 @@ public class CurrencyController {
      * @return
      */
     @GetMapping
+    @Operation(summary = "전체 재화 정보 조회")
     public  ResponseEntity<ApiResponse<List<CurrencyResponseDto>>> selectAllCurrencies(){
         return null;
     }

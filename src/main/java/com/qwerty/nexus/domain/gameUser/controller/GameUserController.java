@@ -12,7 +12,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +39,7 @@ public class GameUserController {
     @PostMapping
     @Operation(summary = "게임 유저 생성")
     public ResponseEntity<ApiResponse<Void>> createGameUser(@RequestBody GameUserCreateRequestDto gameUserCreateRequestDto) {
-        Result<GameUserResponseDTO> result = gameUserService.createGameUser(gameUserCreateRequestDto.toGameCommand());
+        Result<GameUserResponseDTO> result = gameUserService.createGameUser(gameUserCreateRequestDto.toCommand());
 
         return switch(result){
           case Result.Success<GameUserResponseDTO> success ->
@@ -62,7 +61,7 @@ public class GameUserController {
     public ResponseEntity<ApiResponse<Void>> updateGameUser(@PathVariable("gameUserId") int gameUserId, @RequestBody GameUserUpdateRequestDto gameUserUpdateRequestDto) {
         gameUserUpdateRequestDto.setUserId(gameUserId);
 
-        Result<GameUserResponseDTO> result = gameUserService.updateGameUser(gameUserUpdateRequestDto.toGameCommand());
+        Result<GameUserResponseDTO> result = gameUserService.updateGameUser(gameUserUpdateRequestDto.toCommand());
 
         return switch(result){
             case Result.Success<GameUserResponseDTO> success ->

@@ -20,7 +20,7 @@ public class GameCreateRequestDto {
     private String createBy;
 
     // Service 전달 파라미터로 쓸 Command 객체 변환
-    public GameCreateCommand toGameCommand(){
+    public GameCreateCommand toCommand(){
         return GameCreateCommand.builder()
                 .orgId(this.orgId)
                 .name(this.name)

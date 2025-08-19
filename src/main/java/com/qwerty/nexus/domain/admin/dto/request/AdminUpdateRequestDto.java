@@ -34,7 +34,7 @@ public class AdminUpdateRequestDto {
     private String isDel;
 
     // Service 전달 파라미터로 쓸 Command 객체 변환
-    public AdminUpdateCommand toAdminCommand() {
+    public AdminUpdateCommand toCommand() {
         return AdminUpdateCommand.builder()
                 .adminId(this.adminId)
                 .gameId(this.gameId)

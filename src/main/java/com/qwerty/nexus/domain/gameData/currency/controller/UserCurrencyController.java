@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.gameData.currency.controller;
 
+import com.qwerty.nexus.domain.gameData.currency.service.UserCurrencyService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -13,5 +14,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Tag(name = "유저 재화", description = "유저 재화 관련 API")
 public class UserCurrencyController {
-    private final UserCurrencyController userCurrencyController;
+    private final UserCurrencyService userCurrencyService;
 }

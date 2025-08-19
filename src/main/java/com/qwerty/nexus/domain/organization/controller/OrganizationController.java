@@ -31,7 +31,7 @@ public class OrganizationController {
     @PatchMapping
     @Operation(summary = "단체 정보 수정")
     public ResponseEntity<ApiResponse<Void>> updateOrganization(@Parameter @RequestBody OrganizationUpdateRequestDto organization){
-        Result<OrganizationResponseDto> result = organizationService.update(organization.toOrgCommand());
+        Result<OrganizationResponseDto> result = organizationService.update(organization.toCommand());
 
         return switch(result){
             case Result.Success<OrganizationResponseDto> success ->

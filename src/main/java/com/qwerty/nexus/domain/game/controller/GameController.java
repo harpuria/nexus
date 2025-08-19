@@ -33,7 +33,7 @@ public class GameController {
     @PostMapping
     @Operation(summary = "게임 정보 생성")
     public ResponseEntity<ApiResponse<Void>> createGame(@RequestBody GameCreateRequestDto gameCreateRequestDto){
-        Result<GameResponseDTO> result = gameService.createGame(gameCreateRequestDto.toGameCommand());
+        Result<GameResponseDTO> result = gameService.createGame(gameCreateRequestDto.toCommand());
 
         return switch(result){
             case Result.Success<GameResponseDTO> success ->
@@ -57,7 +57,7 @@ public class GameController {
 
         gameUpdateRequestDto.setGameId(gameId);
 
-        Result<GameResponseDTO> result = gameService.updateGame(gameUpdateRequestDto.toGameCommand());
+        Result<GameResponseDTO> result = gameService.updateGame(gameUpdateRequestDto.toCommand());
 
         return switch(result){
             case Result.Success<GameResponseDTO> success ->

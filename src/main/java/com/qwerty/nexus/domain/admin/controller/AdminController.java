@@ -38,7 +38,7 @@ public class AdminController {
         // 초기 사용자는 무조건 SUPER 관리자로 등록
         admin.setAdminRole(AdminRole.SUPER.name());
 
-        Result<AdminResponseDto> result = adminService.register(admin.toAdminCommand());
+        Result<AdminResponseDto> result = adminService.register(admin.toCommand());
 
         return switch(result){
             case Result.Success<AdminResponseDto> success ->
@@ -59,7 +59,7 @@ public class AdminController {
     @Operation(summary = "관리자 생성 (SUPER 관리자가 생성)")
     public ResponseEntity<ApiResponse<Void>> createAdmin(
             @Parameter @RequestBody AdminCreateRequestDto admin){
-        Result<AdminResponseDto> result = adminService.register(admin.toAdminCommand());
+        Result<AdminResponseDto> result = adminService.register(admin.toCommand());
 
         return switch(result){
             case Result.Success<AdminResponseDto> success ->
@@ -83,7 +83,7 @@ public class AdminController {
                                                                      @Parameter @RequestBody AdminUpdateRequestDto admin){
         admin.setAdminId(adminId);
 
-        Result<AdminResponseDto> result = adminService.update(admin.toAdminCommand());
+        Result<AdminResponseDto> result = adminService.update(admin.toCommand());
 
         return switch(result) {
             case Result.Success<AdminResponseDto> success -> ResponseEntity.status(HttpStatus.OK)
@@ -105,7 +105,7 @@ public class AdminController {
         admin.setAdminId(adminId);
         admin.setIsDel("Y");
 
-        Result<AdminResponseDto> result = adminService.update(admin.toAdminCommand());
+        Result<AdminResponseDto> result = adminService.update(admin.toCommand());
 
         return switch(result){
             case Result.Success<AdminResponseDto> success ->

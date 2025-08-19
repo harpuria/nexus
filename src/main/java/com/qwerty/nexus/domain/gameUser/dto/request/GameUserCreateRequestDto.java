@@ -1,6 +1,5 @@
 package com.qwerty.nexus.domain.gameUser.dto.request;
 
-import com.qwerty.nexus.domain.game.command.GameCreateCommand;
 import com.qwerty.nexus.domain.gameUser.command.GameUserCreateCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -33,7 +32,7 @@ public class GameUserCreateRequestDto {
     private String createdBy;
 
     // Service 전달 파라미터로 쓸 Command 객체 변환
-    public GameUserCreateCommand toGameCommand(){
+    public GameUserCreateCommand toCommand(){
         return GameUserCreateCommand.builder()
                 .gameId(this.gameId)
                 .userLId(this.userLId)

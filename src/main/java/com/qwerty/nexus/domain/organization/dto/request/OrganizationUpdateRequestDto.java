@@ -23,7 +23,7 @@ public class OrganizationUpdateRequestDto {
     private String updateBy;
 
     // Service 전달 파라미터로 쓸 Command 객체 변환
-    public OrganizationUpdateCommand toOrgCommand() {
+    public OrganizationUpdateCommand toCommand() {
         return OrganizationUpdateCommand.builder()
                 .orgId(this.orgId)
                 .orgCd(this.orgCd)

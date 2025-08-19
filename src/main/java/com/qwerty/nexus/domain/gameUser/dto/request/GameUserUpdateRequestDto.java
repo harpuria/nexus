@@ -1,6 +1,5 @@
 package com.qwerty.nexus.domain.gameUser.dto.request;
 
-import com.qwerty.nexus.domain.gameUser.command.GameUserCreateCommand;
 import com.qwerty.nexus.domain.gameUser.command.GameUserUpdateCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -59,7 +58,7 @@ public class GameUserUpdateRequestDto {
     private String isDel;
 
     // Service 전달 파라미터로 쓸 Command 객체 변환
-    public GameUserUpdateCommand toGameCommand(){
+    public GameUserUpdateCommand toCommand(){
         return GameUserUpdateCommand.builder()
                 .userId(this.userId)
                 .gameId(this.gameId)
