@@ -11,7 +11,6 @@ import java.time.OffsetDateTime;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 public class BaseResponseDTO {
     // 각 테이블마다 들어가 있는 공통 컬럼
     private OffsetDateTime createdAt;
@@ -19,8 +18,4 @@ public class BaseResponseDTO {
     private OffsetDateTime updatedAt;
     private String updatedBy;
     private String isDel;
-
-    // 공통 필드
-    private String message;
-    private int code;
 }

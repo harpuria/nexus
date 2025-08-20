@@ -6,6 +6,7 @@ import com.qwerty.nexus.domain.gameUser.dto.response.GameUserResponseDTO;
 import com.qwerty.nexus.domain.gameUser.service.GameUserService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
+import com.qwerty.nexus.global.response.ResponseEntityUtils;
 import com.qwerty.nexus.global.response.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,15 +41,7 @@ public class GameUserController {
     @Operation(summary = "게임 유저 생성")
     public ResponseEntity<ApiResponse<Void>> createGameUser(@RequestBody GameUserCreateRequestDto gameUserCreateRequestDto) {
         Result<GameUserResponseDTO> result = gameUserService.createGameUser(gameUserCreateRequestDto.toCommand());
-
-        return switch(result){
-          case Result.Success<GameUserResponseDTO> success ->
-                  ResponseEntity.status(HttpStatus.CREATED)
-                          .body(ApiResponse.success(success.data().getMessage()));
-          case Result.Failure<GameUserResponseDTO> failure ->
-              ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                      .body(ApiResponse.error(failure.message()));
-        };
+        return ResponseEntityUtils.toCreatedResponse(result);
     }
 
     /**
@@ -63,14 +56,7 @@ public class GameUserController {
 
         Result<GameUserResponseDTO> result = gameUserService.updateGameUser(gameUserUpdateRequestDto.toCommand());
 
-        return switch(result){
-            case Result.Success<GameUserResponseDTO> success ->
-                    ResponseEntity.status(HttpStatus.OK)
-                            .body(ApiResponse.success(success.data().getMessage()));
-            case Result.Failure<GameUserResponseDTO> failure ->
-                    ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                            .body(ApiResponse.error(failure.message()));
-        };
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
     /**

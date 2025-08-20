@@ -43,12 +43,11 @@ public class GameUserService {
 
         if(insertRst.isPresent()){
             rst.convertEntityToDTO(insertRst.get());
-            rst.setMessage("유저가 정상적으로 생성되었습니다.");
         }else{
             return Result.Failure.of("유저 생성 중 오류가 발생하였습니다. 넥서스 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(rst);
+        return Result.Success.of(rst, "유저가 정상적으로 생성되었습니다.");
     }
 
     /**
@@ -81,11 +80,10 @@ public class GameUserService {
 
         if(updateRst.isPresent()){
             rst.convertEntityToDTO(updateRst.get());
-            rst.setMessage("유저 정보가 정상적으로 수정되었습니다.");
         }else{
             return Result.Failure.of("유저 정보 수정 중 오류가 발생하였습니다. 넥서스 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(rst);
+        return Result.Success.of(rst, "유저 정보가 정상적으로 수정되었습니다.");
     }
 }

@@ -6,10 +6,13 @@ import com.qwerty.nexus.domain.gameData.currency.dto.response.CurrencyResponseDt
 import com.qwerty.nexus.domain.gameData.currency.service.CurrencyService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
+import com.qwerty.nexus.global.response.ResponseEntityUtils;
+import com.qwerty.nexus.global.response.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +34,9 @@ public class CurrencyController {
     @PostMapping
     @Operation(summary = "재화 정보 생성")
     public ResponseEntity<ApiResponse<Void>> createCurrency(@RequestBody CurrencyCreateRequestDto dto){
-        return null;
+        Result<CurrencyResponseDto> result = currencyService.createCurrency(dto.toCommand());
+
+        return ResponseEntityUtils.toCreatedResponse(result);
     }
 
     /**

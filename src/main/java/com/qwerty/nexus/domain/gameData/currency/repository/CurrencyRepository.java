@@ -22,7 +22,7 @@ public class CurrencyRepository {
     }
 
     /**
-     * 재화 생성
+     * 재화 정보 생성
      * @param entity
      * @return
      */
@@ -35,6 +35,11 @@ public class CurrencyRepository {
                 .build();
     }
 
+    /**
+     * 재화 정보 수정
+     * @param entity
+     * @return
+     */
     public CurrencyEntity updateCurrency(CurrencyEntity entity){
         CurrencyRecord record = dslContext.newRecord(CURRENCY, entity);
         record.changed();

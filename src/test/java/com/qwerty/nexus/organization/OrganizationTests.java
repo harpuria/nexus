@@ -1,6 +1,6 @@
 package com.qwerty.nexus.organization;
 
-import com.qwerty.nexus.domain.organization.service.OrganizationService;
+import com.qwerty.nexus.domain.management.organization.service.OrganizationService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

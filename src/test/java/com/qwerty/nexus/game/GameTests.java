@@ -1,6 +1,6 @@
 package com.qwerty.nexus.game;
 
-import com.qwerty.nexus.domain.game.service.GameService;
+import com.qwerty.nexus.domain.management.game.service.GameService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

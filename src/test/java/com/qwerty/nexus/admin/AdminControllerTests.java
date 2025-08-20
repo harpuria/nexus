@@ -1,7 +1,7 @@
 package com.qwerty.nexus.admin;
 
-import com.qwerty.nexus.domain.admin.controller.AdminController;
-import com.qwerty.nexus.domain.admin.service.AdminService;
+import com.qwerty.nexus.domain.management.admin.controller.AdminController;
+import com.qwerty.nexus.domain.management.admin.service.AdminService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
