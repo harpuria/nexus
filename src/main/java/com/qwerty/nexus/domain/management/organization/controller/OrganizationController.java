@@ -47,13 +47,6 @@ public class OrganizationController {
     public ResponseEntity<ApiResponse<OrganizationResponseDto>> selectOneOrganization(@PathVariable("orgId") int orgId){
         Result<OrganizationResponseDto> result = organizationService.selectOneOrganization(orgId);
 
-        return switch(result){
-            case Result.Success<OrganizationResponseDto> success ->
-                ResponseEntity.status(HttpStatus.OK)
-                        .body(ApiResponse.success(success.message(), success.data()));
-            case Result.Failure<OrganizationResponseDto> failure ->
-                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body(ApiResponse.error(failure.message(), failure.errorCode()));
-        };
+        return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 }

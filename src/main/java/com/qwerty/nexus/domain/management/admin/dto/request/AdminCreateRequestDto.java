@@ -28,7 +28,6 @@ public class AdminCreateRequestDto {
     @Schema(example = "1")
     private int orgId;
 
-    // Service 전달 파라미터로 쓸 Command 객체 변환
     public AdminCreateCommand toCommand() {
         return AdminCreateCommand.builder()
                 .loginId(this.loginId)

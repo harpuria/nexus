@@ -3,7 +3,7 @@ package com.qwerty.nexus.domain.management.game.service;
 import com.qwerty.nexus.domain.management.game.GameStatus;
 import com.qwerty.nexus.domain.management.game.command.GameCreateCommand;
 import com.qwerty.nexus.domain.management.game.command.GameUpdateCommand;
-import com.qwerty.nexus.domain.management.game.dto.response.GameResponseDTO;
+import com.qwerty.nexus.domain.management.game.dto.response.GameResponseDto;
 import com.qwerty.nexus.domain.management.game.entity.GameEntity;
 import com.qwerty.nexus.domain.management.game.repository.GameRepository;
 import com.qwerty.nexus.global.exception.ErrorCode;
@@ -26,8 +26,8 @@ public class GameService {
      * @param gameCreateCommand
      * @return
      */
-    public Result<GameResponseDTO> createGame(GameCreateCommand gameCreateCommand) {
-        GameResponseDTO rst = new GameResponseDTO();
+    public Result<GameResponseDto> createGame(GameCreateCommand gameCreateCommand) {
+        GameResponseDto rst = new GameResponseDto();
 
         GameEntity gameEntity = GameEntity.builder()
                 .orgId(gameCreateCommand.getOrgId())
@@ -53,8 +53,8 @@ public class GameService {
      * @param gameUpdateCommand
      * @return
      */
-    public Result<GameResponseDTO> updateGame(GameUpdateCommand gameUpdateCommand){
-        GameResponseDTO rst = new GameResponseDTO();
+    public Result<GameResponseDto> updateGame(GameUpdateCommand gameUpdateCommand){
+        GameResponseDto rst = new GameResponseDto();
 
         GameEntity gameEntity = GameEntity.builder()
                 .gameId(gameUpdateCommand.getGameId())
@@ -78,12 +78,12 @@ public class GameService {
      * @param id
      * @return
      */
-    public Result<GameResponseDTO> selectOneGame(Integer id){
-        GameResponseDTO rst = new GameResponseDTO();
+    public Result<GameResponseDto> selectOneGame(Integer id){
+        GameResponseDto rst = new GameResponseDto();
 
         Optional<GameEntity> selectRst = Optional.ofNullable(gameRepository.selectOneGame(id));
         if(selectRst.isPresent()){
-            rst.convertEntityToDTO(selectRst.get());
+            rst.convertEntityToDto(selectRst.get());
         }
         else{
             return Result.Failure.of("게임 정보가 존재하지 않습니다.", ErrorCode.INTERNAL_ERROR.getCode());

@@ -41,7 +41,7 @@ public class GameUserController {
     @Operation(summary = "게임 유저 생성")
     public ResponseEntity<ApiResponse<Void>> createGameUser(@RequestBody GameUserCreateRequestDto gameUserCreateRequestDto) {
         Result<GameUserResponseDTO> result = gameUserService.createGameUser(gameUserCreateRequestDto.toCommand());
-        return ResponseEntityUtils.toCreatedResponse(result);
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
     /**

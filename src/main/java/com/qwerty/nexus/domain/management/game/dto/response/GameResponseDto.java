@@ -2,14 +2,14 @@ package com.qwerty.nexus.domain.management.game.dto.response;
 
 import com.qwerty.nexus.domain.management.game.entity.GameEntity;
 import com.qwerty.nexus.global.dto.BaseResponseDTO;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
-public class GameResponseDTO extends BaseResponseDTO {
+@Getter
+@Setter
+public class GameResponseDto extends BaseResponseDTO {
     private Integer gameId;
     private Integer orgId;
     private String name;
@@ -20,7 +20,7 @@ public class GameResponseDTO extends BaseResponseDTO {
     private String updatedBy;
     private String isDel;
 
-    public GameResponseDTO convertEntityToDTO(GameEntity admin) {
+    public void convertEntityToDto(GameEntity admin) {
         this.setGameId(admin.getGameId());
         this.setOrgId(admin.getOrgId());
         this.setName(admin.getName());
@@ -32,6 +32,5 @@ public class GameResponseDTO extends BaseResponseDTO {
         this.setUpdatedAt(admin.getUpdatedAt());
         this.setUpdatedBy(admin.getUpdatedBy());
         this.setIsDel(admin.getIsDel());
-        return this;
     }
 }

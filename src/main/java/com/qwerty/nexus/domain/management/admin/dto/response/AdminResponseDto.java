@@ -16,7 +16,7 @@ public class AdminResponseDto extends BaseResponseDTO {
     private String adminEmail;
     private String adminNm;
 
-    public AdminResponseDto convertEntityToDTO(AdminEntity admin) {
+    public void convertEntityToDto(AdminEntity admin) {
         this.setAdminId(admin.getAdminId());
         this.setOrgId(admin.getOrgId());
         this.setGameId(admin.getGameId());
@@ -29,6 +29,5 @@ public class AdminResponseDto extends BaseResponseDTO {
         this.setUpdatedAt(admin.getUpdatedAt());
         this.setUpdatedBy(admin.getUpdatedBy());
         this.setIsDel(admin.getIsDel());
-        return this;
     }
 }

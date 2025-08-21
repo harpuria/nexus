@@ -2,7 +2,7 @@ package com.qwerty.nexus.domain.management.game.controller;
 
 import com.qwerty.nexus.domain.management.game.dto.request.GameCreateRequestDto;
 import com.qwerty.nexus.domain.management.game.dto.request.GameUpdateRequestDto;
-import com.qwerty.nexus.domain.management.game.dto.response.GameResponseDTO;
+import com.qwerty.nexus.domain.management.game.dto.response.GameResponseDto;
 import com.qwerty.nexus.domain.management.game.service.GameService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
@@ -34,9 +34,9 @@ public class GameController {
     @PostMapping
     @Operation(summary = "게임 정보 생성")
     public ResponseEntity<ApiResponse<Void>> createGame(@RequestBody GameCreateRequestDto gameCreateRequestDto){
-        Result<GameResponseDTO> result = gameService.createGame(gameCreateRequestDto.toCommand());
+        Result<GameResponseDto> result = gameService.createGame(gameCreateRequestDto.toCommand());
 
-        return ResponseEntityUtils.toCreatedResponse(result);
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
     /**
@@ -51,7 +51,7 @@ public class GameController {
 
         gameUpdateRequestDto.setGameId(gameId);
 
-        Result<GameResponseDTO> result = gameService.updateGame(gameUpdateRequestDto.toCommand());
+        Result<GameResponseDto> result = gameService.updateGame(gameUpdateRequestDto.toCommand());
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -63,17 +63,10 @@ public class GameController {
      */
     @GetMapping("/{gameId}")
     @Operation(summary = "한 건의 게임 정보 조회")
-    public ResponseEntity<ApiResponse<GameResponseDTO>> selectOneGame(@PathVariable("gameId") Integer gameId){
-        Result<GameResponseDTO> result = gameService.selectOneGame(gameId);
+    public ResponseEntity<ApiResponse<GameResponseDto>> selectOneGame(@PathVariable("gameId") Integer gameId){
+        Result<GameResponseDto> result = gameService.selectOneGame(gameId);
 
-        return switch (result){
-            case Result.Success<GameResponseDTO> success ->
-                ResponseEntity.status(HttpStatus.OK)
-                        .body(ApiResponse.success(success.message(), success.data()));
-            case Result.Failure<GameResponseDTO> failure ->
-                ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(ApiResponse.error(failure.message()));
-        };
+        return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
     /**
@@ -81,8 +74,8 @@ public class GameController {
      * @return
      */
     @GetMapping("/list")
-    @Operation(summary = "게임 목록 조회 (개발중)")
-    public ResponseEntity<ApiResponse<List<GameResponseDTO>>> selectGameList(){
+    @Operation(summary = "게임 목록 조회 (미개발)")
+    public ResponseEntity<ApiResponse<List<GameResponseDto>>> selectGameList(){
         return null;
     }
 }

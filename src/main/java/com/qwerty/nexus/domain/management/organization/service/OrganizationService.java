@@ -56,7 +56,7 @@ public class OrganizationService {
 
         Optional<OrganizationEntity> selectRst = Optional.ofNullable(organizationRepository.selectOneOrganization(orgId));
         if(selectRst.isPresent()){
-            rst.convertEntityToDTO(selectRst.get());
+            rst.convertEntityToDto(selectRst.get());
         }
         else{
             return Result.Failure.of("단체 정보가 존재하지 않습니다.", ErrorCode.INTERNAL_ERROR.getCode());

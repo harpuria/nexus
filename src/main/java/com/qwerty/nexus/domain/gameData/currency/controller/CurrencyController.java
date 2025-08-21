@@ -36,7 +36,7 @@ public class CurrencyController {
     public ResponseEntity<ApiResponse<Void>> createCurrency(@RequestBody CurrencyCreateRequestDto dto){
         Result<CurrencyResponseDto> result = currencyService.createCurrency(dto.toCommand());
 
-        return ResponseEntityUtils.toCreatedResponse(result);
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
     /**

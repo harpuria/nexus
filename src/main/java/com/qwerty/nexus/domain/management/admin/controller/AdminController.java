@@ -41,7 +41,7 @@ public class AdminController {
 
         Result<AdminResponseDto> result = adminService.register(admin.toCommand());
 
-        return ResponseEntityUtils.toCreatedResponse(result);
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
     /**
@@ -55,14 +55,7 @@ public class AdminController {
             @Parameter @RequestBody AdminCreateRequestDto admin){
         Result<AdminResponseDto> result = adminService.register(admin.toCommand());
 
-        return switch(result){
-            case Result.Success<AdminResponseDto> success ->
-                ResponseEntity.status(HttpStatus.CREATED)
-                        .body(ApiResponse.success(success.message()));
-            case Result.Failure<AdminResponseDto> failure ->
-                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body(ApiResponse.error(failure.message(), failure.errorCode()));
-        };
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
     /**
@@ -79,12 +72,7 @@ public class AdminController {
 
         Result<AdminResponseDto> result = adminService.update(admin.toCommand());
 
-        return switch(result) {
-            case Result.Success<AdminResponseDto> success -> ResponseEntity.status(HttpStatus.OK)
-                    .body(ApiResponse.success(success.message()));
-            case Result.Failure<AdminResponseDto> failure -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(ApiResponse.error(failure.message(), failure.errorCode()));
-        };
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
     /**
@@ -101,14 +89,7 @@ public class AdminController {
 
         Result<AdminResponseDto> result = adminService.update(admin.toCommand());
 
-        return switch(result){
-            case Result.Success<AdminResponseDto> success ->
-                ResponseEntity.status(HttpStatus.OK)
-                        .body(ApiResponse.success(success.message()));
-            case Result.Failure<AdminResponseDto> failure ->
-                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body(ApiResponse.error(failure.message(), failure.errorCode()));
-        };
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
     /**
@@ -121,14 +102,7 @@ public class AdminController {
     public ResponseEntity<ApiResponse<AdminResponseDto>> selectOneAdmin(@PathVariable("adminId") Integer adminId){
         Result<AdminResponseDto> result = adminService.selectOneAdmin(adminId);
 
-        return switch(result){
-            case Result.Success<AdminResponseDto> success ->
-                ResponseEntity.status(HttpStatus.OK)
-                        .body(ApiResponse.success(success.message(), success.data()));
-            case Result.Failure<AdminResponseDto> failure ->
-                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body(ApiResponse.error(failure.message(), failure.errorCode()));
-        };
+        return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
     /**
