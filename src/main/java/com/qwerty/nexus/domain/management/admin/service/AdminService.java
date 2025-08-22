@@ -126,20 +126,15 @@ public class AdminService {
 
         Optional<AdminEntity> updateRst = Optional.ofNullable(adminRepository.updateAdmin(adminEntity));
 
-        String successMessage = "";
-        if(updateRst.isPresent()) {
-            if(admin.getIsDel() != null && admin.getIsDel().equalsIgnoreCase("Y")){
-                // TODO : 추후 실제 삭제처리가 되었는지 여부가 필요. (ex :이미 삭제된 회원입니다. 같은 메시지 나오게)
-                successMessage = "회원정보가 정상적으로 삭제되었습니다.";
-            }else{
-                successMessage = "회원정보가 정상적으로 수정되었습니다.";
-            }
-        }
-        else{
-            return Result.Failure.of("회원정보 수정에 실패하였습니다. 총괄 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
+        String type = "수정";
+        if(admin.getIsDel() != null && admin.getIsDel().equalsIgnoreCase("Y"))
+            type = "삭제";
+
+        if(updateRst.isEmpty()) {
+            return Result.Failure.of(String.format("회원정보 %s에 실패하였습니다.", type), ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(rst, successMessage);
+        return Result.Success.of(rst, String.format("회원정보가 정상적으로 %s되었습니다.", type));
     }
 
     /**
