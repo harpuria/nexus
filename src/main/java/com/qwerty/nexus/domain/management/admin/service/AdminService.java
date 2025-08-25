@@ -23,7 +23,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdminService {
 
-    private final AdminRepository adminRepository;
+    private final AdminRepository repository;
     private final OrganizationRepository organizationRepository;
 
     /**
@@ -50,13 +50,13 @@ public class AdminService {
                 .build();
 
         // 회원 중복 확인
-        boolean isUser = adminRepository.isUserAlreadyRegistered(adminEntity) > 0;
+        boolean isUser = repository.isUserAlreadyRegistered(adminEntity) > 0;
         if(isUser) {
             return Result.Failure.of("이미 존재하는 회원입니다.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
         // 이메일 중복 확인
-        boolean isEmail = adminRepository.existsByEmail(adminEntity) > 0;
+        boolean isEmail = repository.existsByEmail(adminEntity) > 0;
         if(isEmail) {
             return Result.Failure.of("이미 사용중인 이메일 주소 입니다.", ErrorCode.INTERNAL_ERROR.getCode());
         }
@@ -91,7 +91,7 @@ public class AdminService {
         }
 
         // 중복 확인이 끝났으면 회원 등록(INSERT) 수행
-        Optional<AdminEntity> insertRst = Optional.ofNullable(adminRepository.insertAdmin(adminEntity));
+        Optional<AdminEntity> insertRst = Optional.ofNullable(repository.insertAdmin(adminEntity));
         if(insertRst.isEmpty()) {
             return Result.Failure.of("회원가입이 실패하였습니다. 넥서스 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
         }
@@ -124,7 +124,7 @@ public class AdminService {
                 .isDel(admin.getIsDel())
                 .build();
 
-        Optional<AdminEntity> updateRst = Optional.ofNullable(adminRepository.updateAdmin(adminEntity));
+        Optional<AdminEntity> updateRst = Optional.ofNullable(repository.updateAdmin(adminEntity));
 
         String type = "수정";
         if(admin.getIsDel() != null && admin.getIsDel().equalsIgnoreCase("Y"))
@@ -149,7 +149,7 @@ public class AdminService {
                 .adminId(adminId)
                 .build();
 
-        Optional<AdminEntity> selectRst = Optional.ofNullable(adminRepository.selectOneAdmin(admin));
+        Optional<AdminEntity> selectRst = Optional.ofNullable(repository.selectOneAdmin(admin));
         if(selectRst.isPresent()) {
             rst.convertEntityToDto(selectRst.get());
         }else{

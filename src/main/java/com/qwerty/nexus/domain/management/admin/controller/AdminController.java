@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "관리자", description = "관리자 관련 API")
 public class AdminController {
-    private final AdminService adminService;
+    private final AdminService service;
 
     /**
      * 초기 사용자 등록 (SUPER 관리자)
@@ -39,7 +39,7 @@ public class AdminController {
         // 초기 사용자는 무조건 SUPER 관리자로 등록
         admin.setAdminRole(AdminRole.SUPER.name());
 
-        Result<AdminResponseDto> result = adminService.register(admin.toCommand());
+        Result<AdminResponseDto> result = service.register(admin.toCommand());
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
@@ -53,7 +53,7 @@ public class AdminController {
     @Operation(summary = "관리자 생성 (SUPER 관리자가 생성)")
     public ResponseEntity<ApiResponse<Void>> createAdmin(
             @Parameter @RequestBody AdminCreateRequestDto admin){
-        Result<AdminResponseDto> result = adminService.register(admin.toCommand());
+        Result<AdminResponseDto> result = service.register(admin.toCommand());
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
@@ -70,7 +70,7 @@ public class AdminController {
                                                                      @Parameter @RequestBody AdminUpdateRequestDto admin){
         admin.setAdminId(adminId);
 
-        Result<AdminResponseDto> result = adminService.update(admin.toCommand());
+        Result<AdminResponseDto> result = service.update(admin.toCommand());
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -87,7 +87,7 @@ public class AdminController {
         admin.setAdminId(adminId);
         admin.setIsDel("Y");
 
-        Result<AdminResponseDto> result = adminService.update(admin.toCommand());
+        Result<AdminResponseDto> result = service.update(admin.toCommand());
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -100,7 +100,7 @@ public class AdminController {
     @GetMapping("/{adminId}")
     @Operation(summary = "한 건의 관리자 정보 조회")
     public ResponseEntity<ApiResponse<AdminResponseDto>> selectOneAdmin(@PathVariable("adminId") Integer adminId){
-        Result<AdminResponseDto> result = adminService.selectOneAdmin(adminId);
+        Result<AdminResponseDto> result = service.selectOneAdmin(adminId);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }

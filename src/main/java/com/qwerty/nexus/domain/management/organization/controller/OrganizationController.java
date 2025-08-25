@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Tag(name = "단체", description = "단체 관련 API")
 public class OrganizationController {
-    private final OrganizationService organizationService;
+    private final OrganizationService service;
 
     /**
      * 단체 정보 수정
@@ -32,7 +32,7 @@ public class OrganizationController {
     @PatchMapping
     @Operation(summary = "단체 정보 수정")
     public ResponseEntity<ApiResponse<Void>> updateOrganization(@Parameter @RequestBody OrganizationUpdateRequestDto organization){
-        Result<OrganizationResponseDto> result = organizationService.update(organization.toCommand());
+        Result<OrganizationResponseDto> result = service.update(organization.toCommand());
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -45,7 +45,7 @@ public class OrganizationController {
     @GetMapping("/{orgId}")
     @Operation(summary = "한 건의 단체 정보 가져오기")
     public ResponseEntity<ApiResponse<OrganizationResponseDto>> selectOneOrganization(@PathVariable("orgId") int orgId){
-        Result<OrganizationResponseDto> result = organizationService.selectOneOrganization(orgId);
+        Result<OrganizationResponseDto> result = service.selectOneOrganization(orgId);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }

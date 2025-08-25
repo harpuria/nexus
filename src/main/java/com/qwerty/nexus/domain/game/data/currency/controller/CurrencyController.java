@@ -1,6 +1,5 @@
 package com.qwerty.nexus.domain.game.data.currency.controller;
 
-import com.qwerty.nexus.domain.game.data.currency.command.CurrencyUpdateCommand;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.CurrencyCreateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.CurrencyUpdateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.response.CurrencyResponseDto;
@@ -25,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "재화", description = "재화 정보 관련 API")
 public class CurrencyController {
-    private final CurrencyService currencyService;
+    private final CurrencyService service;
 
     /***
      * 재화 정보 생성
@@ -35,7 +34,7 @@ public class CurrencyController {
     @PostMapping
     @Operation(summary = "재화 정보 생성")
     public ResponseEntity<ApiResponse<Void>> createCurrency(@RequestBody CurrencyCreateRequestDto dto){
-        Result<CurrencyResponseDto> result = currencyService.createCurrency(dto.toCommand());
+        Result<CurrencyResponseDto> result = service.createCurrency(dto.toCommand());
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
@@ -50,7 +49,7 @@ public class CurrencyController {
     public ResponseEntity<ApiResponse<Void>> updateCurrency(@PathVariable("currencyId") int currencyId, @RequestBody CurrencyUpdateRequestDto dto){
         dto.setCurrencyId(currencyId);
 
-        Result<CurrencyResponseDto> result = currencyService.updateCurrency(dto.toCommand());
+        Result<CurrencyResponseDto> result = service.updateCurrency(dto.toCommand());
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -67,7 +66,7 @@ public class CurrencyController {
         dto.setCurrencyId(currencyId);
         dto.setIsDel("Y");
 
-        Result<CurrencyResponseDto> result = currencyService.updateCurrency(dto.toCommand());
+        Result<CurrencyResponseDto> result = service.updateCurrency(dto.toCommand());
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -80,7 +79,7 @@ public class CurrencyController {
     @GetMapping("/{currencyId}")
     @Operation(summary = "한 건의 재화 정보 조회")
     public ResponseEntity<ApiResponse<CurrencyResponseDto>> selectOneCurrency(@PathVariable("currencyId") int currencyId){
-        Result<CurrencyResponseDto> result = currencyService.selectOneCurrency(currencyId);
+        Result<CurrencyResponseDto> result = service.selectOneCurrency(currencyId);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
@@ -90,7 +89,7 @@ public class CurrencyController {
      * @return
      */
     @GetMapping
-    @Operation(summary = "전체 재화 정보 조회")
+    @Operation(summary = "전체 재화 정보 조회 (개발중)")
     public  ResponseEntity<ApiResponse<List<CurrencyResponseDto>>> selectAllCurrencies(){
         return null;
     }

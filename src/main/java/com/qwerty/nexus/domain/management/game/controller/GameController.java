@@ -24,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "게임", description = "게임 관련 API")
 public class GameController {
-    private final GameService gameService;
+    private final GameService service;
 
     /**
      * 게임 정보 생성
@@ -34,7 +34,7 @@ public class GameController {
     @PostMapping
     @Operation(summary = "게임 정보 생성")
     public ResponseEntity<ApiResponse<Void>> createGame(@RequestBody GameCreateRequestDto gameCreateRequestDto){
-        Result<GameResponseDto> result = gameService.createGame(gameCreateRequestDto.toCommand());
+        Result<GameResponseDto> result = service.createGame(gameCreateRequestDto.toCommand());
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
@@ -51,7 +51,7 @@ public class GameController {
 
         gameUpdateRequestDto.setGameId(gameId);
 
-        Result<GameResponseDto> result = gameService.updateGame(gameUpdateRequestDto.toCommand());
+        Result<GameResponseDto> result = service.updateGame(gameUpdateRequestDto.toCommand());
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -64,7 +64,7 @@ public class GameController {
     @GetMapping("/{gameId}")
     @Operation(summary = "한 건의 게임 정보 조회")
     public ResponseEntity<ApiResponse<GameResponseDto>> selectOneGame(@PathVariable("gameId") Integer gameId){
-        Result<GameResponseDto> result = gameService.selectOneGame(gameId);
+        Result<GameResponseDto> result = service.selectOneGame(gameId);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }

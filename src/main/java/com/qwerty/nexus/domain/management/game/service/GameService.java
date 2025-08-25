@@ -19,7 +19,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class GameService {
-    private final GameRepository gameRepository;
+    private final GameRepository repository;
 
     /**
      * 게임 정보 생성
@@ -39,7 +39,7 @@ public class GameService {
                 .signatureKey(UUID.randomUUID())
                 .build();
 
-        Optional<GameEntity> insertRst = Optional.ofNullable(gameRepository.insertGame(gameEntity));
+        Optional<GameEntity> insertRst = Optional.ofNullable(repository.insertGame(gameEntity));
 
         if(insertRst.isEmpty()) {
             return Result.Failure.of("게임이 정상적으로 생성되지 않았습니다. 넥서스 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
@@ -64,7 +64,7 @@ public class GameService {
                 .updatedBy(gameUpdateCommand.getUpdatedBy())
                 .build();
 
-        Optional<GameEntity> updateRst = Optional.ofNullable(gameRepository.updateGame(gameEntity));
+        Optional<GameEntity> updateRst = Optional.ofNullable(repository.updateGame(gameEntity));
 
         if(updateRst.isEmpty()){
             return Result.Failure.of("게임 정보 수정이 실패했습니다. 넥서스 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
@@ -81,7 +81,7 @@ public class GameService {
     public Result<GameResponseDto> selectOneGame(Integer id){
         GameResponseDto rst = new GameResponseDto();
 
-        Optional<GameEntity> selectRst = Optional.ofNullable(gameRepository.selectOneGame(id));
+        Optional<GameEntity> selectRst = Optional.ofNullable(repository.selectOneGame(id));
         if(selectRst.isPresent()){
             rst.convertEntityToDto(selectRst.get());
         }

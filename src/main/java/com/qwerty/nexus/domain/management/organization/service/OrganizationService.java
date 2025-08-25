@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class OrganizationService {
-    private final OrganizationRepository organizationRepository;
+    private final OrganizationRepository repository;
 
     /**
      * 단체 정보 수정
@@ -37,7 +37,7 @@ public class OrganizationService {
                 .updatedBy(organization.getUpdatedBy())
                 .build();
 
-        Optional<OrganizationEntity> updateRst = Optional.ofNullable(organizationRepository.updateOrganization(orgEntity));
+        Optional<OrganizationEntity> updateRst = Optional.ofNullable(repository.updateOrganization(orgEntity));
         if(updateRst.isEmpty()){
             Result.Failure.of("단체 정보 수정에 실패하였습니다. 넥서스 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
         }
@@ -54,7 +54,7 @@ public class OrganizationService {
     public Result<OrganizationResponseDto> selectOneOrganization(int orgId) {
         OrganizationResponseDto rst = new OrganizationResponseDto();
 
-        Optional<OrganizationEntity> selectRst = Optional.ofNullable(organizationRepository.selectOneOrganization(orgId));
+        Optional<OrganizationEntity> selectRst = Optional.ofNullable(repository.selectOneOrganization(orgId));
         if(selectRst.isPresent()){
             rst.convertEntityToDto(selectRst.get());
         }
