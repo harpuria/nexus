@@ -59,6 +59,20 @@ public class GameUserController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
+
+    @PatchMapping("/user-ban/{gameUserId}")
+    @Operation(summary = "유저 정지 처리(개발중)")
+    public ResponseEntity<ApiResponse<Void>>  banGameUser(@PathVariable("gameUserId") int gameUserId) {
+        return null;
+    }
+
+    @PatchMapping("/user-quit/{gameUserId}")
+    @Operation(summary = "유저 탈퇴 처리(개발중)")
+    public ResponseEntity<ApiResponse<Void>>  quitGameUser(@PathVariable("gameUserId") int gameUserId) {
+        return null;
+    }
+
+
     /**
      * 유저 로그인 (소셜 로그인 O)
      * @param gameUserId
