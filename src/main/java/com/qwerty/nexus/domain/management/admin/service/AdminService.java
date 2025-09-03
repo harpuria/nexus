@@ -52,13 +52,13 @@ public class AdminService {
         // 회원 중복 확인
         boolean isUser = repository.isUserAlreadyRegistered(adminEntity) > 0;
         if(isUser) {
-            return Result.Failure.of("이미 존재하는 회원입니다.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("이미 사용중인 회원 아이디.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
         // 이메일 중복 확인
         boolean isEmail = repository.existsByEmail(adminEntity) > 0;
         if(isEmail) {
-            return Result.Failure.of("이미 사용중인 이메일 주소 입니다.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("이미 사용중인 이메일 주소.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
         // 총괄(SUPER) 관리자 아이디 신청 여부 확인
@@ -93,10 +93,10 @@ public class AdminService {
         // 중복 확인이 끝났으면 회원 등록(INSERT) 수행
         Optional<AdminEntity> insertRst = Optional.ofNullable(repository.insertAdmin(adminEntity));
         if(insertRst.isEmpty()) {
-            return Result.Failure.of("회원가입이 실패하였습니다. 넥서스 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("회원가입 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(rst, "회원가입 완료");
+        return Result.Success.of(rst, "회원가입 완료.");
     }
 
     /**
@@ -114,7 +114,6 @@ public class AdminService {
             modifiedPw = passwordEncoder.encode(admin.getLoginPw());
         }
 
-        // TODO : 추가로 update 니까 updateBy 를 넣어주는 것이 좋을듯.
         AdminEntity adminEntity = AdminEntity.builder()
                 .adminId(admin.getAdminId())
                 .adminNm(admin.getAdminNm())
@@ -122,6 +121,7 @@ public class AdminService {
                 .adminEmail(admin.getAdminEmail())
                 .adminRole(admin.getAdminRole())
                 .isDel(admin.getIsDel())
+                .updatedBy(admin.getUpdatedBy())
                 .build();
 
         Optional<AdminEntity> updateRst = Optional.ofNullable(repository.updateAdmin(adminEntity));
@@ -131,10 +131,10 @@ public class AdminService {
             type = "삭제";
 
         if(updateRst.isEmpty()) {
-            return Result.Failure.of(String.format("회원정보 %s에 실패하였습니다.", type), ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of(String.format("회원정보 %s 실패.", type), ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(rst, String.format("회원정보가 정상적으로 %s되었습니다.", type));
+        return Result.Success.of(rst, String.format("회원정보 %s 성공.", type));
     }
 
     /**
@@ -153,9 +153,9 @@ public class AdminService {
         if(selectRst.isPresent()) {
             rst.convertEntityToDto(selectRst.get());
         }else{
-            return Result.Failure.of("관리자 회원 정보가 존재하지 않습니다.",  ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("관리자 회원 정보 존재하지 않음.",  ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(rst, "관리자 회원 정보가 정상적으로 검색되었습니다.");
+        return Result.Success.of(rst, "관리자 회원 정보 조회 완료.");
     }
 }

@@ -39,10 +39,10 @@ public class OrganizationService {
 
         Optional<OrganizationEntity> updateRst = Optional.ofNullable(repository.updateOrganization(orgEntity));
         if(updateRst.isEmpty()){
-            Result.Failure.of("단체 정보 수정에 실패하였습니다. 넥서스 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
+            Result.Failure.of("단체 정보 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(rst, "단체 정보 수정에 성공하였습니다.");
+        return Result.Success.of(rst, "단체 정보 수정 성공.");
 
     }
 
@@ -59,9 +59,9 @@ public class OrganizationService {
             rst.convertEntityToDto(selectRst.get());
         }
         else{
-            return Result.Failure.of("단체 정보가 존재하지 않습니다.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("단체 정보 존재하지 않음.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(rst, "단체 정보가 정상적으로 검색되었습니다.");
+        return Result.Success.of(rst, "단체 정보 조회 완료.");
     }
 }

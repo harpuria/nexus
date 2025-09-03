@@ -41,7 +41,7 @@ public class GameUserService {
         Optional<GameUserEntity> insertRst = Optional.ofNullable(gameUserRepository.createGameUser(gameUserEntity));
 
         if(insertRst.isPresent()){
-            rst.convertEntityToDTO(insertRst.get());
+            rst.convertEntityToDto(insertRst.get());
         }else{
             return Result.Failure.of("유저 생성 중 오류가 발생하였습니다. 넥서스 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
         }
@@ -78,7 +78,7 @@ public class GameUserService {
         Optional<GameUserEntity> updateRst = Optional.ofNullable(gameUserRepository.updateGameUser(gameUserEntity));
 
         if(updateRst.isPresent()){
-            rst.convertEntityToDTO(updateRst.get());
+            rst.convertEntityToDto(updateRst.get());
         }else{
             return Result.Failure.of("유저 정보 수정 중 오류가 발생하였습니다. 넥서스 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
         }

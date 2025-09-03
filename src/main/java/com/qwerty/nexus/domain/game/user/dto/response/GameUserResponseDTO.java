@@ -24,7 +24,7 @@ public class GameUserResponseDTO extends BaseResponseDTO {
     private OffsetDateTime withdrawalDate;
     private String withdrawalReason;
 
-    public void convertEntityToDTO(GameUserEntity gameUser){
+    public void convertEntityToDto(GameUserEntity gameUser){
         this.setUserId(gameUser.getUserId());
         this.setGameId(gameUser.getGameId());
         this.setUserLId(gameUser.getUserLId());

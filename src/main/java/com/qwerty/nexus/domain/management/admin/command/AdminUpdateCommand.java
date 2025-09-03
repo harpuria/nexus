@@ -13,4 +13,5 @@ public class AdminUpdateCommand {
     private String adminEmail;
     private String adminNm;
     private String isDel;
+    private String updatedBy;
 }

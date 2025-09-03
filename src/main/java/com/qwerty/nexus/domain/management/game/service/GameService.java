@@ -42,10 +42,10 @@ public class GameService {
         Optional<GameEntity> insertRst = Optional.ofNullable(repository.insertGame(gameEntity));
 
         if(insertRst.isEmpty()) {
-            return Result.Failure.of("게임이 정상적으로 생성되지 않았습니다. 넥서스 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("게임 생성 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(rst, "정상적으로 게임이 생성되었습니다");
+        return Result.Success.of(rst, "게임 생성 성공.");
     }
 
     /**
@@ -67,10 +67,10 @@ public class GameService {
         Optional<GameEntity> updateRst = Optional.ofNullable(repository.updateGame(gameEntity));
 
         if(updateRst.isEmpty()){
-            return Result.Failure.of("게임 정보 수정이 실패했습니다. 넥서스 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("게임 정보 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(rst, "게임 정보 수정이 정상적으로 진행되었습니다.");
+        return Result.Success.of(rst, "게임 정보 수정 성공.");
     }
 
     /**
@@ -86,9 +86,9 @@ public class GameService {
             rst.convertEntityToDto(selectRst.get());
         }
         else{
-            return Result.Failure.of("게임 정보가 존재하지 않습니다.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("게임 정보 존재하지 않음.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(rst, "게임 정보가 정상적으로 조회되었습니다.");
+        return Result.Success.of(rst, "게임 정보가 조회 완료.");
     }
 }

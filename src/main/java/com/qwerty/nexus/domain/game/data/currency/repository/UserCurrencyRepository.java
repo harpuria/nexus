@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.data.currency.repository;
 
+import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
@@ -17,5 +18,13 @@ public class UserCurrencyRepository {
     public UserCurrencyRepository(Configuration configuration, DSLContext dslContext) {
         this.dslContext = dslContext;
         this.dao = new UserCurrencyDao(configuration);
+    }
+
+    public UserCurrencyEntity createUserCurrency(UserCurrencyEntity entity) {
+        return null;
+    }
+
+    public UserCurrencyEntity updateUserCurrency(UserCurrencyEntity entity) {
+        return null;
     }
 }

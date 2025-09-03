@@ -30,6 +30,9 @@ public class AdminUpdateRequestDto {
     @Schema(example = "N")
     private String isDel;
 
+    @Schema(example = "admin")
+    private String updatedBy;
+
     public AdminUpdateCommand toCommand() {
         return AdminUpdateCommand.builder()
                 .adminId(this.adminId)
@@ -39,6 +42,7 @@ public class AdminUpdateRequestDto {
                 .adminEmail(this.adminEmail)
                 .adminNm(this.adminNm)
                 .isDel(this.isDel)
+                .updatedBy(this.updatedBy)
                 .build();
     }
 }

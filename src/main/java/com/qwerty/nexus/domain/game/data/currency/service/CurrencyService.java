@@ -38,13 +38,13 @@ public class CurrencyService {
 
         Optional<CurrencyEntity> createRst = Optional.ofNullable(repository.createCurrency(entity));
         if(createRst.isPresent()){
-            rst.convertEntityToDTO(createRst.get());
+            rst.convertEntityToDto(createRst.get());
         }
         else{
-            return Result.Failure.of("재화 생성에 실패하였습니다", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("재화 생성 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(rst, "재화 생성이 완료되었습니다.");
+        return Result.Success.of(rst, "재화 생성 완료.");
     }
 
     /**
@@ -70,10 +70,10 @@ public class CurrencyService {
 
         Optional<CurrencyEntity> updateRst = Optional.ofNullable(repository.updateCurrency(entity));
         if(updateRst.isEmpty()) {
-            return Result.Failure.of(String.format("재화 %s에 실패하였습니다.", type), ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of(String.format("재화 %s 실패.", type), ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(rst, String.format("재화 %s이(가) 완료되었습니다.", type));
+        return Result.Success.of(rst, String.format("재화 %s 완료.", type));
     }
 
     /**
@@ -89,7 +89,7 @@ public class CurrencyService {
 
         Optional<CurrencyEntity> selectRst = Optional.ofNullable(repository.selectOneCurrency(entity));
         if(selectRst.isPresent()){
-            rst.convertEntityToDTO(selectRst.get());
+            rst.convertEntityToDto(selectRst.get());
         }else{
             return Result.Failure.of("재화 정보 조회 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
