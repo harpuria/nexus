@@ -1,13 +1,14 @@
 package com.qwerty.nexus.domain.management.admin.entity;
 
-import lombok.Builder;
+import com.qwerty.nexus.global.extend.entity.PagingEntity;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
 import java.time.OffsetDateTime;
 
 @Getter
-@Builder
-public class AdminEntity {
+@SuperBuilder
+public class AdminEntity extends PagingEntity {
     private Integer adminId;
     private Integer orgId;
     private Integer gameId;

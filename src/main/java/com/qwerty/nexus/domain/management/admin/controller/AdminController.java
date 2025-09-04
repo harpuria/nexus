@@ -29,31 +29,31 @@ public class AdminController {
 
     /**
      * 초기 사용자 등록 (SUPER 관리자)
-     * @param admin 초기 생성할 관리자 정보를 담은 객체 (DTO)
+     * @param dto 초기 생성할 관리자 정보를 담은 객체 (DTO)
      * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @PostMapping("/initialize")
     @Operation(summary = "초기 사용자 등록 (SUPER 관리자)")
     public ResponseEntity<ApiResponse<Void>> initializeAdmin(
-            @Parameter @RequestBody AdminInitCreateRequestDto admin){
+            @Parameter @RequestBody AdminInitCreateRequestDto dto){
         // 초기 사용자는 무조건 SUPER 관리자로 등록
-        admin.setAdminRole(AdminRole.SUPER.name());
+        dto.setAdminRole(AdminRole.SUPER.name());
 
-        Result<AdminResponseDto> result = service.register(admin.toCommand());
+        Result<AdminResponseDto> result = service.register(dto.toCommand());
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
     /**
      * 관리자 생성
-     * @param admin 생성할 관리자 정보를 담은 객체 (DTO)
+     * @param dto 생성할 관리자 정보를 담은 객체 (DTO)
      * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @PostMapping
     @Operation(summary = "관리자 생성 (SUPER 관리자가 생성)")
     public ResponseEntity<ApiResponse<Void>> createAdmin(
-            @Parameter @RequestBody AdminCreateRequestDto admin){
-        Result<AdminResponseDto> result = service.register(admin.toCommand());
+            @Parameter @RequestBody AdminCreateRequestDto dto){
+        Result<AdminResponseDto> result = service.register(dto.toCommand());
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
@@ -61,16 +61,16 @@ public class AdminController {
     /**
      * 관리자 정보 수정
      * @param adminId 관리자 아이디 (PK)
-     * @param admin 수정할 관리자 정보를 담은 객체 (DTO)
+     * @param dto 수정할 관리자 정보를 담은 객체 (DTO)
      * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @PatchMapping("/{adminId}")
     @Operation(summary = "관리자 정보 수정")
     public ResponseEntity<ApiResponse<Void>> updateAdmin(@PathVariable("adminId") Integer adminId,
-                                                                     @Parameter @RequestBody AdminUpdateRequestDto admin){
-        admin.setAdminId(adminId);
+                                                                     @Parameter @RequestBody AdminUpdateRequestDto dto){
+        dto.setAdminId(adminId);
 
-        Result<AdminResponseDto> result = service.update(admin.toCommand());
+        Result<AdminResponseDto> result = service.update(dto.toCommand());
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -107,34 +107,36 @@ public class AdminController {
 
     /**
      * 관리자 목록 조회
+     * @param dto
      * @return 복수의 관리자 정보를 담은 리스트 객체 (DTO)
      */
     @GetMapping("/list")
     @Operation(summary = "관리자 목록 조회 (미개발)")
-    public ResponseEntity<ApiResponse<List<AdminResponseDto>>> selectAdminList(){
-        return null;
+    public ResponseEntity<ApiResponse<List<AdminResponseDto>>> selectAllAdmin(@RequestBody AdminSearchRequestDto dto){
+        Result<List<AdminResponseDto>> result = service.selectAllAdmin(dto.toCommand());
+        return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
 
     /**
      * 관리자 로그인
-     * @param admin 관리자 정보를 담은 객체 (DTO)
+     * @param dto 관리자 정보를 담은 객체 (DTO)
      * @return
      */
     @PostMapping("/login")
     @Operation(summary = "관리자 로그인 (미개발)")
-    public ResponseEntity<ApiResponse<AdminResponseDto>> login(@RequestBody AdminLoginRequestDto admin){
+    public ResponseEntity<ApiResponse<AdminResponseDto>> login(@RequestBody AdminLoginRequestDto dto){
         return null;
     }
 
     /**
      * 관리자 로그아웃
-     * @param admin 관리자 정보를 담은 객체 (DTO)
+     * @param dto 관리자 정보를 담은 객체 (DTO)
      * @return
      */
     @PostMapping("/logout")
     @Operation(summary = "관리자 로그아웃 (미개발)")
-    public ResponseEntity<ApiResponse<AdminResponseDto>> logout(@RequestBody AdminLogoutRequestDto admin){
+    public ResponseEntity<ApiResponse<AdminResponseDto>> logout(@RequestBody AdminLogoutRequestDto dto){
         return null;
     }
 }

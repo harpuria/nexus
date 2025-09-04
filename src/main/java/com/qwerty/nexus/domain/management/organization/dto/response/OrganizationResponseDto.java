@@ -1,13 +1,13 @@
 package com.qwerty.nexus.domain.management.organization.dto.response;
 
 import com.qwerty.nexus.domain.management.organization.entity.OrganizationEntity;
-import com.qwerty.nexus.global.dto.BaseResponseDTO;
+import com.qwerty.nexus.global.extend.dto.BaseResponseDto;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class OrganizationResponseDto extends BaseResponseDTO {
+public class OrganizationResponseDto extends BaseResponseDto {
     private Integer orgId;
     private String orgNm;
     private String orgCd;

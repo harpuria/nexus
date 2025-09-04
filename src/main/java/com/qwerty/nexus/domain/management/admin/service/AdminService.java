@@ -1,6 +1,7 @@
 package com.qwerty.nexus.domain.management.admin.service;
 
 import com.qwerty.nexus.domain.management.admin.command.AdminCreateCommand;
+import com.qwerty.nexus.domain.management.admin.command.AdminSearchCommand;
 import com.qwerty.nexus.domain.management.admin.command.AdminUpdateCommand;
 import com.qwerty.nexus.domain.management.admin.entity.AdminEntity;
 import com.qwerty.nexus.domain.management.admin.repository.AdminRepository;
@@ -16,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Log4j2
@@ -28,25 +31,25 @@ public class AdminService {
 
     /**
      * 관리자 등록
-     * @param admin
+     * @param command
      * @return
      */
-    public Result<AdminResponseDto> register(AdminCreateCommand admin) {
+    public Result<AdminResponseDto> register(AdminCreateCommand command) {
         AdminResponseDto rst = new AdminResponseDto();
 
         // 비밀번호 암호화 인코더
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(admin.getLoginPw());
+        String encodedPassword = passwordEncoder.encode(command.getLoginPw());
 
         AdminEntity adminEntity = AdminEntity.builder()
-                .loginId(admin.getLoginId())
+                .loginId(command.getLoginId())
                 .loginPw(encodedPassword)
-                .adminNm(admin.getAdminNm())
-                .adminEmail(admin.getAdminEmail())
-                .adminRole(admin.getAdminRole())
-                .createdBy(admin.getLoginId())
-                .updatedBy(admin.getLoginId())
-                .orgId(admin.getOrgId())
+                .adminNm(command.getAdminNm())
+                .adminEmail(command.getAdminEmail())
+                .adminRole(command.getAdminRole())
+                .createdBy(command.getLoginId())
+                .updatedBy(command.getLoginId())
+                .orgId(command.getOrgId())
                 .build();
 
         // 회원 중복 확인
@@ -64,28 +67,28 @@ public class AdminService {
         // 총괄(SUPER) 관리자 아이디 신청 여부 확인
         // 1. 맞으면 단체 정보 등록 추가
         // 2. 아니면 바로 다음으로 넘어감
-        if(admin.getAdminRole().equals(AdminRole.SUPER.name())){
+        if(command.getAdminRole().equals(AdminRole.SUPER.name())){
             // orgId 가 없는 경우 단체 정보 생성
-            if(admin.getOrgId() <= 0) {
+            if(command.getOrgId() <= 0) {
                 // 단체 정보 생성 후 orgId 넣기
                 OrganizationEntity organizationEntity = OrganizationEntity.builder()
-                        .orgNm(admin.getOrgNm())
-                        .orgCd(admin.getOrgCd())
-                        .createdBy(admin.getLoginId())
-                        .updatedBy(admin.getLoginId())
+                        .orgNm(command.getOrgNm())
+                        .orgCd(command.getOrgCd())
+                        .createdBy(command.getLoginId())
+                        .updatedBy(command.getLoginId())
                         .build();
 
                 organizationEntity = organizationRepository.insertOrganization(organizationEntity);
 
                 adminEntity = AdminEntity.builder()
-                        .loginId(admin.getLoginId())
+                        .loginId(command.getLoginId())
                         .orgId(organizationEntity.getOrgId())
                         .loginPw(encodedPassword)
-                        .adminNm(admin.getAdminNm())
-                        .adminEmail(admin.getAdminEmail())
-                        .adminRole(admin.getAdminRole())
-                        .createdBy(admin.getLoginId())
-                        .updatedBy(admin.getLoginId())
+                        .adminNm(command.getAdminNm())
+                        .adminEmail(command.getAdminEmail())
+                        .adminRole(command.getAdminRole())
+                        .createdBy(command.getLoginId())
+                        .updatedBy(command.getLoginId())
                         .build();
             }
         }
@@ -101,33 +104,33 @@ public class AdminService {
 
     /**
      * 관리자 정보 수정
-     * @param admin
+     * @param command
      * @return
      */
-    public Result<AdminResponseDto> update(AdminUpdateCommand admin) {
+    public Result<AdminResponseDto> update(AdminUpdateCommand command) {
         AdminResponseDto rst = new AdminResponseDto();
 
         // 변경할 비밀번호가 있는 경우 암호화 처리
         String modifiedPw = null;
-        if(admin.getLoginPw() != null){
+        if(command.getLoginPw() != null){
             PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            modifiedPw = passwordEncoder.encode(admin.getLoginPw());
+            modifiedPw = passwordEncoder.encode(command.getLoginPw());
         }
 
         AdminEntity adminEntity = AdminEntity.builder()
-                .adminId(admin.getAdminId())
-                .adminNm(admin.getAdminNm())
+                .adminId(command.getAdminId())
+                .adminNm(command.getAdminNm())
                 .loginPw(modifiedPw)
-                .adminEmail(admin.getAdminEmail())
-                .adminRole(admin.getAdminRole())
-                .isDel(admin.getIsDel())
-                .updatedBy(admin.getUpdatedBy())
+                .adminEmail(command.getAdminEmail())
+                .adminRole(command.getAdminRole())
+                .isDel(command.getIsDel())
+                .updatedBy(command.getUpdatedBy())
                 .build();
 
         Optional<AdminEntity> updateRst = Optional.ofNullable(repository.updateAdmin(adminEntity));
 
         String type = "수정";
-        if(admin.getIsDel() != null && admin.getIsDel().equalsIgnoreCase("Y"))
+        if(command.getIsDel() != null && command.getIsDel().equalsIgnoreCase("Y"))
             type = "삭제";
 
         if(updateRst.isEmpty()) {
@@ -157,5 +160,16 @@ public class AdminService {
         }
 
         return Result.Success.of(rst, "관리자 회원 정보 조회 완료.");
+    }
+
+    /**
+     * 관리자 목록 조회
+     * @param command
+     * @return
+     */
+    public Result<List<AdminResponseDto>> selectAllAdmin(AdminSearchCommand command) {
+        List<AdminResponseDto> rst = new ArrayList<>();
+
+        repository.selectAllAdmin();
     }
 }

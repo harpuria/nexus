@@ -1,7 +1,7 @@
 package com.qwerty.nexus.domain.game.user.dto.response;
 
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
-import com.qwerty.nexus.global.dto.BaseResponseDTO;
+import com.qwerty.nexus.global.extend.dto.BaseResponseDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +9,7 @@ import java.time.OffsetDateTime;
 
 @Getter
 @Setter
-public class GameUserResponseDTO extends BaseResponseDTO {
+public class GameUserResponseDTO extends BaseResponseDto {
     private Integer userId;
     private Integer gameId;
     private String userLId;

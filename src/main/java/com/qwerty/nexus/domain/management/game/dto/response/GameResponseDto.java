@@ -1,7 +1,7 @@
 package com.qwerty.nexus.domain.management.game.dto.response;
 
 import com.qwerty.nexus.domain.management.game.entity.GameEntity;
-import com.qwerty.nexus.global.dto.BaseResponseDTO;
+import com.qwerty.nexus.global.extend.dto.BaseResponseDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class GameResponseDto extends BaseResponseDTO {
+public class GameResponseDto extends BaseResponseDto {
     private Integer gameId;
     private Integer orgId;
     private String name;

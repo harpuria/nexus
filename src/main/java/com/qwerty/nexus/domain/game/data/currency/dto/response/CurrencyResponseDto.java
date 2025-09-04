@@ -1,25 +1,18 @@
 package com.qwerty.nexus.domain.game.data.currency.dto.response;
 
 import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyEntity;
-import com.qwerty.nexus.global.dto.BaseResponseDTO;
+import com.qwerty.nexus.global.extend.dto.BaseResponseDto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.OffsetDateTime;
-
 @Getter
 @Setter
-public class CurrencyResponseDto extends BaseResponseDTO {
+public class CurrencyResponseDto extends BaseResponseDto {
     private Integer currencyId;
     private Integer gameId;
     private String name;
     private String desc;
     private Long maxAmount;
-    private OffsetDateTime createdAt;
-    private String createdBy;
-    private OffsetDateTime updatedAt;
-    private String updatedBy;
-    private String isDel;
 
     public void convertEntityToDto(CurrencyEntity entity){
         this.currencyId = entity.getCurrencyId();

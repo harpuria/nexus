@@ -119,10 +119,10 @@ public class AdminRepository {
     }
 
     /**
-     * 전체 회원 정보 조회 (추후 페이징, 검색 조건 처리 등 필요)
+     * 관리자 목록 조회
      * @return
      */
-    public List<AdminEntity> selectListAdmin(){
+    public List<AdminEntity> selectAllAdmin(){
         return dslContext.selectFrom(ADMIN)
                 .fetchInto(AdminEntity.class);
     }
