@@ -170,6 +170,16 @@ public class AdminService {
     public Result<List<AdminResponseDto>> selectAllAdmin(AdminSearchCommand command) {
         List<AdminResponseDto> rst = new ArrayList<>();
 
-        repository.selectAllAdmin();
+        AdminEntity entity = AdminEntity.builder()
+                .sort(command.getSort())
+                .keyword(command.getKeyword())
+                .page(command.getPage())
+                .size(command.getSize())
+                .direction(command.getDirection())
+                .build();
+
+        List<AdminEntity> selectRst = repository.selectAllAdmin(entity);
+
+        return Result.Success.of(rst, "관리자 목록 조회 완료.");
     }
 }

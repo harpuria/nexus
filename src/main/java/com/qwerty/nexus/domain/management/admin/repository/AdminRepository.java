@@ -122,8 +122,12 @@ public class AdminRepository {
      * 관리자 목록 조회
      * @return
      */
-    public List<AdminEntity> selectAllAdmin(){
+    public List<AdminEntity> selectAllAdmin(AdminEntity entity){
+        // 기본 검색 조건은 이렇게 하고, 세부검색조건은 나눠서 해야할듯
         return dslContext.selectFrom(ADMIN)
+                .orderBy(ADMIN.ADMIN_ID.desc())
+                .limit(entity.getSize())
+                .offset(entity.getPage() * entity.getSize())
                 .fetchInto(AdminEntity.class);
     }
 
