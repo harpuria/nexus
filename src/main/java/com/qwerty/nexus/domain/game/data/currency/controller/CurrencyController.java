@@ -28,7 +28,7 @@ public class CurrencyController {
 
     /***
      * 재화 정보 생성
-     * @param dto
+     * @param dto 생성할 재화 정보가 들어있는 객체 (DTO)
      * @return
      */
     @PostMapping
@@ -41,7 +41,7 @@ public class CurrencyController {
 
     /**
      * 재화 정보 수정
-     * @param dto
+     * @param dto 수정할 재화 정보가 들어있는 객체 (DTO)
      * @return
      */
     @PatchMapping("/{currencyId}")
@@ -56,7 +56,7 @@ public class CurrencyController {
 
     /**
      * 재화 정보 삭제
-     * @param currencyId
+     * @param currencyId 삭제할 재화의 아이디 (PK)
      * @return
      */
     @DeleteMapping("/{currencyId}")

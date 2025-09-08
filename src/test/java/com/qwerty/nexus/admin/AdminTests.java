@@ -1,5 +1,6 @@
 package com.qwerty.nexus.admin;
 
+import com.qwerty.nexus.domain.management.admin.command.AdminCreateCommand;
 import com.qwerty.nexus.domain.management.admin.service.AdminService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,9 +17,22 @@ public class AdminTests {
     private PasswordEncoder passwordEncoder;
 
     @Test
-    @DisplayName("SUPER 관리자 등록 케이스")
+    @DisplayName("관리자 등록 서비스 테스트")
     public void registerAdmin(){
 
+        // 관리자 여러명 등록
+        for(int i = 0; i < 20; i++){
+            AdminCreateCommand command = AdminCreateCommand.builder()
+                    .loginId(String.format("admin%s", i + 1))
+                    .loginPw("admin")
+                    .adminEmail(String.format("admin%s@admin.com", i + 1))
+                    .adminNm(String.format("adminName%s", i + 1))
+                    .adminRole("SUPER")
+                    .orgId(1)
+                    .build();
+
+            adminService.register(command);
+        }
     }
 
     @Test

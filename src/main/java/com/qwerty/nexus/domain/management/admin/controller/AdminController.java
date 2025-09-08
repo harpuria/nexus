@@ -107,11 +107,11 @@ public class AdminController {
 
     /**
      * 관리자 목록 조회
-     * @param dto
+     * @param dto 관리자 목록 조회에 필요한 정보(페이징 처리 등) 관련된 객체 (DTO)
      * @return 복수의 관리자 정보를 담은 리스트 객체 (DTO)
      */
     @GetMapping("/list")
-    @Operation(summary = "관리자 목록 조회 (미개발)")
+    @Operation(summary = "관리자 목록 조회")
     public ResponseEntity<ApiResponse<List<AdminResponseDto>>> selectAllAdmin(@RequestBody AdminSearchRequestDto dto){
         Result<List<AdminResponseDto>> result = service.selectAllAdmin(dto.toCommand());
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
