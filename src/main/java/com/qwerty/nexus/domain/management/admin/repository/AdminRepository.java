@@ -2,9 +2,7 @@ package com.qwerty.nexus.domain.management.admin.repository;
 
 import com.qwerty.nexus.domain.management.admin.entity.AdminEntity;
 import lombok.extern.log4j.Log4j2;
-import org.jooq.Condition;
-import org.jooq.Configuration;
-import org.jooq.DSLContext;
+import org.jooq.*;
 import org.jooq.generated.tables.JAdmin;
 import org.jooq.generated.tables.daos.AdminDao;
 import org.jooq.generated.tables.records.AdminRecord;
@@ -124,6 +122,8 @@ public class AdminRepository {
      */
     public List<AdminEntity> selectAllAdmin(AdminEntity entity){
         // 기본 검색 조건은 이렇게 하고, 세부검색조건은 나눠서 해야할듯
+        // 조건 설정
+        Condition condition = DSL.noCondition();
         return dslContext.selectFrom(ADMIN)
                 .orderBy(ADMIN.ADMIN_ID.desc())
                 .limit(entity.getSize())

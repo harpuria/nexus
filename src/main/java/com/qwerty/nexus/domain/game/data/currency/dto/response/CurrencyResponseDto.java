@@ -15,15 +15,15 @@ public class CurrencyResponseDto extends BaseResponseDto {
     private Long maxAmount;
 
     public void convertEntityToDto(CurrencyEntity entity){
-        this.currencyId = entity.getCurrencyId();
-        this.gameId = entity.getGameId();
-        this.name = entity.getName();
-        this.desc = entity.getDesc();
-        this.maxAmount = entity.getMaxAmount();
-        this.createdAt = entity.getCreatedAt();
-        this.createdBy = entity.getCreatedBy();
-        this.updatedAt = entity.getUpdatedAt();
-        this.updatedBy = entity.getUpdatedBy();
-        this.isDel = entity.getIsDel();
+        this.setCurrencyId(entity.getCurrencyId());
+        this.setGameId(entity.getGameId());
+        this.setName(entity.getName());
+        this.setDesc(entity.getDesc());
+        this.setMaxAmount(entity.getMaxAmount());
+        this.setCreatedAt(entity.getCreatedAt());
+        this.setCreatedBy(entity.getCreatedBy());
+        this.setUpdatedAt(entity.getUpdatedAt());
+        this.setUpdatedBy(entity.getUpdatedBy());
+        this.setIsDel(entity.getIsDel());
     }
 }

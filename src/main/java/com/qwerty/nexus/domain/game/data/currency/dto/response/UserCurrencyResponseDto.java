@@ -14,14 +14,14 @@ public class UserCurrencyResponseDto extends BaseResponseDto {
     private Long amount;
 
     public void convertToDto(UserCurrencyEntity entity){
-        this.userCurrencyId = entity.getUserCurrencyId();
-        this.currencyId = entity.getCurrencyId();
-        this.userId = entity.getUserId();
-        this.amount = entity.getAmount();
-        this.createdAt = entity.getCreatedAt();
-        this.createdBy = entity.getCreatedBy();
-        this.updatedAt = entity.getUpdatedAt();
-        this.updatedBy = entity.getUpdatedBy();
-        this.isDel = entity.getIsDel();
+        this.setUserCurrencyId(entity.getUserCurrencyId());
+        this.setCurrencyId(entity.getCurrencyId());
+        this.setUserId(entity.getUserId());
+        this.setAmount(entity.getAmount());
+        this.setCreatedAt(entity.getCreatedAt());
+        this.setCreatedBy(entity.getCreatedBy());
+        this.setUpdatedAt(entity.getUpdatedAt());
+        this.setUpdatedBy(entity.getUpdatedBy());
+        this.setIsDel(entity.getIsDel());
     }
 }
