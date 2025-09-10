@@ -1,8 +1,10 @@
 package com.qwerty.nexus.domain.game.user.service;
 
+import com.qwerty.nexus.domain.game.user.command.GameUserBlockCommand;
 import com.qwerty.nexus.domain.game.user.command.GameUserCreateCommand;
 import com.qwerty.nexus.domain.game.user.command.GameUserUpdateCommand;
-import com.qwerty.nexus.domain.game.user.dto.response.GameUserResponseDTO;
+import com.qwerty.nexus.domain.game.user.command.GameUserWithdrawalCommand;
+import com.qwerty.nexus.domain.game.user.dto.response.GameUserResponseDto;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
 import com.qwerty.nexus.global.exception.ErrorCode;
@@ -21,68 +23,122 @@ public class GameUserService {
 
     /**
      * 게임 유저 생성
-     * @param gameUserCreateCommand
+     * @param command
      * @return
      */
-    public Result<GameUserResponseDTO> createGameUser(GameUserCreateCommand gameUserCreateCommand) {
-        GameUserResponseDTO rst = new GameUserResponseDTO();
+    public Result<GameUserResponseDto> createGameUser(GameUserCreateCommand command) {
+        GameUserResponseDto rst = new GameUserResponseDto();
 
-        GameUserEntity gameUserEntity = GameUserEntity.builder()
-                .gameId(gameUserCreateCommand.getGameId())
-                .userLId(gameUserCreateCommand.getUserLId())
-                .userLPw(gameUserCreateCommand.getUserLPw())
-                .nickname(gameUserCreateCommand.getNickname())
-                .loginType(gameUserCreateCommand.getLoginType())
-                .device(gameUserCreateCommand.getDevice())
-                .createdBy(gameUserCreateCommand.getCreatedBy())
-                .updatedBy(gameUserCreateCommand.getCreatedBy())
+        GameUserEntity entity = GameUserEntity.builder()
+                .gameId(command.getGameId())
+                .userLId(command.getUserLId())
+                .userLPw(command.getUserLPw())
+                .nickname(command.getNickname())
+                .loginType(command.getLoginType())
+                .device(command.getDevice())
+                .createdBy(command.getCreatedBy())
+                .updatedBy(command.getCreatedBy())
                 .build();
 
-        Optional<GameUserEntity> insertRst = Optional.ofNullable(gameUserRepository.createGameUser(gameUserEntity));
+        Optional<GameUserEntity> insertRst = Optional.ofNullable(gameUserRepository.createGameUser(entity));
 
         if(insertRst.isPresent()){
             rst.convertEntityToDto(insertRst.get());
         }else{
-            return Result.Failure.of("유저 생성 중 오류가 발생하였습니다. 넥서스 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("유저 생성 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(rst, "유저가 정상적으로 생성되었습니다.");
+        return Result.Success.of(rst, "유저 생성 성공.");
     }
 
     /**
      * 게임 유저 수정
-     * @param gameUserUpdateCommand
+     * @param command
      * @return
      */
-    public Result<GameUserResponseDTO> updateGameUser(GameUserUpdateCommand gameUserUpdateCommand) {
-        GameUserResponseDTO rst = new GameUserResponseDTO();
+    public Result<GameUserResponseDto> updateGameUser(GameUserUpdateCommand command) {
+        GameUserResponseDto rst = new GameUserResponseDto();
 
-        GameUserEntity gameUserEntity = GameUserEntity.builder()
-                .userId(gameUserUpdateCommand.getUserId())
-                .gameId(gameUserUpdateCommand.getGameId())
-                .userLId(gameUserUpdateCommand.getUserLId())
-                .userLPw(gameUserUpdateCommand.getUserLPw())
-                .nickname(gameUserUpdateCommand.getNickname())
-                .loginType(gameUserUpdateCommand.getLoginType())
-                .device(gameUserUpdateCommand.getDevice())
-                .blockStartDate(gameUserUpdateCommand.getBlockStartDate())
-                .blockEndDate(gameUserUpdateCommand.getBlockEndDate())
-                .blockReason(gameUserUpdateCommand.getBlockReason())
-                .isWithdrawal(gameUserUpdateCommand.getIsWithdrawal())
-                .withdrawalDate(gameUserUpdateCommand.getWithdrawalDate())
-                .withdrawalReason(gameUserUpdateCommand.getWithdrawalReason())
-                .updatedBy(gameUserUpdateCommand.getUpdatedBy())
-                .isDel(gameUserUpdateCommand.getIsDel())
+        GameUserEntity entity = GameUserEntity.builder()
+                .userId(command.getUserId())
+                .gameId(command.getGameId())
+                .userLId(command.getUserLId())
+                .userLPw(command.getUserLPw())
+                .nickname(command.getNickname())
+                .loginType(command.getLoginType())
+                .device(command.getDevice())
+                .blockStartDate(command.getBlockStartDate())
+                .blockEndDate(command.getBlockEndDate())
+                .blockReason(command.getBlockReason())
+                .isWithdrawal(command.getIsWithdrawal())
+                .withdrawalDate(command.getWithdrawalDate())
+                .withdrawalReason(command.getWithdrawalReason())
+                .updatedBy(command.getUpdatedBy())
+                .isDel(command.getIsDel())
                 .build();
 
-        Optional<GameUserEntity> updateRst = Optional.ofNullable(gameUserRepository.updateGameUser(gameUserEntity));
+        Optional<GameUserEntity> updateRst = Optional.ofNullable(gameUserRepository.updateGameUser(entity));
 
         if(updateRst.isPresent()){
             rst.convertEntityToDto(updateRst.get());
         }else{
-            return Result.Failure.of("유저 정보 수정 중 오류가 발생하였습니다. 넥서스 관리자에게 문의해주세요.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("유저 정보 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(rst, "유저 정보가 정상적으로 수정되었습니다.");
+        return Result.Success.of(rst, "유저 정보 수정 성공.");
+    }
+
+    /**
+     * 게임 유저 정지
+     * @param command
+     * @return
+     */
+    public Result<GameUserResponseDto> blockGameUser(GameUserBlockCommand command) {
+        GameUserResponseDto rst = new GameUserResponseDto();
+
+        GameUserEntity entity = GameUserEntity.builder()
+                .userId(command.getUserId())
+                .blockStartDate(command.getBlockStartDate())
+                .blockEndDate(command.getBlockEndDate())
+                .blockReason(command.getBlockReason())
+                .updatedBy(command.getUpdatedBy())
+                .build();
+
+        Optional<GameUserEntity> updateRst = Optional.ofNullable(gameUserRepository.updateGameUser(entity));
+
+        if(updateRst.isPresent()){
+            rst.convertEntityToDto(updateRst.get());
+        }else{
+            return Result.Failure.of("유저 정지 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+        }
+
+        return Result.Success.of(rst, "유저 정지 성공.");
+    }
+
+    /**
+     * 게임 유저 탈퇴
+     * @param command
+     * @return
+     */
+    public Result<GameUserResponseDto> withdrawalGameUser(GameUserWithdrawalCommand command) {
+        GameUserResponseDto rst = new GameUserResponseDto();
+
+        GameUserEntity entity = GameUserEntity.builder()
+                .userId(command.getUserId())
+                .isWithdrawal(command.getIsWithdrawal())
+                .withdrawalDate(command.getWithdrawalDate())
+                .withdrawalReason(command.getWithdrawalReason())
+                .updatedBy(command.getUpdatedBy())
+                .build();
+
+        Optional<GameUserEntity> updateRst = Optional.ofNullable(gameUserRepository.updateGameUser(entity));
+
+        if(updateRst.isPresent()){
+            rst.convertEntityToDto(updateRst.get());
+        }else{
+            return Result.Failure.of("유저 탈퇴 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+        }
+
+        return Result.Success.of(rst, "유저 탈퇴 성공.");
     }
 }

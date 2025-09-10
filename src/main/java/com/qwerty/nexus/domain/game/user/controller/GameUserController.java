@@ -1,8 +1,10 @@
 package com.qwerty.nexus.domain.game.user.controller;
 
+import com.qwerty.nexus.domain.game.user.dto.request.GameUserBlockRequestDto;
 import com.qwerty.nexus.domain.game.user.dto.request.GameUserCreateRequestDto;
 import com.qwerty.nexus.domain.game.user.dto.request.GameUserUpdateRequestDto;
-import com.qwerty.nexus.domain.game.user.dto.response.GameUserResponseDTO;
+import com.qwerty.nexus.domain.game.user.dto.request.GameUserWithdrawalRequestDto;
+import com.qwerty.nexus.domain.game.user.dto.response.GameUserResponseDto;
 import com.qwerty.nexus.domain.game.user.service.GameUserService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
@@ -34,42 +36,58 @@ public class GameUserController {
 
     /**
      * 게임 유저 생성 (소셜 로그인 고려 X)
-     * @param gameUserCreateRequestDto 생성할 게임 유저 정보를 담은 객체 (DTO)
+     * @param dto 생성할 게임 유저 정보를 담은 객체 (DTO)
      * @return
      */
     @PostMapping
     @Operation(summary = "게임 유저 생성")
-    public ResponseEntity<ApiResponse<Void>> createGameUser(@RequestBody GameUserCreateRequestDto gameUserCreateRequestDto) {
-        Result<GameUserResponseDTO> result = gameUserService.createGameUser(gameUserCreateRequestDto.toCommand());
+    public ResponseEntity<ApiResponse<Void>> createGameUser(@RequestBody GameUserCreateRequestDto dto) {
+        Result<GameUserResponseDto> result = gameUserService.createGameUser(dto.toCommand());
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
     /**
      * 게임 유저 수정
-     * @param gameUserUpdateRequestDto 수정할 게임 유저 정보를 담은 객체 (DTO)
+     * @param dto 수정할 게임 유저 정보를 담은 객체 (DTO)
      * @return
      */
     @PatchMapping("/{gameUserId}")
     @Operation(summary = "게임 유저 수정")
-    public ResponseEntity<ApiResponse<Void>> updateGameUser(@PathVariable("gameUserId") int gameUserId, @RequestBody GameUserUpdateRequestDto gameUserUpdateRequestDto) {
-        gameUserUpdateRequestDto.setUserId(gameUserId);
+    public ResponseEntity<ApiResponse<Void>> updateGameUser(@PathVariable("gameUserId") int gameUserId, @RequestBody GameUserUpdateRequestDto dto) {
+        dto.setUserId(gameUserId);
 
-        Result<GameUserResponseDTO> result = gameUserService.updateGameUser(gameUserUpdateRequestDto.toCommand());
+        Result<GameUserResponseDto> result = gameUserService.updateGameUser(dto.toCommand());
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
 
-    @PatchMapping("/user-ban/{gameUserId}")
-    @Operation(summary = "유저 정지 처리(개발중)")
-    public ResponseEntity<ApiResponse<Void>>  banGameUser(@PathVariable("gameUserId") int gameUserId) {
-        return null;
+    @PatchMapping("/block/{gameUserId}")
+    @Operation(summary = "유저 정지 처리")
+    public ResponseEntity<ApiResponse<Void>> blockGameUser(@PathVariable("gameUserId") int gameUserId, @RequestBody GameUserBlockRequestDto dto) {
+        dto.setUserId(gameUserId);
+
+        // 정지 종료일이 있고, 정지일수가 있으면 시작일에서 정지일수를 더한 값만큼 계산
+        if(dto.getBlockEndDate() != null && dto.getBlockDay() > 0)
+            dto.setBlockEndDate(dto.getBlockStartDate().plusDays(dto.getBlockDay()));
+
+        // 정지 종료일과 정지일수가 없으면 무제한 정지
+        if(dto.getBlockEndDate() != null && dto.getBlockDay() <= 0)
+            dto.setBlockEndDate(dto.getBlockStartDate().plusDays(99999));
+
+        Result<GameUserResponseDto> result = gameUserService.blockGameUser(dto.toCommand());
+
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
-    @PatchMapping("/user-quit/{gameUserId}")
-    @Operation(summary = "유저 탈퇴 처리(개발중)")
-    public ResponseEntity<ApiResponse<Void>>  quitGameUser(@PathVariable("gameUserId") int gameUserId) {
-        return null;
+    @PatchMapping("/withdrawal/{gameUserId}")
+    @Operation(summary = "유저 탈퇴 처리")
+    public ResponseEntity<ApiResponse<Void>>  withdrawalGameUser(@PathVariable("gameUserId") int gameUserId, @RequestBody GameUserWithdrawalRequestDto dto) {
+        dto.setUserId(gameUserId);
+
+        Result<GameUserResponseDto> result = gameUserService.withdrawalGameUser(dto.toCommand());
+
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
 

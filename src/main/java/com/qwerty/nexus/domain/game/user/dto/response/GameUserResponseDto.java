@@ -9,7 +9,7 @@ import java.time.OffsetDateTime;
 
 @Getter
 @Setter
-public class GameUserResponseDTO extends BaseResponseDto {
+public class GameUserResponseDto extends BaseResponseDto {
     private Integer userId;
     private Integer gameId;
     private String userLId;
