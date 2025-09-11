@@ -1,16 +1,16 @@
 package com.qwerty.nexus.domain.game.user.service;
 
-import com.qwerty.nexus.domain.game.user.command.GameUserBlockCommand;
-import com.qwerty.nexus.domain.game.user.command.GameUserCreateCommand;
-import com.qwerty.nexus.domain.game.user.command.GameUserUpdateCommand;
-import com.qwerty.nexus.domain.game.user.command.GameUserWithdrawalCommand;
+import com.qwerty.nexus.domain.game.user.command.*;
+import com.qwerty.nexus.domain.game.user.dto.response.GameUserLoginResponseDto;
 import com.qwerty.nexus.domain.game.user.dto.response.GameUserResponseDto;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.response.Result;
+import com.qwerty.nexus.global.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,7 +19,9 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class GameUserService {
-    private final GameUserRepository gameUserRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
+    private final GameUserRepository repository;
 
     /**
      * 게임 유저 생성
@@ -40,7 +42,7 @@ public class GameUserService {
                 .updatedBy(command.getCreatedBy())
                 .build();
 
-        Optional<GameUserEntity> insertRst = Optional.ofNullable(gameUserRepository.createGameUser(entity));
+        Optional<GameUserEntity> insertRst = Optional.ofNullable(repository.createGameUser(entity));
 
         if(insertRst.isPresent()){
             rst.convertEntityToDto(insertRst.get());
@@ -77,7 +79,7 @@ public class GameUserService {
                 .isDel(command.getIsDel())
                 .build();
 
-        Optional<GameUserEntity> updateRst = Optional.ofNullable(gameUserRepository.updateGameUser(entity));
+        Optional<GameUserEntity> updateRst = Optional.ofNullable(repository.updateGameUser(entity));
 
         if(updateRst.isPresent()){
             rst.convertEntityToDto(updateRst.get());
@@ -104,7 +106,7 @@ public class GameUserService {
                 .updatedBy(command.getUpdatedBy())
                 .build();
 
-        Optional<GameUserEntity> updateRst = Optional.ofNullable(gameUserRepository.updateGameUser(entity));
+        Optional<GameUserEntity> updateRst = Optional.ofNullable(repository.updateGameUser(entity));
 
         if(updateRst.isPresent()){
             rst.convertEntityToDto(updateRst.get());
@@ -131,7 +133,7 @@ public class GameUserService {
                 .updatedBy(command.getUpdatedBy())
                 .build();
 
-        Optional<GameUserEntity> updateRst = Optional.ofNullable(gameUserRepository.updateGameUser(entity));
+        Optional<GameUserEntity> updateRst = Optional.ofNullable(repository.updateGameUser(entity));
 
         if(updateRst.isPresent()){
             rst.convertEntityToDto(updateRst.get());
@@ -140,5 +142,26 @@ public class GameUserService {
         }
 
         return Result.Success.of(rst, "유저 탈퇴 성공.");
+    }
+
+    /**
+     * 사용자 인증 처리
+     * @param command
+     * @return
+     */
+    public Result<GameUserLoginResponseDto> authenticate(GameUserLoginRequestCommand command){
+        GameUserLoginResponseDto rst = new GameUserLoginResponseDto();
+
+        // 1) DB 에서 사용자 조회
+        // 2) 비밀번호 검증처리 (소셜로그인의 경우는 이 과정이 불필요할듯)
+        // 3) JWT 토큰 생성
+
+        String token = jwtUtil.generateAccessToken(1L, "test@naver.com", "testName");
+
+        System.out.println("======");
+        System.out.println(token);
+        System.out.println("======");
+
+        return Result.Success.of(rst, "유저 인증 성공");
     }
 }

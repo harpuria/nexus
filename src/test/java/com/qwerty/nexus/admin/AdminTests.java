@@ -1,5 +1,6 @@
 package com.qwerty.nexus.admin;
 
+import com.qwerty.nexus.domain.game.user.service.GameUserService;
 import com.qwerty.nexus.domain.management.admin.command.AdminCreateCommand;
 import com.qwerty.nexus.domain.management.admin.service.AdminService;
 import org.junit.jupiter.api.DisplayName;
@@ -12,6 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class AdminTests {
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private GameUserService gameUserService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -46,5 +50,10 @@ public class AdminTests {
     public void selectOneAdmin(){
         int adminId = 1; // 상황에 따라서 수정
         System.out.println(adminService.selectOneAdmin(adminId));
+    }
+
+    @Test
+    public void jwtTest(){
+        gameUserService.authenticate(null);
     }
 }
