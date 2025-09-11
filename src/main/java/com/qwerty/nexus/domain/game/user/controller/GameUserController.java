@@ -18,6 +18,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.OffsetDateTime;
+
 @Log4j2
 @RestController
 @RequestMapping(ApiConstants.Path.GAME_USER_PATH)
@@ -67,12 +69,12 @@ public class GameUserController {
     public ResponseEntity<ApiResponse<Void>> blockGameUser(@PathVariable("gameUserId") int gameUserId, @RequestBody GameUserBlockRequestDto dto) {
         dto.setUserId(gameUserId);
 
-        // 정지 종료일이 있고, 정지일수가 있으면 시작일에서 정지일수를 더한 값만큼 계산
-        if(dto.getBlockEndDate() != null && dto.getBlockDay() > 0)
-            dto.setBlockEndDate(dto.getBlockStartDate().plusDays(dto.getBlockDay()));
+        // 정지일수가 1일 이상 존재하면 시작일에서 정지일수를 더한 값만큼 계산
+        if(dto.getBlockDay() > 0)
+            dto.setBlockEndDate(dto.getBlockStartDate().plusDays(dto.getBlockDay()).plusHours(23).plusMinutes(59).plusSeconds(59));
 
-        // 정지 종료일과 정지일수가 없으면 무제한 정지
-        if(dto.getBlockEndDate() != null && dto.getBlockDay() <= 0)
+        // 정지일수가 0일 이하면 무제한 (99999일) 정지
+        if(dto.getBlockDay() <= 0)
             dto.setBlockEndDate(dto.getBlockStartDate().plusDays(99999));
 
         Result<GameUserResponseDto> result = gameUserService.blockGameUser(dto.toCommand());
@@ -84,6 +86,8 @@ public class GameUserController {
     @Operation(summary = "유저 탈퇴 처리")
     public ResponseEntity<ApiResponse<Void>>  withdrawalGameUser(@PathVariable("gameUserId") int gameUserId, @RequestBody GameUserWithdrawalRequestDto dto) {
         dto.setUserId(gameUserId);
+        dto.setIsWithdrawal("Y");
+        dto.setWithdrawalDate(OffsetDateTime.now());
 
         Result<GameUserResponseDto> result = gameUserService.withdrawalGameUser(dto.toCommand());
 

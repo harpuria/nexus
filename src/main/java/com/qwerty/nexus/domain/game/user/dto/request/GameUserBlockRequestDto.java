@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.user.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.qwerty.nexus.domain.game.user.command.GameUserBlockCommand;
 import com.qwerty.nexus.domain.game.user.command.GameUserUpdateCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,11 +17,8 @@ public class GameUserBlockRequestDto {
     @Schema(example = "1")
     private Integer userId;
 
-    @Schema(example = "2025-08-10")
+    @Schema(example = "2025-09-15T00:00:00+09:00")
     private OffsetDateTime blockStartDate;
-
-    @Schema(example = "2025-08-15")
-    private OffsetDateTime blockEndDate;
 
     @Schema(example = "정지 사유")
     private String blockReason;
@@ -28,8 +26,13 @@ public class GameUserBlockRequestDto {
     @Schema(example = "userTest")
     private String updatedBy;
 
+    // no database column
     @Schema(example = "7")
-    private int blockDay; // blockEndDate 를 빈 값으로 둘 경우 해당 값을 기준으로 일수 계산 처리 (no database column)
+    private int blockDay; // 정지일수
+
+    // no parameter
+    @JsonIgnore
+    private OffsetDateTime blockEndDate;
 
     // Service 전달 파라미터로 쓸 Command 객체 변환
     public GameUserBlockCommand toCommand(){

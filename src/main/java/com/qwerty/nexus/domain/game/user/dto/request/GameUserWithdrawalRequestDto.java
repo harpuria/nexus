@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.user.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.qwerty.nexus.domain.game.user.command.GameUserWithdrawalCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -15,17 +16,18 @@ public class GameUserWithdrawalRequestDto {
     @Schema(example = "1")
     private Integer userId;
 
-    @Schema(example = "Y")
-    private String isWithdrawal;
-
-    @Schema(example = "2025-08-11")
-    private OffsetDateTime withdrawalDate;
-
     @Schema(example = "게임이 재미가 없어서")
     private String withdrawalReason;
 
     @Schema(example = "userTest")
     private String updatedBy;
+
+    // no parameter
+    @JsonIgnore
+    private String isWithdrawal;
+
+    @JsonIgnore
+    private OffsetDateTime withdrawalDate;
 
     public GameUserWithdrawalCommand toCommand(){
         return GameUserWithdrawalCommand.builder()

@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.management.admin.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.qwerty.nexus.domain.management.admin.command.AdminCreateCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -22,14 +23,15 @@ public class AdminInitCreateRequestDto {
     @Schema(example = "홍길동")
     private String adminNm;
 
-    @Schema(examples = "SUPER")
-    private String adminRole;
-
     @Schema(example = "쿼티")
     private String orgNm;
 
     @Schema(example = "123-456-78912")
     private String orgCd;
+
+    // no parameter
+    @JsonIgnore
+    private String adminRole;
 
     public AdminCreateCommand toCommand() {
         return AdminCreateCommand.builder()
