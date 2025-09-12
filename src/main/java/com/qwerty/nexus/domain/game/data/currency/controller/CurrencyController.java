@@ -1,5 +1,7 @@
 package com.qwerty.nexus.domain.game.data.currency.controller;
 
+import com.qwerty.nexus.domain.game.data.currency.command.CurrencyCreateCommand;
+import com.qwerty.nexus.domain.game.data.currency.command.CurrencyUpdateCommand;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.CurrencyCreateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.CurrencyUpdateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.response.CurrencyResponseDto;
@@ -34,7 +36,7 @@ public class CurrencyController {
     @PostMapping
     @Operation(summary = "재화 정보 생성")
     public ResponseEntity<ApiResponse<Void>> createCurrency(@RequestBody CurrencyCreateRequestDto dto){
-        Result<CurrencyResponseDto> result = service.createCurrency(dto.toCommand());
+        Result<Void> result = service.create(CurrencyCreateCommand.from(dto));
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
@@ -49,7 +51,7 @@ public class CurrencyController {
     public ResponseEntity<ApiResponse<Void>> updateCurrency(@PathVariable("currencyId") int currencyId, @RequestBody CurrencyUpdateRequestDto dto){
         dto.setCurrencyId(currencyId);
 
-        Result<CurrencyResponseDto> result = service.updateCurrency(dto.toCommand());
+        Result<Void> result = service.updateCurrency(CurrencyUpdateCommand.from(dto));
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -66,7 +68,7 @@ public class CurrencyController {
         dto.setCurrencyId(currencyId);
         dto.setIsDel("Y");
 
-        Result<CurrencyResponseDto> result = service.updateCurrency(dto.toCommand());
+        Result<Void> result = service.updateCurrency(CurrencyUpdateCommand.from(dto));
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }

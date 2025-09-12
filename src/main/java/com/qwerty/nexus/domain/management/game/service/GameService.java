@@ -23,17 +23,15 @@ public class GameService {
 
     /**
      * 게임 정보 생성
-     * @param gameCreateCommand
+     * @param command
      * @return
      */
-    public Result<GameResponseDto> createGame(GameCreateCommand gameCreateCommand) {
-        GameResponseDto rst = new GameResponseDto();
-
+    public Result<Void> createGame(GameCreateCommand command) {
         GameEntity gameEntity = GameEntity.builder()
-                .orgId(gameCreateCommand.getOrgId())
-                .name(gameCreateCommand.getName())
-                .createdBy(gameCreateCommand.getCreateBy())
-                .updatedBy(gameCreateCommand.getCreateBy())
+                .orgId(command.getOrgId())
+                .name(command.getName())
+                .createdBy(command.getCreateBy())
+                .updatedBy(command.getCreateBy())
                 .status(GameStatus.STOPPED.name())
                 .clientAppId(UUID.randomUUID())
                 .signatureKey(UUID.randomUUID())
@@ -41,36 +39,36 @@ public class GameService {
 
         Optional<GameEntity> insertRst = Optional.ofNullable(repository.insertGame(gameEntity));
 
-        if(insertRst.isEmpty()) {
+        if(insertRst.isPresent()) {
+            return Result.Success.of(null, "게임 생성 성공.");
+        }
+        else{
             return Result.Failure.of("게임 생성 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
-
-        return Result.Success.of(rst, "게임 생성 성공.");
     }
 
     /**
      * 게임 정보 수정
-     * @param gameUpdateCommand
+     * @param command
      * @return
      */
-    public Result<GameResponseDto> updateGame(GameUpdateCommand gameUpdateCommand){
-        GameResponseDto rst = new GameResponseDto();
-
+    public Result<Void> updateGame(GameUpdateCommand command){
         GameEntity gameEntity = GameEntity.builder()
-                .gameId(gameUpdateCommand.getGameId())
-                .name(gameUpdateCommand.getName())
-                .status(gameUpdateCommand.getStatus())
-                .isDel(gameUpdateCommand.getIsDel())
-                .updatedBy(gameUpdateCommand.getUpdatedBy())
+                .gameId(command.getGameId())
+                .name(command.getName())
+                .status(command.getStatus())
+                .isDel(command.getIsDel())
+                .updatedBy(command.getUpdatedBy())
                 .build();
 
         Optional<GameEntity> updateRst = Optional.ofNullable(repository.updateGame(gameEntity));
 
-        if(updateRst.isEmpty()){
+        if(updateRst.isPresent()){
+            return Result.Success.of(null, "게임 정보 수정 성공.");
+        }
+        else{
             return Result.Failure.of("게임 정보 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
-
-        return Result.Success.of(rst, "게임 정보 수정 성공.");
     }
 
     /**
@@ -79,16 +77,12 @@ public class GameService {
      * @return
      */
     public Result<GameResponseDto> selectOneGame(Integer id){
-        GameResponseDto rst = new GameResponseDto();
-
         Optional<GameEntity> selectRst = Optional.ofNullable(repository.selectOneGame(id));
         if(selectRst.isPresent()){
-            rst.convertEntityToDto(selectRst.get());
+            return Result.Success.of(GameResponseDto.from(selectRst.get()), "게임 정보가 조회 완료.");
         }
         else{
             return Result.Failure.of("게임 정보 존재하지 않음.", ErrorCode.INTERNAL_ERROR.getCode());
         }
-
-        return Result.Success.of(rst, "게임 정보가 조회 완료.");
     }
 }

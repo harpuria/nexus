@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.management.organization.controller;
 
+import com.qwerty.nexus.domain.management.organization.command.OrganizationUpdateCommand;
 import com.qwerty.nexus.domain.management.organization.dto.request.OrganizationUpdateRequestDto;
 import com.qwerty.nexus.domain.management.organization.dto.response.OrganizationResponseDto;
 import com.qwerty.nexus.domain.management.organization.service.OrganizationService;
@@ -26,13 +27,13 @@ public class OrganizationController {
 
     /**
      * 단체 정보 수정
-     * @param organization 수정할 단체 정보를 담은 객체 (DTO)
+     * @param dto 수정할 단체 정보를 담은 객체 (DTO)
      * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @PatchMapping
     @Operation(summary = "단체 정보 수정")
-    public ResponseEntity<ApiResponse<Void>> updateOrganization(@Parameter @RequestBody OrganizationUpdateRequestDto organization){
-        Result<OrganizationResponseDto> result = service.update(organization.toCommand());
+    public ResponseEntity<ApiResponse<Void>> updateOrganization(@Parameter @RequestBody OrganizationUpdateRequestDto dto){
+        Result<Void> result = service.update(OrganizationUpdateCommand.from(dto));
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -45,7 +46,7 @@ public class OrganizationController {
     @GetMapping("/{orgId}")
     @Operation(summary = "한 건의 단체 정보 가져오기")
     public ResponseEntity<ApiResponse<OrganizationResponseDto>> selectOneOrganization(@PathVariable("orgId") int orgId){
-        Result<OrganizationResponseDto> result = service.selectOneOrganization(orgId);
+        Result<OrganizationResponseDto> result = service.selectOne(orgId);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }

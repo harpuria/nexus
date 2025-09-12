@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.management.admin.command;
 
+import com.qwerty.nexus.domain.management.admin.dto.request.AdminUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,4 +15,17 @@ public class AdminUpdateCommand {
     private String adminNm;
     private String isDel;
     private String updatedBy;
+
+    public static AdminUpdateCommand from(AdminUpdateRequestDto dto){
+        return AdminUpdateCommand.builder()
+                .adminId(dto.getAdminId())
+                .gameId(dto.getGameId())
+                .loginPw(dto.getLoginPw())
+                .adminRole(dto.getAdminRole())
+                .adminEmail(dto.getAdminEmail())
+                .adminNm(dto.getAdminNm())
+                .isDel(dto.getIsDel())
+                .updatedBy(dto.getUpdatedBy())
+                .build();
+    }
 }

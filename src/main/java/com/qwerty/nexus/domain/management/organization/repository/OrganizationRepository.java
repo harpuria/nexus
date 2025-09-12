@@ -23,11 +23,11 @@ public class OrganizationRepository {
 
     /**
      * 단체 정보 생성
-     * @param organization
+     * @param entity
      * @return Organization
      */
-    public OrganizationEntity insertOrganization(OrganizationEntity organization){
-        OrganizationRecord record = dslContext.newRecord(ORGANIZATION, organization);
+    public OrganizationEntity insert(OrganizationEntity entity){
+        OrganizationRecord record = dslContext.newRecord(ORGANIZATION, entity);
         record.store();
 
         return OrganizationEntity.builder()
@@ -37,18 +37,18 @@ public class OrganizationRepository {
 
     /**
      * 단체 정보 수정
-     * @param organization
+     * @param entity
      * @return
      */
-    public OrganizationEntity updateOrganization(OrganizationEntity organization){
-        OrganizationRecord record = dslContext.newRecord(ORGANIZATION, organization);
-        record.changed(ORGANIZATION.ORG_NM, organization.getOrgNm() != null);
-        record.changed(ORGANIZATION.ORG_CD, organization.getOrgCd() != null);
-        record.changed(ORGANIZATION.CREATED_BY, organization.getCreatedBy() != null);
-        record.changed(ORGANIZATION.UPDATED_BY, organization.getUpdatedBy() != null);
-        record.changed(ORGANIZATION.IS_DEL, organization.getIsDel() != null);
+    public OrganizationEntity update(OrganizationEntity entity){
+        OrganizationRecord record = dslContext.newRecord(ORGANIZATION, entity);
+        record.changed(ORGANIZATION.ORG_NM, entity.getOrgNm() != null);
+        record.changed(ORGANIZATION.ORG_CD, entity.getOrgCd() != null);
+        record.changed(ORGANIZATION.CREATED_BY, entity.getCreatedBy() != null);
+        record.changed(ORGANIZATION.UPDATED_BY, entity.getUpdatedBy() != null);
+        record.changed(ORGANIZATION.IS_DEL, entity.getIsDel() != null);
         record.update();
-        return organization;
+        return entity;
     }
 
     /**
@@ -56,7 +56,7 @@ public class OrganizationRepository {
      * @param orgId
      * @return
      */
-    public OrganizationEntity selectOneOrganization(Integer orgId){
+    public OrganizationEntity selectOne(Integer orgId){
         return dslContext.selectFrom(ORGANIZATION)
                 .where(ORGANIZATION.ORG_ID.eq(orgId))
                 .fetchOneInto(OrganizationEntity.class);

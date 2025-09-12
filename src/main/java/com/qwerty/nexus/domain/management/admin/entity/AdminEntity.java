@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.management.admin.entity;
 
+import com.qwerty.nexus.domain.management.admin.dto.response.AdminResponseDto;
 import com.qwerty.nexus.global.extend.entity.PagingEntity;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;

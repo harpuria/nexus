@@ -28,14 +28,4 @@ public class GameUserWithdrawalRequestDto {
 
     @JsonIgnore
     private OffsetDateTime withdrawalDate;
-
-    public GameUserWithdrawalCommand toCommand(){
-        return GameUserWithdrawalCommand.builder()
-                .userId(this.userId)
-                .isWithdrawal(this.isWithdrawal)
-                .withdrawalDate(this.withdrawalDate)
-                .withdrawalReason(this.withdrawalReason)
-                .updatedBy(this.updatedBy)
-                .build();
-    }
 }

@@ -1,14 +1,16 @@
 package com.qwerty.nexus.domain.management.game.dto.response;
 
+import com.qwerty.nexus.domain.management.game.dto.request.GameUpdateRequestDto;
 import com.qwerty.nexus.domain.management.game.entity.GameEntity;
 import com.qwerty.nexus.global.extend.dto.BaseResponseDto;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
 @Getter
-@Setter
+@SuperBuilder
 public class GameResponseDto extends BaseResponseDto {
     private Integer gameId;
     private Integer orgId;
@@ -20,17 +22,17 @@ public class GameResponseDto extends BaseResponseDto {
     private String updatedBy;
     private String isDel;
 
-    public void convertEntityToDto(GameEntity admin) {
-        this.setGameId(admin.getGameId());
-        this.setOrgId(admin.getOrgId());
-        this.setName(admin.getName());
-        this.setClientAppId(admin.getClientAppId());
-        this.setSignatureKey(admin.getSignatureKey());
-        this.setStatus(admin.getStatus());
-        this.setCreatedAt(admin.getCreatedAt());
-        this.setCreatedBy(admin.getCreatedBy());
-        this.setUpdatedAt(admin.getUpdatedAt());
-        this.setUpdatedBy(admin.getUpdatedBy());
-        this.setIsDel(admin.getIsDel());
+    public static GameResponseDto from(GameEntity entity) {
+        return GameResponseDto.builder()
+                .gameId(entity.getGameId())
+                .orgId(entity.getOrgId())
+                .name(entity.getName())
+                .clientAppId(entity.getClientAppId())
+                .signatureKey(entity.getSignatureKey())
+                .status(entity.getStatus())
+                .createdBy(entity.getCreatedBy())
+                .updatedBy(entity.getUpdatedBy())
+                .isDel(entity.getIsDel())
+                .build();
     }
 }

@@ -4,22 +4,20 @@ import com.qwerty.nexus.domain.management.organization.entity.OrganizationEntity
 import com.qwerty.nexus.global.extend.dto.BaseResponseDto;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
-@Setter
+@SuperBuilder
 public class OrganizationResponseDto extends BaseResponseDto {
     private Integer orgId;
     private String orgNm;
     private String orgCd;
 
-    public void convertEntityToDto(OrganizationEntity org) {
-        this.setOrgId(org.getOrgId());
-        this.setOrgNm(org.getOrgNm());
-        this.setOrgCd(org.getOrgCd());
-        this.setCreatedAt(org.getCreatedAt());
-        this.setCreatedBy(org.getCreatedBy());
-        this.setUpdatedAt(org.getUpdatedAt());
-        this.setUpdatedBy(org.getUpdatedBy());
-        this.setIsDel(org.getIsDel());
+    public static OrganizationResponseDto from(OrganizationEntity entity) {
+        return OrganizationResponseDto.builder()
+                .orgId(entity.getOrgId())
+                .orgNm(entity.getOrgNm())
+                .orgCd(entity.getOrgCd())
+                .build();
     }
 }

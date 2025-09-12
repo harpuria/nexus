@@ -23,14 +23,4 @@ public class GameUpdateRequestDto {
 
     @Schema(example = "admin")
     private String updateBy;
-
-    public GameUpdateCommand toCommand(){
-        return GameUpdateCommand.builder()
-                .gameId(this.gameId)
-                .name(this.name)
-                .status(this.status)
-                .isDel(this.isDel)
-                .updatedBy(this.updateBy)
-                .build();
-    }
 }

@@ -1,5 +1,7 @@
 package com.qwerty.nexus.domain.management.game.controller;
 
+import com.qwerty.nexus.domain.management.game.command.GameCreateCommand;
+import com.qwerty.nexus.domain.management.game.command.GameUpdateCommand;
 import com.qwerty.nexus.domain.management.game.dto.request.GameCreateRequestDto;
 import com.qwerty.nexus.domain.management.game.dto.request.GameUpdateRequestDto;
 import com.qwerty.nexus.domain.management.game.dto.response.GameResponseDto;
@@ -28,13 +30,13 @@ public class GameController {
 
     /**
      * 게임 정보 생성
-     * @param gameCreateRequestDto 생성할 게임 정보를 담은 객체 (DTO)
+     * @param dto 생성할 게임 정보를 담은 객체 (DTO)
      * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @PostMapping
     @Operation(summary = "게임 정보 생성")
-    public ResponseEntity<ApiResponse<Void>> createGame(@RequestBody GameCreateRequestDto gameCreateRequestDto){
-        Result<GameResponseDto> result = service.createGame(gameCreateRequestDto.toCommand());
+    public ResponseEntity<ApiResponse<Void>> createGame(@RequestBody GameCreateRequestDto dto){
+        Result<Void> result = service.createGame(GameCreateCommand.from(dto));
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
@@ -42,16 +44,16 @@ public class GameController {
     /**
      * 게임 정보 수정
      * @param gameId 게임 아이디 (PK)
-     * @param gameUpdateRequestDto 수정할 게임 정보를 담은 객체 (DTO)
+     * @param dto 수정할 게임 정보를 담은 객체 (DTO)
      * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @PatchMapping("/{gameId}")
     @Operation(summary = "게임 정보 수정")
-    public ResponseEntity<ApiResponse<Void>> updateGame(@PathVariable("gameId") int gameId, @RequestBody GameUpdateRequestDto gameUpdateRequestDto){
+    public ResponseEntity<ApiResponse<Void>> updateGame(@PathVariable("gameId") int gameId, @RequestBody GameUpdateRequestDto dto){
 
-        gameUpdateRequestDto.setGameId(gameId);
+        dto.setGameId(gameId);
 
-        Result<GameResponseDto> result = service.updateGame(gameUpdateRequestDto.toCommand());
+        Result<Void> result = service.updateGame(GameUpdateCommand.from(dto));
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }

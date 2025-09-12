@@ -12,12 +12,4 @@ public class UserCurrencyCreateRequestDto {
     private Integer currencyId;
     private Integer userId;
     private String createdBy;
-
-    public UserCurrencyCreateCommand toCommand(){
-        return UserCurrencyCreateCommand.builder()
-                .currencyId(this.currencyId)
-                .userId(this.userId)
-                .createdBy(this.createdBy)
-                .build();
-    }
 }

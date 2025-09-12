@@ -15,15 +15,4 @@ public class CurrencyUpdateRequestDto {
     private Long maxAmount;
     private String updatedBy;
     private String isDel;
-
-    public CurrencyUpdateCommand toCommand(){
-        return CurrencyUpdateCommand.builder()
-                .currencyId(this.currencyId)
-                .name(this.name)
-                .desc(this.desc)
-                .maxAmount(this.maxAmount)
-                .updatedBy(this.updatedBy)
-                .isDel(this.isDel)
-                .build();
-    }
 }

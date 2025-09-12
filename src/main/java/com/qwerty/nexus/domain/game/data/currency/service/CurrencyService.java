@@ -24,9 +24,7 @@ public class CurrencyService {
      * @param command
      * @return
      */
-    public Result<CurrencyResponseDto> createCurrency(CurrencyCreateCommand command){
-        CurrencyResponseDto rst = new CurrencyResponseDto();
-
+    public Result<Void> create(CurrencyCreateCommand command){
         CurrencyEntity entity = CurrencyEntity.builder()
                 .gameId(command.getGameId())
                 .name(command.getName())
@@ -38,13 +36,11 @@ public class CurrencyService {
 
         Optional<CurrencyEntity> createRst = Optional.ofNullable(repository.createCurrency(entity));
         if(createRst.isPresent()){
-            rst.convertEntityToDto(createRst.get());
+            return Result.Success.of(null, "재화 생성 완료.");
         }
         else{
             return Result.Failure.of("재화 생성 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
-
-        return Result.Success.of(rst, "재화 생성 완료.");
     }
 
     /**
@@ -52,9 +48,7 @@ public class CurrencyService {
      * @param command
      * @return
      */
-    public Result<CurrencyResponseDto> updateCurrency(CurrencyUpdateCommand command){
-        CurrencyResponseDto rst = new CurrencyResponseDto();
-
+    public Result<Void> updateCurrency(CurrencyUpdateCommand command){
         CurrencyEntity entity = CurrencyEntity.builder()
                 .currencyId(command.getCurrencyId())
                 .name(command.getName())
@@ -69,11 +63,12 @@ public class CurrencyService {
             type = "삭제";
 
         Optional<CurrencyEntity> updateRst = Optional.ofNullable(repository.updateCurrency(entity));
-        if(updateRst.isEmpty()) {
+        if(updateRst.isPresent()) {
+            return Result.Success.of(null, String.format("재화 %s 완료.", type));
+        }
+        else{
             return Result.Failure.of(String.format("재화 %s 실패.", type), ErrorCode.INTERNAL_ERROR.getCode());
         }
-
-        return Result.Success.of(rst, String.format("재화 %s 완료.", type));
     }
 
     /**
@@ -82,18 +77,15 @@ public class CurrencyService {
      * @return
      */
     public Result<CurrencyResponseDto> selectOneCurrency(int currencyId){
-        CurrencyResponseDto rst = new CurrencyResponseDto();
         CurrencyEntity entity = CurrencyEntity.builder()
                 .currencyId(currencyId)
                 .build();
 
         Optional<CurrencyEntity> selectRst = Optional.ofNullable(repository.selectOneCurrency(entity));
         if(selectRst.isPresent()){
-            rst.convertEntityToDto(selectRst.get());
+            return Result.Success.of(CurrencyResponseDto.from(selectRst.get()), "재화 조회 완료");
         }else{
             return Result.Failure.of("재화 정보 조회 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
-
-        return Result.Success.of(rst, "재화 조회 완료");
     }
 }

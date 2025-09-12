@@ -33,17 +33,4 @@ public class GameUserBlockRequestDto {
     // no parameter
     @JsonIgnore
     private OffsetDateTime blockEndDate;
-
-    // Service 전달 파라미터로 쓸 Command 객체 변환
-    public GameUserBlockCommand toCommand(){
-        return GameUserBlockCommand.builder()
-                .userId(this.userId)
-                .blockStartDate(this.blockStartDate)
-                .blockEndDate(this.blockEndDate)
-                .blockReason(this.blockReason)
-                .updatedBy(this.updatedBy)
-                .blockDay(this.blockDay)
-                .build();
-    }
-
 }

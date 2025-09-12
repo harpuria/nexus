@@ -21,13 +21,4 @@ public class OrganizationUpdateRequestDto {
 
     @Schema(example = "admin")
     private String updateBy;
-
-    public OrganizationUpdateCommand toCommand() {
-        return OrganizationUpdateCommand.builder()
-                .orgId(this.orgId)
-                .orgCd(this.orgCd)
-                .orgNm(this.orgNm)
-                .updatedBy(this.updateBy)
-                .build();
-    }
 }

@@ -32,16 +32,4 @@ public class AdminInitCreateRequestDto {
     // no parameter
     @JsonIgnore
     private String adminRole;
-
-    public AdminCreateCommand toCommand() {
-        return AdminCreateCommand.builder()
-                .loginId(this.loginId)
-                .loginPw(this.loginPw)
-                .adminEmail(this.adminEmail)
-                .adminNm(this.adminNm)
-                .adminRole(this.adminRole)
-                .orgNm(this.orgNm)
-                .orgCd(this.orgCd)
-                .build();
-    }
 }

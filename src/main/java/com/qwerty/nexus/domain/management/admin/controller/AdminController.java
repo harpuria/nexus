@@ -1,6 +1,10 @@
 package com.qwerty.nexus.domain.management.admin.controller;
 
 import com.qwerty.nexus.domain.management.admin.AdminRole;
+import com.qwerty.nexus.domain.management.admin.command.AdminCreateCommand;
+import com.qwerty.nexus.domain.management.admin.command.AdminInitCreateCommand;
+import com.qwerty.nexus.domain.management.admin.command.AdminSearchCommand;
+import com.qwerty.nexus.domain.management.admin.command.AdminUpdateCommand;
 import com.qwerty.nexus.domain.management.admin.dto.request.*;
 import com.qwerty.nexus.domain.management.admin.service.AdminService;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminResponseDto;
@@ -39,7 +43,7 @@ public class AdminController {
         // 초기 사용자는 무조건 SUPER 관리자로 등록
         dto.setAdminRole(AdminRole.SUPER.name());
 
-        Result<AdminResponseDto> result = service.register(dto.toCommand());
+        Result<Void> result = service.initialize(AdminInitCreateCommand.from(dto));
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
@@ -53,7 +57,7 @@ public class AdminController {
     @Operation(summary = "관리자 생성 (SUPER 관리자가 생성)")
     public ResponseEntity<ApiResponse<Void>> createAdmin(
             @Parameter @RequestBody AdminCreateRequestDto dto){
-        Result<AdminResponseDto> result = service.register(dto.toCommand());
+        Result<Void> result = service.create(AdminCreateCommand.from(dto));
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
@@ -70,7 +74,7 @@ public class AdminController {
                                                                      @Parameter @RequestBody AdminUpdateRequestDto dto){
         dto.setAdminId(adminId);
 
-        Result<AdminResponseDto> result = service.update(dto.toCommand());
+        Result<Void> result = service.update(AdminUpdateCommand.from(dto));
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -83,11 +87,11 @@ public class AdminController {
     @DeleteMapping("/{adminId}")
     @Operation(summary = "관리자 삭제 (논리적 삭제 처리)")
     public ResponseEntity<ApiResponse<Void>> deleteAdmin(@PathVariable("adminId") Integer adminId){
-        AdminUpdateRequestDto admin = new AdminUpdateRequestDto();
-        admin.setAdminId(adminId);
-        admin.setIsDel("Y");
+        AdminUpdateRequestDto dto = new AdminUpdateRequestDto();
+        dto.setAdminId(adminId);
+        dto.setIsDel("Y");
 
-        Result<AdminResponseDto> result = service.update(admin.toCommand());
+        Result<Void> result = service.update(AdminUpdateCommand.from(dto));
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -100,7 +104,7 @@ public class AdminController {
     @GetMapping("/{adminId}")
     @Operation(summary = "한 건의 관리자 정보 조회")
     public ResponseEntity<ApiResponse<AdminResponseDto>> selectOneAdmin(@PathVariable("adminId") Integer adminId){
-        Result<AdminResponseDto> result = service.selectOneAdmin(adminId);
+        Result<AdminResponseDto> result = service.selectOne(adminId);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
@@ -113,7 +117,8 @@ public class AdminController {
     @GetMapping("/list")
     @Operation(summary = "관리자 목록 조회")
     public ResponseEntity<ApiResponse<List<AdminResponseDto>>> selectAllAdmin(@RequestBody AdminSearchRequestDto dto){
-        Result<List<AdminResponseDto>> result = service.selectAllAdmin(dto.toCommand());
+        Result<List<AdminResponseDto>> result = service.selectAll(AdminSearchCommand.from(dto));
+
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 

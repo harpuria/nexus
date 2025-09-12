@@ -30,17 +30,4 @@ public class GameUserCreateRequestDto {
 
     @Schema(example = "userTest")
     private String createdBy;
-
-    // Service 전달 파라미터로 쓸 Command 객체 변환
-    public GameUserCreateCommand toCommand(){
-        return GameUserCreateCommand.builder()
-                .gameId(this.gameId)
-                .userLId(this.userLId)
-                .userLPw(this.userLPw)
-                .nickname(this.nickname)
-                .loginType(this.loginType)
-                .device(this.device)
-                .createdBy(this.createdBy)
-                .build();
-    }
 }

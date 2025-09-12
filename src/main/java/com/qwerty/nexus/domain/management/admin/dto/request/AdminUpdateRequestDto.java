@@ -32,17 +32,4 @@ public class AdminUpdateRequestDto {
 
     @Schema(example = "admin")
     private String updatedBy;
-
-    public AdminUpdateCommand toCommand() {
-        return AdminUpdateCommand.builder()
-                .adminId(this.adminId)
-                .gameId(this.gameId)
-                .loginPw(this.loginPw)
-                .adminRole(this.adminRole)
-                .adminEmail(this.adminEmail)
-                .adminNm(this.adminNm)
-                .isDel(this.isDel)
-                .updatedBy(this.updatedBy)
-                .build();
-    }
 }

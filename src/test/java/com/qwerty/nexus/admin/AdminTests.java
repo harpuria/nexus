@@ -2,6 +2,7 @@ package com.qwerty.nexus.admin;
 
 import com.qwerty.nexus.domain.game.user.service.GameUserService;
 import com.qwerty.nexus.domain.management.admin.command.AdminCreateCommand;
+import com.qwerty.nexus.domain.management.admin.command.AdminSearchCommand;
 import com.qwerty.nexus.domain.management.admin.service.AdminService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,7 @@ public class AdminTests {
                     .orgId(1)
                     .build();
 
-            adminService.register(command);
+            adminService.create(command);
         }
     }
 
@@ -49,7 +50,18 @@ public class AdminTests {
     @DisplayName("한 명의 관리자 조회 케이스")
     public void selectOneAdmin(){
         int adminId = 1; // 상황에 따라서 수정
-        System.out.println(adminService.selectOneAdmin(adminId));
+        System.out.println(adminService.selectOne(adminId));
+    }
+
+    @Test
+    @DisplayName("관리자 목록 조회 케이스")
+    public void selectAllAdmin(){
+        AdminSearchCommand command = AdminSearchCommand.builder()
+                .page(1)
+                .size(10)
+                .sort("desc")
+                .build();
+        adminService.selectAll(command);
     }
 
     @Test

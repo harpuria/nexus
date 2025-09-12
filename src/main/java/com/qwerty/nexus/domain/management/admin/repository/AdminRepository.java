@@ -124,11 +124,31 @@ public class AdminRepository {
         // 기본 검색 조건은 이렇게 하고, 세부검색조건은 나눠서 해야할듯
         // 조건 설정
         Condition condition = DSL.noCondition();
+
         return dslContext.selectFrom(ADMIN)
                 .orderBy(ADMIN.ADMIN_ID.desc())
                 .limit(entity.getSize())
                 .offset(entity.getPage() * entity.getSize())
-                .fetchInto(AdminEntity.class);
+                .fetch()
+                .map(record ->{
+                    // AdminEntity 에 페이징 관련 필드는 컬럼으로 존재하지 않아서 직접 매핑
+                    // Record 로 반환처리하는 방법도 있는데 좀 더 생각을...
+                    return AdminEntity.builder()
+                            .adminId(record.getAdminId())
+                            .orgId(record.getOrgId())
+                            .gameId(record.getGameId())
+                            .loginId(record.getLoginId())
+                            .loginPw(record.getLoginPw())
+                            .adminRole(record.getAdminRole())
+                            .adminEmail(record.getAdminEmail())
+                            .adminNm(record.getAdminNm())
+                            .createdAt(record.getCreatedAt())
+                            .createdBy(record.getCreatedBy())
+                            .updatedAt(record.getUpdatedAt())
+                            .updatedBy(record.getUpdatedBy())
+                            .isDel(record.getIsDel())
+                            .build();
+                });
     }
 
 

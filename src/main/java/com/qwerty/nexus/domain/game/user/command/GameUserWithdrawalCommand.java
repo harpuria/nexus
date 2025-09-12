@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.user.command;
 
+import com.qwerty.nexus.domain.game.user.dto.request.GameUserWithdrawalRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,4 +14,14 @@ public class GameUserWithdrawalCommand {
     private OffsetDateTime withdrawalDate;
     private String withdrawalReason;
     private String updatedBy;
+
+    public static GameUserWithdrawalCommand from (GameUserWithdrawalRequestDto dto){
+        return GameUserWithdrawalCommand.builder()
+                .userId(dto.getUserId())
+                .isWithdrawal(dto.getIsWithdrawal())
+                .withdrawalDate(dto.getWithdrawalDate())
+                .withdrawalReason(dto.getWithdrawalReason())
+                .updatedBy(dto.getUpdatedBy())
+                .build();
+    }
 }

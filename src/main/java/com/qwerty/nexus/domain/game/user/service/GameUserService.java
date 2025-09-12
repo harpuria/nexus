@@ -28,9 +28,7 @@ public class GameUserService {
      * @param command
      * @return
      */
-    public Result<GameUserResponseDto> createGameUser(GameUserCreateCommand command) {
-        GameUserResponseDto rst = new GameUserResponseDto();
-
+    public Result<Void> createGameUser(GameUserCreateCommand command) {
         GameUserEntity entity = GameUserEntity.builder()
                 .gameId(command.getGameId())
                 .userLId(command.getUserLId())
@@ -45,12 +43,10 @@ public class GameUserService {
         Optional<GameUserEntity> insertRst = Optional.ofNullable(repository.createGameUser(entity));
 
         if(insertRst.isPresent()){
-            rst.convertEntityToDto(insertRst.get());
+            return Result.Success.of(null, "유저 생성 성공.");
         }else{
             return Result.Failure.of("유저 생성 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
-
-        return Result.Success.of(rst, "유저 생성 성공.");
     }
 
     /**
@@ -58,9 +54,7 @@ public class GameUserService {
      * @param command
      * @return
      */
-    public Result<GameUserResponseDto> updateGameUser(GameUserUpdateCommand command) {
-        GameUserResponseDto rst = new GameUserResponseDto();
-
+    public Result<Void> updateGameUser(GameUserUpdateCommand command) {
         GameUserEntity entity = GameUserEntity.builder()
                 .userId(command.getUserId())
                 .gameId(command.getGameId())
@@ -82,12 +76,10 @@ public class GameUserService {
         Optional<GameUserEntity> updateRst = Optional.ofNullable(repository.updateGameUser(entity));
 
         if(updateRst.isPresent()){
-            rst.convertEntityToDto(updateRst.get());
+            return Result.Success.of(null, "유저 정보 수정 성공.");
         }else{
             return Result.Failure.of("유저 정보 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
-
-        return Result.Success.of(rst, "유저 정보 수정 성공.");
     }
 
     /**
@@ -95,9 +87,7 @@ public class GameUserService {
      * @param command
      * @return
      */
-    public Result<GameUserResponseDto> blockGameUser(GameUserBlockCommand command) {
-        GameUserResponseDto rst = new GameUserResponseDto();
-
+    public Result<Void> blockGameUser(GameUserBlockCommand command) {
         GameUserEntity entity = GameUserEntity.builder()
                 .userId(command.getUserId())
                 .blockStartDate(command.getBlockStartDate())
@@ -109,12 +99,10 @@ public class GameUserService {
         Optional<GameUserEntity> updateRst = Optional.ofNullable(repository.updateGameUser(entity));
 
         if(updateRst.isPresent()){
-            rst.convertEntityToDto(updateRst.get());
+            return Result.Success.of(null, "유저 정지 성공.");
         }else{
             return Result.Failure.of("유저 정지 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
-
-        return Result.Success.of(rst, "유저 정지 성공.");
     }
 
     /**
@@ -122,9 +110,7 @@ public class GameUserService {
      * @param command
      * @return
      */
-    public Result<GameUserResponseDto> withdrawalGameUser(GameUserWithdrawalCommand command) {
-        GameUserResponseDto rst = new GameUserResponseDto();
-
+    public Result<Void> withdrawalGameUser(GameUserWithdrawalCommand command) {
         GameUserEntity entity = GameUserEntity.builder()
                 .userId(command.getUserId())
                 .isWithdrawal(command.getIsWithdrawal())
@@ -136,12 +122,10 @@ public class GameUserService {
         Optional<GameUserEntity> updateRst = Optional.ofNullable(repository.updateGameUser(entity));
 
         if(updateRst.isPresent()){
-            rst.convertEntityToDto(updateRst.get());
+            return Result.Success.of(null, "유저 탈퇴 성공.");
         }else{
             return Result.Failure.of("유저 탈퇴 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
-
-        return Result.Success.of(rst, "유저 탈퇴 성공.");
     }
 
     /**

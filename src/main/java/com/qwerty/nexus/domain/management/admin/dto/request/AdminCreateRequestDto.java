@@ -27,15 +27,4 @@ public class AdminCreateRequestDto {
 
     @Schema(example = "1")
     private int orgId;
-
-    public AdminCreateCommand toCommand() {
-        return AdminCreateCommand.builder()
-                .loginId(this.loginId)
-                .loginPw(this.loginPw)
-                .adminEmail(this.adminEmail)
-                .adminNm(this.adminNm)
-                .adminRole(this.adminRole)
-                .orgId(this.orgId)
-                .build();
-    }
 }

@@ -3,12 +3,12 @@ package com.qwerty.nexus.domain.game.user.dto.response;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.global.extend.dto.BaseResponseDto;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.time.OffsetDateTime;
 
 @Getter
-@Setter
+@SuperBuilder
 public class GameUserResponseDto extends BaseResponseDto {
     private Integer userId;
     private Integer gameId;
@@ -24,19 +24,21 @@ public class GameUserResponseDto extends BaseResponseDto {
     private OffsetDateTime withdrawalDate;
     private String withdrawalReason;
 
-    public void convertEntityToDto(GameUserEntity gameUser){
-        this.setUserId(gameUser.getUserId());
-        this.setGameId(gameUser.getGameId());
-        this.setUserLId(gameUser.getUserLId());
-        this.setUserLPw(gameUser.getUserLPw());
-        this.setNickname(gameUser.getNickname());
-        this.setLoginType(gameUser.getLoginType());
-        this.setDevice(gameUser.getDevice());
-        this.setBlockStartDate(gameUser.getBlockStartDate());
-        this.setBlockEndDate(gameUser.getBlockEndDate());
-        this.setBlockReason(gameUser.getBlockReason());
-        this.setIsWithdrawal(gameUser.getIsWithdrawal());
-        this.setWithdrawalDate(gameUser.getWithdrawalDate());
-        this.setWithdrawalReason(gameUser.getWithdrawalReason());
+    public static GameUserResponseDto from(GameUserEntity entity){
+        return GameUserResponseDto.builder()
+                .userId(entity.getUserId())
+                .gameId(entity.getGameId())
+                .userLId(entity.getUserLId())
+                .userLPw(entity.getUserLPw())
+                .nickname(entity.getNickname())
+                .loginType(entity.getLoginType())
+                .device(entity.getDevice())
+                .blockStartDate(entity.getBlockStartDate())
+                .blockEndDate(entity.getBlockEndDate())
+                .blockReason(entity.getBlockReason())
+                .isWithdrawal(entity.getIsWithdrawal())
+                .withdrawalDate(entity.getWithdrawalDate())
+                .withdrawalReason(entity.getWithdrawalReason())
+                .build();
     }
 }

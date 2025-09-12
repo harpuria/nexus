@@ -20,30 +20,27 @@ public class OrganizationService {
 
     /**
      * 단체 정보 수정
-     * @param organization
+     * @param command
      */
-    public Result<OrganizationResponseDto> update(OrganizationUpdateCommand organization) {
+    public Result<Void> update(OrganizationUpdateCommand command) {
         // 업데이트를 하는 사람이 해당 조직의 소속된 사람인지, SUPER 권한을 가졌는지 확인
         // true 면 아래 update 진행
         //AdminResponseDTO admin = adminService.selectOneAdmin(organization.getAdmin().getAdminId());
         //admin.getOrgId();
-
-        OrganizationResponseDto rst = new OrganizationResponseDto();
-
         OrganizationEntity orgEntity = OrganizationEntity.builder()
-                .orgId(organization.getOrgId())
-                .orgNm(organization.getOrgNm())
-                .orgCd(organization.getOrgCd())
-                .updatedBy(organization.getUpdatedBy())
+                .orgId(command.getOrgId())
+                .orgNm(command.getOrgNm())
+                .orgCd(command.getOrgCd())
+                .updatedBy(command.getUpdatedBy())
                 .build();
 
-        Optional<OrganizationEntity> updateRst = Optional.ofNullable(repository.updateOrganization(orgEntity));
-        if(updateRst.isEmpty()){
-            Result.Failure.of("단체 정보 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+        Optional<OrganizationEntity> updateRst = Optional.ofNullable(repository.update(orgEntity));
+        if(updateRst.isPresent()){
+            return Result.Success.of(null, "단체 정보 수정 성공.");
         }
-
-        return Result.Success.of(rst, "단체 정보 수정 성공.");
-
+        else{
+            return Result.Failure.of("단체 정보 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+        }
     }
 
     /**
@@ -51,17 +48,13 @@ public class OrganizationService {
      * @param orgId 단체 아이디 (PK)
      * @return
      */
-    public Result<OrganizationResponseDto> selectOneOrganization(int orgId) {
-        OrganizationResponseDto rst = new OrganizationResponseDto();
-
-        Optional<OrganizationEntity> selectRst = Optional.ofNullable(repository.selectOneOrganization(orgId));
+    public Result<OrganizationResponseDto> selectOne(int orgId) {
+        Optional<OrganizationEntity> selectRst = Optional.ofNullable(repository.selectOne(orgId));
         if(selectRst.isPresent()){
-            rst.convertEntityToDto(selectRst.get());
+            return Result.Success.of(OrganizationResponseDto.from(selectRst.get()), "단체 정보 조회 완료.");
         }
         else{
             return Result.Failure.of("단체 정보 존재하지 않음.", ErrorCode.INTERNAL_ERROR.getCode());
         }
-
-        return Result.Success.of(rst, "단체 정보 조회 완료.");
     }
 }

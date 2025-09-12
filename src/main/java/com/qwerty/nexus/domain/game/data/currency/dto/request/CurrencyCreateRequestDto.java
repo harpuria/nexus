@@ -24,15 +24,4 @@ public class CurrencyCreateRequestDto {
 
     @Schema(example = "admin")
     private String createdBy;
-
-    // Service 에서 쓸 command 객체 변환
-    public CurrencyCreateCommand toCommand(){
-        return CurrencyCreateCommand.builder()
-                .gameId(this.gameId)
-                .name(this.name)
-                .desc(this.desc)
-                .maxAmount(this.maxAmount)
-                .createdBy(this.createdBy)
-                .build();
-    }
 }

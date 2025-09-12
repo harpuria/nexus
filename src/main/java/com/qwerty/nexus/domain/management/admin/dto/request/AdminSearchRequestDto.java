@@ -10,12 +10,4 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AdminSearchRequestDto extends PagingRequestDto {
-    public AdminSearchCommand toCommand(){
-        return AdminSearchCommand.builder()
-                .sort(this.getSort())
-                .page(this.getPage())
-                .direction(this.getDirection())
-                .keyword(this.getKeyword())
-                .build();
-    }
 }

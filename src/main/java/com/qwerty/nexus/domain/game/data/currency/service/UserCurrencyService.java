@@ -2,7 +2,6 @@ package com.qwerty.nexus.domain.game.data.currency.service;
 
 import com.qwerty.nexus.domain.game.data.currency.command.UserCurrencyCreateCommand;
 import com.qwerty.nexus.domain.game.data.currency.command.UserCurrencyUpdateCommand;
-import com.qwerty.nexus.domain.game.data.currency.dto.response.UserCurrencyResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
 import com.qwerty.nexus.global.response.Result;
@@ -21,13 +20,12 @@ public class UserCurrencyService {
      * @param command
      * @return
      */
-    public Result<UserCurrencyResponseDto> createUserCurrency(UserCurrencyCreateCommand command) {
-        UserCurrencyResponseDto rst = new UserCurrencyResponseDto();
+    public Result<Void> createUserCurrency(UserCurrencyCreateCommand command) {
         UserCurrencyEntity entity = UserCurrencyEntity.builder().build();
 
         UserCurrencyEntity createRst = repository.createUserCurrency(entity);
 
-        return Result.Success.of(rst, "성공");
+        return Result.Success.of(null, "성공");
     }
 
     /**
@@ -35,12 +33,11 @@ public class UserCurrencyService {
      * @param command
      * @return
      */
-    public Result<UserCurrencyResponseDto> updateUserCurrency(UserCurrencyUpdateCommand command) {
-        UserCurrencyResponseDto rst = new UserCurrencyResponseDto();
+    public Result<Void> update(UserCurrencyUpdateCommand command) {
         UserCurrencyEntity entity = UserCurrencyEntity.builder().build();
 
         UserCurrencyEntity updateRst = repository.updateUserCurrency(entity);
 
-        return Result.Success.of(rst, "성공");
+        return Result.Success.of(null, "성공");
     }
 }

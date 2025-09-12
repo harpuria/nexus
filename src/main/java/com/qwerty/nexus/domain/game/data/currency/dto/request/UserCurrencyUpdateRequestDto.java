@@ -17,15 +17,4 @@ public class UserCurrencyUpdateRequestDto {
     private Long amount;
     private String updatedBy;
     private String isDel;
-
-    public UserCurrencyUpdateCommand toCommand(){
-        return UserCurrencyUpdateCommand.builder()
-                .userCurrencyId(this.userCurrencyId)
-                .currencyId(this.currencyId)
-                .userId(this.userId)
-                .amount(this.amount)
-                .updatedBy(this.updatedBy)
-                .isDel(this.isDel)
-                .build();
-    }
 }

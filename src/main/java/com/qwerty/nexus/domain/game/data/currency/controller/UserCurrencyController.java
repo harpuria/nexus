@@ -1,8 +1,9 @@
 package com.qwerty.nexus.domain.game.data.currency.controller;
 
+import com.qwerty.nexus.domain.game.data.currency.command.UserCurrencyCreateCommand;
+import com.qwerty.nexus.domain.game.data.currency.command.UserCurrencyUpdateCommand;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.UserCurrencyCreateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.UserCurrencyUpdateRequestDto;
-import com.qwerty.nexus.domain.game.data.currency.dto.response.UserCurrencyResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.service.UserCurrencyService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
@@ -51,7 +52,7 @@ public class UserCurrencyController {
      */
     @PostMapping
     public ResponseEntity<ApiResponse<Void>> createUserCurrency(UserCurrencyCreateRequestDto dto){
-        Result<UserCurrencyResponseDto> result = service.createUserCurrency(dto.toCommand());
+        Result<Void> result = service.createUserCurrency(UserCurrencyCreateCommand.from(dto));
         return null;
     }
 
@@ -62,7 +63,7 @@ public class UserCurrencyController {
      */
     @PatchMapping
     public ResponseEntity<ApiResponse<Void>> updateUserCurrency(UserCurrencyUpdateRequestDto dto){
-        Result<UserCurrencyResponseDto> result = service.updateUserCurrency(dto.toCommand());
+        Result<Void> result = service.update(UserCurrencyUpdateCommand.from(dto));
         return null;
     }
 
@@ -73,7 +74,7 @@ public class UserCurrencyController {
      */
     @DeleteMapping
     public ResponseEntity<ApiResponse<Void>> deleteUserCurrency(UserCurrencyUpdateRequestDto dto){
-        Result<UserCurrencyResponseDto> result = service.updateUserCurrency(dto.toCommand());
+        Result<Void> result = service.update(UserCurrencyUpdateCommand.from(dto));
         return null;
     }
 

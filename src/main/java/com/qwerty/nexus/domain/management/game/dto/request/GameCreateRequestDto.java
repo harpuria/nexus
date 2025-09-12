@@ -18,12 +18,4 @@ public class GameCreateRequestDto {
 
     @Schema(example = "admin")
     private String createBy;
-
-    public GameCreateCommand toCommand(){
-        return GameCreateCommand.builder()
-                .orgId(this.orgId)
-                .name(this.name)
-                .createBy(this.createBy)
-                .build();
-    }
 }
