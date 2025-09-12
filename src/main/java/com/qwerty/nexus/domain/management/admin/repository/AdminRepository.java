@@ -126,7 +126,7 @@ public class AdminRepository {
         Condition condition = DSL.noCondition();
 
         return dslContext.selectFrom(ADMIN)
-                .orderBy(ADMIN.ADMIN_ID.desc())
+                .orderBy(entity.getSort().equalsIgnoreCase("DESC") ?  ADMIN.ADMIN_ID.desc() : ADMIN.ADMIN_ID.asc())
                 .limit(entity.getSize())
                 .offset(entity.getPage() * entity.getSize())
                 .fetch()
