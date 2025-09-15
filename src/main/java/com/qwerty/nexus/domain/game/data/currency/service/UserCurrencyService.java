@@ -20,7 +20,7 @@ public class UserCurrencyService {
      * @param command
      * @return
      */
-    public Result<Void> createUserCurrency(UserCurrencyCreateCommand command) {
+    public Result<Void> create(UserCurrencyCreateCommand command) {
         UserCurrencyEntity entity = UserCurrencyEntity.builder().build();
 
         UserCurrencyEntity createRst = repository.createUserCurrency(entity);
