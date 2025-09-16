@@ -4,6 +4,7 @@ import com.qwerty.nexus.domain.game.data.currency.command.UserCurrencyCreateComm
 import com.qwerty.nexus.domain.game.data.currency.command.UserCurrencyUpdateCommand;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.UserCurrencyCreateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.UserCurrencyUpdateRequestDto;
+import com.qwerty.nexus.domain.game.data.currency.dto.response.UserCurrencyResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.service.UserCurrencyService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
@@ -46,6 +47,12 @@ public class UserCurrencyController {
      *         단, 이 경우 현재 유저가 이전 퀘스트를 수행하였는가 등의 체크도 필요함.
      * -- 이건 퀘스트 쪽에서 담당해야 할듯. quest 를 수행 > 보상 확인 > 보상 지급(userCurrency 처리) 처리
      *
+     * 캐시 구매의 경우? (매우 중요할듯)
+     * 1) 캐시 재화를 구매한다
+     * 2) 캐시 재화의 상품명을 검색한다 (때로 캐시라는 테이블이 필요할까?)
+     * 3) 상품명에 있는 재화 수량만큼 더해준다
+     * 4) 그리고 클라이언트에 반환처리해준다
+     *
      */
 
     /**
@@ -84,9 +91,31 @@ public class UserCurrencyController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
-    /*
-    @PatchMapping("/operation/{userCurrencyId}")
-    public
+    /**
+     * 유저 재화 연산
+     * @param userCurrencyId
+     * @param dto
+     * @return
      */
+    @PatchMapping("/operation/{userCurrencyId}")
+    public ResponseEntity<ApiResponse<UserCurrencyResponseDto>> operationUserCurrency(@PathVariable("userCurrencyId") int userCurrencyId, @RequestBody UserCurrencyUpdateRequestDto dto){
+
+        /**
+         *
+         * 연산자 (+, -, *, /) 중에 하나를 받아서 연산값 을 연산해주면 됨.
+         * 그리고 그 결과를 DB 에 넣어주고, 클라이언트에 반환처리.
+         *
+         * 단, 이건 클라이언트를 믿어야 하기 때문에 검증하기가 어려울 수 있음.
+         * 예를들어.. 음.. 현재 골드가 100개 인데, 50개를 증가하는 연산을 한다고 치자.
+         *
+         * 그러면 현재 유저가 가지고 있는 골드 정보를 가져와서 100인지 먼저 체크함. (아니면 팅겨내기)
+         * 100개가 맞으면 여기서 50개를 증가하는 연산을 진행한 뒤 DB 에 저장 (골드 150개)
+         * 클라이언트에 150개를 반환 처리. 이런식으로 하면될까
+         *
+         */
+
+        Result<UserCurrencyResponseDto> result = null;
+        return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
+    }
 
 }
