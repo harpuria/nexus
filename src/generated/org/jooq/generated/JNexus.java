@@ -18,7 +18,10 @@ import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.JGameCoupon;
 import org.jooq.generated.tables.JGameTable;
 import org.jooq.generated.tables.JGameUser;
+import org.jooq.generated.tables.JMultipleProduct;
 import org.jooq.generated.tables.JOrganization;
+import org.jooq.generated.tables.JProduct;
+import org.jooq.generated.tables.JSingleProduct;
 import org.jooq.generated.tables.JTableColumn;
 import org.jooq.generated.tables.JUserColumnData;
 import org.jooq.generated.tables.JUserCurrency;
@@ -79,9 +82,24 @@ public class JNexus extends SchemaImpl {
     public final JGameUser GAME_USER = JGameUser.GAME_USER;
 
     /**
+     * The table <code>nexus.MULTIPLE_PRODUCT</code>.
+     */
+    public final JMultipleProduct MULTIPLE_PRODUCT = JMultipleProduct.MULTIPLE_PRODUCT;
+
+    /**
      * The table <code>nexus.ORGANIZATION</code>.
      */
     public final JOrganization ORGANIZATION = JOrganization.ORGANIZATION;
+
+    /**
+     * The table <code>nexus.PRODUCT</code>.
+     */
+    public final JProduct PRODUCT = JProduct.PRODUCT;
+
+    /**
+     * The table <code>nexus.SINGLE_PRODUCT</code>.
+     */
+    public final JSingleProduct SINGLE_PRODUCT = JSingleProduct.SINGLE_PRODUCT;
 
     /**
      * The table <code>nexus.TABLE_COLUMN</code>.
@@ -120,7 +138,9 @@ public class JNexus extends SchemaImpl {
             Sequences.GAME_GAME_ID_SEQ,
             Sequences.GAME_TABLE_TABLE_ID_SEQ,
             Sequences.GAME_USER_USER_ID_SEQ,
+            Sequences.MULTIPLE_PRODUCT_MULTIPLE_PRODUCT_ID_SEQ,
             Sequences.ORGANIZATION_ORG_ID_SEQ,
+            Sequences.PRODUCT_PRODUCT_ID_SEQ,
             Sequences.TABLE_COLUMN_COLUMN_ID_SEQ,
             Sequences.USER_COLUMN_DATA_USER_COLUMN_ID_SEQ,
             Sequences.USER_CURRENCY_USER_CURRENCY_ID_SEQ
@@ -138,7 +158,10 @@ public class JNexus extends SchemaImpl {
             JGameCoupon.GAME_COUPON,
             JGameTable.GAME_TABLE,
             JGameUser.GAME_USER,
+            JMultipleProduct.MULTIPLE_PRODUCT,
             JOrganization.ORGANIZATION,
+            JProduct.PRODUCT,
+            JSingleProduct.SINGLE_PRODUCT,
             JTableColumn.TABLE_COLUMN,
             JUserColumnData.USER_COLUMN_DATA,
             JUserCurrency.USER_CURRENCY

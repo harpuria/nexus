@@ -76,7 +76,7 @@ public class JUserCurrency extends TableImpl<UserCurrencyRecord> {
     /**
      * The column <code>nexus.USER_CURRENCY.AMOUNT</code>. 재화 수량 값
      */
-    public final TableField<UserCurrencyRecord, Long> AMOUNT = createField(DSL.name("AMOUNT"), SQLDataType.BIGINT.nullable(false), this, "재화 수량 값");
+    public final TableField<UserCurrencyRecord, Long> AMOUNT = createField(DSL.name("AMOUNT"), SQLDataType.BIGINT.nullable(false).defaultValue(DSL.field(DSL.raw("'0'::bigint"), SQLDataType.BIGINT)), this, "재화 수량 값");
 
     /**
      * The column <code>nexus.USER_CURRENCY.CREATED_AT</code>. 데이터 생성 날짜

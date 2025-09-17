@@ -46,9 +46,19 @@ public class Sequences {
     public static final Sequence<Integer> GAME_USER_USER_ID_SEQ = Internal.createSequence("GAME_USER_USER_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 
     /**
+     * The sequence <code>nexus.MULTIPLE_PRODUCT_MULTIPLE_PRODUCT_ID_seq</code>
+     */
+    public static final Sequence<Integer> MULTIPLE_PRODUCT_MULTIPLE_PRODUCT_ID_SEQ = Internal.createSequence("MULTIPLE_PRODUCT_MULTIPLE_PRODUCT_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
      * The sequence <code>nexus.ORGANIZATION_ORG_ID_seq</code>
      */
     public static final Sequence<Integer> ORGANIZATION_ORG_ID_SEQ = Internal.createSequence("ORGANIZATION_ORG_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
+     * The sequence <code>nexus.PRODUCT_PRODUCT_ID_seq</code>
+     */
+    public static final Sequence<Integer> PRODUCT_PRODUCT_ID_SEQ = Internal.createSequence("PRODUCT_PRODUCT_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 
     /**
      * The sequence <code>nexus.TABLE_COLUMN_COLUMN_ID_seq</code>

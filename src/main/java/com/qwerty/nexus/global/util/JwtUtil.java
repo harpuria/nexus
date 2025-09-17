@@ -49,29 +49,30 @@ public class JwtUtil {
     }
 
     // Access Token 생성
-    public String generateAccessToken(Long userId, String email, String name){
+    public String generateAccessToken(JwtTokenGenerationData data){
         Instant now = Instant.now();
         Instant expiry = now.plus(accessTokenExpiration, ChronoUnit.MILLIS);
 
         return Jwts.builder()
-                .subject(userId.toString())
+                .subject(data.getSocialId())
                 .issuer(issuer)
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(expiry))
-                .claim("email", email)
-                .claim("name", name)
+                .claim("socialProvider", data.getSocialProvider())
+                .claim("email", data.getEmail())
+                .claim("emailVerified", data.getEmailVerified())
                 .claim("type", "access")
                 .signWith(secretKey)
                 .compact();
     }
 
     // Refresh Token 생성
-    public String generateRefreshToken(Long userId){
+    public String generateRefreshToken(JwtTokenGenerationData data){
         Instant now = Instant.now();
         Instant expiry = now.plus(refreshTokenExpiration, ChronoUnit.MILLIS);
 
         return Jwts.builder()
-                .subject(userId.toString())
+                .subject(data.getSocialId())
                 .issuer(issuer)
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(expiry))
@@ -80,7 +81,6 @@ public class JwtUtil {
                 .compact();
     }
 
-    // 사용자 ID, 이메일 등 추출 및 claim 대상은 개발자가 정하기 나름인듯?
     // 토큰에서 사용자 ID 추출
     public Long getUserIdFromToken(String token){
         try{
@@ -170,9 +170,10 @@ public class JwtUtil {
     public Map<String, Object> getAllClaims(String token){
         Claims claims = getClaims(token);
         return Map.of(
-                "userId", claims.getSubject(),
+                "socialId", claims.getSubject(),
+                "socialProvider", claims.get("socialProvider", String.class),
                 "email", claims.get("email", String.class),
-                "name", claims.get("name", String.class),
+                "emailVerified", claims.get("emailVerified", String.class),
                 "type", claims.get("type", String.class),
                 "issuer", claims.getIssuer(),
                 "issuedAt", claims.getIssuedAt(),
@@ -206,7 +207,7 @@ public class JwtUtil {
 
         // 이 부분은 DB 에서 사용자 정보를 다시 조회해야 함
         // 예시를 위해 기본값 사용
-        return generateAccessToken(userId, "", "");
+        return generateAccessToken(JwtTokenGenerationData.builder().build());
     }
 
     // 토큰 만료까지 남은 시간 반환 (일, 시간, 분, 초 단위)
@@ -266,5 +267,4 @@ public class JwtUtil {
             return Map.of("valid", false, "error", e.getMessage());
         }
     }
-
 }

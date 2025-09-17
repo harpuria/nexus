@@ -12,7 +12,10 @@ import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.JGameCoupon;
 import org.jooq.generated.tables.JGameTable;
 import org.jooq.generated.tables.JGameUser;
+import org.jooq.generated.tables.JMultipleProduct;
 import org.jooq.generated.tables.JOrganization;
+import org.jooq.generated.tables.JProduct;
+import org.jooq.generated.tables.JSingleProduct;
 import org.jooq.generated.tables.JTableColumn;
 import org.jooq.generated.tables.JUserColumnData;
 import org.jooq.generated.tables.JUserCurrency;
@@ -65,9 +68,24 @@ public class Tables {
     public static final JGameUser GAME_USER = JGameUser.GAME_USER;
 
     /**
+     * The table <code>nexus.MULTIPLE_PRODUCT</code>.
+     */
+    public static final JMultipleProduct MULTIPLE_PRODUCT = JMultipleProduct.MULTIPLE_PRODUCT;
+
+    /**
      * The table <code>nexus.ORGANIZATION</code>.
      */
     public static final JOrganization ORGANIZATION = JOrganization.ORGANIZATION;
+
+    /**
+     * The table <code>nexus.PRODUCT</code>.
+     */
+    public static final JProduct PRODUCT = JProduct.PRODUCT;
+
+    /**
+     * The table <code>nexus.SINGLE_PRODUCT</code>.
+     */
+    public static final JSingleProduct SINGLE_PRODUCT = JSingleProduct.SINGLE_PRODUCT;
 
     /**
      * The table <code>nexus.TABLE_COLUMN</code>.

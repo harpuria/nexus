@@ -36,6 +36,7 @@ import org.jooq.generated.tables.JGameCoupon.GameCouponPath;
 import org.jooq.generated.tables.JGameTable.GameTablePath;
 import org.jooq.generated.tables.JGameUser.GameUserPath;
 import org.jooq.generated.tables.JOrganization.OrganizationPath;
+import org.jooq.generated.tables.JProduct.ProductPath;
 import org.jooq.generated.tables.records.GameRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
@@ -281,6 +282,19 @@ public class JGame extends TableImpl<GameRecord> {
             _gameUser = new GameUserPath(this, null, Keys.GAME_USER__GAME_USER_GAME_ID_FOREIGN.getInverseKey());
 
         return _gameUser;
+    }
+
+    private transient ProductPath _product;
+
+    /**
+     * Get the implicit to-many join path to the <code>nexus.PRODUCT</code>
+     * table
+     */
+    public ProductPath product() {
+        if (_product == null)
+            _product = new ProductPath(this, null, Keys.PRODUCT__PRODUCT_GAME_ID_FOREIGN.getInverseKey());
+
+        return _product;
     }
 
     @Override
