@@ -76,7 +76,7 @@ public class GameController {
      * @return
      */
     @GetMapping("/list")
-    @Operation(summary = "게임 목록 조회 (미개발)")
+    @Operation(summary = "게임 목록 조회 (개발중)")
     public ResponseEntity<ApiResponse<List<GameResponseDto>>> selectGameList(){
         return null;
     }

@@ -140,11 +140,13 @@ public class GameUserService {
         // 2) 비밀번호 검증처리 (소셜로그인의 경우는 이 과정이 불필요할듯)
         // 3) JWT 토큰 생성
 
+        /*
         String token = jwtUtil.generateAccessToken(1L, "test@naver.com", "testName");
 
         System.out.println("======");
         System.out.println(token);
         System.out.println("======");
+         */
 
         return Result.Success.of(rst, "유저 인증 성공");
     }

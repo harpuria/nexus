@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.management.admin.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.qwerty.nexus.domain.management.admin.command.AdminUpdateCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -10,8 +11,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class AdminUpdateRequestDto {
-    private int adminId;
-
     @Schema(example = "1")
     private int gameId;
 
@@ -24,7 +23,7 @@ public class AdminUpdateRequestDto {
     @Schema(example = "update@qwerty.io")
     private String adminEmail;
 
-    @Schema(example = "1")
+    @Schema(example = "이름수정관리자")
     private String adminNm;
 
     @Schema(example = "N")
@@ -32,4 +31,8 @@ public class AdminUpdateRequestDto {
 
     @Schema(example = "admin")
     private String updatedBy;
+
+    // no parameter
+    @JsonIgnore
+    private int adminId;
 }

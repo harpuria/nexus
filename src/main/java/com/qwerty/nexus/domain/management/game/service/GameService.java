@@ -79,10 +79,10 @@ public class GameService {
     public Result<GameResponseDto> selectOneGame(Integer id){
         Optional<GameEntity> selectRst = Optional.ofNullable(repository.selectOneGame(id));
         if(selectRst.isPresent()){
-            return Result.Success.of(GameResponseDto.from(selectRst.get()), "게임 정보가 조회 완료.");
+            return Result.Success.of(GameResponseDto.from(selectRst.get()), "게임 정보 조회 완료.");
         }
         else{
-            return Result.Failure.of("게임 정보 존재하지 않음.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("게임 정보가 존재하지 않음.", ErrorCode.INTERNAL_ERROR.getCode());
         }
     }
 }

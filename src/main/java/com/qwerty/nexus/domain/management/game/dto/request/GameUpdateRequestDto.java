@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.management.game.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.qwerty.nexus.domain.management.game.command.GameUpdateCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -10,8 +11,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class GameUpdateRequestDto {
-    private int gameId;
-
     @Schema(example = "그리즐리키우기(변경)")
     private String name;
 
@@ -23,4 +22,8 @@ public class GameUpdateRequestDto {
 
     @Schema(example = "admin")
     private String updateBy;
+
+    // no parameter
+    @JsonIgnore
+    private int gameId;
 }

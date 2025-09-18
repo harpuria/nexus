@@ -14,6 +14,8 @@ public class GameEntity {
     private String name;
     private UUID clientAppId;
     private UUID signatureKey;
+    private String googleClientId;
+    private String googleClientSecret;
     private String status;
     private OffsetDateTime createdAt;
     private String createdBy;

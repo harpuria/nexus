@@ -34,6 +34,15 @@ public class CurrencyService {
                 .maxAmount(command.getMaxAmount())
                 .build();
 
+        // 추가로 새로운 재화가 생성되었을 때 유저가 존재하는 경우, 기본 유저재화 정보는 생성해줘야 할듯.
+        // 1) 다이아 라는 재화를 생성
+        // 2) 유저가 10명이 이미 있다고 가정
+        // 3) 해당 유저에게 다이아 재화 정보를 생성해준다
+
+        // 역으로 새로운 유저가 생성되는 경우
+        // 1) 유저 1이 생성
+        // 2) 현재 존재하는 재화들 (삭제상태가 아닌 것)을 모두 해당 유저에게 생성하게 함
+
         Optional<CurrencyEntity> createRst = Optional.ofNullable(repository.createCurrency(entity));
         if(createRst.isPresent()){
             return Result.Success.of(null, "재화 생성 완료.");

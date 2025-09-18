@@ -18,9 +18,6 @@ public class GameResponseDto extends BaseResponseDto {
     private UUID clientAppId;
     private UUID signatureKey;
     private String status;
-    private String createdBy;
-    private String updatedBy;
-    private String isDel;
 
     public static GameResponseDto from(GameEntity entity) {
         return GameResponseDto.builder()

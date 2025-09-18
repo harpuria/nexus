@@ -10,6 +10,7 @@ import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.ResponseEntityUtils;
 import com.qwerty.nexus.global.response.Result;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -61,6 +62,7 @@ public class UserCurrencyController {
      * @return
      */
     @PostMapping
+    @Operation(summary = "유저 재화 생성")
     public ResponseEntity<ApiResponse<Void>> createUserCurrency(@RequestBody UserCurrencyCreateRequestDto dto){
         Result<Void> result = service.create(UserCurrencyCreateCommand.from(dto));
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
@@ -72,6 +74,7 @@ public class UserCurrencyController {
      * @return
      */
     @PatchMapping("/{userCurrencyId}")
+    @Operation(summary = "유저 재화 수정")
     public ResponseEntity<ApiResponse<Void>> updateUserCurrency(@PathVariable("userCurrencyId") int userCurrencyId, @RequestBody UserCurrencyUpdateRequestDto dto){
         dto.setUserCurrencyId(userCurrencyId);
         Result<Void> result = service.update(UserCurrencyUpdateCommand.from(dto));
@@ -84,6 +87,7 @@ public class UserCurrencyController {
      * @return
      */
     @DeleteMapping("/{userCurrencyId}")
+    @Operation(summary = "유저 재화 삭제")
     public ResponseEntity<ApiResponse<Void>> deleteUserCurrency(@PathVariable("userCurrencyId") int userCurrencyId, @RequestBody UserCurrencyUpdateRequestDto dto){
         dto.setUserCurrencyId(userCurrencyId);
         dto.setIsDel("Y");
@@ -98,6 +102,7 @@ public class UserCurrencyController {
      * @return
      */
     @PatchMapping("/operation/{userCurrencyId}")
+    @Operation(summary = "유저 재화 연산")
     public ResponseEntity<ApiResponse<UserCurrencyResponseDto>> operationUserCurrency(@PathVariable("userCurrencyId") int userCurrencyId, @RequestBody UserCurrencyUpdateRequestDto dto){
 
         /**

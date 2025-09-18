@@ -115,7 +115,7 @@ public class AdminController {
      * @return 복수의 관리자 정보를 담은 리스트 객체 (DTO)
      */
     @GetMapping("/list")
-    @Operation(summary = "관리자 목록 조회")
+    @Operation(summary = "관리자 목록 조회 (개발중)")
     public ResponseEntity<ApiResponse<List<AdminResponseDto>>> selectAllAdmin(@RequestBody AdminSearchRequestDto dto){
         Result<List<AdminResponseDto>> result = service.selectAll(AdminSearchCommand.from(dto));
 
@@ -129,7 +129,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("/login")
-    @Operation(summary = "관리자 로그인 (미개발)")
+    @Operation(summary = "관리자 로그인 (개발중)")
     public ResponseEntity<ApiResponse<AdminResponseDto>> login(@RequestBody AdminLoginRequestDto dto){
         return null;
     }
@@ -140,7 +140,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("/logout")
-    @Operation(summary = "관리자 로그아웃 (미개발)")
+    @Operation(summary = "관리자 로그아웃 (개발중)")
     public ResponseEntity<ApiResponse<AdminResponseDto>> logout(@RequestBody AdminLogoutRequestDto dto){
         return null;
     }

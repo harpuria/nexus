@@ -10,6 +10,7 @@ import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 
 @Log4j2
 @Repository
@@ -111,9 +112,10 @@ public class AdminRepository {
             condition = condition.and(ADMIN.ADMIN_ID.eq(admin.getAdminId()));
         }
 
-        return dslContext.selectFrom(ADMIN)
-                .where(condition)
-                .fetchOneInto(AdminEntity.class);
+        return AdminEntity.from(
+                Objects.requireNonNull(dslContext.selectFrom(ADMIN)
+                        .where(condition)
+                        .fetchOne()));
     }
 
     /**
@@ -130,25 +132,7 @@ public class AdminRepository {
                 .limit(entity.getSize())
                 .offset(entity.getPage() * entity.getSize())
                 .fetch()
-                .map(record ->{
-                    // AdminEntity 에 페이징 관련 필드는 컬럼으로 존재하지 않아서 직접 매핑
-                    // Record 로 반환처리하는 방법도 있는데 좀 더 생각을...
-                    return AdminEntity.builder()
-                            .adminId(record.getAdminId())
-                            .orgId(record.getOrgId())
-                            .gameId(record.getGameId())
-                            .loginId(record.getLoginId())
-                            .loginPw(record.getLoginPw())
-                            .adminRole(record.getAdminRole())
-                            .adminEmail(record.getAdminEmail())
-                            .adminNm(record.getAdminNm())
-                            .createdAt(record.getCreatedAt())
-                            .createdBy(record.getCreatedBy())
-                            .updatedAt(record.getUpdatedAt())
-                            .updatedBy(record.getUpdatedBy())
-                            .isDel(record.getIsDel())
-                            .build();
-                });
+                .map(AdminEntity::from);
     }
 
 
