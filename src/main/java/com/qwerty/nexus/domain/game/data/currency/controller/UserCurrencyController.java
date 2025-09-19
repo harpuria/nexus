@@ -1,8 +1,10 @@
 package com.qwerty.nexus.domain.game.data.currency.controller;
 
 import com.qwerty.nexus.domain.game.data.currency.command.UserCurrencyCreateCommand;
+import com.qwerty.nexus.domain.game.data.currency.command.UserCurrencyOperateCommand;
 import com.qwerty.nexus.domain.game.data.currency.command.UserCurrencyUpdateCommand;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.UserCurrencyCreateRequestDto;
+import com.qwerty.nexus.domain.game.data.currency.dto.request.UserCurrencyOperateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.UserCurrencyUpdateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.response.UserCurrencyResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.service.UserCurrencyService;
@@ -103,8 +105,8 @@ public class UserCurrencyController {
      */
     @PatchMapping("/operation/{userCurrencyId}")
     @Operation(summary = "유저 재화 연산")
-    public ResponseEntity<ApiResponse<UserCurrencyResponseDto>> operationUserCurrency(@PathVariable("userCurrencyId") int userCurrencyId, @RequestBody UserCurrencyUpdateRequestDto dto){
-
+    public ResponseEntity<ApiResponse<UserCurrencyResponseDto>> operationUserCurrency(@PathVariable("userCurrencyId") int userCurrencyId, @RequestBody UserCurrencyOperateRequestDto dto){
+        dto.setCurrencyId(userCurrencyId);
         /**
          *
          * 연산자 (+, -, *, /) 중에 하나를 받아서 연산값 을 연산해주면 됨.
@@ -119,7 +121,7 @@ public class UserCurrencyController {
          *
          */
 
-        Result<UserCurrencyResponseDto> result = null;
+        Result<UserCurrencyResponseDto> result = service.operate(UserCurrencyOperateCommand.from(dto));
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
