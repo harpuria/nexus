@@ -30,9 +30,10 @@ public class OrganizationController {
      * @param dto 수정할 단체 정보를 담은 객체 (DTO)
      * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
-    @PatchMapping
+    @PatchMapping("/{orgId}")
     @Operation(summary = "단체 정보 수정")
-    public ResponseEntity<ApiResponse<Void>> updateOrganization(@Parameter @RequestBody OrganizationUpdateRequestDto dto){
+    public ResponseEntity<ApiResponse<Void>> updateOrganization(@PathVariable("orgId") int orgId, @Parameter @RequestBody OrganizationUpdateRequestDto dto){
+        dto.setOrgId(orgId);
         Result<Void> result = service.update(OrganizationUpdateCommand.from(dto));
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);

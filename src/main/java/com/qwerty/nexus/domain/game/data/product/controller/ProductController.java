@@ -27,25 +27,25 @@ public class ProductController {
      *
      */
 
-    @PostMapping
+    @PostMapping("/1")
     @Operation(summary = "상품 정보 생성")
     public ResponseEntity<ApiResponse<Void>> create(){
         return null;
     }
 
-    @PatchMapping
+    @PatchMapping("/2")
     @Operation(summary = "상품 정보 수정")
     public ResponseEntity<ApiResponse<Void>> update(){
         return null;
     }
 
-    @DeleteMapping
+    @DeleteMapping("/3")
     @Operation(summary = "상품 정보 삭제")
     public ResponseEntity<ApiResponse<Void>> delete(){
         return null;
     }
 
-    @PostMapping
+    @PostMapping("/4")
     @Operation(summary = "상품 구매 및 지급")
     public ResponseEntity<ApiResponse<Void>> buy(){
         return null;
