@@ -38,6 +38,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/swagger-ui/**").permitAll() // swagger 허용
                     .requestMatchers("/api/auth/**").permitAll() // 인증 관련 API 경로는 인증 없이 허용
+                    .requestMatchers("/api/user/**").permitAll() // 테스트 관련 허용
                     .anyRequest().authenticated()) // 위에서 허용하지 않은 것들은 인증 필요
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

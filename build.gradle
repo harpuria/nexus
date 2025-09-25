@@ -44,7 +44,10 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.9'
+
+    // social login
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'com.google.api-client:google-api-client:2.8.1'
 
 	// jooq
 	jooqCodegen project(':jooq-custom')
@@ -61,7 +64,7 @@ jooq {
 	configuration {
 		jdbc {
 			driver = "org.postgresql.Driver"
-			url = "jdbc:postgresql://localhost:15432/nexus"
+			url = "jdbc:postgresql://localhost:5432/nexus"
 			user = "${user}"
 			password = "${password}"
 
