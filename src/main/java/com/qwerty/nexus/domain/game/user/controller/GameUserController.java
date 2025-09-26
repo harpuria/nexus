@@ -33,15 +33,7 @@ public class GameUserController {
     private final GameUserService gameUserService;
 
     /**
-     *
-     * 개발할 API 정리
-     * 게임 유저 정지 처리
-     * 게임 유저 탈퇴 처리
-     * 등등
-     */
-
-    /**
-     * 게임 유저 생성 (소셜 로그인 고려 X)
+     * 게임 유저 생성 (소셜 로그인 X, 실게임에서 사용하지는 않을듯)
      * @param dto 생성할 게임 유저 정보를 담은 객체 (DTO)
      * @return
      */
@@ -67,7 +59,12 @@ public class GameUserController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
-
+    /**
+     * 유저 정지 처리
+     * @param gameUserId
+     * @param dto
+     * @return
+     */
     @PatchMapping("/block/{gameUserId}")
     @Operation(summary = "유저 정지 처리")
     public ResponseEntity<ApiResponse<Void>> blockGameUser(@PathVariable("gameUserId") int gameUserId, @RequestBody GameUserBlockRequestDto dto) {
@@ -86,6 +83,12 @@ public class GameUserController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
+    /**
+     * 유저 탈퇴 처리
+     * @param gameUserId
+     * @param dto
+     * @return
+     */
     @PatchMapping("/withdrawal/{gameUserId}")
     @Operation(summary = "유저 탈퇴 처리")
     public ResponseEntity<ApiResponse<Void>>  withdrawalGameUser(@PathVariable("gameUserId") int gameUserId, @RequestBody GameUserWithdrawalRequestDto dto) {
@@ -97,30 +100,4 @@ public class GameUserController {
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
-
-
-    /**
-     * 유저 로그인 (소셜 로그인 O)
-     * @param gameUserId
-     * @return
-     */
-    @PostMapping("/login/{gameUserId}")
-    @Operation(summary = "유저 로그인 (개발중)")
-    public ResponseEntity<ApiResponse<Void>> gameLogin(@PathVariable("gameUserId") int gameUserId){
-        // jwt (or session) 등록 처리
-        return null;
-    }
-
-    /**
-     *
-     * @param gameUserId
-     * @return
-     */
-    @PostMapping("/logout/{gameUserId}")
-    @Operation(summary = "유저 로그아웃 (개발중)")
-    public ResponseEntity<ApiResponse<Void>> gameLogout(@PathVariable("gameUserId") int gameUserId){
-        // jwt (or session) 초기화 처리
-        return null;
-    }
-
 }

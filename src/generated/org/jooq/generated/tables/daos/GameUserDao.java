@@ -115,6 +115,36 @@ public class GameUserDao extends DAOImpl<GameUserRecord, GameUser, Integer> {
     }
 
     /**
+     * Fetch records that have <code>PROVIDER BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<GameUser> fetchRangeOfJProvider(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JGameUser.GAME_USER.PROVIDER, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>PROVIDER IN (values)</code>
+     */
+    public List<GameUser> fetchByJProvider(String... values) {
+        return fetch(JGameUser.GAME_USER.PROVIDER, values);
+    }
+
+    /**
+     * Fetch records that have <code>SOCIAL_ID BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<GameUser> fetchRangeOfJSocialId(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JGameUser.GAME_USER.SOCIAL_ID, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>SOCIAL_ID IN (values)</code>
+     */
+    public List<GameUser> fetchByJSocialId(String... values) {
+        return fetch(JGameUser.GAME_USER.SOCIAL_ID, values);
+    }
+
+    /**
      * Fetch records that have <code>NICKNAME BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
@@ -127,21 +157,6 @@ public class GameUserDao extends DAOImpl<GameUserRecord, GameUser, Integer> {
      */
     public List<GameUser> fetchByJNickname(String... values) {
         return fetch(JGameUser.GAME_USER.NICKNAME, values);
-    }
-
-    /**
-     * Fetch records that have <code>LOGIN_TYPE BETWEEN lowerInclusive AND
-     * upperInclusive</code>
-     */
-    public List<GameUser> fetchRangeOfJLoginType(String lowerInclusive, String upperInclusive) {
-        return fetchRange(JGameUser.GAME_USER.LOGIN_TYPE, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>LOGIN_TYPE IN (values)</code>
-     */
-    public List<GameUser> fetchByJLoginType(String... values) {
-        return fetch(JGameUser.GAME_USER.LOGIN_TYPE, values);
     }
 
     /**

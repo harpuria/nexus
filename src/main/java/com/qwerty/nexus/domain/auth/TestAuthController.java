@@ -1,7 +1,7 @@
-package com.qwerty.nexus.global;
+package com.qwerty.nexus.domain.auth;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.qwerty.nexus.domain.auth.GoogleVerifierService;
+import com.qwerty.nexus.domain.auth.service.GoogleVerifierService;
 import com.qwerty.nexus.global.util.JwtTokenGenerationData;
 import com.qwerty.nexus.global.util.JwtUtil;
 import lombok.RequiredArgsConstructor;

@@ -28,6 +28,7 @@ public final class ApiConstants {
         public static final String API_BASE_PATH = "/api/" + API_VERSION;
 
         // 도메인별 기본 경로
+        public static final String AUTH_PATH = API_BASE_PATH + "/auth";
         public static final String ADMIN_PATH = API_BASE_PATH + "/admin";
         public static final String ORG_PATH = API_BASE_PATH + "/org";
         public static final String GAME_PATH = API_BASE_PATH + "/game";

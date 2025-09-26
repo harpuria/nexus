@@ -20,8 +20,9 @@ public class GameUser implements Serializable {
     private Integer gameId;
     private String userLId;
     private String userLPw;
+    private String provider;
+    private String socialId;
     private String nickname;
-    private String loginType;
     private String device;
     private OffsetDateTime blockStartDate;
     private OffsetDateTime blockEndDate;
@@ -42,8 +43,9 @@ public class GameUser implements Serializable {
         this.gameId = value.gameId;
         this.userLId = value.userLId;
         this.userLPw = value.userLPw;
+        this.provider = value.provider;
+        this.socialId = value.socialId;
         this.nickname = value.nickname;
-        this.loginType = value.loginType;
         this.device = value.device;
         this.blockStartDate = value.blockStartDate;
         this.blockEndDate = value.blockEndDate;
@@ -63,8 +65,9 @@ public class GameUser implements Serializable {
         Integer gameId,
         String userLId,
         String userLPw,
+        String provider,
+        String socialId,
         String nickname,
-        String loginType,
         String device,
         OffsetDateTime blockStartDate,
         OffsetDateTime blockEndDate,
@@ -82,8 +85,9 @@ public class GameUser implements Serializable {
         this.gameId = gameId;
         this.userLId = userLId;
         this.userLPw = userLPw;
+        this.provider = provider;
+        this.socialId = socialId;
         this.nickname = nickname;
-        this.loginType = loginType;
         this.device = device;
         this.blockStartDate = blockStartDate;
         this.blockEndDate = blockEndDate;
@@ -129,14 +133,16 @@ public class GameUser implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.GAME_USER.USER_L_ID</code>. 유저 로그인 아이디
+     * Getter for <code>nexus.GAME_USER.USER_L_ID</code>. 유저 로그인 아이디 (소셜 로그인의 경우
+     * 소셜 로그인할 당시의 이메일 주소)
      */
     public String getUserLId() {
         return this.userLId;
     }
 
     /**
-     * Setter for <code>nexus.GAME_USER.USER_L_ID</code>. 유저 로그인 아이디
+     * Setter for <code>nexus.GAME_USER.USER_L_ID</code>. 유저 로그인 아이디 (소셜 로그인의 경우
+     * 소셜 로그인할 당시의 이메일 주소)
      */
     public GameUser setUserLId(String userLId) {
         this.userLId = userLId;
@@ -161,6 +167,36 @@ public class GameUser implements Serializable {
     }
 
     /**
+     * Getter for <code>nexus.GAME_USER.PROVIDER</code>. 소셜 로그인 타입
+     */
+    public String getProvider() {
+        return this.provider;
+    }
+
+    /**
+     * Setter for <code>nexus.GAME_USER.PROVIDER</code>. 소셜 로그인 타입
+     */
+    public GameUser setProvider(String provider) {
+        this.provider = provider;
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.GAME_USER.SOCIAL_ID</code>. 소셜 로그인 아이디
+     */
+    public String getSocialId() {
+        return this.socialId;
+    }
+
+    /**
+     * Setter for <code>nexus.GAME_USER.SOCIAL_ID</code>. 소셜 로그인 아이디
+     */
+    public GameUser setSocialId(String socialId) {
+        this.socialId = socialId;
+        return this;
+    }
+
+    /**
      * Getter for <code>nexus.GAME_USER.NICKNAME</code>. 게임에서 사용되는 닉네임
      */
     public String getNickname() {
@@ -176,29 +212,14 @@ public class GameUser implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.GAME_USER.LOGIN_TYPE</code>. 로그인 타입
-     */
-    public String getLoginType() {
-        return this.loginType;
-    }
-
-    /**
-     * Setter for <code>nexus.GAME_USER.LOGIN_TYPE</code>. 로그인 타입
-     */
-    public GameUser setLoginType(String loginType) {
-        this.loginType = loginType;
-        return this;
-    }
-
-    /**
-     * Getter for <code>nexus.GAME_USER.DEVICE</code>. 게임 접속 기기
+     * Getter for <code>nexus.GAME_USER.DEVICE</code>. 접속 기기
      */
     public String getDevice() {
         return this.device;
     }
 
     /**
-     * Setter for <code>nexus.GAME_USER.DEVICE</code>. 게임 접속 기기
+     * Setter for <code>nexus.GAME_USER.DEVICE</code>. 접속 기기
      */
     public GameUser setDevice(String device) {
         this.device = device;
@@ -403,17 +424,23 @@ public class GameUser implements Serializable {
         }
         else if (!this.userLPw.equals(other.userLPw))
             return false;
+        if (this.provider == null) {
+            if (other.provider != null)
+                return false;
+        }
+        else if (!this.provider.equals(other.provider))
+            return false;
+        if (this.socialId == null) {
+            if (other.socialId != null)
+                return false;
+        }
+        else if (!this.socialId.equals(other.socialId))
+            return false;
         if (this.nickname == null) {
             if (other.nickname != null)
                 return false;
         }
         else if (!this.nickname.equals(other.nickname))
-            return false;
-        if (this.loginType == null) {
-            if (other.loginType != null)
-                return false;
-        }
-        else if (!this.loginType.equals(other.loginType))
             return false;
         if (this.device == null) {
             if (other.device != null)
@@ -498,8 +525,9 @@ public class GameUser implements Serializable {
         result = prime * result + ((this.gameId == null) ? 0 : this.gameId.hashCode());
         result = prime * result + ((this.userLId == null) ? 0 : this.userLId.hashCode());
         result = prime * result + ((this.userLPw == null) ? 0 : this.userLPw.hashCode());
+        result = prime * result + ((this.provider == null) ? 0 : this.provider.hashCode());
+        result = prime * result + ((this.socialId == null) ? 0 : this.socialId.hashCode());
         result = prime * result + ((this.nickname == null) ? 0 : this.nickname.hashCode());
-        result = prime * result + ((this.loginType == null) ? 0 : this.loginType.hashCode());
         result = prime * result + ((this.device == null) ? 0 : this.device.hashCode());
         result = prime * result + ((this.blockStartDate == null) ? 0 : this.blockStartDate.hashCode());
         result = prime * result + ((this.blockEndDate == null) ? 0 : this.blockEndDate.hashCode());
@@ -523,8 +551,9 @@ public class GameUser implements Serializable {
         sb.append(", ").append(gameId);
         sb.append(", ").append(userLId);
         sb.append(", ").append(userLPw);
+        sb.append(", ").append(provider);
+        sb.append(", ").append(socialId);
         sb.append(", ").append(nickname);
-        sb.append(", ").append(loginType);
         sb.append(", ").append(device);
         sb.append(", ").append(blockStartDate);
         sb.append(", ").append(blockEndDate);

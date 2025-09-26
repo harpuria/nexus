@@ -71,9 +71,10 @@ public class JGameUser extends TableImpl<GameUserRecord> {
     public final TableField<GameUserRecord, Integer> GAME_ID = createField(DSL.name("GAME_ID"), SQLDataType.INTEGER.nullable(false), this, "해당 유저가 속한 게임 ID (FK)");
 
     /**
-     * The column <code>nexus.GAME_USER.USER_L_ID</code>. 유저 로그인 아이디
+     * The column <code>nexus.GAME_USER.USER_L_ID</code>. 유저 로그인 아이디 (소셜 로그인의 경우
+     * 소셜 로그인할 당시의 이메일 주소)
      */
-    public final TableField<GameUserRecord, String> USER_L_ID = createField(DSL.name("USER_L_ID"), SQLDataType.VARCHAR(255).nullable(false), this, "유저 로그인 아이디");
+    public final TableField<GameUserRecord, String> USER_L_ID = createField(DSL.name("USER_L_ID"), SQLDataType.VARCHAR(255).nullable(false), this, "유저 로그인 아이디 (소셜 로그인의 경우 소셜 로그인할 당시의 이메일 주소)");
 
     /**
      * The column <code>nexus.GAME_USER.USER_L_PW</code>. 유저 로그인 패스워드 (소셜 로그인인
@@ -82,19 +83,24 @@ public class JGameUser extends TableImpl<GameUserRecord> {
     public final TableField<GameUserRecord, String> USER_L_PW = createField(DSL.name("USER_L_PW"), SQLDataType.VARCHAR(255), this, "유저 로그인 패스워드 (소셜 로그인인 경우 없을 수도 있음)");
 
     /**
+     * The column <code>nexus.GAME_USER.PROVIDER</code>. 소셜 로그인 타입
+     */
+    public final TableField<GameUserRecord, String> PROVIDER = createField(DSL.name("PROVIDER"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'ETC'::character varying"), SQLDataType.VARCHAR)), this, "소셜 로그인 타입");
+
+    /**
+     * The column <code>nexus.GAME_USER.SOCIAL_ID</code>. 소셜 로그인 아이디
+     */
+    public final TableField<GameUserRecord, String> SOCIAL_ID = createField(DSL.name("SOCIAL_ID"), SQLDataType.VARCHAR(255).nullable(false), this, "소셜 로그인 아이디");
+
+    /**
      * The column <code>nexus.GAME_USER.NICKNAME</code>. 게임에서 사용되는 닉네임
      */
     public final TableField<GameUserRecord, String> NICKNAME = createField(DSL.name("NICKNAME"), SQLDataType.VARCHAR(255).nullable(false), this, "게임에서 사용되는 닉네임");
 
     /**
-     * The column <code>nexus.GAME_USER.LOGIN_TYPE</code>. 로그인 타입
+     * The column <code>nexus.GAME_USER.DEVICE</code>. 접속 기기
      */
-    public final TableField<GameUserRecord, String> LOGIN_TYPE = createField(DSL.name("LOGIN_TYPE"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'ETC'::character varying"), SQLDataType.VARCHAR)), this, "로그인 타입");
-
-    /**
-     * The column <code>nexus.GAME_USER.DEVICE</code>. 게임 접속 기기
-     */
-    public final TableField<GameUserRecord, String> DEVICE = createField(DSL.name("DEVICE"), SQLDataType.VARCHAR(255).nullable(false), this, "게임 접속 기기");
+    public final TableField<GameUserRecord, String> DEVICE = createField(DSL.name("DEVICE"), SQLDataType.VARCHAR(255), this, "접속 기기");
 
     /**
      * The column <code>nexus.GAME_USER.BLOCK_START_DATE</code>. 계정 정지 시작일
@@ -269,7 +275,7 @@ public class JGameUser extends TableImpl<GameUserRecord> {
     @Override
     public List<Check<GameUserRecord>> getChecks() {
         return Arrays.asList(
-            Internal.createCheck(this, DSL.name("GAME_USER_LOGIN_TYPE_check"), "(((\"LOGIN_TYPE\")::text = ANY ((ARRAY['GOOGLE'::character varying, 'FACEBOOK'::character varying, 'APPLE'::character varying, 'X'::character varying, 'KAKAO'::character varying, 'NAVER'::character varying, 'GUEST'::character varying, 'ETC'::character varying])::text[])))", true)
+            Internal.createCheck(this, DSL.name("GAME_USER_PROVIDER_check"), "(((\"PROVIDER\")::text = ANY ((ARRAY['GOOGLE'::character varying, 'FACEBOOK'::character varying, 'APPLE'::character varying, 'X'::character varying, 'KAKAO'::character varying, 'NAVER'::character varying, 'GUEST'::character varying, 'ETC'::character varying])::text[])))", true)
         );
     }
 

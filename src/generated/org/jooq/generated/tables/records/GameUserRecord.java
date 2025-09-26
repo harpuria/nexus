@@ -51,7 +51,8 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
     }
 
     /**
-     * Setter for <code>nexus.GAME_USER.USER_L_ID</code>. 유저 로그인 아이디
+     * Setter for <code>nexus.GAME_USER.USER_L_ID</code>. 유저 로그인 아이디 (소셜 로그인의 경우
+     * 소셜 로그인할 당시의 이메일 주소)
      */
     public GameUserRecord setUserLId(String value) {
         set(2, value);
@@ -59,7 +60,8 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
     }
 
     /**
-     * Getter for <code>nexus.GAME_USER.USER_L_ID</code>. 유저 로그인 아이디
+     * Getter for <code>nexus.GAME_USER.USER_L_ID</code>. 유저 로그인 아이디 (소셜 로그인의 경우
+     * 소셜 로그인할 당시의 이메일 주소)
      */
     public String getUserLId() {
         return (String) get(2);
@@ -83,10 +85,40 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
     }
 
     /**
+     * Setter for <code>nexus.GAME_USER.PROVIDER</code>. 소셜 로그인 타입
+     */
+    public GameUserRecord setProvider(String value) {
+        set(4, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.GAME_USER.PROVIDER</code>. 소셜 로그인 타입
+     */
+    public String getProvider() {
+        return (String) get(4);
+    }
+
+    /**
+     * Setter for <code>nexus.GAME_USER.SOCIAL_ID</code>. 소셜 로그인 아이디
+     */
+    public GameUserRecord setSocialId(String value) {
+        set(5, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.GAME_USER.SOCIAL_ID</code>. 소셜 로그인 아이디
+     */
+    public String getSocialId() {
+        return (String) get(5);
+    }
+
+    /**
      * Setter for <code>nexus.GAME_USER.NICKNAME</code>. 게임에서 사용되는 닉네임
      */
     public GameUserRecord setNickname(String value) {
-        set(4, value);
+        set(6, value);
         return this;
     }
 
@@ -94,44 +126,29 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
      * Getter for <code>nexus.GAME_USER.NICKNAME</code>. 게임에서 사용되는 닉네임
      */
     public String getNickname() {
-        return (String) get(4);
+        return (String) get(6);
     }
 
     /**
-     * Setter for <code>nexus.GAME_USER.LOGIN_TYPE</code>. 로그인 타입
-     */
-    public GameUserRecord setLoginType(String value) {
-        set(5, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>nexus.GAME_USER.LOGIN_TYPE</code>. 로그인 타입
-     */
-    public String getLoginType() {
-        return (String) get(5);
-    }
-
-    /**
-     * Setter for <code>nexus.GAME_USER.DEVICE</code>. 게임 접속 기기
+     * Setter for <code>nexus.GAME_USER.DEVICE</code>. 접속 기기
      */
     public GameUserRecord setDevice(String value) {
-        set(6, value);
+        set(7, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.GAME_USER.DEVICE</code>. 게임 접속 기기
+     * Getter for <code>nexus.GAME_USER.DEVICE</code>. 접속 기기
      */
     public String getDevice() {
-        return (String) get(6);
+        return (String) get(7);
     }
 
     /**
      * Setter for <code>nexus.GAME_USER.BLOCK_START_DATE</code>. 계정 정지 시작일
      */
     public GameUserRecord setBlockStartDate(OffsetDateTime value) {
-        set(7, value);
+        set(8, value);
         return this;
     }
 
@@ -139,14 +156,14 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
      * Getter for <code>nexus.GAME_USER.BLOCK_START_DATE</code>. 계정 정지 시작일
      */
     public OffsetDateTime getBlockStartDate() {
-        return (OffsetDateTime) get(7);
+        return (OffsetDateTime) get(8);
     }
 
     /**
      * Setter for <code>nexus.GAME_USER.BLOCK_END_DATE</code>. 계정 정지 종료일
      */
     public GameUserRecord setBlockEndDate(OffsetDateTime value) {
-        set(8, value);
+        set(9, value);
         return this;
     }
 
@@ -154,14 +171,14 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
      * Getter for <code>nexus.GAME_USER.BLOCK_END_DATE</code>. 계정 정지 종료일
      */
     public OffsetDateTime getBlockEndDate() {
-        return (OffsetDateTime) get(8);
+        return (OffsetDateTime) get(9);
     }
 
     /**
      * Setter for <code>nexus.GAME_USER.BLOCK_REASON</code>. 계정 정지 사유
      */
     public GameUserRecord setBlockReason(String value) {
-        set(9, value);
+        set(10, value);
         return this;
     }
 
@@ -169,14 +186,14 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
      * Getter for <code>nexus.GAME_USER.BLOCK_REASON</code>. 계정 정지 사유
      */
     public String getBlockReason() {
-        return (String) get(9);
+        return (String) get(10);
     }
 
     /**
      * Setter for <code>nexus.GAME_USER.IS_WITHDRAWAL</code>. 회원탈퇴여부
      */
     public GameUserRecord setIsWithdrawal(String value) {
-        set(10, value);
+        set(11, value);
         return this;
     }
 
@@ -184,14 +201,14 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
      * Getter for <code>nexus.GAME_USER.IS_WITHDRAWAL</code>. 회원탈퇴여부
      */
     public String getIsWithdrawal() {
-        return (String) get(10);
+        return (String) get(11);
     }
 
     /**
      * Setter for <code>nexus.GAME_USER.WITHDRAWAL_DATE</code>. 게임탈퇴날짜
      */
     public GameUserRecord setWithdrawalDate(OffsetDateTime value) {
-        set(11, value);
+        set(12, value);
         return this;
     }
 
@@ -199,14 +216,14 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
      * Getter for <code>nexus.GAME_USER.WITHDRAWAL_DATE</code>. 게임탈퇴날짜
      */
     public OffsetDateTime getWithdrawalDate() {
-        return (OffsetDateTime) get(11);
+        return (OffsetDateTime) get(12);
     }
 
     /**
      * Setter for <code>nexus.GAME_USER.WITHDRAWAL_REASON</code>. 게임탈퇴사유
      */
     public GameUserRecord setWithdrawalReason(String value) {
-        set(12, value);
+        set(13, value);
         return this;
     }
 
@@ -214,14 +231,14 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
      * Getter for <code>nexus.GAME_USER.WITHDRAWAL_REASON</code>. 게임탈퇴사유
      */
     public String getWithdrawalReason() {
-        return (String) get(12);
+        return (String) get(13);
     }
 
     /**
      * Setter for <code>nexus.GAME_USER.CREATED_AT</code>. 데이터 생성 날짜
      */
     public GameUserRecord setCreatedAt(OffsetDateTime value) {
-        set(13, value);
+        set(14, value);
         return this;
     }
 
@@ -229,14 +246,14 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
      * Getter for <code>nexus.GAME_USER.CREATED_AT</code>. 데이터 생성 날짜
      */
     public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(13);
+        return (OffsetDateTime) get(14);
     }
 
     /**
      * Setter for <code>nexus.GAME_USER.CREATED_BY</code>. 데이터 생성자 ID
      */
     public GameUserRecord setCreatedBy(String value) {
-        set(14, value);
+        set(15, value);
         return this;
     }
 
@@ -244,14 +261,14 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
      * Getter for <code>nexus.GAME_USER.CREATED_BY</code>. 데이터 생성자 ID
      */
     public String getCreatedBy() {
-        return (String) get(14);
+        return (String) get(15);
     }
 
     /**
      * Setter for <code>nexus.GAME_USER.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public GameUserRecord setUpdatedAt(OffsetDateTime value) {
-        set(15, value);
+        set(16, value);
         return this;
     }
 
@@ -259,14 +276,14 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
      * Getter for <code>nexus.GAME_USER.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(15);
+        return (OffsetDateTime) get(16);
     }
 
     /**
      * Setter for <code>nexus.GAME_USER.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public GameUserRecord setUpdatedBy(String value) {
-        set(16, value);
+        set(17, value);
         return this;
     }
 
@@ -274,14 +291,14 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
      * Getter for <code>nexus.GAME_USER.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public String getUpdatedBy() {
-        return (String) get(16);
+        return (String) get(17);
     }
 
     /**
      * Setter for <code>nexus.GAME_USER.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public GameUserRecord setIsDel(String value) {
-        set(17, value);
+        set(18, value);
         return this;
     }
 
@@ -289,7 +306,7 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
      * Getter for <code>nexus.GAME_USER.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public String getIsDel() {
-        return (String) get(17);
+        return (String) get(18);
     }
 
     // -------------------------------------------------------------------------
@@ -315,15 +332,16 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
     /**
      * Create a detached, initialised GameUserRecord
      */
-    public GameUserRecord(Integer userId, Integer gameId, String userLId, String userLPw, String nickname, String loginType, String device, OffsetDateTime blockStartDate, OffsetDateTime blockEndDate, String blockReason, String isWithdrawal, OffsetDateTime withdrawalDate, String withdrawalReason, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public GameUserRecord(Integer userId, Integer gameId, String userLId, String userLPw, String provider, String socialId, String nickname, String device, OffsetDateTime blockStartDate, OffsetDateTime blockEndDate, String blockReason, String isWithdrawal, OffsetDateTime withdrawalDate, String withdrawalReason, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JGameUser.GAME_USER);
 
         setUserId(userId);
         setGameId(gameId);
         setUserLId(userLId);
         setUserLPw(userLPw);
+        setProvider(provider);
+        setSocialId(socialId);
         setNickname(nickname);
-        setLoginType(loginType);
         setDevice(device);
         setBlockStartDate(blockStartDate);
         setBlockEndDate(blockEndDate);
@@ -350,8 +368,9 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
             setGameId(value.getGameId());
             setUserLId(value.getUserLId());
             setUserLPw(value.getUserLPw());
+            setProvider(value.getProvider());
+            setSocialId(value.getSocialId());
             setNickname(value.getNickname());
-            setLoginType(value.getLoginType());
             setDevice(value.getDevice());
             setBlockStartDate(value.getBlockStartDate());
             setBlockEndDate(value.getBlockEndDate());

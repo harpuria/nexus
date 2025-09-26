@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.auth;
+package com.qwerty.nexus.domain.auth.service;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;

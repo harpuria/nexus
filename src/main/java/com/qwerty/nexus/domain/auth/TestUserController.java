@@ -1,4 +1,4 @@
-package com.qwerty.nexus.global;
+package com.qwerty.nexus.domain.auth;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
