@@ -1,22 +1,29 @@
 package com.qwerty.nexus.domain.auth.controller;
 
+import com.qwerty.nexus.domain.auth.dto.AuthRequestDto;
+import com.qwerty.nexus.domain.auth.service.AppleVerifierService;
 import com.qwerty.nexus.domain.auth.service.AuthService;
+import com.qwerty.nexus.domain.auth.service.GoogleVerifierService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
+import com.qwerty.nexus.global.response.ResponseEntityUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 @Log4j2
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(ApiConstants.Path.AUTH_PATH)
 public class AuthController {
+    private final GoogleVerifierService googleVerifierService;
+    private final AppleVerifierService appleVerifierService;
     private final AuthService service;
 
     /**
@@ -25,8 +32,12 @@ public class AuthController {
      */
     @PostMapping("/login")
     @Operation(summary = "소셜 로그인")
-    public ResponseEntity<ApiResponse<Void>> login(){
+    public ResponseEntity<ApiResponse<Void>> login(@RequestBody AuthRequestDto dto) throws GeneralSecurityException, IOException {
         // jwt (or session) 등록 처리
+
+        // social login type (google, apple, kakao, etc...)에 따라서 다른 서비스 호출
+        googleVerifierService.verifyGoogleIdToken("", "");
+
         /*
             1) 유저가 모바일 기기에서 소셜로그인을 시도, 성공하면 idToken 값이 나오는데 이거랑, clientId 를 컨트롤러에서 받음.
             2) 받은 내용으로 우선 백엔드 단에서 정말 올바른 idToken 값인지 인증
@@ -36,7 +47,9 @@ public class AuthController {
             4) jwt 로 accesstoken 을 생성한 뒤에 반환처리함
             5) 여기서는 로그인 관련 정보만 보내주고, 나머지 유저재화 등의 정보는 별도의 API 를 호출하여 받는 식으로 함 (책임 분리)
          */
-        return null;
+
+
+        return ResponseEntityUtils.toResponseEntity(null, HttpStatus.OK);
     }
 
     /**
