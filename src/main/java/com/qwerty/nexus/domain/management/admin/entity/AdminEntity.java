@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.management.admin.entity;
 
+import com.qwerty.nexus.domain.management.admin.AdminRole;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminResponseDto;
 import com.qwerty.nexus.global.extend.entity.PagingEntity;
 import lombok.Getter;
@@ -16,7 +17,7 @@ public class AdminEntity extends PagingEntity {
     private Integer gameId;
     private String loginId;
     private String loginPw;
-    private String adminRole;
+    private AdminRole adminRole;
     private String adminEmail;
     private String adminNm;
     private OffsetDateTime createdAt;
@@ -32,7 +33,7 @@ public class AdminEntity extends PagingEntity {
                 .gameId(record.getGameId())
                 .loginId(record.getLoginId())
                 .loginPw(record.getLoginPw())
-                .adminRole(record.getAdminRole())
+                .adminRole(AdminRole.valueOf(record.getAdminRole()))
                 .adminEmail(record.getAdminEmail())
                 .adminNm(record.getAdminNm())
                 .createdAt(record.getCreatedAt())

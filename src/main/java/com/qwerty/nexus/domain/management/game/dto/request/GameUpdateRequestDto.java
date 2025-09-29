@@ -1,6 +1,7 @@
 package com.qwerty.nexus.domain.management.game.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.qwerty.nexus.domain.management.game.GameStatus;
 import com.qwerty.nexus.domain.management.game.command.GameUpdateCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -15,7 +16,7 @@ public class GameUpdateRequestDto {
     private String name;
 
     @Schema(example = "OPERATING")
-    private String status;
+    private GameStatus status;
 
     @Schema(example = "N")
     private String isDel;

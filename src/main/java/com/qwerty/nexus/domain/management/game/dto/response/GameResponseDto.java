@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.management.game.dto.response;
 
+import com.qwerty.nexus.domain.management.game.GameStatus;
 import com.qwerty.nexus.domain.management.game.dto.request.GameUpdateRequestDto;
 import com.qwerty.nexus.domain.management.game.entity.GameEntity;
 import com.qwerty.nexus.global.extend.dto.BaseResponseDto;
@@ -17,7 +18,7 @@ public class GameResponseDto extends BaseResponseDto {
     private String name;
     private UUID clientAppId;
     private UUID signatureKey;
-    private String status;
+    private GameStatus status;
 
     public static GameResponseDto from(GameEntity entity) {
         return GameResponseDto.builder()

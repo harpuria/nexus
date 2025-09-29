@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.management.game.entity;
 
+import com.qwerty.nexus.domain.management.game.GameStatus;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,7 +17,7 @@ public class GameEntity {
     private UUID signatureKey;
     private String googleClientId;
     private String googleClientSecret;
-    private String status;
+    private GameStatus status;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;

@@ -1,6 +1,7 @@
 package com.qwerty.nexus.domain.management.admin.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.qwerty.nexus.domain.management.admin.AdminRole;
 import com.qwerty.nexus.domain.management.admin.command.AdminUpdateCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -18,7 +19,7 @@ public class AdminUpdateRequestDto {
     private String loginPw;
 
     @Schema(example = "SUPER")
-    private String adminRole;
+    private AdminRole adminRole;
 
     @Schema(example = "update@qwerty.io")
     private String adminEmail;

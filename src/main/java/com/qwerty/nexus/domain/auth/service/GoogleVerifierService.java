@@ -4,6 +4,7 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
+import com.qwerty.nexus.domain.auth.commnad.AuthCommand;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +15,13 @@ import java.util.Collections;
 @Log4j2
 @Service
 public class GoogleVerifierService {
-    public GoogleIdToken verifyGoogleIdToken(String idTokenString, String clientId) throws GeneralSecurityException, IOException {
+    public GoogleIdToken verifyGoogleIdToken(AuthCommand command) throws GeneralSecurityException, IOException {
         GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
                 new NetHttpTransport(), new GsonFactory())
-                .setAudience(Collections.singleton(clientId))
+                .setAudience(Collections.singleton(command.getClientId()))
                 .build();
 
-        GoogleIdToken idToken = verifier.verify(idTokenString);
+        GoogleIdToken idToken = verifier.verify(command.getIdToken());
         if(idToken != null){
             return idToken; // idToken 반환 후 .getPayload() 로 추출 가능
         }else{

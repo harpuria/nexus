@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.management.admin.command;
 
+import com.qwerty.nexus.domain.management.admin.AdminRole;
 import com.qwerty.nexus.domain.management.admin.dto.request.AdminUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +11,7 @@ public class AdminUpdateCommand {
     private int adminId;
     private int gameId;
     private String loginPw;
-    private String adminRole;
+    private AdminRole adminRole;
     private String adminEmail;
     private String adminNm;
     private String isDel;

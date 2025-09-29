@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.management.game.command;
 
+import com.qwerty.nexus.domain.management.game.GameStatus;
 import com.qwerty.nexus.domain.management.game.dto.request.GameUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +10,7 @@ import lombok.Getter;
 public class GameUpdateCommand {
     private int gameId;
     private String name;
-    private String status;
+    private GameStatus status;
     private String isDel;
     private String updatedBy;
 

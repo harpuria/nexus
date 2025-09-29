@@ -1,5 +1,6 @@
 package com.qwerty.nexus.global.config;
 
+import com.qwerty.nexus.global.constant.ApiConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,10 +37,12 @@ public class SecurityConfig {
             .sessionManagement(session -> session
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 서버에서 세션 생성하지 않는 정책 (무상태)
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/swagger-ui/**").permitAll() // swagger 허용
-                    .requestMatchers("/api/auth/**").permitAll() // 인증 관련 API 경로는 인증 없이 허용
-                    .requestMatchers("/api/user/**").permitAll() // 테스트 관련 허용
-                    .anyRequest().authenticated()) // 위에서 허용하지 않은 것들은 인증 필요
+//                    .requestMatchers("/swagger-ui/**").permitAll() // swagger 허용
+//                    .requestMatchers(ApiConstants.Path.AUTH_PATH + "/**").permitAll() // 인증 관련 API 경로는 인증 없이 허용
+//                    .requestMatchers("/api/user/**").permitAll() // 테스트 관련 허용
+            //.anyRequest().authenticated()
+                            .anyRequest().permitAll() // 일단 걍 다 허용
+                    ) // 위에서 허용하지 않은 것들은 인증 필
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

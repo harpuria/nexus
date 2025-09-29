@@ -41,7 +41,7 @@ public class AdminController {
     public ResponseEntity<ApiResponse<Void>> initializeAdmin(
             @Parameter @RequestBody AdminInitCreateRequestDto dto){
         // 초기 사용자는 무조건 SUPER 관리자로 등록
-        dto.setAdminRole(AdminRole.SUPER.name());
+        dto.setAdminRole(AdminRole.SUPER);
 
         Result<Void> result = service.initialize(AdminInitCreateCommand.from(dto));
 

@@ -32,7 +32,7 @@ public class GameService {
                 .name(command.getName())
                 .createdBy(command.getCreateBy())
                 .updatedBy(command.getCreateBy())
-                .status(GameStatus.STOPPED.name())
+                .status(GameStatus.STOPPED)
                 .clientAppId(UUID.randomUUID())
                 .signatureKey(UUID.randomUUID())
                 .build();

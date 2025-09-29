@@ -12,8 +12,9 @@ public class GameUserEntity {
     private Integer gameId;
     private String userLId;
     private String userLPw;
+    private String provider;
+    private String socialId;
     private String nickname;
-    private String loginType;
     private String device;
     private OffsetDateTime blockStartDate;
     private OffsetDateTime blockEndDate;

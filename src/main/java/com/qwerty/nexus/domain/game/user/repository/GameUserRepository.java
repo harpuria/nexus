@@ -44,7 +44,7 @@ public class GameUserRepository {
         record.changed(GAME_USER.USER_L_ID, gameUser.getUserLId() != null);
         record.changed(GAME_USER.USER_L_PW,  gameUser.getUserLPw() != null);
         record.changed(GAME_USER.NICKNAME,  gameUser.getNickname() != null);
-        record.changed(GAME_USER.LOGIN_TYPE,  gameUser.getLoginType() != null);
+        record.changed(GAME_USER.PROVIDER,  gameUser.getProvider() != null);
         record.changed(GAME_USER.DEVICE,  gameUser.getDevice() != null);
         record.changed(GAME_USER.BLOCK_START_DATE,  gameUser.getBlockStartDate() != null);
         record.changed(GAME_USER.BLOCK_END_DATE,  gameUser.getBlockEndDate() != null);
@@ -57,5 +57,16 @@ public class GameUserRepository {
         record.changed(GAME_USER.IS_DEL,  gameUser.getIsDel() != null);
         record.update();
         return gameUser;
+    }
+
+    /**
+     * 게임 유저 등록 여부 확인
+     * @param entity
+     * @return
+     */
+    public Integer isUserAlreadyRegistered(GameUserEntity entity) {
+        return dslContext.selectCount().from(GAME_USER)
+                .where(GAME_USER.SOCIAL_ID.eq(entity.getSocialId()))
+                .fetchOneInto(Integer.class);
     }
 }
