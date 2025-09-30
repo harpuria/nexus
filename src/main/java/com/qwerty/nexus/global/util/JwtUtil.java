@@ -3,7 +3,6 @@ package com.qwerty.nexus.global.util;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.CloseableThreadContext;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -58,7 +57,7 @@ public class JwtUtil {
                 .issuer(issuer)
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(expiry))
-                .claim("socialProvider", data.getSocialProvider())
+                .claim("provider", data.getProvider())
                 .claim("email", data.getEmail())
                 .claim("emailVerified", data.getEmailVerified())
                 .claim("type", "access")
@@ -73,6 +72,37 @@ public class JwtUtil {
 
         return Jwts.builder()
                 .subject(data.getSocialId())
+                .issuer(issuer)
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(expiry))
+                .claim("type", "refresh")
+                .signWith(secretKey)
+                .compact();
+    }
+
+    // Access Token 생성 (관리자용)
+    public String generateAdminAccessToken(JwtTokenGenerationData data){
+        Instant now = Instant.now();
+        Instant expiry = now.plus(accessTokenExpiration, ChronoUnit.MILLIS);
+
+        return Jwts.builder()
+                .subject(data.getSocialId())
+                .issuer(issuer)
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(expiry))
+                .claim("email", data.getEmail())
+                .claim("type", "access")
+                .signWith(secretKey)
+                .compact();
+    }
+
+    // Refresh Token 생성 (관리자용)
+    public String generateAdminRefreshToken(JwtTokenGenerationData data){
+        Instant now = Instant.now();
+        Instant expiry = now.plus(refreshTokenExpiration, ChronoUnit.MILLIS);
+
+        return Jwts.builder()
+                .subject(data.getEmail())
                 .issuer(issuer)
                 .issuedAt(Date.from(now))
                 .expiration(Date.from(expiry))

@@ -1,11 +1,10 @@
-package com.qwerty.nexus.global.config;
+package com.qwerty.nexus.global.filter;
 
 import com.qwerty.nexus.global.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,9 +27,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = authHeader.substring(7);
 
             if(jwtUtil.validateToken(token)){
-                String email = jwtUtil.getEmailFromToken(token);
+                long socialId = jwtUtil.getUserIdFromToken(token);
 
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(email, null, List.of());
+                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(socialId, null, List.of());
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
         }

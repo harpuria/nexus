@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class JwtTokenGenerationData {
-    String socialProvider;
+    String provider;
     String socialId;
     String email;
     String emailVerified;

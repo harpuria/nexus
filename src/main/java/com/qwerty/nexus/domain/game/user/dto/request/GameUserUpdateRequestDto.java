@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.user.dto.request;
 
+import com.qwerty.nexus.domain.auth.Provider;
 import com.qwerty.nexus.domain.game.user.command.GameUserUpdateCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -28,7 +29,7 @@ public class GameUserUpdateRequestDto {
     private String nickname;
 
     @Schema(example = "APPLE")
-    private String loginType;
+    private Provider provider;
 
     @Schema(example = "iPhone")
     private String device;

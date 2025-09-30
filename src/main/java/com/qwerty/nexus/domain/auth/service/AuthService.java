@@ -2,7 +2,7 @@ package com.qwerty.nexus.domain.auth.service;
 
 import com.qwerty.nexus.domain.auth.Provider;
 import com.qwerty.nexus.domain.auth.commnad.AuthCommand;
-import com.qwerty.nexus.domain.auth.dto.AuthResponseDto;
+import com.qwerty.nexus.domain.auth.dto.response.AuthResponseDto;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
 import com.qwerty.nexus.global.response.Result;
@@ -11,6 +11,8 @@ import com.qwerty.nexus.global.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Log4j2
 @Service
@@ -29,22 +31,30 @@ public class AuthService {
         // 없으면 가입(INSERT) 후 jwt 토큰 반환 처리
         // 없으면 바로 jwt 토큰 반환 처리 (아니면 최종 로그인 시간 정도 넣어서 업데이트?)
 
-        GameUserEntity entity = GameUserEntity.builder().build();
-        boolean isUser = gameUserRepository.isUserAlreadyRegistered(entity) > 0;
-        if(!isUser){
-            // 없으면 가입처리
-            gameUserRepository.createGameUser(entity);
-            // 회원가입할 때는 USER_XXX 테이블에 있는 모든 정보들을 넣어줘야함.
-            // 일단은 그런정보 없으니 기본 회원정보만 INSERT 처리
-        }
-
-        // jwt 토큰 생성 (이거도 provider 가 google, apple 인지에 따라서 달라질듯)
+        // provider 에 따른 분기
         String socialId = "";
         String email = "";
         switch(command.getProvider()){
             case Provider.GOOGLE -> {
                 socialId = command.getGoogleIdToken().getPayload().getSubject();
                 email = command.getGoogleIdToken().getPayload().getEmail();
+
+                GameUserEntity entity = GameUserEntity.builder()
+                        .provider(Provider.GOOGLE)
+                        .gameId(command.getGameId())
+                        .socialId(socialId)
+                        .nickname(UUID.randomUUID().toString()) // 초기 닉네임은 일단 랜덤으로 처리 (나중엔 UUID 말고 다른거로..)
+                        .createdBy(socialId)
+                        .updatedBy(socialId)
+                        .build();
+
+                boolean isUser = gameUserRepository.isUserAlreadyRegistered(entity) > 0;
+                if(!isUser){
+                    // 없으면 가입처리
+                    gameUserRepository.createGameUser(entity);
+                    // 회원가입할 때는 USER_XXX 테이블에 있는 모든 정보들을 넣어줘야함.
+                    // 일단은 그런정보 없으니 기본 회원정보만 INSERT 처리
+                }
             }
             case Provider.APPLE ->  {}
         }
@@ -54,11 +64,13 @@ public class AuthService {
                                                         .email(email)
                                                         .build();
 
-        String accessToken = jwtUtil.generateAccessToken(tokenData);
+        String accessToken = jwtUtil.generateAccessToken(tokenData);    // 액세스 토큰 생성
+        long expiresIn = jwtUtil.getTimeUntilExpiration(accessToken);   // 토큰 만료시간
 
 
         AuthResponseDto rst = AuthResponseDto.builder()
                 .accessToken(accessToken)
+                .expiresIn(expiresIn)
                 .build();
 
         return Result.Success.of(rst, "로그인 성공");

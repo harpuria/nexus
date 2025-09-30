@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.user.dto.request;
 
+import com.qwerty.nexus.domain.auth.Provider;
 import com.qwerty.nexus.domain.game.user.command.GameUserCreateCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -23,7 +24,7 @@ public class GameUserCreateRequestDto {
     private String nickname;
 
     @Schema(example = "GOOGLE")
-    private String loginType;
+    private Provider provider;
 
     @Schema(example = "SAMSUNG")
     private String device;

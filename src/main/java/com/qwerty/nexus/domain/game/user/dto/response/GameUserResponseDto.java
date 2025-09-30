@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.user.dto.response;
 
+import com.qwerty.nexus.domain.auth.Provider;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.global.extend.dto.BaseResponseDto;
 import lombok.Getter;
@@ -15,7 +16,7 @@ public class GameUserResponseDto extends BaseResponseDto {
     private String userLId;
     private String userLPw;
     private String nickname;
-    private String loginType;
+    private Provider provider;
     private String device;
     private OffsetDateTime blockStartDate;
     private OffsetDateTime blockEndDate;
@@ -31,7 +32,7 @@ public class GameUserResponseDto extends BaseResponseDto {
                 .userLId(entity.getUserLId())
                 .userLPw(entity.getUserLPw())
                 .nickname(entity.getNickname())
-                .loginType(entity.getLoginType())
+                .provider(entity.getProvider())
                 .device(entity.getDevice())
                 .blockStartDate(entity.getBlockStartDate())
                 .blockEndDate(entity.getBlockEndDate())

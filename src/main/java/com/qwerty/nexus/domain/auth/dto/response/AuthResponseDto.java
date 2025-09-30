@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.auth.dto;
+package com.qwerty.nexus.domain.auth.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

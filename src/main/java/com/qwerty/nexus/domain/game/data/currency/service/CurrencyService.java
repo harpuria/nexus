@@ -4,13 +4,20 @@ import com.qwerty.nexus.domain.game.data.currency.command.CurrencyCreateCommand;
 import com.qwerty.nexus.domain.game.data.currency.command.CurrencyUpdateCommand;
 import com.qwerty.nexus.domain.game.data.currency.dto.response.CurrencyResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyEntity;
+import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.repository.CurrencyRepository;
+import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
+import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
+import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.response.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.jooq.generated.tables.records.GameRecord;
+import org.jooq.generated.tables.records.GameUserRecord;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Log4j2
@@ -18,6 +25,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CurrencyService {
     private final CurrencyRepository repository;
+    private final GameUserRepository gameUserRepository;
+    private final UserCurrencyRepository userCurrencyRepository;
 
     /**
      * 재화 정보 생성
@@ -34,6 +43,8 @@ public class CurrencyService {
                 .maxAmount(command.getMaxAmount())
                 .build();
 
+        Optional<CurrencyEntity> createRst = Optional.ofNullable(repository.createCurrency(entity));
+
         // 추가로 새로운 재화가 생성되었을 때 유저가 존재하는 경우, 기본 유저재화 정보는 생성해줘야 할듯.
         // 1) 다이아 라는 재화를 생성
         // 2) 유저가 10명이 이미 있다고 가정
@@ -43,8 +54,26 @@ public class CurrencyService {
         // 1) 유저 1이 생성
         // 2) 현재 존재하는 재화들 (삭제상태가 아닌 것)을 모두 해당 유저에게 생성하게 함
 
-        Optional<CurrencyEntity> createRst = Optional.ofNullable(repository.createCurrency(entity));
         if(createRst.isPresent()){
+            List<Integer> isExistUser = gameUserRepository.selectAllUser(GameUserEntity.builder().gameId(command.getGameId()).build());
+            if(!isExistUser.isEmpty()){
+                isExistUser.forEach(userId -> {
+                    log.info("===========================");
+                    log.info(userId);
+                    log.info("===========================");
+
+                    // 유저가 존재하면 모든 유저의 UserCurrency 에 신규 재화 데이터 넣어주기
+                    // 이거 넣으려면 전체 유저의 id(pk)를 알아야하겠군
+                    UserCurrencyEntity userCurrencyEntity = UserCurrencyEntity.builder()
+                            .userId(userId)
+                            .currencyId(createRst.get().getCurrencyId())
+                            .createdBy(command.getCreatedBy())
+                            .updatedBy(command.getCreatedBy())
+                            .build();
+                    userCurrencyRepository.createUserCurrency(userCurrencyEntity);
+                });
+            }
+
             return Result.Success.of(null, "재화 생성 완료.");
         }
         else{

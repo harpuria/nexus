@@ -33,7 +33,7 @@ public class GameUserController {
     private final GameUserService gameUserService;
 
     /**
-     * 게임 유저 생성 (소셜 로그인 X, 실게임에서 사용하지는 않을듯)
+     * 게임 유저 생성 (소셜 로그인 X, 관리자 페이지에서 직접 생성하는 경우 사용)
      * @param dto 생성할 게임 유저 정보를 담은 객체 (DTO)
      * @return
      */
@@ -41,6 +41,7 @@ public class GameUserController {
     @Operation(summary = "게임 유저 생성")
     public ResponseEntity<ApiResponse<Void>> createGameUser(@RequestBody GameUserCreateRequestDto dto) {
         Result<Void> result = gameUserService.createGameUser(GameUserCreateCommand.from(dto));
+
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 

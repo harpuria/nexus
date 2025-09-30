@@ -2,15 +2,14 @@ package com.qwerty.nexus.domain.auth.commnad;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.qwerty.nexus.domain.auth.Provider;
-import com.qwerty.nexus.domain.auth.dto.AuthRequestDto;
+import com.qwerty.nexus.domain.auth.dto.request.AuthRequestDto;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.security.GeneralSecurityException;
 
 @Getter
 @Builder
 public class AuthCommand {
+    private int gameId;
     private Provider provider;
 
     // GOOGLE
@@ -30,6 +29,7 @@ public class AuthCommand {
 
     public static AuthCommand from(AuthRequestDto dto) {
         return AuthCommand.builder()
+                .gameId(dto.getGameId())
                 .provider(dto.getProvider())
                 .idToken(dto.getIdToken())
                 .clientId(dto.getClientId())

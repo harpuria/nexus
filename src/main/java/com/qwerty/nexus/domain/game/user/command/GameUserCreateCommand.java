@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.user.command;
 
+import com.qwerty.nexus.domain.auth.Provider;
 import com.qwerty.nexus.domain.game.user.dto.request.GameUserCreateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +12,7 @@ public class GameUserCreateCommand {
     private String userLId;
     private String userLPw;
     private String nickname;
-    private String loginType;
+    private Provider provider;
     private String device;
     private String createdBy;
 
@@ -21,7 +22,7 @@ public class GameUserCreateCommand {
                 .userLId(dto.getUserLId())
                 .userLPw(dto.getUserLPw())
                 .nickname(dto.getNickname())
-                .loginType(dto.getLoginType())
+                .provider(dto.getProvider())
                 .device(dto.getDevice())
                 .createdBy(dto.getCreatedBy())
                 .build();

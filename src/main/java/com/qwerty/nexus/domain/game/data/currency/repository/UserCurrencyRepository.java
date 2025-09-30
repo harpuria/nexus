@@ -6,6 +6,7 @@ import org.jooq.Configuration;
 import org.jooq.DSLContext;
 import org.jooq.generated.tables.JUserCurrency;
 import org.jooq.generated.tables.daos.UserCurrencyDao;
+import org.jooq.generated.tables.records.UserCurrencyRecord;
 import org.springframework.stereotype.Repository;
 
 @Log4j2
@@ -20,10 +21,24 @@ public class UserCurrencyRepository {
         this.dao = new UserCurrencyDao(configuration);
     }
 
+    /**
+     * 유저 재화 추가
+     * @param entity
+     * @return
+     */
     public UserCurrencyEntity createUserCurrency(UserCurrencyEntity entity) {
-        return null;
+        UserCurrencyRecord record = dslContext.newRecord(USER_CURRENCY, entity);
+        record.store();
+        return UserCurrencyEntity.builder()
+                .userCurrencyId(record.getUserCurrencyId())
+                .build();
     }
 
+    /**
+     * 유저 재화 갱신
+     * @param entity
+     * @return
+     */
     public UserCurrencyEntity updateUserCurrency(UserCurrencyEntity entity) {
         return null;
     }

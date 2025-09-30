@@ -1,9 +1,6 @@
 package com.qwerty.nexus.domain.management.admin.service;
 
-import com.qwerty.nexus.domain.management.admin.command.AdminCreateCommand;
-import com.qwerty.nexus.domain.management.admin.command.AdminInitCreateCommand;
-import com.qwerty.nexus.domain.management.admin.command.AdminSearchCommand;
-import com.qwerty.nexus.domain.management.admin.command.AdminUpdateCommand;
+import com.qwerty.nexus.domain.management.admin.command.*;
 import com.qwerty.nexus.domain.management.admin.entity.AdminEntity;
 import com.qwerty.nexus.domain.management.admin.repository.AdminRepository;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminResponseDto;
@@ -11,6 +8,8 @@ import com.qwerty.nexus.domain.management.organization.entity.OrganizationEntity
 import com.qwerty.nexus.domain.management.organization.repository.OrganizationRepository;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.response.Result;
+import com.qwerty.nexus.global.util.JwtTokenGenerationData;
+import com.qwerty.nexus.global.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,6 +27,8 @@ public class AdminService {
 
     private final AdminRepository repository;
     private final OrganizationRepository organizationRepository;
+
+    private final JwtUtil jwtUtil;
 
     /**
      * 초기 관리자 등록 + 단체 정보 등록
@@ -217,5 +218,22 @@ public class AdminService {
         System.out.println("=======");
 
         return Result.Success.of(rst, "관리자 목록 조회 완료.");
+    }
+
+    /**
+     * 관리자 로그인
+     * @param command
+     * @return
+     */
+    public Result<AdminResponseDto> login(AdminLoginCommand command) {
+        // jwt 검증은 필터에서 하면 되니까 놔두고
+        // 검증이 끝났으면 accesstoken 보내주면 끝일듯
+        JwtTokenGenerationData jwtData = JwtTokenGenerationData.builder()
+                .email("email")
+                .build();
+
+        jwtUtil.generateAdminAccessToken(jwtData);
+
+        return Result.Success.of(null, "관리자 로그인 완료");
     }
 }
