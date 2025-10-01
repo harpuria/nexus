@@ -13,8 +13,6 @@ import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.response.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.jooq.generated.tables.records.GameRecord;
-import org.jooq.generated.tables.records.GameUserRecord;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,9 +53,9 @@ public class CurrencyService {
         // 2) 현재 존재하는 재화들 (삭제상태가 아닌 것)을 모두 해당 유저에게 생성하게 함
 
         if(createRst.isPresent()){
-            List<Integer> isExistUser = gameUserRepository.selectAllUser(GameUserEntity.builder().gameId(command.getGameId()).build());
-            if(!isExistUser.isEmpty()){
-                isExistUser.forEach(userId -> {
+            List<Integer> userIdList = gameUserRepository.selectAllUserId(GameUserEntity.builder().gameId(command.getGameId()).build());
+            if(!userIdList.isEmpty()){
+                userIdList.forEach(userId -> {
                     log.info("===========================");
                     log.info(userId);
                     log.info("===========================");

@@ -6,7 +6,6 @@ import org.jooq.Configuration;
 import org.jooq.DSLContext;
 import org.jooq.generated.tables.JGameUser;
 import org.jooq.generated.tables.daos.GameUserDao;
-import org.jooq.generated.tables.records.GameRecord;
 import org.jooq.generated.tables.records.GameUserRecord;
 import org.springframework.stereotype.Repository;
 
@@ -32,7 +31,9 @@ public class GameUserRepository {
     public GameUserEntity createGameUser(GameUserEntity gameUser){
         GameUserRecord record = dslContext.newRecord(GAME_USER, gameUser);
         record.store();
-        return gameUser;
+        return GameUserEntity.builder()
+                .userId(record.getUserId())
+                .build();
     }
 
     /**
@@ -75,11 +76,11 @@ public class GameUserRepository {
     }
 
     /**
-     * 전체 유저 목록 (ID) 가져오기
+     * 현재 게임의 유저 ID 전체 가져오기
      * @param entity
      * @return
      */
-    public List<Integer> selectAllUser(GameUserEntity entity){
+    public List<Integer> selectAllUserId(GameUserEntity entity){
         return dslContext.select(GAME_USER.USER_ID).from(GAME_USER)
                 .where(GAME_USER.GAME_ID.eq((entity.getGameId())))
                 .fetch(GAME_USER.USER_ID); // 개별 컬럼을 가져올 때는 이런식으로 반환 처리

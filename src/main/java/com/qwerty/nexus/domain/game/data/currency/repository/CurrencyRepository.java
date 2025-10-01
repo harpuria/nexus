@@ -9,6 +9,8 @@ import org.jooq.generated.tables.daos.CurrencyDao;
 import org.jooq.generated.tables.records.CurrencyRecord;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Log4j2
 @Repository
 public class CurrencyRepository {
@@ -60,5 +62,18 @@ public class CurrencyRepository {
         return dslContext.selectFrom(CURRENCY)
                 .where(CURRENCY.CURRENCY_ID.eq(entity.getCurrencyId()))
                 .fetchOneInto(CurrencyEntity.class);
+    }
+
+
+    /**
+     * 현재 게임의 재화 ID 전체 가져오기
+     * @param entity
+     * @return
+     */
+    public List<Integer> selectAllCurrencyId(CurrencyEntity entity){
+        return dslContext.select(CURRENCY.CURRENCY_ID)
+                .from(CURRENCY)
+                .where(CURRENCY.GAME_ID.eq(entity.getGameId()))
+                .fetchInto(Integer.class);
     }
 }
