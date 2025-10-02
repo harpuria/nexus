@@ -35,6 +35,7 @@ public final class ApiConstants {
         public static final String GAME_USER_PATH = API_BASE_PATH + "/game-user";
         public static final String CURRENCY_PATH = API_BASE_PATH + "/currency";
         public static final String USER_CURRENCY_PATH = API_BASE_PATH + "/user-currency";
+        public static final String PRODUCT_PATH = API_BASE_PATH + "/product";
 
         public static final String GAME_TABLE_PATH = API_BASE_PATH + "/game-table";
         public static final String TABLE_COLUMN_PATH = API_BASE_PATH + "/table-column";

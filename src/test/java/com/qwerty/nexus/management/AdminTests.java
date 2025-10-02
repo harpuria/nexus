@@ -1,6 +1,7 @@
 package com.qwerty.nexus.management;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qwerty.nexus.domain.management.admin.AdminRole;
 import com.qwerty.nexus.domain.management.admin.dto.request.AdminCreateRequestDto;
 import com.qwerty.nexus.domain.management.admin.dto.request.AdminInitCreateRequestDto;
 import com.qwerty.nexus.domain.management.admin.dto.request.AdminUpdateRequestDto;
@@ -37,7 +38,7 @@ public class AdminTests {
         AdminInitCreateRequestDto dto = new AdminInitCreateRequestDto();
         dto.setAdminEmail("admin@qwerty.io");
         dto.setAdminNm("쿼티초기사용자");
-        dto.setAdminRole("SUPER");
+        dto.setAdminRole(AdminRole.SUPER);
         dto.setOrgCd("123-45-67890");
         dto.setOrgNm("쿼티시스템");
         dto.setLoginId("admin");
@@ -63,7 +64,7 @@ public class AdminTests {
             AdminCreateRequestDto dto = new AdminCreateRequestDto();
             dto.setLoginId(String.format("admin%s", i));
             dto.setLoginPw("admin");
-            dto.setAdminRole("ADMIN");
+            dto.setAdminRole(AdminRole.ADMIN);
             dto.setAdminEmail(String.format("admin%s@admin.com", i));
             dto.setAdminNm(String.format("adminName%s", i + 1));
             dto.setOrgId(1);
