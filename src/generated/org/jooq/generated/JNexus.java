@@ -141,6 +141,7 @@ public class JNexus extends SchemaImpl {
             Sequences.MULTIPLE_PRODUCT_MULTIPLE_PRODUCT_ID_SEQ,
             Sequences.ORGANIZATION_ORG_ID_SEQ,
             Sequences.PRODUCT_PRODUCT_ID_SEQ,
+            Sequences.SINGLE_PRODUCT_SINGLE_PRODUCT_ID_SEQ,
             Sequences.TABLE_COLUMN_COLUMN_ID_SEQ,
             Sequences.USER_COLUMN_DATA_USER_COLUMN_ID_SEQ,
             Sequences.USER_CURRENCY_USER_CURRENCY_ID_SEQ

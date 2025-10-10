@@ -133,16 +133,16 @@ public class GameUser implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.GAME_USER.USER_L_ID</code>. 유저 로그인 아이디 (소셜 로그인의 경우
-     * 소셜 로그인할 당시의 이메일 주소)
+     * Getter for <code>nexus.GAME_USER.USER_L_ID</code>. 유저 로그인 아이디 (소셜 로그인이 아닌
+     * 경우)
      */
     public String getUserLId() {
         return this.userLId;
     }
 
     /**
-     * Setter for <code>nexus.GAME_USER.USER_L_ID</code>. 유저 로그인 아이디 (소셜 로그인의 경우
-     * 소셜 로그인할 당시의 이메일 주소)
+     * Setter for <code>nexus.GAME_USER.USER_L_ID</code>. 유저 로그인 아이디 (소셜 로그인이 아닌
+     * 경우)
      */
     public GameUser setUserLId(String userLId) {
         this.userLId = userLId;
@@ -150,16 +150,16 @@ public class GameUser implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.GAME_USER.USER_L_PW</code>. 유저 로그인 패스워드 (소셜 로그인인
-     * 경우 없을 수도 있음)
+     * Getter for <code>nexus.GAME_USER.USER_L_PW</code>. 유저 로그인 패스워드 (소셜 로그인이
+     * 아닌 경우)
      */
     public String getUserLPw() {
         return this.userLPw;
     }
 
     /**
-     * Setter for <code>nexus.GAME_USER.USER_L_PW</code>. 유저 로그인 패스워드 (소셜 로그인인
-     * 경우 없을 수도 있음)
+     * Setter for <code>nexus.GAME_USER.USER_L_PW</code>. 유저 로그인 패스워드 (소셜 로그인이
+     * 아닌 경우)
      */
     public GameUser setUserLPw(String userLPw) {
         this.userLPw = userLPw;

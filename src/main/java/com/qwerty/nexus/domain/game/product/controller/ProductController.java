@@ -1,11 +1,10 @@
-package com.qwerty.nexus.domain.game.data.product.controller;
+package com.qwerty.nexus.domain.game.product.controller;
 
-import com.qwerty.nexus.domain.game.data.product.command.ProductCreateCommand;
-import com.qwerty.nexus.domain.game.data.product.command.ProductUpdateCommand;
-import com.qwerty.nexus.domain.game.data.product.dto.request.ProductCreateRequestDto;
-import com.qwerty.nexus.domain.game.data.product.dto.request.ProductUpdateRequestDto;
-import com.qwerty.nexus.domain.game.data.product.dto.response.ProductResponseDto;
-import com.qwerty.nexus.domain.game.data.product.service.ProductService;
+import com.qwerty.nexus.domain.game.product.command.ProductCreateCommand;
+import com.qwerty.nexus.domain.game.product.command.ProductUpdateCommand;
+import com.qwerty.nexus.domain.game.product.dto.request.ProductCreateRequestDto;
+import com.qwerty.nexus.domain.game.product.dto.request.ProductUpdateRequestDto;
+import com.qwerty.nexus.domain.game.product.service.ProductService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.ResponseEntityUtils;
@@ -25,16 +24,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "상품", description = "상품 관련 API")
 public class ProductController {
     private final ProductService service;
-
-    /*
-     *  여기엔 어떤 API를 만들어야 할까..?
-     *
-     * 1) 상품 정보 생성
-     * 2) 상품 정보 수정
-     * 3) 상품 정보 삭제
-     * 4) 상품 구매 및 지급
-     *
-     */
 
     /**
      * 상품 정보 생성
@@ -59,7 +48,6 @@ public class ProductController {
         dto.setProductId(productId);
 
         Result<Void> rst = service.update(ProductUpdateCommand.from(dto));
-
         return ResponseEntityUtils.toResponseEntityVoid(rst, HttpStatus.OK);
     }
 
@@ -75,13 +63,18 @@ public class ProductController {
         dto.setIsDel("Y");
 
         Result<Void> rst = service.update(ProductUpdateCommand.from(dto));
-
         return ResponseEntityUtils.toResponseEntityVoid(rst, HttpStatus.OK);
     }
 
-    @PostMapping("/4")
+    /**
+     * 상품 구매 및 지급
+     * @param productId
+     * @return
+     */
+    @PostMapping("/buy/{productId}")
     @Operation(summary = "상품 구매 및 지급")
-    public ResponseEntity<ApiResponse<Void>> buy(){
-        return null;
+    public ResponseEntity<ApiResponse<Void>> buy(@PathVariable int productId){
+        Result<Void> rst = service.buy(productId);
+        return ResponseEntityUtils.toResponseEntityVoid(rst, HttpStatus.OK);
     }
 }

@@ -1,8 +1,8 @@
-package com.qwerty.nexus.domain.game.data.product.dto.response;
+package com.qwerty.nexus.domain.game.product.dto.response;
 
-import com.qwerty.nexus.domain.game.data.product.ProductType;
-import com.qwerty.nexus.domain.game.data.product.PurchaseType;
-import com.qwerty.nexus.domain.game.data.product.entity.ProductEntity;
+import com.qwerty.nexus.domain.game.product.ProductType;
+import com.qwerty.nexus.domain.game.product.PurchaseType;
+import com.qwerty.nexus.domain.game.product.entity.ProductEntity;
 import com.qwerty.nexus.global.extend.dto.BaseResponseDto;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;

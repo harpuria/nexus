@@ -16,6 +16,7 @@ public class SingleProduct implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private Integer singleProductId;
     private Integer productId;
     private Integer currencyId;
     private Long amount;
@@ -28,6 +29,7 @@ public class SingleProduct implements Serializable {
     public SingleProduct() {}
 
     public SingleProduct(SingleProduct value) {
+        this.singleProductId = value.singleProductId;
         this.productId = value.productId;
         this.currencyId = value.currencyId;
         this.amount = value.amount;
@@ -39,6 +41,7 @@ public class SingleProduct implements Serializable {
     }
 
     public SingleProduct(
+        Integer singleProductId,
         Integer productId,
         Integer currencyId,
         Long amount,
@@ -48,6 +51,7 @@ public class SingleProduct implements Serializable {
         String updatedBy,
         String isDel
     ) {
+        this.singleProductId = singleProductId;
         this.productId = productId;
         this.currencyId = currencyId;
         this.amount = amount;
@@ -56,6 +60,23 @@ public class SingleProduct implements Serializable {
         this.updatedAt = updatedAt;
         this.updatedBy = updatedBy;
         this.isDel = isDel;
+    }
+
+    /**
+     * Getter for <code>nexus.SINGLE_PRODUCT.SINGLE_PRODUCT_ID</code>. 단일 상품 아이디
+     * (PK)
+     */
+    public Integer getSingleProductId() {
+        return this.singleProductId;
+    }
+
+    /**
+     * Setter for <code>nexus.SINGLE_PRODUCT.SINGLE_PRODUCT_ID</code>. 단일 상품 아이디
+     * (PK)
+     */
+    public SingleProduct setSingleProductId(Integer singleProductId) {
+        this.singleProductId = singleProductId;
+        return this;
     }
 
     /**
@@ -187,6 +208,12 @@ public class SingleProduct implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         final SingleProduct other = (SingleProduct) obj;
+        if (this.singleProductId == null) {
+            if (other.singleProductId != null)
+                return false;
+        }
+        else if (!this.singleProductId.equals(other.singleProductId))
+            return false;
         if (this.productId == null) {
             if (other.productId != null)
                 return false;
@@ -242,6 +269,7 @@ public class SingleProduct implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((this.singleProductId == null) ? 0 : this.singleProductId.hashCode());
         result = prime * result + ((this.productId == null) ? 0 : this.productId.hashCode());
         result = prime * result + ((this.currencyId == null) ? 0 : this.currencyId.hashCode());
         result = prime * result + ((this.amount == null) ? 0 : this.amount.hashCode());
@@ -257,7 +285,8 @@ public class SingleProduct implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder("SingleProduct (");
 
-        sb.append(productId);
+        sb.append(singleProductId);
+        sb.append(", ").append(productId);
         sb.append(", ").append(currencyId);
         sb.append(", ").append(amount);
         sb.append(", ").append(createdAt);

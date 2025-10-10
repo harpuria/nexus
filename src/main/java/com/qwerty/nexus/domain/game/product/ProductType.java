@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.game.data.product;
+package com.qwerty.nexus.domain.game.product;
 
 public enum ProductType {
     SINGLE,     // 단일 재화 상품

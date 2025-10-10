@@ -61,6 +61,11 @@ public class Sequences {
     public static final Sequence<Integer> PRODUCT_PRODUCT_ID_SEQ = Internal.createSequence("PRODUCT_PRODUCT_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 
     /**
+     * The sequence <code>nexus.SINGLE_PRODUCT_SINGLE_PRODUCT_ID_seq</code>
+     */
+    public static final Sequence<Integer> SINGLE_PRODUCT_SINGLE_PRODUCT_ID_SEQ = Internal.createSequence("SINGLE_PRODUCT_SINGLE_PRODUCT_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
      * The sequence <code>nexus.TABLE_COLUMN_COLUMN_ID_seq</code>
      */
     public static final Sequence<Integer> TABLE_COLUMN_COLUMN_ID_SEQ = Internal.createSequence("TABLE_COLUMN_COLUMN_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);

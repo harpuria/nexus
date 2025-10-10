@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.game.data.product;
+package com.qwerty.nexus.domain.game.product;
 
 public enum PurchaseType {
     CASH,       // 캐시 (외부 결제)

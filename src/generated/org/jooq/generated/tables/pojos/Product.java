@@ -125,14 +125,14 @@ public class Product implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.PRODUCT.PURCHASE_TYPE</code>.
+     * Getter for <code>nexus.PRODUCT.PURCHASE_TYPE</code>. 구매재화 타입 (캐시, 내부재화)
      */
     public String getPurchaseType() {
         return this.purchaseType;
     }
 
     /**
-     * Setter for <code>nexus.PRODUCT.PURCHASE_TYPE</code>.
+     * Setter for <code>nexus.PRODUCT.PURCHASE_TYPE</code>. 구매재화 타입 (캐시, 내부재화)
      */
     public Product setPurchaseType(String purchaseType) {
         this.purchaseType = purchaseType;

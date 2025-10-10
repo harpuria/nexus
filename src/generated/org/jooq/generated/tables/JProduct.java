@@ -77,9 +77,9 @@ public class JProduct extends TableImpl<ProductRecord> {
     public final TableField<ProductRecord, String> PRODUCT_TYPE = createField(DSL.name("PRODUCT_TYPE"), SQLDataType.VARCHAR(255).nullable(false), this, "상품 타입 (단일, 복합(패키지))");
 
     /**
-     * The column <code>nexus.PRODUCT.PURCHASE_TYPE</code>.
+     * The column <code>nexus.PRODUCT.PURCHASE_TYPE</code>. 구매재화 타입 (캐시, 내부재화)
      */
-    public final TableField<ProductRecord, String> PURCHASE_TYPE = createField(DSL.name("PURCHASE_TYPE"), SQLDataType.VARCHAR(255).nullable(false), this, "");
+    public final TableField<ProductRecord, String> PURCHASE_TYPE = createField(DSL.name("PURCHASE_TYPE"), SQLDataType.VARCHAR(255).nullable(false), this, "구매재화 타입 (캐시, 내부재화)");
 
     /**
      * The column <code>nexus.PRODUCT.CURRENCY_ID</code>. 상품 타입이 CURRENCY 인 경우,

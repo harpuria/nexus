@@ -67,7 +67,7 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
     }
 
     /**
-     * Setter for <code>nexus.PRODUCT.PURCHASE_TYPE</code>.
+     * Setter for <code>nexus.PRODUCT.PURCHASE_TYPE</code>. 구매재화 타입 (캐시, 내부재화)
      */
     public ProductRecord setPurchaseType(String value) {
         set(3, value);
@@ -75,7 +75,7 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
     }
 
     /**
-     * Getter for <code>nexus.PRODUCT.PURCHASE_TYPE</code>.
+     * Getter for <code>nexus.PRODUCT.PURCHASE_TYPE</code>. 구매재화 타입 (캐시, 내부재화)
      */
     public String getPurchaseType() {
         return (String) get(3);

@@ -25,6 +25,7 @@ import org.jooq.Stringly;
 import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
+import org.jooq.UniqueKey;
 import org.jooq.generated.JNexus;
 import org.jooq.generated.Keys;
 import org.jooq.generated.tables.JCurrency.CurrencyPath;
@@ -55,6 +56,12 @@ public class JSingleProduct extends TableImpl<SingleProductRecord> {
     public Class<SingleProductRecord> getRecordType() {
         return SingleProductRecord.class;
     }
+
+    /**
+     * The column <code>nexus.SINGLE_PRODUCT.SINGLE_PRODUCT_ID</code>. 단일 상품 아이디
+     * (PK)
+     */
+    public final TableField<SingleProductRecord, Integer> SINGLE_PRODUCT_ID = createField(DSL.name("SINGLE_PRODUCT_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"SINGLE_PRODUCT_SINGLE_PRODUCT_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "단일 상품 아이디 (PK)");
 
     /**
      * The column <code>nexus.SINGLE_PRODUCT.PRODUCT_ID</code>. 상품 아이디 (PK, FK)
@@ -161,6 +168,11 @@ public class JSingleProduct extends TableImpl<SingleProductRecord> {
     @Override
     public Schema getSchema() {
         return aliased() ? null : JNexus.NEXUS;
+    }
+
+    @Override
+    public UniqueKey<SingleProductRecord> getPrimaryKey() {
+        return Keys.SINGLE_PRODUCT_PKEY;
     }
 
     @Override

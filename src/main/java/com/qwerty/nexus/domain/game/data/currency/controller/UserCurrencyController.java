@@ -79,20 +79,23 @@ public class UserCurrencyController {
     @Operation(summary = "유저 재화 수정")
     public ResponseEntity<ApiResponse<Void>> updateUserCurrency(@PathVariable("userCurrencyId") int userCurrencyId, @RequestBody UserCurrencyUpdateRequestDto dto){
         dto.setUserCurrencyId(userCurrencyId);
+
         Result<Void> result = service.update(UserCurrencyUpdateCommand.from(dto));
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
     /**
      * 유저 재화 삭제 (논리적 삭제)
-     * @param dto
+     * @param userCurrencyId
      * @return
      */
     @DeleteMapping("/{userCurrencyId}")
     @Operation(summary = "유저 재화 삭제")
-    public ResponseEntity<ApiResponse<Void>> deleteUserCurrency(@PathVariable("userCurrencyId") int userCurrencyId, @RequestBody UserCurrencyUpdateRequestDto dto){
+    public ResponseEntity<ApiResponse<Void>> deleteUserCurrency(@PathVariable("userCurrencyId") int userCurrencyId){
+        UserCurrencyUpdateRequestDto dto = new UserCurrencyUpdateRequestDto();
         dto.setUserCurrencyId(userCurrencyId);
         dto.setIsDel("Y");
+
         Result<Void> result = service.update(UserCurrencyUpdateCommand.from(dto));
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }

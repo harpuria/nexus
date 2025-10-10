@@ -1,17 +1,16 @@
-package com.qwerty.nexus.domain.game.data.product.command;
+package com.qwerty.nexus.domain.game.product.command;
 
-import com.qwerty.nexus.domain.game.data.product.ProductType;
-import com.qwerty.nexus.domain.game.data.product.PurchaseType;
-import com.qwerty.nexus.domain.game.data.product.dto.request.ProductCreateRequestDto;
+import com.qwerty.nexus.domain.game.product.ProductType;
+import com.qwerty.nexus.domain.game.product.PurchaseType;
+import com.qwerty.nexus.domain.game.product.dto.request.ProductUpdateRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
 
 @Getter
 @Builder
-public class ProductCreateCommand {
+public class ProductUpdateCommand {
     private Integer gameId;
     private ProductType productType;
     private PurchaseType purchaseType;
@@ -19,11 +18,11 @@ public class ProductCreateCommand {
     private String name;
     private String desc;
     private BigDecimal price;
-    private String createdBy;
     private String updatedBy;
+    private String isDel;
 
-    public static ProductCreateCommand from(ProductCreateRequestDto dto){
-        return ProductCreateCommand.builder()
+    public static ProductUpdateCommand from(ProductUpdateRequestDto dto){
+        return ProductUpdateCommand.builder()
                 .gameId(dto.getGameId())
                 .productType(dto.getProductType())
                 .purchaseType(dto.getPurchaseType())
@@ -31,8 +30,8 @@ public class ProductCreateCommand {
                 .name(dto.getName())
                 .desc(dto.getDesc())
                 .price(dto.getPrice())
-                .createdBy(dto.getCreatedBy())
                 .updatedBy(dto.getUpdatedBy())
+                .isDel(dto.getIsDel())
                 .build();
     }
 }

@@ -1,12 +1,11 @@
-package com.qwerty.nexus.domain.game.data.product.entity;
+package com.qwerty.nexus.domain.game.product.entity;
 
-import com.qwerty.nexus.domain.game.data.product.ProductType;
-import com.qwerty.nexus.domain.game.data.product.PurchaseType;
+import com.qwerty.nexus.domain.game.product.ProductType;
+import com.qwerty.nexus.domain.game.product.PurchaseType;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
 
 @Getter
 @Builder
