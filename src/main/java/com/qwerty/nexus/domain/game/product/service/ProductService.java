@@ -5,6 +5,7 @@ import com.qwerty.nexus.domain.game.product.ProductType;
 import com.qwerty.nexus.domain.game.product.PurchaseType;
 import com.qwerty.nexus.domain.game.product.command.ProductCreateCommand;
 import com.qwerty.nexus.domain.game.product.command.ProductUpdateCommand;
+import com.qwerty.nexus.domain.game.product.dto.request.ProductInfo;
 import com.qwerty.nexus.domain.game.product.entity.MultipleProductEntity;
 import com.qwerty.nexus.domain.game.product.entity.ProductEntity;
 import com.qwerty.nexus.domain.game.product.entity.SingleProductEntity;
@@ -58,19 +59,25 @@ public class ProductService {
                         .amount(command.getProductInfoList().getFirst().getAmount())
                         .build();
 
-                singleProductRepository.createSingleProduct(singleProductEntity);
+                Optional<SingleProductEntity> rst = Optional.ofNullable(singleProductRepository.createSingleProduct(singleProductEntity));
+                if(rst.isEmpty()){
+                    return Result.Failure.of("상품 생성 실패 (SINGLE_PRODUCT)", ErrorCode.INTERNAL_ERROR.getCode());
+                }
             }
             case ProductType.MULTIPLE -> {
                 // 멀티인 경우 MULTIPLE_PRODUCT insert
-                command.getProductInfoList().forEach(productInfo -> {
+                for(ProductInfo productInfo : command.getProductInfoList()){
                     MultipleProductEntity multipleProductEntity = MultipleProductEntity.builder()
                             .productId(command.getCurrencyId())
                             .currencyId(productInfo.getCurrencyId())
                             .amount(productInfo.getAmount())
                             .build();
 
-                    multipleProductRepository.createMultipleProduct(multipleProductEntity);
-                });
+                    Optional<MultipleProductEntity> rst = Optional.ofNullable(multipleProductRepository.createMultipleProduct(multipleProductEntity));
+                    if(rst.isEmpty()){
+                        return Result.Failure.of("상품 생성 실패 (MULTIPLE_PRODUCT)", ErrorCode.INTERNAL_ERROR.getCode());
+                    }
+                }
             }
         }
 
