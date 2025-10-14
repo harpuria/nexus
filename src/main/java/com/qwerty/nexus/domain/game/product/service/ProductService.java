@@ -17,6 +17,7 @@ import com.qwerty.nexus.global.response.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -34,6 +35,7 @@ public class ProductService {
      * @param command
      * @return
      */
+    @Transactional
     public Result<Void> create(ProductCreateCommand command) {
         ProductEntity entity = ProductEntity.builder()
                 .gameId(command.getGameId())
@@ -115,6 +117,7 @@ public class ProductService {
      * @param productId
      * @return
      */
+    @Transactional
     public Result<Void> buy(int productId) {
         /*
          * 1) 어떤 상품을 구매할지 받아와서 (controller > service 에 id 전달)

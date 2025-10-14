@@ -15,6 +15,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class AdminService {
      * @param command
      * @return
      */
+    @Transactional
     public Result<Void> initialize(AdminInitCreateCommand command) {
         // 비밀번호 암호화 인코더
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
