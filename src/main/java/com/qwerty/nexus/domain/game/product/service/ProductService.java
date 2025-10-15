@@ -51,6 +51,7 @@ public class ProductService {
 
         Optional<ProductEntity> createRst = Optional.ofNullable(repository.create(entity));
 
+        // TODO : 싱글 멀티플 테이블 삭제. PRODUCT 하나로 관리하되, jsonb 타입으로 상품 지급 처리
         // 생성할 때 싱글, 멀티에냐 따라서 추가로 repository 작업해야함
         switch (command.getProductType()) {
             case ProductType.SINGLE -> {
@@ -139,6 +140,7 @@ public class ProductService {
                 }
             }
 
+            // TODO : 싱글 멀티플 테이블 삭제. PRODUCT 하나로 관리하되, jsonb 타입으로 상품 지급 처리
             // 상품 지급 처리 (유저 재화 테이블에 데이터 추가)
             switch (productEntity.getProductType()){
                 case ProductType.SINGLE -> {
