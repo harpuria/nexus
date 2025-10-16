@@ -1,6 +1,5 @@
 package com.qwerty.nexus.domain.game.product.dto.response;
 
-import com.qwerty.nexus.domain.game.product.ProductType;
 import com.qwerty.nexus.domain.game.product.PurchaseType;
 import com.qwerty.nexus.domain.game.product.entity.ProductEntity;
 import com.qwerty.nexus.global.extend.dto.BaseResponseDto;
@@ -13,7 +12,6 @@ import java.math.BigDecimal;
 public class ProductResponseDto extends BaseResponseDto {
     private Integer productId;
     private Integer gameId;
-    private ProductType productType;
     private PurchaseType purchaseType;
     private Integer currencyId;
     private String name;
@@ -24,7 +22,6 @@ public class ProductResponseDto extends BaseResponseDto {
         return ProductResponseDto.builder()
                 .productId(productEntity.getProductId())
                 .gameId(productEntity.getGameId())
-                .productType(productEntity.getProductType())
                 .purchaseType(productEntity.getPurchaseType())
                 .currencyId(productEntity.getCurrencyId())
                 .name(productEntity.getName())

@@ -1,6 +1,6 @@
 package com.qwerty.nexus.global.filter;
 
-import com.qwerty.nexus.global.util.JwtUtil;
+import com.qwerty.nexus.global.util.jwt.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

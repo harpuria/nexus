@@ -1,8 +1,6 @@
 package com.qwerty.nexus.domain.game.product.repository;
 
-import com.qwerty.nexus.domain.game.product.entity.MultipleProductEntity;
 import com.qwerty.nexus.domain.game.product.entity.ProductEntity;
-import com.qwerty.nexus.domain.game.product.entity.SingleProductEntity;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
@@ -47,7 +45,6 @@ public class ProductRepository {
         record.changed(PRODUCT.NAME, entity.getName() != null);
         record.changed(PRODUCT.DESC, entity.getDesc() != null);
         record.changed(PRODUCT.PRICE, entity.getPrice() != null);
-        record.changed(PRODUCT.PRODUCT_TYPE, entity.getProductType() != null);
         record.changed(PRODUCT.PURCHASE_TYPE, entity.getPurchaseType() != null);
         record.changed(PRODUCT.UPDATED_BY, entity.getUpdatedBy() != null);
         record.changed(PRODUCT.IS_DEL, entity.getIsDel() != null);

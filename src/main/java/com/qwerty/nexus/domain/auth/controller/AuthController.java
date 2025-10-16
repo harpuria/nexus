@@ -12,9 +12,10 @@ import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.ResponseEntityUtils;
 import com.qwerty.nexus.global.response.Result;
-import com.qwerty.nexus.global.util.JwtTokenGenerationData;
-import com.qwerty.nexus.global.util.JwtUtil;
+import com.qwerty.nexus.global.util.jwt.JwtTokenGenerationData;
+import com.qwerty.nexus.global.util.jwt.JwtUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(ApiConstants.Path.AUTH_PATH)
+@Tag(name = "인증", description = "인증, 로그인, 로그아웃 관련 API")
 public class AuthController {
     private final AuthService service;
     private final GoogleVerifierService googleVerifierService;

@@ -29,6 +29,7 @@ import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
 import org.jooq.generated.JNexus;
 import org.jooq.generated.Keys;
+import org.jooq.generated.tables.JCouponUseLog.CouponUseLogPath;
 import org.jooq.generated.tables.JGame.GamePath;
 import org.jooq.generated.tables.JUserColumnData.UserColumnDataPath;
 import org.jooq.generated.tables.JUserCurrency.UserCurrencyPath;
@@ -244,6 +245,19 @@ public class JGameUser extends TableImpl<GameUserRecord> {
             _game = new GamePath(this, Keys.GAME_USER__GAME_USER_GAME_ID_FOREIGN, null);
 
         return _game;
+    }
+
+    private transient CouponUseLogPath _couponUseLog;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>nexus.COUPON_USE_LOG</code> table
+     */
+    public CouponUseLogPath couponUseLog() {
+        if (_couponUseLog == null)
+            _couponUseLog = new CouponUseLogPath(this, null, Keys.COUPON_USE_LOG__COUPON_USE_LOG_USER_ID_FOREIGN.getInverseKey());
+
+        return _couponUseLog;
     }
 
     private transient UserColumnDataPath _userColumnData;

@@ -12,16 +12,14 @@ import org.jooq.Sequence;
 import org.jooq.Table;
 import org.jooq.generated.tables.JAdmin;
 import org.jooq.generated.tables.JBase;
-import org.jooq.generated.tables.JCouponList;
+import org.jooq.generated.tables.JCoupon;
+import org.jooq.generated.tables.JCouponUseLog;
 import org.jooq.generated.tables.JCurrency;
 import org.jooq.generated.tables.JGame;
-import org.jooq.generated.tables.JGameCoupon;
 import org.jooq.generated.tables.JGameTable;
 import org.jooq.generated.tables.JGameUser;
-import org.jooq.generated.tables.JMultipleProduct;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JProduct;
-import org.jooq.generated.tables.JSingleProduct;
 import org.jooq.generated.tables.JTableColumn;
 import org.jooq.generated.tables.JUserColumnData;
 import org.jooq.generated.tables.JUserCurrency;
@@ -52,9 +50,14 @@ public class JNexus extends SchemaImpl {
     public final JBase BASE = JBase.BASE;
 
     /**
-     * The table <code>nexus.COUPON_LIST</code>.
+     * The table <code>nexus.COUPON</code>.
      */
-    public final JCouponList COUPON_LIST = JCouponList.COUPON_LIST;
+    public final JCoupon COUPON = JCoupon.COUPON;
+
+    /**
+     * The table <code>nexus.COUPON_USE_LOG</code>.
+     */
+    public final JCouponUseLog COUPON_USE_LOG = JCouponUseLog.COUPON_USE_LOG;
 
     /**
      * The table <code>nexus.CURRENCY</code>.
@@ -67,11 +70,6 @@ public class JNexus extends SchemaImpl {
     public final JGame GAME = JGame.GAME;
 
     /**
-     * The table <code>nexus.GAME_COUPON</code>.
-     */
-    public final JGameCoupon GAME_COUPON = JGameCoupon.GAME_COUPON;
-
-    /**
      * The table <code>nexus.GAME_TABLE</code>.
      */
     public final JGameTable GAME_TABLE = JGameTable.GAME_TABLE;
@@ -82,11 +80,6 @@ public class JNexus extends SchemaImpl {
     public final JGameUser GAME_USER = JGameUser.GAME_USER;
 
     /**
-     * The table <code>nexus.MULTIPLE_PRODUCT</code>.
-     */
-    public final JMultipleProduct MULTIPLE_PRODUCT = JMultipleProduct.MULTIPLE_PRODUCT;
-
-    /**
      * The table <code>nexus.ORGANIZATION</code>.
      */
     public final JOrganization ORGANIZATION = JOrganization.ORGANIZATION;
@@ -95,11 +88,6 @@ public class JNexus extends SchemaImpl {
      * The table <code>nexus.PRODUCT</code>.
      */
     public final JProduct PRODUCT = JProduct.PRODUCT;
-
-    /**
-     * The table <code>nexus.SINGLE_PRODUCT</code>.
-     */
-    public final JSingleProduct SINGLE_PRODUCT = JSingleProduct.SINGLE_PRODUCT;
 
     /**
      * The table <code>nexus.TABLE_COLUMN</code>.
@@ -133,15 +121,14 @@ public class JNexus extends SchemaImpl {
     public final List<Sequence<?>> getSequences() {
         return Arrays.asList(
             Sequences.ADMIN_ADMIN_ID_SEQ,
+            Sequences.COUPON_COUPON_ID_SEQ,
+            Sequences.COUPON_USE_LOG_LOG_ID_SEQ,
             Sequences.CURRENCY_CURRENCY_ID_SEQ,
-            Sequences.GAME_COUPON_COUPON_ID_SEQ,
             Sequences.GAME_GAME_ID_SEQ,
             Sequences.GAME_TABLE_TABLE_ID_SEQ,
             Sequences.GAME_USER_USER_ID_SEQ,
-            Sequences.MULTIPLE_PRODUCT_MULTIPLE_PRODUCT_ID_SEQ,
             Sequences.ORGANIZATION_ORG_ID_SEQ,
             Sequences.PRODUCT_PRODUCT_ID_SEQ,
-            Sequences.SINGLE_PRODUCT_SINGLE_PRODUCT_ID_SEQ,
             Sequences.TABLE_COLUMN_COLUMN_ID_SEQ,
             Sequences.USER_COLUMN_DATA_USER_COLUMN_ID_SEQ,
             Sequences.USER_CURRENCY_USER_CURRENCY_ID_SEQ
@@ -153,16 +140,14 @@ public class JNexus extends SchemaImpl {
         return Arrays.asList(
             JAdmin.ADMIN,
             JBase.BASE,
-            JCouponList.COUPON_LIST,
+            JCoupon.COUPON,
+            JCouponUseLog.COUPON_USE_LOG,
             JCurrency.CURRENCY,
             JGame.GAME,
-            JGameCoupon.GAME_COUPON,
             JGameTable.GAME_TABLE,
             JGameUser.GAME_USER,
-            JMultipleProduct.MULTIPLE_PRODUCT,
             JOrganization.ORGANIZATION,
             JProduct.PRODUCT,
-            JSingleProduct.SINGLE_PRODUCT,
             JTableColumn.TABLE_COLUMN,
             JUserColumnData.USER_COLUMN_DATA,
             JUserCurrency.USER_CURRENCY

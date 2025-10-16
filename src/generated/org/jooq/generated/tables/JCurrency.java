@@ -29,8 +29,6 @@ import org.jooq.UniqueKey;
 import org.jooq.generated.JNexus;
 import org.jooq.generated.Keys;
 import org.jooq.generated.tables.JGame.GamePath;
-import org.jooq.generated.tables.JMultipleProduct.MultipleProductPath;
-import org.jooq.generated.tables.JSingleProduct.SingleProductPath;
 import org.jooq.generated.tables.JUserCurrency.UserCurrencyPath;
 import org.jooq.generated.tables.records.CurrencyRecord;
 import org.jooq.impl.DSL;
@@ -196,32 +194,6 @@ public class JCurrency extends TableImpl<CurrencyRecord> {
             _game = new GamePath(this, Keys.CURRENCY__CURRENCY_GAME_ID_FOREIGN, null);
 
         return _game;
-    }
-
-    private transient MultipleProductPath _multipleProduct;
-
-    /**
-     * Get the implicit to-many join path to the
-     * <code>nexus.MULTIPLE_PRODUCT</code> table
-     */
-    public MultipleProductPath multipleProduct() {
-        if (_multipleProduct == null)
-            _multipleProduct = new MultipleProductPath(this, null, Keys.MULTIPLE_PRODUCT__MULTIPLE_PRODUCT_CURRENCY_ID_FOREIGN.getInverseKey());
-
-        return _multipleProduct;
-    }
-
-    private transient SingleProductPath _singleProduct;
-
-    /**
-     * Get the implicit to-many join path to the
-     * <code>nexus.SINGLE_PRODUCT</code> table
-     */
-    public SingleProductPath singleProduct() {
-        if (_singleProduct == null)
-            _singleProduct = new SingleProductPath(this, null, Keys.SINGLE_PRODUCT__SINGLE_PRODUCT_CURRENCY_ID_FOREIGN.getInverseKey());
-
-        return _singleProduct;
     }
 
     private transient UserCurrencyPath _userCurrency;

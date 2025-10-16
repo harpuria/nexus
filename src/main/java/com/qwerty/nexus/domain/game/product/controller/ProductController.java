@@ -1,7 +1,9 @@
 package com.qwerty.nexus.domain.game.product.controller;
 
+import com.qwerty.nexus.domain.game.product.command.ProductBuyCommand;
 import com.qwerty.nexus.domain.game.product.command.ProductCreateCommand;
 import com.qwerty.nexus.domain.game.product.command.ProductUpdateCommand;
+import com.qwerty.nexus.domain.game.product.dto.request.ProductBuyRequestDto;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductCreateRequestDto;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductUpdateRequestDto;
 import com.qwerty.nexus.domain.game.product.service.ProductService;
@@ -68,13 +70,13 @@ public class ProductController {
 
     /**
      * 상품 구매 및 지급
-     * @param productId
+     * @param dto
      * @return
      */
-    @PostMapping("/buy/{productId}")
+    @PostMapping("/buy")
     @Operation(summary = "상품 구매 및 지급")
-    public ResponseEntity<ApiResponse<Void>> buy(@PathVariable int productId){
-        Result<Void> rst = service.buy(productId);
+    public ResponseEntity<ApiResponse<Void>> buy(ProductBuyRequestDto dto){
+        Result<Void> rst = service.buy(ProductBuyCommand.from(dto));
         return ResponseEntityUtils.toResponseEntityVoid(rst, HttpStatus.OK);
     }
 }

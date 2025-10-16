@@ -2,12 +2,11 @@ package com.qwerty.nexus.domain.game.user.service;
 
 import com.qwerty.nexus.domain.game.user.command.*;
 import com.qwerty.nexus.domain.game.user.dto.response.GameUserLoginResponseDto;
-import com.qwerty.nexus.domain.game.user.dto.response.GameUserResponseDto;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.response.Result;
-import com.qwerty.nexus.global.util.JwtUtil;
+import com.qwerty.nexus.global.util.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;

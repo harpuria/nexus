@@ -1,6 +1,5 @@
 package com.qwerty.nexus.domain.game.product.command;
 
-import com.qwerty.nexus.domain.game.product.ProductType;
 import com.qwerty.nexus.domain.game.product.PurchaseType;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductUpdateRequestDto;
 import lombok.Builder;
@@ -12,7 +11,6 @@ import java.math.BigDecimal;
 @Builder
 public class ProductUpdateCommand {
     private Integer gameId;
-    private ProductType productType;
     private PurchaseType purchaseType;
     private Integer currencyId;
     private String name;
@@ -24,7 +22,6 @@ public class ProductUpdateCommand {
     public static ProductUpdateCommand from(ProductUpdateRequestDto dto){
         return ProductUpdateCommand.builder()
                 .gameId(dto.getGameId())
-                .productType(dto.getProductType())
                 .purchaseType(dto.getPurchaseType())
                 .currencyId(dto.getCurrencyId())
                 .name(dto.getName())

@@ -31,8 +31,8 @@ import org.jooq.UniqueKey;
 import org.jooq.generated.JNexus;
 import org.jooq.generated.Keys;
 import org.jooq.generated.tables.JAdmin.AdminPath;
+import org.jooq.generated.tables.JCoupon.CouponPath;
 import org.jooq.generated.tables.JCurrency.CurrencyPath;
-import org.jooq.generated.tables.JGameCoupon.GameCouponPath;
 import org.jooq.generated.tables.JGameTable.GameTablePath;
 import org.jooq.generated.tables.JGameUser.GameUserPath;
 import org.jooq.generated.tables.JOrganization.OrganizationPath;
@@ -232,6 +232,18 @@ public class JGame extends TableImpl<GameRecord> {
         return _admin;
     }
 
+    private transient CouponPath _coupon;
+
+    /**
+     * Get the implicit to-many join path to the <code>nexus.COUPON</code> table
+     */
+    public CouponPath coupon() {
+        if (_coupon == null)
+            _coupon = new CouponPath(this, null, Keys.COUPON__COUPON_GAME_ID_FOREIGN.getInverseKey());
+
+        return _coupon;
+    }
+
     private transient CurrencyPath _currency;
 
     /**
@@ -243,19 +255,6 @@ public class JGame extends TableImpl<GameRecord> {
             _currency = new CurrencyPath(this, null, Keys.CURRENCY__CURRENCY_GAME_ID_FOREIGN.getInverseKey());
 
         return _currency;
-    }
-
-    private transient GameCouponPath _gameCoupon;
-
-    /**
-     * Get the implicit to-many join path to the <code>nexus.GAME_COUPON</code>
-     * table
-     */
-    public GameCouponPath gameCoupon() {
-        if (_gameCoupon == null)
-            _gameCoupon = new GameCouponPath(this, null, Keys.GAME_COUPON__GAME_COUPON_GAME_ID_FOREIGN.getInverseKey());
-
-        return _gameCoupon;
     }
 
     private transient GameTablePath _gameTable;

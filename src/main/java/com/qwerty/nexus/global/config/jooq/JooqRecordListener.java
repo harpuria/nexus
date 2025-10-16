@@ -1,4 +1,4 @@
-package com.qwerty.nexus.global.config;
+package com.qwerty.nexus.global.config.jooq;
 
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Record;

@@ -1,4 +1,4 @@
-package com.qwerty.nexus.global.util;
+package com.qwerty.nexus.global.util.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

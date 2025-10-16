@@ -6,16 +6,14 @@ package org.jooq.generated;
 
 import org.jooq.generated.tables.JAdmin;
 import org.jooq.generated.tables.JBase;
-import org.jooq.generated.tables.JCouponList;
+import org.jooq.generated.tables.JCoupon;
+import org.jooq.generated.tables.JCouponUseLog;
 import org.jooq.generated.tables.JCurrency;
 import org.jooq.generated.tables.JGame;
-import org.jooq.generated.tables.JGameCoupon;
 import org.jooq.generated.tables.JGameTable;
 import org.jooq.generated.tables.JGameUser;
-import org.jooq.generated.tables.JMultipleProduct;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JProduct;
-import org.jooq.generated.tables.JSingleProduct;
 import org.jooq.generated.tables.JTableColumn;
 import org.jooq.generated.tables.JUserColumnData;
 import org.jooq.generated.tables.JUserCurrency;
@@ -38,9 +36,14 @@ public class Tables {
     public static final JBase BASE = JBase.BASE;
 
     /**
-     * The table <code>nexus.COUPON_LIST</code>.
+     * The table <code>nexus.COUPON</code>.
      */
-    public static final JCouponList COUPON_LIST = JCouponList.COUPON_LIST;
+    public static final JCoupon COUPON = JCoupon.COUPON;
+
+    /**
+     * The table <code>nexus.COUPON_USE_LOG</code>.
+     */
+    public static final JCouponUseLog COUPON_USE_LOG = JCouponUseLog.COUPON_USE_LOG;
 
     /**
      * The table <code>nexus.CURRENCY</code>.
@@ -53,11 +56,6 @@ public class Tables {
     public static final JGame GAME = JGame.GAME;
 
     /**
-     * The table <code>nexus.GAME_COUPON</code>.
-     */
-    public static final JGameCoupon GAME_COUPON = JGameCoupon.GAME_COUPON;
-
-    /**
      * The table <code>nexus.GAME_TABLE</code>.
      */
     public static final JGameTable GAME_TABLE = JGameTable.GAME_TABLE;
@@ -68,11 +66,6 @@ public class Tables {
     public static final JGameUser GAME_USER = JGameUser.GAME_USER;
 
     /**
-     * The table <code>nexus.MULTIPLE_PRODUCT</code>.
-     */
-    public static final JMultipleProduct MULTIPLE_PRODUCT = JMultipleProduct.MULTIPLE_PRODUCT;
-
-    /**
      * The table <code>nexus.ORGANIZATION</code>.
      */
     public static final JOrganization ORGANIZATION = JOrganization.ORGANIZATION;
@@ -81,11 +74,6 @@ public class Tables {
      * The table <code>nexus.PRODUCT</code>.
      */
     public static final JProduct PRODUCT = JProduct.PRODUCT;
-
-    /**
-     * The table <code>nexus.SINGLE_PRODUCT</code>.
-     */
-    public static final JSingleProduct SINGLE_PRODUCT = JSingleProduct.SINGLE_PRODUCT;
 
     /**
      * The table <code>nexus.TABLE_COLUMN</code>.

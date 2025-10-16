@@ -1,4 +1,4 @@
-package com.qwerty.nexus.global.config;
+package com.qwerty.nexus.global.config.jooq;
 
 import org.jooq.conf.ExecuteWithoutWhere;
 import org.springframework.boot.autoconfigure.jooq.DefaultConfigurationCustomizer;

@@ -42,4 +42,14 @@ public class UserCurrencyRepository {
     public UserCurrencyEntity updateUserCurrency(UserCurrencyEntity entity) {
         return null;
     }
+
+    /**
+     * 유저 재화 차감
+     * @param entity
+     * @return
+     */
+    public UserCurrencyEntity deductCurrency(UserCurrencyEntity entity) {
+        dslContext.update(USER_CURRENCY)
+                .set(USER_CURRENCY.USER_CURRENCY_ID, entity.getUserCurrencyId())
+    }
 }

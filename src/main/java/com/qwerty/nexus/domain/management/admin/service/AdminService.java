@@ -8,8 +8,8 @@ import com.qwerty.nexus.domain.management.organization.entity.OrganizationEntity
 import com.qwerty.nexus.domain.management.organization.repository.OrganizationRepository;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.response.Result;
-import com.qwerty.nexus.global.util.JwtTokenGenerationData;
-import com.qwerty.nexus.global.util.JwtUtil;
+import com.qwerty.nexus.global.util.jwt.JwtTokenGenerationData;
+import com.qwerty.nexus.global.util.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

@@ -96,7 +96,7 @@ public class AdminTests {
         dto.setAdminNm("수정된이름");
 
         // when
-        mockMvc.perform(patch(ApiConstants.Path.ADMIN_PATH + "/2")
+        mockMvc.perform(patch(ApiConstants.Path.ADMIN_PATH + "/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())

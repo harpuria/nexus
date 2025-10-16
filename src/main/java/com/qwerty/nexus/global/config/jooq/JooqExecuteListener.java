@@ -1,10 +1,9 @@
-package com.qwerty.nexus.global.config;
+package com.qwerty.nexus.global.config.jooq;
 
 import lombok.extern.log4j.Log4j2;
 import org.jooq.*;
 import org.jooq.impl.DSL;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 

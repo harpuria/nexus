@@ -1,17 +1,13 @@
 package com.qwerty.nexus.domain.game.product.service;
 
+import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
-import com.qwerty.nexus.domain.game.product.ProductType;
 import com.qwerty.nexus.domain.game.product.PurchaseType;
+import com.qwerty.nexus.domain.game.product.command.ProductBuyCommand;
 import com.qwerty.nexus.domain.game.product.command.ProductCreateCommand;
 import com.qwerty.nexus.domain.game.product.command.ProductUpdateCommand;
-import com.qwerty.nexus.domain.game.product.dto.request.ProductInfo;
-import com.qwerty.nexus.domain.game.product.entity.MultipleProductEntity;
 import com.qwerty.nexus.domain.game.product.entity.ProductEntity;
-import com.qwerty.nexus.domain.game.product.entity.SingleProductEntity;
-import com.qwerty.nexus.domain.game.product.repository.MultipleProductRepository;
 import com.qwerty.nexus.domain.game.product.repository.ProductRepository;
-import com.qwerty.nexus.domain.game.product.repository.SingleProductRepository;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.response.Result;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +22,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository repository;
-    private final SingleProductRepository singleProductRepository;
-    private final MultipleProductRepository multipleProductRepository;
     private final UserCurrencyRepository userCurrencyRepository;
 
     /**
@@ -39,12 +33,15 @@ public class ProductService {
     public Result<Void> create(ProductCreateCommand command) {
         ProductEntity entity = ProductEntity.builder()
                 .gameId(command.getGameId())
-                .productType(command.getProductType())
                 .purchaseType(command.getPurchaseType())
                 .currencyId(command.getCurrencyId())
                 .name(command.getName())
                 .desc(command.getDesc())
                 .price(command.getPrice())
+                .rewards(command.getRewards())
+                .limitType(command.getLimitType())
+                .availableStart(command.getAvailableStart())
+                .availableEnd(command.getAvailableEnd())
                 .createdBy(command.getCreatedBy())
                 .updatedBy(command.getUpdatedBy())
                 .build();
@@ -52,38 +49,6 @@ public class ProductService {
         Optional<ProductEntity> createRst = Optional.ofNullable(repository.create(entity));
 
         // TODO : 싱글 멀티플 테이블 삭제. PRODUCT 하나로 관리하되, jsonb 타입으로 상품 지급 처리
-        // 생성할 때 싱글, 멀티에냐 따라서 추가로 repository 작업해야함
-        switch (command.getProductType()) {
-            case ProductType.SINGLE -> {
-                // 싱글인 경우 SINGLE_PRODUCT insert
-                SingleProductEntity singleProductEntity = SingleProductEntity.builder()
-                        .productId(command.getCurrencyId())
-                        .currencyId(command.getProductInfoList().getFirst().getCurrencyId())
-                        .amount(command.getProductInfoList().getFirst().getAmount())
-                        .build();
-
-                Optional<SingleProductEntity> rst = Optional.ofNullable(singleProductRepository.createSingleProduct(singleProductEntity));
-                if(rst.isEmpty()){
-                    return Result.Failure.of("상품 생성 실패 (SINGLE_PRODUCT)", ErrorCode.INTERNAL_ERROR.getCode());
-                }
-            }
-            case ProductType.MULTIPLE -> {
-                // 멀티인 경우 MULTIPLE_PRODUCT insert
-                for(ProductInfo productInfo : command.getProductInfoList()){
-                    MultipleProductEntity multipleProductEntity = MultipleProductEntity.builder()
-                            .productId(command.getCurrencyId())
-                            .currencyId(productInfo.getCurrencyId())
-                            .amount(productInfo.getAmount())
-                            .build();
-
-                    Optional<MultipleProductEntity> rst = Optional.ofNullable(multipleProductRepository.createMultipleProduct(multipleProductEntity));
-                    if(rst.isEmpty()){
-                        return Result.Failure.of("상품 생성 실패 (MULTIPLE_PRODUCT)", ErrorCode.INTERNAL_ERROR.getCode());
-                    }
-                }
-            }
-        }
-
         if(createRst.isPresent()){
             return Result.Success.of(null, "상품 생성 완료");
         }else{
@@ -119,7 +84,7 @@ public class ProductService {
      * @return
      */
     @Transactional
-    public Result<Void> buy(int productId) {
+    public Result<Void> buy(ProductBuyCommand command) {
         /*
          * 1) 어떤 상품을 구매할지 받아와서 (controller > service 에 id 전달)
          * 2) 해당 상품을 구매 (이 때 캐시재화구매(CASH)인지 내부재화구매(CURRENCY)인지 확인)
@@ -127,7 +92,7 @@ public class ProductService {
          * 2-2) 내부재화구매인 경우 PRODUCT 테이블에서 데이터를 가져온 뒤, 내부재화차감 및 상품 지급 처리
          * 3) 반환할 때는 현재 DB 에 있는 재화 정보를 줘야하나? 동기화가 안되면? 이런문제도 생각해봐야...
          */
-        Optional<ProductEntity> selectRst = Optional.ofNullable(repository.selectOne(productId));
+        Optional<ProductEntity> selectRst = Optional.ofNullable(repository.selectOne(command.getProductId()));
         if(selectRst.isPresent()){
             ProductEntity productEntity = selectRst.get();
             switch (productEntity.getPurchaseType()) {
@@ -137,19 +102,21 @@ public class ProductService {
                 case PurchaseType.CURRENCY -> {
                     // 내부재화 구매인 경우
                     // 내부재화 차감
+
+                    // 유저 재화 차감 (차감시 -인 경우에는 차감하지 않고 팅겨낼것)
+                    // 이거 DB단에서 연산처리 할것
+                    UserCurrencyEntity userCurrencyEntity = UserCurrencyEntity.builder()
+                            .userId(command.getUserId())
+                            .currencyId(selectRst.get().getCurrencyId())
+                            .build();
+
+                    // 지급될 유저 재화 정보 불러오기
+                    // 이거도 불러와서 계산하기 말고 DB 단에서 연산 처리 할것
+
                 }
             }
 
             // TODO : 싱글 멀티플 테이블 삭제. PRODUCT 하나로 관리하되, jsonb 타입으로 상품 지급 처리
-            // 상품 지급 처리 (유저 재화 테이블에 데이터 추가)
-            switch (productEntity.getProductType()){
-                case ProductType.SINGLE -> {
-                    // 싱글 상품인 경우 SINGLE_PRODUCT 에서 가져옴
-                }
-                case ProductType.MULTIPLE -> {
-                    // 멀티 상품인 경우 MULTIPLE_PRODUCT 에서 가져옴
-                }
-            }
         }
 
         return Result.Success.of(null, "상품 구매 및 지급 성공");

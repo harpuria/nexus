@@ -15,6 +15,7 @@ import org.jooq.Condition;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.InverseForeignKey;
+import org.jooq.JSONB;
 import org.jooq.Name;
 import org.jooq.Path;
 import org.jooq.PlainSQL;
@@ -31,8 +32,6 @@ import org.jooq.UniqueKey;
 import org.jooq.generated.JNexus;
 import org.jooq.generated.Keys;
 import org.jooq.generated.tables.JGame.GamePath;
-import org.jooq.generated.tables.JMultipleProduct.MultipleProductPath;
-import org.jooq.generated.tables.JSingleProduct.SingleProductPath;
 import org.jooq.generated.tables.records.ProductRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
@@ -72,11 +71,6 @@ public class JProduct extends TableImpl<ProductRecord> {
     public final TableField<ProductRecord, Integer> GAME_ID = createField(DSL.name("GAME_ID"), SQLDataType.INTEGER.nullable(false), this, "상품이 적용될 게임 아이디 (FK)");
 
     /**
-     * The column <code>nexus.PRODUCT.PRODUCT_TYPE</code>. 상품 타입 (단일, 복합(패키지))
-     */
-    public final TableField<ProductRecord, String> PRODUCT_TYPE = createField(DSL.name("PRODUCT_TYPE"), SQLDataType.VARCHAR(255).nullable(false), this, "상품 타입 (단일, 복합(패키지))");
-
-    /**
      * The column <code>nexus.PRODUCT.PURCHASE_TYPE</code>. 구매재화 타입 (캐시, 내부재화)
      */
     public final TableField<ProductRecord, String> PURCHASE_TYPE = createField(DSL.name("PURCHASE_TYPE"), SQLDataType.VARCHAR(255).nullable(false), this, "구매재화 타입 (캐시, 내부재화)");
@@ -101,6 +95,26 @@ public class JProduct extends TableImpl<ProductRecord> {
      * The column <code>nexus.PRODUCT.PRICE</code>. 상품가격
      */
     public final TableField<ProductRecord, BigDecimal> PRICE = createField(DSL.name("PRICE"), SQLDataType.NUMERIC(15, 2).nullable(false), this, "상품가격");
+
+    /**
+     * The column <code>nexus.PRODUCT.REWARDS</code>. 지급 항목
+     */
+    public final TableField<ProductRecord, JSONB> REWARDS = createField(DSL.name("REWARDS"), SQLDataType.JSONB.nullable(false), this, "지급 항목");
+
+    /**
+     * The column <code>nexus.PRODUCT.LIMIT_TYPE</code>. 상품 구매 제한 타입
+     */
+    public final TableField<ProductRecord, String> LIMIT_TYPE = createField(DSL.name("LIMIT_TYPE"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'NONE'::character varying"), SQLDataType.VARCHAR)), this, "상품 구매 제한 타입");
+
+    /**
+     * The column <code>nexus.PRODUCT.AVAILABLE_START</code>. 상품 판매 시작 날짜
+     */
+    public final TableField<ProductRecord, OffsetDateTime> AVAILABLE_START = createField(DSL.name("AVAILABLE_START"), SQLDataType.TIMESTAMPWITHTIMEZONE, this, "상품 판매 시작 날짜");
+
+    /**
+     * The column <code>nexus.PRODUCT.AVAILABLE_END</code>. 상품 판매 종료 날짜
+     */
+    public final TableField<ProductRecord, OffsetDateTime> AVAILABLE_END = createField(DSL.name("AVAILABLE_END"), SQLDataType.TIMESTAMPWITHTIMEZONE, this, "상품 판매 종료 날짜");
 
     /**
      * The column <code>nexus.PRODUCT.CREATED_AT</code>. 데이터 생성 날짜
@@ -216,36 +230,10 @@ public class JProduct extends TableImpl<ProductRecord> {
         return _game;
     }
 
-    private transient MultipleProductPath _multipleProduct;
-
-    /**
-     * Get the implicit to-many join path to the
-     * <code>nexus.MULTIPLE_PRODUCT</code> table
-     */
-    public MultipleProductPath multipleProduct() {
-        if (_multipleProduct == null)
-            _multipleProduct = new MultipleProductPath(this, null, Keys.MULTIPLE_PRODUCT__MULTIPLE_PRODUCT_PRODUCT_ID_FOREIGN.getInverseKey());
-
-        return _multipleProduct;
-    }
-
-    private transient SingleProductPath _singleProduct;
-
-    /**
-     * Get the implicit to-many join path to the
-     * <code>nexus.SINGLE_PRODUCT</code> table
-     */
-    public SingleProductPath singleProduct() {
-        if (_singleProduct == null)
-            _singleProduct = new SingleProductPath(this, null, Keys.SINGLE_PRODUCT__SINGLE_PRODUCT_PRODUCT_ID_FOREIGN.getInverseKey());
-
-        return _singleProduct;
-    }
-
     @Override
     public List<Check<ProductRecord>> getChecks() {
         return Arrays.asList(
-            Internal.createCheck(this, DSL.name("PRODUCT_PRODUCT_TYPE_check"), "(((\"PRODUCT_TYPE\")::text = ANY ((ARRAY['SINGLE'::character varying, 'MULTIPLE'::character varying])::text[])))", true),
+            Internal.createCheck(this, DSL.name("PRODUCT_LIMIT_TYPE_check"), "(((\"LIMIT_TYPE\")::text = ANY ((ARRAY['NONE'::character varying, 'ONCE'::character varying, 'DAILY'::character varying, 'WEEKLY'::character varying, 'MONTHLY'::character varying])::text[])))", true),
             Internal.createCheck(this, DSL.name("PRODUCT_PURCHASE_TYPE_check"), "(((\"PURCHASE_TYPE\")::text = ANY ((ARRAY['CASH'::character varying, 'CURRENCY'::character varying])::text[])))", true)
         );
     }
