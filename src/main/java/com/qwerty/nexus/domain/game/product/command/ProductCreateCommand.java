@@ -2,14 +2,12 @@ package com.qwerty.nexus.domain.game.product.command;
 
 import com.qwerty.nexus.domain.game.product.PurchaseType;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductCreateRequestDto;
-import com.qwerty.nexus.domain.game.product.dto.request.ProductInfo;
 import lombok.Builder;
 import lombok.Getter;
 import org.jooq.JSONB;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.List;
 
 @Getter
 @Builder

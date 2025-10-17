@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.product.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.qwerty.nexus.domain.game.product.command.ProductBuyCommand;
 import com.qwerty.nexus.domain.game.product.command.ProductCreateCommand;
 import com.qwerty.nexus.domain.game.product.command.ProductUpdateCommand;
@@ -75,7 +76,7 @@ public class ProductController {
      */
     @PostMapping("/buy")
     @Operation(summary = "상품 구매 및 지급")
-    public ResponseEntity<ApiResponse<Void>> buy(ProductBuyRequestDto dto){
+    public ResponseEntity<ApiResponse<Void>> buy(ProductBuyRequestDto dto) throws JsonProcessingException {
         Result<Void> rst = service.buy(ProductBuyCommand.from(dto));
         return ResponseEntityUtils.toResponseEntityVoid(rst, HttpStatus.OK);
     }

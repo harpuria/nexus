@@ -1,11 +1,15 @@
 package com.qwerty.nexus.domain.game.product.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
 import com.qwerty.nexus.domain.game.product.PurchaseType;
 import com.qwerty.nexus.domain.game.product.command.ProductBuyCommand;
 import com.qwerty.nexus.domain.game.product.command.ProductCreateCommand;
 import com.qwerty.nexus.domain.game.product.command.ProductUpdateCommand;
+import com.qwerty.nexus.domain.game.product.dto.ProductInfo;
 import com.qwerty.nexus.domain.game.product.entity.ProductEntity;
 import com.qwerty.nexus.domain.game.product.repository.ProductRepository;
 import com.qwerty.nexus.global.exception.ErrorCode;
@@ -15,6 +19,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Log4j2
@@ -84,7 +89,7 @@ public class ProductService {
      * @return
      */
     @Transactional
-    public Result<Void> buy(ProductBuyCommand command) {
+    public Result<Void> buy(ProductBuyCommand command) throws JsonProcessingException {
         /*
          * 1) 어떤 상품을 구매할지 받아와서 (controller > service 에 id 전달)
          * 2) 해당 상품을 구매 (이 때 캐시재화구매(CASH)인지 내부재화구매(CURRENCY)인지 확인)
@@ -110,9 +115,23 @@ public class ProductService {
                             .currencyId(selectRst.get().getCurrencyId())
                             .build();
 
-                    // 지급될 유저 재화 정보 불러오기
-                    // 이거도 불러와서 계산하기 말고 DB 단에서 연산 처리 할것
-
+                    int subtractRst = userCurrencyRepository.subtractCurrency(userCurrencyEntity, selectRst.get().getPrice());
+                    if(subtractRst <= 0){
+                        Result.Failure.of("보유재화 부족", ErrorCode.INTERNAL_ERROR.getCode());
+                    }
+                    else{
+                        // 유저 재화 지급 처리
+                        // 이거도 불러와서 계산하기 말고 DB 단에서 연산 처리 할것
+                        // PRODUCT 에 설정한 MAX 재화 초과시에는 연산하지 말고 바로 던지기
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        List<ProductInfo> rewardList = objectMapper.readValue(selectRst.get().getRewards().data(), new TypeReference<List<ProductInfo>>() {});
+                        for(ProductInfo reward : rewardList){
+                            int plusRst = userCurrencyRepository.addCurrency(userCurrencyEntity, reward);
+                            if(plusRst <= 0){
+                                Result.Failure.of("보유재화 초과", ErrorCode.INTERNAL_ERROR.getCode());
+                            }
+                        }
+                    }
                 }
             }
 
