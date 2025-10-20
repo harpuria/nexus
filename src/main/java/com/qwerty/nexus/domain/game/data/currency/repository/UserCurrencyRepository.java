@@ -82,13 +82,14 @@ public class UserCurrencyRepository {
     /**
      * 유저 재화 증가
      * @param entity
-     * @param reward
+     * @param amount
+     * @param currencyId
      * @return
      */
-    public int addCurrency(UserCurrencyEntity entity, ProductInfo reward) {
+    public int addCurrency(UserCurrencyEntity entity, BigDecimal amount, int currencyId) {
         return dslContext.update(USER_CURRENCY)
-                .set(USER_CURRENCY.AMOUNT, USER_CURRENCY.AMOUNT.add(reward.getAmount()))
+                .set(USER_CURRENCY.AMOUNT, USER_CURRENCY.AMOUNT.add(amount))
                 .where(USER_CURRENCY.USER_ID.eq(entity.getUserId())
-                        .and(USER_CURRENCY.CURRENCY_ID.eq(reward.getCurrencyId()))).execute();
+                        .and(USER_CURRENCY.CURRENCY_ID.eq(currencyId))).execute();
     }
 }

@@ -126,7 +126,7 @@ public class ProductService {
                         ObjectMapper objectMapper = new ObjectMapper();
                         List<ProductInfo> rewardList = objectMapper.readValue(selectRst.get().getRewards().data(), new TypeReference<List<ProductInfo>>() {});
                         for(ProductInfo reward : rewardList){
-                            int plusRst = userCurrencyRepository.addCurrency(userCurrencyEntity, reward);
+                            int plusRst = userCurrencyRepository.addCurrency(userCurrencyEntity, reward.getAmount(), reward.getCurrencyId());
                             if(plusRst <= 0){
                                 Result.Failure.of("보유재화 초과", ErrorCode.INTERNAL_ERROR.getCode());
                             }
