@@ -11,6 +11,7 @@ import org.jooq.generated.tables.records.UserCurrencyRecord;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Log4j2
 @Repository
@@ -71,7 +72,7 @@ public class UserCurrencyRepository {
      * @param price
      * @return
      */
-    public int subtractCurrency(UserCurrencyEntity entity, BigDecimal price) {
+    public int subtractCurrency(UserCurrencyEntity entity, Long price) {
         return dslContext.update(USER_CURRENCY)
                 .set(USER_CURRENCY.AMOUNT, USER_CURRENCY.AMOUNT.subtract(price))
                 .where(USER_CURRENCY.USER_ID.eq(entity.getUserId())
@@ -86,10 +87,22 @@ public class UserCurrencyRepository {
      * @param currencyId
      * @return
      */
-    public int addCurrency(UserCurrencyEntity entity, BigDecimal amount, int currencyId) {
+    public int addCurrency(UserCurrencyEntity entity, Long amount, int currencyId) {
         return dslContext.update(USER_CURRENCY)
                 .set(USER_CURRENCY.AMOUNT, USER_CURRENCY.AMOUNT.add(amount))
                 .where(USER_CURRENCY.USER_ID.eq(entity.getUserId())
                         .and(USER_CURRENCY.CURRENCY_ID.eq(currencyId))).execute();
+    }
+
+    /**
+     * 유저의 재화 정보 가져오기
+     * @param userCurrencyEntity
+     * @return
+     */
+    public Optional<UserCurrencyEntity> selectUserCurrency(UserCurrencyEntity userCurrencyEntity) {
+        return Optional.ofNullable(dslContext.selectFrom(USER_CURRENCY)
+                .where(USER_CURRENCY.USER_ID.eq(userCurrencyEntity.getUserId())
+                        .and(USER_CURRENCY.CURRENCY_ID.eq(userCurrencyEntity.getCurrencyId())))
+                .fetchOneInto(UserCurrencyEntity.class));
     }
 }

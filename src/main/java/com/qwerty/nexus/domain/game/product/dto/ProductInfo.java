@@ -9,5 +9,6 @@ import java.math.BigDecimal;
 @Setter
 public class ProductInfo {
     private int currencyId;
-    private BigDecimal amount;
+    private Long amount;
+    private Long maxAmount;
 }

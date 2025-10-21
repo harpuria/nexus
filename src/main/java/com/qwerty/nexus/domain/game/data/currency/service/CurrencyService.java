@@ -117,7 +117,7 @@ public class CurrencyService {
                 .currencyId(currencyId)
                 .build();
 
-        Optional<CurrencyEntity> selectRst = Optional.ofNullable(repository.selectOneCurrency(entity));
+        Optional<CurrencyEntity> selectRst = repository.selectOne(entity);
         if(selectRst.isPresent()){
             return Result.Success.of(CurrencyResponseDto.from(selectRst.get()), "재화 조회 완료");
         }else{

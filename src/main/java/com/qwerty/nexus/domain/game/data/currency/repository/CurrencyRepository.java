@@ -10,6 +10,7 @@ import org.jooq.generated.tables.records.CurrencyRecord;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @Repository
@@ -58,10 +59,10 @@ public class CurrencyRepository {
      * @param entity
      * @return
      */
-    public CurrencyEntity selectOneCurrency(CurrencyEntity entity){
-        return dslContext.selectFrom(CURRENCY)
+    public Optional<CurrencyEntity> selectOne(CurrencyEntity entity){
+        return Optional.ofNullable(dslContext.selectFrom(CURRENCY)
                 .where(CURRENCY.CURRENCY_ID.eq(entity.getCurrencyId()))
-                .fetchOneInto(CurrencyEntity.class);
+                .fetchOneInto(CurrencyEntity.class));
     }
 
 

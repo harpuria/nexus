@@ -9,6 +9,8 @@ import org.jooq.generated.tables.daos.ProductDao;
 import org.jooq.generated.tables.records.ProductRecord;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Log4j2
 @Repository
 public class ProductRepository {
@@ -60,9 +62,9 @@ public class ProductRepository {
      * @param productId
      * @return
      */
-    public ProductEntity selectOne(int productId){
-        return dslContext.selectFrom(PRODUCT)
+    public Optional<ProductEntity> selectOne(int productId){
+        return Optional.ofNullable(dslContext.selectFrom(PRODUCT)
                 .where(PRODUCT.PRODUCT_ID.eq(productId))
-                .fetchOneInto(ProductEntity.class);
+                .fetchOneInto(ProductEntity.class));
     }
 }
