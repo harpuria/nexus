@@ -4,6 +4,7 @@ import com.qwerty.nexus.domain.management.game.command.GameCreateCommand;
 import com.qwerty.nexus.domain.management.game.command.GameUpdateCommand;
 import com.qwerty.nexus.domain.management.game.dto.request.GameCreateRequestDto;
 import com.qwerty.nexus.domain.management.game.dto.request.GameUpdateRequestDto;
+import com.qwerty.nexus.domain.management.game.dto.response.GameListResponseDto;
 import com.qwerty.nexus.domain.management.game.dto.response.GameResponseDto;
 import com.qwerty.nexus.domain.management.game.service.GameService;
 import com.qwerty.nexus.global.constant.ApiConstants;
@@ -17,8 +18,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Log4j2
 @RestController
@@ -76,8 +75,13 @@ public class GameController {
      * @return
      */
     @GetMapping("/list")
-    @Operation(summary = "게임 목록 조회 (개발중)")
-    public ResponseEntity<ApiResponse<List<GameResponseDto>>> selectGameList(){
-        return null;
+    @Operation(summary = "게임 목록 조회")
+    public ResponseEntity<ApiResponse<GameListResponseDto>> selectGameList(
+            @RequestParam(value = ApiConstants.Pagination.PAGE_PARAM, defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(value = ApiConstants.Pagination.SIZE_PARAM, defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_SIZE) int size
+    ){
+        Result<GameListResponseDto> result = service.selectGameList(page, size);
+
+        return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 }
