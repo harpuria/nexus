@@ -9,6 +9,8 @@ import org.jooq.generated.tables.daos.GameDao;
 import org.jooq.generated.tables.records.GameRecord;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Log4j2
 @Repository
 public class GameRepository {
@@ -61,5 +63,38 @@ public class GameRepository {
         return dslContext.selectFrom(GAME)
                 .where(GAME.GAME_ID.eq(id))
                 .fetchOneInto(GameEntity.class);
+    }
+
+    /**
+     * 게임 목록 조회 (페이징)
+     *
+     * @param page 페이지 번호 (0부터 시작)
+     * @param size 페이지 크기
+     * @return 요청한 페이지에 해당하는 게임 목록
+     */
+    public List<GameEntity> selectGameList(int page, int size){
+        int safePage = Math.max(page, 0);
+        int safeSize = Math.max(size, 1);
+
+        return dslContext.selectFrom(GAME)
+                .where(GAME.IS_DEL.eq("N"))
+                .orderBy(GAME.CREATED_AT.desc())
+                .limit(safeSize)
+                .offset(safePage * safeSize)
+                .fetchInto(GameEntity.class);
+    }
+
+    /**
+     * 삭제되지 않은 전체 게임 개수 조회
+     *
+     * @return 전체 건수
+     */
+    public long countActiveGames() {
+        Long count = dslContext.selectCount()
+                .from(GAME)
+                .where(GAME.IS_DEL.eq("N"))
+                .fetchOneInto(Long.class);
+
+        return count != null ? count : 0L;
     }
 }
