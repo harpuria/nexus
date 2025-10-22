@@ -31,6 +31,7 @@ public class AdminService {
     private final OrganizationRepository organizationRepository;
 
     private final JwtUtil jwtUtil;
+    private final AdminTokenBlacklist adminTokenBlacklist;
 
     /**
      * 초기 관리자 등록 + 단체 정보 등록

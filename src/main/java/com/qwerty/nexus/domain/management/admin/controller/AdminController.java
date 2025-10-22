@@ -140,7 +140,9 @@ public class AdminController {
      */
     @PostMapping("/logout")
     @Operation(summary = "관리자 로그아웃 (개발중)")
-    public ResponseEntity<ApiResponse<AdminResponseDto>> logout(@RequestBody AdminLogoutRequestDto dto){
-        return null;
+    public ResponseEntity<ApiResponse<Void>> logout(@RequestBody AdminLogoutRequestDto dto){
+        Result<Void> result = service.logout(AdminLogoutCommand.from(dto));
+
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 }

@@ -113,10 +113,15 @@ public class AdminRepository {
             condition = condition.and(ADMIN.ADMIN_ID.eq(admin.getAdminId()));
         }
 
-        return AdminEntity.from(
-                Objects.requireNonNull(dslContext.selectFrom(ADMIN)
-                        .where(condition)
-                        .fetchOne()));
+        AdminRecord record = dslContext.selectFrom(ADMIN)
+                .where(condition)
+                .fetchOne();
+
+        if(record == null){
+            return null;
+        }
+
+        return AdminEntity.from(record);
     }
 
     /**
