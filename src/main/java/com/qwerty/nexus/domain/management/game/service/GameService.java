@@ -58,6 +58,7 @@ public class GameService {
                 .name(command.getName())
                 .status(command.getStatus())
                 .isDel(command.getIsDel())
+                .version(command.getVersion())
                 .updatedBy(command.getUpdatedBy())
                 .build();
 

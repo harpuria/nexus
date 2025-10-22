@@ -44,6 +44,7 @@ public class GameRepository {
         record.changed(GAME.CLIENT_APP_ID, game.getClientAppId() != null);
         record.changed(GAME.SIGNATURE_KEY, game.getSignatureKey() != null);
         record.changed(GAME.STATUS, game.getStatus() != null);
+        record.changed(GAME.VERSION, game.getVersion() != null);
         record.changed(GAME.CREATED_BY, game.getCreatedBy() != null);
         record.changed(GAME.UPDATED_BY, game.getUpdatedBy() != null);
         record.changed(GAME.IS_DEL, game.getIsDel() != null);

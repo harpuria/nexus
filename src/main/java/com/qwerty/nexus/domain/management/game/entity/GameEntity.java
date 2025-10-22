@@ -18,6 +18,7 @@ public class GameEntity {
     private String googleClientId;
     private String googleClientSecret;
     private GameStatus status;
+    private String version;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;

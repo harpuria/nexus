@@ -18,4 +18,7 @@ public class GameCreateRequestDto {
 
     @Schema(example = "admin")
     private String createBy;
+
+    @Schema(example = "0.01")
+    private String version;
 }

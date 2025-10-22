@@ -12,6 +12,7 @@ public class GameUpdateCommand {
     private String name;
     private GameStatus status;
     private String isDel;
+    private String version;
     private String updatedBy;
 
     public static GameUpdateCommand from(GameUpdateRequestDto dto){
@@ -20,6 +21,7 @@ public class GameUpdateCommand {
                 .name(dto.getName())
                 .status(dto.getStatus())
                 .isDel(dto.getIsDel())
+                .version(dto.getVersion())
                 .updatedBy(dto.getUpdateBy())
                 .build();
     }

@@ -24,6 +24,9 @@ public class GameUpdateRequestDto {
     @Schema(example = "admin")
     private String updateBy;
 
+    @Schema(example = "0.01")
+    private String version;
+
     // no parameter
     @JsonIgnore
     private int gameId;
