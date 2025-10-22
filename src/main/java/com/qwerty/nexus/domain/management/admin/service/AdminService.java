@@ -30,6 +30,7 @@ public class AdminService {
     private final OrganizationRepository organizationRepository;
 
     private final JwtUtil jwtUtil;
+    private final AdminTokenBlacklist adminTokenBlacklist;
 
     /**
      * 초기 관리자 등록 + 단체 정보 등록
@@ -227,6 +228,36 @@ public class AdminService {
      * @param command
      * @return
      */
+    public Result<Void> logout(AdminLogoutCommand command) {
+        String accessToken = command.getAccessToken();
+        String refreshToken = command.getRefreshToken();
+
+        if (!hasText(accessToken) && !hasText(refreshToken)) {
+            return Result.Failure.of("로그아웃에 필요한 토큰 정보가 없습니다.", ErrorCode.INVALID_REQUEST.getCode());
+        }
+
+        try {
+            if (hasText(accessToken)) {
+                if (!jwtUtil.validateToken(accessToken)) {
+                    return Result.Failure.of("유효하지 않은 액세스 토큰입니다.", ErrorCode.INVALID_TOKEN.getCode());
+                }
+                adminTokenBlacklist.blacklist(accessToken, jwtUtil.getTimeUntilExpiration(accessToken));
+            }
+
+            if (hasText(refreshToken)) {
+                if (!jwtUtil.validateToken(refreshToken)) {
+                    return Result.Failure.of("유효하지 않은 리프레시 토큰입니다.", ErrorCode.INVALID_TOKEN.getCode());
+                }
+                adminTokenBlacklist.blacklist(refreshToken, jwtUtil.getTimeUntilExpiration(refreshToken));
+            }
+        } catch (Exception e) {
+            log.error("관리자 로그아웃 처리 중 오류가 발생했습니다.", e);
+            return Result.Failure.of("로그아웃 처리 중 오류가 발생했습니다.", ErrorCode.INTERNAL_ERROR.getCode());
+        }
+
+        return Result.Success.of(null, "관리자 로그아웃 완료.");
+    }
+
     public Result<AdminResponseDto> login(AdminLoginCommand command) {
         // jwt 검증은 필터에서 하면 되니까 놔두고
         // 검증이 끝났으면 accesstoken 보내주면 끝일듯
@@ -237,5 +268,9 @@ public class AdminService {
         jwtUtil.generateAdminAccessToken(jwtData);
 
         return Result.Success.of(null, "관리자 로그인 완료");
+    }
+
+    private boolean hasText(String value) {
+        return value != null && !value.trim().isEmpty();
     }
 }
