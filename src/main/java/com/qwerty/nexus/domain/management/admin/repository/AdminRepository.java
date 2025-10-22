@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Log4j2
 @Repository
@@ -146,5 +147,14 @@ public class AdminRepository {
                 .from(ADMIN)
                 .where(ADMIN.ADMIN_ID.eq(adminId))
                 .fetchOneInto(String.class);
+    }
+
+    public Optional<AdminEntity> findByLoginId(String loginId) {
+        AdminRecord record = dslContext.selectFrom(ADMIN)
+                .where(ADMIN.LOGIN_ID.eq(loginId))
+                .fetchOne();
+
+        return Optional.ofNullable(record)
+                .map(AdminEntity::from);
     }
 }

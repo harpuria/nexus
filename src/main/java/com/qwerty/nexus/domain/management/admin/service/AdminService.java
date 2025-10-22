@@ -3,6 +3,7 @@ package com.qwerty.nexus.domain.management.admin.service;
 import com.qwerty.nexus.domain.management.admin.command.*;
 import com.qwerty.nexus.domain.management.admin.entity.AdminEntity;
 import com.qwerty.nexus.domain.management.admin.repository.AdminRepository;
+import com.qwerty.nexus.domain.management.admin.dto.response.AdminLoginResponseDto;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminResponseDto;
 import com.qwerty.nexus.domain.management.organization.entity.OrganizationEntity;
 import com.qwerty.nexus.domain.management.organization.repository.OrganizationRepository;
@@ -227,15 +228,39 @@ public class AdminService {
      * @param command
      * @return
      */
-    public Result<AdminResponseDto> login(AdminLoginCommand command) {
-        // jwt 검증은 필터에서 하면 되니까 놔두고
-        // 검증이 끝났으면 accesstoken 보내주면 끝일듯
+    public Result<AdminLoginResponseDto> login(AdminLoginCommand command) {
+        if (command.getLoginId() == null || command.getLoginId().isBlank()
+                || command.getLoginPw() == null || command.getLoginPw().isBlank()) {
+            return Result.Failure.of("로그인 아이디 또는 비밀번호가 누락되었습니다.", ErrorCode.INVALID_REQUEST.getCode());
+        }
+
+        Optional<AdminEntity> adminOptional = repository.findByLoginId(command.getLoginId());
+
+        if (adminOptional.isEmpty()) {
+            return Result.Failure.of("관리자 계정이 존재하지 않습니다.", ErrorCode.USER_NOT_FOUND.getCode());
+        }
+
+        AdminEntity admin = adminOptional.get();
+
+        if ("Y".equalsIgnoreCase(admin.getIsDel())) {
+            return Result.Failure.of("삭제된 관리자 계정입니다.", ErrorCode.ACCOUNT_DISABLED.getCode());
+        }
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(command.getLoginPw(), admin.getLoginPw())) {
+            return Result.Failure.of("아이디 또는 비밀번호가 올바르지 않습니다.", ErrorCode.INVALID_CREDENTIALS.getCode());
+        }
+
         JwtTokenGenerationData jwtData = JwtTokenGenerationData.builder()
-                .email("email")
+                .socialId(String.valueOf(admin.getAdminId()))
+                .email(admin.getAdminEmail())
                 .build();
 
-        jwtUtil.generateAdminAccessToken(jwtData);
+        String accessToken = jwtUtil.generateAdminAccessToken(jwtData);
+        String refreshToken = jwtUtil.generateAdminRefreshToken(jwtData);
 
-        return Result.Success.of(null, "관리자 로그인 완료");
+        AdminLoginResponseDto response = AdminLoginResponseDto.of(admin, accessToken, refreshToken);
+
+        return Result.Success.of(response, "관리자 로그인 완료");
     }
 }

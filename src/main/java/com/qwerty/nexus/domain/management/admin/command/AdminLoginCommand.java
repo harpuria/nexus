@@ -7,7 +7,13 @@ import lombok.Getter;
 @Getter
 @Builder
 public class AdminLoginCommand {
+    private final String loginId;
+    private final String loginPw;
+
     public static AdminLoginCommand from(AdminLoginRequestDto dto){
-        return AdminLoginCommand.builder().build();
+        return AdminLoginCommand.builder()
+                .loginId(dto.getLoginId())
+                .loginPw(dto.getLoginPw())
+                .build();
     }
 }
