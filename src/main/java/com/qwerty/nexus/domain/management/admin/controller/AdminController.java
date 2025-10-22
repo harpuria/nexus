@@ -127,7 +127,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("/login")
-    @Operation(summary = "관리자 로그인 (개발중)")
+    @Operation(summary = "관리자 로그인")
     public ResponseEntity<ApiResponse<AdminLoginResponseDto>> login(@RequestBody AdminLoginRequestDto dto){
         Result<AdminLoginResponseDto> result = service.login(AdminLoginCommand.from(dto));
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
@@ -139,7 +139,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("/logout")
-    @Operation(summary = "관리자 로그아웃 (개발중)")
+    @Operation(summary = "관리자 로그아웃")
     public ResponseEntity<ApiResponse<Void>> logout(@RequestBody AdminLogoutRequestDto dto){
         Result<Void> result = service.logout(AdminLogoutCommand.from(dto));
 

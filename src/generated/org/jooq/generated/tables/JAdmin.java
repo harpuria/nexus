@@ -62,7 +62,7 @@ public class JAdmin extends TableImpl<AdminRecord> {
     /**
      * The column <code>nexus.ADMIN.ADMIN_ID</code>. ADMIN 테이블 기본키 (PK)
      */
-    public final TableField<AdminRecord, Integer> ADMIN_ID = createField(DSL.name("ADMIN_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"ADMIN_ADMIN_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "ADMIN 테이블 기본키 (PK)");
+    public final TableField<AdminRecord, Integer> ADMIN_ID = createField(DSL.name("ADMIN_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"ADMIN_ADMIN_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "ADMIN 테이블 기본키 (PK)");
 
     /**
      * The column <code>nexus.ADMIN.ORG_ID</code>. 관리자 소속 (FK)

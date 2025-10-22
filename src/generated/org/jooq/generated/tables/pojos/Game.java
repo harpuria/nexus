@@ -25,6 +25,7 @@ public class Game implements Serializable {
     private String googleClientId;
     private String googleClientSecret;
     private String status;
+    private String version;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;
@@ -42,6 +43,7 @@ public class Game implements Serializable {
         this.googleClientId = value.googleClientId;
         this.googleClientSecret = value.googleClientSecret;
         this.status = value.status;
+        this.version = value.version;
         this.createdAt = value.createdAt;
         this.createdBy = value.createdBy;
         this.updatedAt = value.updatedAt;
@@ -58,6 +60,7 @@ public class Game implements Serializable {
         String googleClientId,
         String googleClientSecret,
         String status,
+        String version,
         OffsetDateTime createdAt,
         String createdBy,
         OffsetDateTime updatedAt,
@@ -72,6 +75,7 @@ public class Game implements Serializable {
         this.googleClientId = googleClientId;
         this.googleClientSecret = googleClientSecret;
         this.status = status;
+        this.version = version;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.updatedAt = updatedAt;
@@ -198,6 +202,21 @@ public class Game implements Serializable {
      */
     public Game setStatus(String status) {
         this.status = status;
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.GAME.VERSION</code>. 현재 게임 버전
+     */
+    public String getVersion() {
+        return this.version;
+    }
+
+    /**
+     * Setter for <code>nexus.GAME.VERSION</code>. 현재 게임 버전
+     */
+    public Game setVersion(String version) {
+        this.version = version;
         return this;
     }
 
@@ -333,6 +352,12 @@ public class Game implements Serializable {
         }
         else if (!this.status.equals(other.status))
             return false;
+        if (this.version == null) {
+            if (other.version != null)
+                return false;
+        }
+        else if (!this.version.equals(other.version))
+            return false;
         if (this.createdAt == null) {
             if (other.createdAt != null)
                 return false;
@@ -378,6 +403,7 @@ public class Game implements Serializable {
         result = prime * result + ((this.googleClientId == null) ? 0 : this.googleClientId.hashCode());
         result = prime * result + ((this.googleClientSecret == null) ? 0 : this.googleClientSecret.hashCode());
         result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.version == null) ? 0 : this.version.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
@@ -398,6 +424,7 @@ public class Game implements Serializable {
         sb.append(", ").append(googleClientId);
         sb.append(", ").append(googleClientSecret);
         sb.append(", ").append(status);
+        sb.append(", ").append(version);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(createdBy);
         sb.append(", ").append(updatedAt);

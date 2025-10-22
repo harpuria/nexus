@@ -61,7 +61,7 @@ public class JCoupon extends TableImpl<CouponRecord> {
     /**
      * The column <code>nexus.COUPON.COUPON_ID</code>. 쿠폰 아이디 (PK)
      */
-    public final TableField<CouponRecord, Integer> COUPON_ID = createField(DSL.name("COUPON_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"COUPON_COUPON_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "쿠폰 아이디 (PK)");
+    public final TableField<CouponRecord, Integer> COUPON_ID = createField(DSL.name("COUPON_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"COUPON_COUPON_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "쿠폰 아이디 (PK)");
 
     /**
      * The column <code>nexus.COUPON.GAME_ID</code>. 게임 아이디 (FK)

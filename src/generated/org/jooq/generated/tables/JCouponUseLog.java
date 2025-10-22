@@ -60,7 +60,7 @@ public class JCouponUseLog extends TableImpl<CouponUseLogRecord> {
     /**
      * The column <code>nexus.COUPON_USE_LOG.LOG_ID</code>. 쿠폰 사용 로그 아이디 (PK)
      */
-    public final TableField<CouponUseLogRecord, Integer> LOG_ID = createField(DSL.name("LOG_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"COUPON_USE_LOG_LOG_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "쿠폰 사용 로그 아이디 (PK)");
+    public final TableField<CouponUseLogRecord, Integer> LOG_ID = createField(DSL.name("LOG_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"COUPON_USE_LOG_LOG_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "쿠폰 사용 로그 아이디 (PK)");
 
     /**
      * The column <code>nexus.COUPON_USE_LOG.COUPON_ID</code>. 쿠폰 아이디 (FK)

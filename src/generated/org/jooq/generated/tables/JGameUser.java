@@ -64,7 +64,7 @@ public class JGameUser extends TableImpl<GameUserRecord> {
     /**
      * The column <code>nexus.GAME_USER.USER_ID</code>. GAME_USER 테이블 기본키(PK)
      */
-    public final TableField<GameUserRecord, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"GAME_USER_USER_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME_USER 테이블 기본키(PK)");
+    public final TableField<GameUserRecord, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"GAME_USER_USER_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME_USER 테이블 기본키(PK)");
 
     /**
      * The column <code>nexus.GAME_USER.GAME_ID</code>. 해당 유저가 속한 게임 ID (FK)

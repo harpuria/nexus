@@ -68,7 +68,7 @@ public class JGame extends TableImpl<GameRecord> {
     /**
      * The column <code>nexus.GAME.GAME_ID</code>. GAME 테이블 기본키 (PK)
      */
-    public final TableField<GameRecord, Integer> GAME_ID = createField(DSL.name("GAME_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"GAME_GAME_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME 테이블 기본키 (PK)");
+    public final TableField<GameRecord, Integer> GAME_ID = createField(DSL.name("GAME_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"GAME_GAME_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME 테이블 기본키 (PK)");
 
     /**
      * The column <code>nexus.GAME.ORG_ID</code>. 게임 소속 (FK)
@@ -105,6 +105,11 @@ public class JGame extends TableImpl<GameRecord> {
      * The column <code>nexus.GAME.STATUS</code>. 게임 상태 값
      */
     public final TableField<GameRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'STOPPED'::character varying"), SQLDataType.VARCHAR)), this, "게임 상태 값");
+
+    /**
+     * The column <code>nexus.GAME.VERSION</code>. 현재 게임 버전
+     */
+    public final TableField<GameRecord, String> VERSION = createField(DSL.name("VERSION"), SQLDataType.VARCHAR(255).nullable(false), this, "현재 게임 버전");
 
     /**
      * The column <code>nexus.GAME.CREATED_AT</code>. 데이터 생성 날짜

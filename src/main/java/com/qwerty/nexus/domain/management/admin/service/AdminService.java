@@ -264,4 +264,43 @@ public class AdminService {
 
         return Result.Success.of(response, "관리자 로그인 완료");
     }
+
+    /**
+     * 관리자 로그아웃
+     * @param command
+     * @return
+     */
+    public Result<Void> logout(AdminLogoutCommand command) {
+        String accessToken = command.getAccessToken();
+        String refreshToken = command.getRefreshToken();
+
+        if (!hasText(accessToken) && !hasText(refreshToken)) {
+            return Result.Failure.of("로그아웃에 필요한 토큰 정보가 없습니다.", ErrorCode.INVALID_REQUEST.getCode());
+        }
+
+        try {
+            if (hasText(accessToken)) {
+                if (!jwtUtil.validateToken(accessToken)) {
+                    return Result.Failure.of("유효하지 않은 액세스 토큰입니다.", ErrorCode.INVALID_TOKEN.getCode());
+                }
+                adminTokenBlacklist.blacklist(accessToken, jwtUtil.getTimeUntilExpiration(accessToken));
+            }
+
+            if (hasText(refreshToken)) {
+                if (!jwtUtil.validateToken(refreshToken)) {
+                    return Result.Failure.of("유효하지 않은 리프레시 토큰입니다.", ErrorCode.INVALID_TOKEN.getCode());
+                }
+                adminTokenBlacklist.blacklist(refreshToken, jwtUtil.getTimeUntilExpiration(refreshToken));
+            }
+        } catch (Exception e) {
+            log.error("관리자 로그아웃 처리 중 오류가 발생했습니다.", e);
+            return Result.Failure.of("로그아웃 처리 중 오류가 발생했습니다.", ErrorCode.INTERNAL_ERROR.getCode());
+        }
+
+        return Result.Success.of(null, "관리자 로그아웃 완료.");
+    }
+
+    private boolean hasText(String value) {
+        return value != null && !value.trim().isEmpty();
+    }
 }

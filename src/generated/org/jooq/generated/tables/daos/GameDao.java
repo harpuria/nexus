@@ -176,6 +176,21 @@ public class GameDao extends DAOImpl<GameRecord, Game, Integer> {
     }
 
     /**
+     * Fetch records that have <code>VERSION BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<Game> fetchRangeOfJVersion(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JGame.GAME.VERSION, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>VERSION IN (values)</code>
+     */
+    public List<Game> fetchByJVersion(String... values) {
+        return fetch(JGame.GAME.VERSION, values);
+    }
+
+    /**
      * Fetch records that have <code>CREATED_AT BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */

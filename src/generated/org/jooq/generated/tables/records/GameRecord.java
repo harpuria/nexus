@@ -144,10 +144,25 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
     }
 
     /**
+     * Setter for <code>nexus.GAME.VERSION</code>. 현재 게임 버전
+     */
+    public GameRecord setVersion(String value) {
+        set(8, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.GAME.VERSION</code>. 현재 게임 버전
+     */
+    public String getVersion() {
+        return (String) get(8);
+    }
+
+    /**
      * Setter for <code>nexus.GAME.CREATED_AT</code>. 데이터 생성 날짜
      */
     public GameRecord setCreatedAt(OffsetDateTime value) {
-        set(8, value);
+        set(9, value);
         return this;
     }
 
@@ -155,14 +170,14 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
      * Getter for <code>nexus.GAME.CREATED_AT</code>. 데이터 생성 날짜
      */
     public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(8);
+        return (OffsetDateTime) get(9);
     }
 
     /**
      * Setter for <code>nexus.GAME.CREATED_BY</code>. 데이터 생성자 ID
      */
     public GameRecord setCreatedBy(String value) {
-        set(9, value);
+        set(10, value);
         return this;
     }
 
@@ -170,14 +185,14 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
      * Getter for <code>nexus.GAME.CREATED_BY</code>. 데이터 생성자 ID
      */
     public String getCreatedBy() {
-        return (String) get(9);
+        return (String) get(10);
     }
 
     /**
      * Setter for <code>nexus.GAME.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public GameRecord setUpdatedAt(OffsetDateTime value) {
-        set(10, value);
+        set(11, value);
         return this;
     }
 
@@ -185,14 +200,14 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
      * Getter for <code>nexus.GAME.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(10);
+        return (OffsetDateTime) get(11);
     }
 
     /**
      * Setter for <code>nexus.GAME.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public GameRecord setUpdatedBy(String value) {
-        set(11, value);
+        set(12, value);
         return this;
     }
 
@@ -200,14 +215,14 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
      * Getter for <code>nexus.GAME.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public String getUpdatedBy() {
-        return (String) get(11);
+        return (String) get(12);
     }
 
     /**
      * Setter for <code>nexus.GAME.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public GameRecord setIsDel(String value) {
-        set(12, value);
+        set(13, value);
         return this;
     }
 
@@ -215,7 +230,7 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
      * Getter for <code>nexus.GAME.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public String getIsDel() {
-        return (String) get(12);
+        return (String) get(13);
     }
 
     // -------------------------------------------------------------------------
@@ -241,7 +256,7 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
     /**
      * Create a detached, initialised GameRecord
      */
-    public GameRecord(Integer gameId, Integer orgId, String name, UUID clientAppId, UUID signatureKey, String googleClientId, String googleClientSecret, String status, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public GameRecord(Integer gameId, Integer orgId, String name, UUID clientAppId, UUID signatureKey, String googleClientId, String googleClientSecret, String status, String version, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JGame.GAME);
 
         setGameId(gameId);
@@ -252,6 +267,7 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
         setGoogleClientId(googleClientId);
         setGoogleClientSecret(googleClientSecret);
         setStatus(status);
+        setVersion(version);
         setCreatedAt(createdAt);
         setCreatedBy(createdBy);
         setUpdatedAt(updatedAt);
@@ -275,6 +291,7 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
             setGoogleClientId(value.getGoogleClientId());
             setGoogleClientSecret(value.getGoogleClientSecret());
             setStatus(value.getStatus());
+            setVersion(value.getVersion());
             setCreatedAt(value.getCreatedAt());
             setCreatedBy(value.getCreatedBy());
             setUpdatedAt(value.getUpdatedAt());

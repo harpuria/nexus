@@ -64,18 +64,18 @@ jooq {
 	configuration {
 		jdbc {
 			driver = "org.postgresql.Driver"
-			url = "jdbc:postgresql://localhost:5432/nexus"
+			url = "jdbc:postgresql://ep-twilight-resonance-a1vz1r5w-pooler.ap-southeast-1.aws.neon.tech:5432/neondb"
 			user = "${user}"
 			password = "${password}"
 
 			properties {
 				property {
 					key = "user"
-					value = "postgres"
+					value = "neondb_owner"
 				}
 				property {
 					key = "password"
-					value = "root"
+					value = "npg_niBza6Jb2HfC"
 				}
 			}
 		}

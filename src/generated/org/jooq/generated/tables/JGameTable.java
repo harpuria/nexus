@@ -60,7 +60,7 @@ public class JGameTable extends TableImpl<GameTableRecord> {
     /**
      * The column <code>nexus.GAME_TABLE.TABLE_ID</code>. GAME_TABLE 테이블 기본키(PK)
      */
-    public final TableField<GameTableRecord, Integer> TABLE_ID = createField(DSL.name("TABLE_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"GAME_TABLE_TABLE_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME_TABLE 테이블 기본키(PK)");
+    public final TableField<GameTableRecord, Integer> TABLE_ID = createField(DSL.name("TABLE_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"GAME_TABLE_TABLE_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME_TABLE 테이블 기본키(PK)");
 
     /**
      * The column <code>nexus.GAME_TABLE.GAME_ID</code>. 해당 테이블을 사용하는 게임 ID (FK)
