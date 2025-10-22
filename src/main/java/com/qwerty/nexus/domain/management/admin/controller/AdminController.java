@@ -4,6 +4,7 @@ import com.qwerty.nexus.domain.management.admin.AdminRole;
 import com.qwerty.nexus.domain.management.admin.command.*;
 import com.qwerty.nexus.domain.management.admin.dto.request.*;
 import com.qwerty.nexus.domain.management.admin.service.AdminService;
+import com.qwerty.nexus.domain.management.admin.dto.response.AdminLoginResponseDto;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminResponseDto;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
@@ -127,8 +128,8 @@ public class AdminController {
      */
     @PostMapping("/login")
     @Operation(summary = "관리자 로그인 (개발중)")
-    public ResponseEntity<ApiResponse<AdminResponseDto>> login(@RequestBody AdminLoginRequestDto dto){
-        Result<AdminResponseDto> result = service.login(AdminLoginCommand.from(dto));
+    public ResponseEntity<ApiResponse<AdminLoginResponseDto>> login(@RequestBody AdminLoginRequestDto dto){
+        Result<AdminLoginResponseDto> result = service.login(AdminLoginCommand.from(dto));
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
