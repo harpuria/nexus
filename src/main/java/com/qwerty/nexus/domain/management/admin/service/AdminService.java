@@ -228,14 +228,26 @@ public class AdminService {
      * @return
      */
     public Result<AdminResponseDto> login(AdminLoginCommand command) {
-        // jwt 검증은 필터에서 하면 되니까 놔두고
-        // 검증이 끝났으면 accesstoken 보내주면 끝일듯
+        AdminEntity adminEntity = AdminEntity.builder()
+                .loginId(command.getLoginId())
+                .build();
+
+        AdminEntity selectedAdmin = repository.selectOneAdmin(adminEntity);
+        if(selectedAdmin == null) {
+            return Result.Failure.of("관리자 정보가 존재하지 않음.", ErrorCode.USER_NOT_FOUND.getCode());
+        }
+
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if(!passwordEncoder.matches(command.getLoginPw(), selectedAdmin.getLoginPw())) {
+            return Result.Failure.of("아이디 또는 비밀번호가 올바르지 않음.", ErrorCode.INVALID_CREDENTIALS.getCode());
+        }
+
         JwtTokenGenerationData jwtData = JwtTokenGenerationData.builder()
-                .email("email")
+                .email(selectedAdmin.getAdminEmail())
                 .build();
 
         jwtUtil.generateAdminAccessToken(jwtData);
 
-        return Result.Success.of(null, "관리자 로그인 완료");
+        return Result.Success.of(AdminResponseDto.from(selectedAdmin), "관리자 로그인 완료");
     }
 }
