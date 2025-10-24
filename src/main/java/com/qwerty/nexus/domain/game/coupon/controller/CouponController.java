@@ -20,6 +20,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * TODO : 쿠폰 관련 작업
+ * 쿠폰 관련된 작업은 Codex 에서 생성한 상태임.
+ * 다른 작업들 한 뒤에 추후 세세한 부분 수정할 필요 있음.
+ */
+
 @Log4j2
 @RestController
 @RequestMapping(ApiConstants.Path.COUPON_PATH)
