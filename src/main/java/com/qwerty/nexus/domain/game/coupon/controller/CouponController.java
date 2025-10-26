@@ -34,6 +34,11 @@ import org.springframework.web.bind.annotation.*;
 public class CouponController {
     private final CouponService couponService;
 
+    /**
+     * 쿠폰 생성
+     * @param dto
+     * @return
+     */
     @PostMapping
     @Operation(summary = "쿠폰 생성")
     public ResponseEntity<ApiResponse<Void>> create(@RequestBody CouponCreateRequestDto dto) {
@@ -41,6 +46,12 @@ public class CouponController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
+    /**
+     * 쿠폰 수정
+     * @param couponId
+     * @param dto
+     * @return
+     */
     @PatchMapping("/{couponId}")
     @Operation(summary = "쿠폰 수정")
     public ResponseEntity<ApiResponse<Void>> update(@PathVariable int couponId, @RequestBody CouponUpdateRequestDto dto) {
@@ -49,10 +60,16 @@ public class CouponController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
-    @PostMapping("/{code}/grant")
+    /**
+     * 쿠폰 지급
+     * @param dto
+     * @return
+     * @throws JsonProcessingException
+     */
+    @PostMapping("/grant")
     @Operation(summary = "쿠폰 지급")
-    public ResponseEntity<ApiResponse<Void>> grant(@PathVariable String code, @RequestBody CouponGrantRequestDto dto) throws JsonProcessingException {
-        Result<Void> result = couponService.grant(CouponGrantCommand.from(code, dto));
+    public ResponseEntity<ApiResponse<Void>> grant(@RequestBody CouponGrantRequestDto dto) throws JsonProcessingException {
+        Result<Void> result = couponService.grant(CouponGrantCommand.from(dto));
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 }
