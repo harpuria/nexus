@@ -60,7 +60,7 @@ public class JUserCurrency extends TableImpl<UserCurrencyRecord> {
     /**
      * The column <code>nexus.USER_CURRENCY.USER_CURRENCY_ID</code>.
      */
-    public final TableField<UserCurrencyRecord, Integer> USER_CURRENCY_ID = createField(DSL.name("USER_CURRENCY_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"USER_CURRENCY_USER_CURRENCY_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "");
+    public final TableField<UserCurrencyRecord, Integer> USER_CURRENCY_ID = createField(DSL.name("USER_CURRENCY_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"USER_CURRENCY_USER_CURRENCY_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>nexus.USER_CURRENCY.CURRENCY_ID</code>. CURRENCY 테이블 아이디

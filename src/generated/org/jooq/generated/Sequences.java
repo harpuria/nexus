@@ -51,6 +51,11 @@ public class Sequences {
     public static final Sequence<Integer> GAME_USER_USER_ID_SEQ = Internal.createSequence("GAME_USER_USER_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 
     /**
+     * The sequence <code>nexus.MAIL_MAIL_ID_seq</code>
+     */
+    public static final Sequence<Integer> MAIL_MAIL_ID_SEQ = Internal.createSequence("MAIL_MAIL_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
      * The sequence <code>nexus.ORGANIZATION_ORG_ID_seq</code>
      */
     public static final Sequence<Integer> ORGANIZATION_ORG_ID_SEQ = Internal.createSequence("ORGANIZATION_ORG_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
@@ -74,4 +79,9 @@ public class Sequences {
      * The sequence <code>nexus.USER_CURRENCY_USER_CURRENCY_ID_seq</code>
      */
     public static final Sequence<Integer> USER_CURRENCY_USER_CURRENCY_ID_SEQ = Internal.createSequence("USER_CURRENCY_USER_CURRENCY_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
+     * The sequence <code>nexus.USER_MAIL_USER_MAIL_ID_seq</code>
+     */
+    public static final Sequence<Integer> USER_MAIL_USER_MAIL_ID_SEQ = Internal.createSequence("USER_MAIL_USER_MAIL_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 }

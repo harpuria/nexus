@@ -18,11 +18,13 @@ import org.jooq.generated.tables.JCurrency;
 import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.JGameTable;
 import org.jooq.generated.tables.JGameUser;
+import org.jooq.generated.tables.JMail;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JProduct;
 import org.jooq.generated.tables.JTableColumn;
 import org.jooq.generated.tables.JUserColumnData;
 import org.jooq.generated.tables.JUserCurrency;
+import org.jooq.generated.tables.JUserMail;
 import org.jooq.impl.SchemaImpl;
 
 
@@ -80,6 +82,11 @@ public class JNexus extends SchemaImpl {
     public final JGameUser GAME_USER = JGameUser.GAME_USER;
 
     /**
+     * The table <code>nexus.MAIL</code>.
+     */
+    public final JMail MAIL = JMail.MAIL;
+
+    /**
      * The table <code>nexus.ORGANIZATION</code>.
      */
     public final JOrganization ORGANIZATION = JOrganization.ORGANIZATION;
@@ -105,6 +112,11 @@ public class JNexus extends SchemaImpl {
     public final JUserCurrency USER_CURRENCY = JUserCurrency.USER_CURRENCY;
 
     /**
+     * The table <code>nexus.USER_MAIL</code>.
+     */
+    public final JUserMail USER_MAIL = JUserMail.USER_MAIL;
+
+    /**
      * No further instances allowed
      */
     private JNexus() {
@@ -127,11 +139,13 @@ public class JNexus extends SchemaImpl {
             Sequences.GAME_GAME_ID_SEQ,
             Sequences.GAME_TABLE_TABLE_ID_SEQ,
             Sequences.GAME_USER_USER_ID_SEQ,
+            Sequences.MAIL_MAIL_ID_SEQ,
             Sequences.ORGANIZATION_ORG_ID_SEQ,
             Sequences.PRODUCT_PRODUCT_ID_SEQ,
             Sequences.TABLE_COLUMN_COLUMN_ID_SEQ,
             Sequences.USER_COLUMN_DATA_USER_COLUMN_ID_SEQ,
-            Sequences.USER_CURRENCY_USER_CURRENCY_ID_SEQ
+            Sequences.USER_CURRENCY_USER_CURRENCY_ID_SEQ,
+            Sequences.USER_MAIL_USER_MAIL_ID_SEQ
         );
     }
 
@@ -146,11 +160,13 @@ public class JNexus extends SchemaImpl {
             JGame.GAME,
             JGameTable.GAME_TABLE,
             JGameUser.GAME_USER,
+            JMail.MAIL,
             JOrganization.ORGANIZATION,
             JProduct.PRODUCT,
             JTableColumn.TABLE_COLUMN,
             JUserColumnData.USER_COLUMN_DATA,
-            JUserCurrency.USER_CURRENCY
+            JUserCurrency.USER_CURRENCY,
+            JUserMail.USER_MAIL
         );
     }
 }

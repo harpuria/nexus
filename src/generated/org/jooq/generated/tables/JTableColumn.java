@@ -63,7 +63,7 @@ public class JTableColumn extends TableImpl<TableColumnRecord> {
      * The column <code>nexus.TABLE_COLUMN.COLUMN_ID</code>. TABLE_COLUMN 테이블
      * 기본키 (PK)
      */
-    public final TableField<TableColumnRecord, Integer> COLUMN_ID = createField(DSL.name("COLUMN_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"TABLE_COLUMN_COLUMN_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "TABLE_COLUMN 테이블 기본키 (PK)");
+    public final TableField<TableColumnRecord, Integer> COLUMN_ID = createField(DSL.name("COLUMN_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"TABLE_COLUMN_COLUMN_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "TABLE_COLUMN 테이블 기본키 (PK)");
 
     /**
      * The column <code>nexus.TABLE_COLUMN.TABLE_ID</code>. GAME_TABLE 기본키 (PK)

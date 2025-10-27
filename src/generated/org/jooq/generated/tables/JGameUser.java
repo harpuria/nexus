@@ -33,6 +33,7 @@ import org.jooq.generated.tables.JCouponUseLog.CouponUseLogPath;
 import org.jooq.generated.tables.JGame.GamePath;
 import org.jooq.generated.tables.JUserColumnData.UserColumnDataPath;
 import org.jooq.generated.tables.JUserCurrency.UserCurrencyPath;
+import org.jooq.generated.tables.JUserMail.UserMailPath;
 import org.jooq.generated.tables.records.GameUserRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
@@ -64,7 +65,7 @@ public class JGameUser extends TableImpl<GameUserRecord> {
     /**
      * The column <code>nexus.GAME_USER.USER_ID</code>. GAME_USER 테이블 기본키(PK)
      */
-    public final TableField<GameUserRecord, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"GAME_USER_USER_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME_USER 테이블 기본키(PK)");
+    public final TableField<GameUserRecord, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"GAME_USER_USER_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME_USER 테이블 기본키(PK)");
 
     /**
      * The column <code>nexus.GAME_USER.GAME_ID</code>. 해당 유저가 속한 게임 ID (FK)
@@ -284,6 +285,19 @@ public class JGameUser extends TableImpl<GameUserRecord> {
             _userCurrency = new UserCurrencyPath(this, null, Keys.USER_CURRENCY__USER_CURRENCY_USER_ID_FOREIGN.getInverseKey());
 
         return _userCurrency;
+    }
+
+    private transient UserMailPath _userMail;
+
+    /**
+     * Get the implicit to-many join path to the <code>nexus.USER_MAIL</code>
+     * table
+     */
+    public UserMailPath userMail() {
+        if (_userMail == null)
+            _userMail = new UserMailPath(this, null, Keys.USER_MAIL__USER_MAIL_USER_ID_FOREIGN.getInverseKey());
+
+        return _userMail;
     }
 
     @Override

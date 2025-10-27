@@ -35,6 +35,7 @@ import org.jooq.generated.tables.JCoupon.CouponPath;
 import org.jooq.generated.tables.JCurrency.CurrencyPath;
 import org.jooq.generated.tables.JGameTable.GameTablePath;
 import org.jooq.generated.tables.JGameUser.GameUserPath;
+import org.jooq.generated.tables.JMail.MailPath;
 import org.jooq.generated.tables.JOrganization.OrganizationPath;
 import org.jooq.generated.tables.JProduct.ProductPath;
 import org.jooq.generated.tables.records.GameRecord;
@@ -68,7 +69,7 @@ public class JGame extends TableImpl<GameRecord> {
     /**
      * The column <code>nexus.GAME.GAME_ID</code>. GAME 테이블 기본키 (PK)
      */
-    public final TableField<GameRecord, Integer> GAME_ID = createField(DSL.name("GAME_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"GAME_GAME_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME 테이블 기본키 (PK)");
+    public final TableField<GameRecord, Integer> GAME_ID = createField(DSL.name("GAME_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"GAME_GAME_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME 테이블 기본키 (PK)");
 
     /**
      * The column <code>nexus.GAME.ORG_ID</code>. 게임 소속 (FK)
@@ -286,6 +287,18 @@ public class JGame extends TableImpl<GameRecord> {
             _gameUser = new GameUserPath(this, null, Keys.GAME_USER__GAME_USER_GAME_ID_FOREIGN.getInverseKey());
 
         return _gameUser;
+    }
+
+    private transient MailPath _mail;
+
+    /**
+     * Get the implicit to-many join path to the <code>nexus.MAIL</code> table
+     */
+    public MailPath mail() {
+        if (_mail == null)
+            _mail = new MailPath(this, null, Keys.MAIL__MAIL_GAME_ID_FOREIGN.getInverseKey());
+
+        return _mail;
     }
 
     private transient ProductPath _product;

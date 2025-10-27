@@ -61,7 +61,7 @@ public class JUserColumnData extends TableImpl<UserColumnDataRecord> {
      * The column <code>nexus.USER_COLUMN_DATA.USER_COLUMN_ID</code>.
      * USER_COLUNM_DATA 테이블 기본키 (PK)
      */
-    public final TableField<UserColumnDataRecord, Integer> USER_COLUMN_ID = createField(DSL.name("USER_COLUMN_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"USER_COLUMN_DATA_USER_COLUMN_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "USER_COLUNM_DATA 테이블 기본키 (PK)");
+    public final TableField<UserColumnDataRecord, Integer> USER_COLUMN_ID = createField(DSL.name("USER_COLUMN_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"USER_COLUMN_DATA_USER_COLUMN_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "USER_COLUNM_DATA 테이블 기본키 (PK)");
 
     /**
      * The column <code>nexus.USER_COLUMN_DATA.USER_ID</code>. GAME_USER 기본키

@@ -59,7 +59,7 @@ public class JOrganization extends TableImpl<OrganizationRecord> {
      * The column <code>nexus.ORGANIZATION.ORG_ID</code>. ORGANIZATION 테이블 기본키
      * (PK)
      */
-    public final TableField<OrganizationRecord, Integer> ORG_ID = createField(DSL.name("ORG_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"ORGANIZATION_ORG_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "ORGANIZATION 테이블 기본키 (PK)");
+    public final TableField<OrganizationRecord, Integer> ORG_ID = createField(DSL.name("ORG_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"ORGANIZATION_ORG_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "ORGANIZATION 테이블 기본키 (PK)");
 
     /**
      * The column <code>nexus.ORGANIZATION.ORG_NM</code>. 단체명

@@ -12,11 +12,13 @@ import org.jooq.generated.tables.JCurrency;
 import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.JGameTable;
 import org.jooq.generated.tables.JGameUser;
+import org.jooq.generated.tables.JMail;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JProduct;
 import org.jooq.generated.tables.JTableColumn;
 import org.jooq.generated.tables.JUserColumnData;
 import org.jooq.generated.tables.JUserCurrency;
+import org.jooq.generated.tables.JUserMail;
 
 
 /**
@@ -66,6 +68,11 @@ public class Tables {
     public static final JGameUser GAME_USER = JGameUser.GAME_USER;
 
     /**
+     * The table <code>nexus.MAIL</code>.
+     */
+    public static final JMail MAIL = JMail.MAIL;
+
+    /**
      * The table <code>nexus.ORGANIZATION</code>.
      */
     public static final JOrganization ORGANIZATION = JOrganization.ORGANIZATION;
@@ -89,4 +96,9 @@ public class Tables {
      * The table <code>nexus.USER_CURRENCY</code>.
      */
     public static final JUserCurrency USER_CURRENCY = JUserCurrency.USER_CURRENCY;
+
+    /**
+     * The table <code>nexus.USER_MAIL</code>.
+     */
+    public static final JUserMail USER_MAIL = JUserMail.USER_MAIL;
 }
