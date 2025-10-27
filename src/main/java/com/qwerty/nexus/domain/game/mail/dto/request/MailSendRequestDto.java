@@ -1,6 +1,6 @@
-package com.qwerty.nexus.domain.mail.dto.request;
+package com.qwerty.nexus.domain.game.mail.dto.request;
 
-import com.qwerty.nexus.domain.mail.MailTargetType;
+import com.qwerty.nexus.domain.game.mail.MailTargetType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

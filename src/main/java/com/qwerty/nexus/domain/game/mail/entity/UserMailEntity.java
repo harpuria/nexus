@@ -1,6 +1,6 @@
-package com.qwerty.nexus.domain.mail.entity;
+package com.qwerty.nexus.domain.game.mail.entity;
 
-import com.qwerty.nexus.domain.mail.UserMailStatus;
+import com.qwerty.nexus.domain.game.mail.UserMailStatus;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.Accessors;

@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.mail.entity;
+package com.qwerty.nexus.domain.game.mail.entity;
 
 import lombok.Builder;
 import lombok.Getter;

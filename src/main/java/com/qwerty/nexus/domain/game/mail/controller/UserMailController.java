@@ -1,11 +1,11 @@
-package com.qwerty.nexus.domain.mail.controller;
+package com.qwerty.nexus.domain.game.mail.controller;
 
-import com.qwerty.nexus.domain.mail.command.UserMailDeleteCommand;
-import com.qwerty.nexus.domain.mail.command.UserMailListCommand;
-import com.qwerty.nexus.domain.mail.command.UserMailReadCommand;
-import com.qwerty.nexus.domain.mail.command.UserMailReceiveCommand;
-import com.qwerty.nexus.domain.mail.dto.response.UserMailResponseDto;
-import com.qwerty.nexus.domain.mail.service.UserMailService;
+import com.qwerty.nexus.domain.game.mail.command.UserMailDeleteCommand;
+import com.qwerty.nexus.domain.game.mail.command.UserMailListCommand;
+import com.qwerty.nexus.domain.game.mail.command.UserMailReadCommand;
+import com.qwerty.nexus.domain.game.mail.command.UserMailReceiveCommand;
+import com.qwerty.nexus.domain.game.mail.dto.response.UserMailResponseDto;
+import com.qwerty.nexus.domain.game.mail.service.UserMailService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.ResponseEntityUtils;

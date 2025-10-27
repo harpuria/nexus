@@ -1,13 +1,13 @@
-package com.qwerty.nexus.domain.mail.service;
+package com.qwerty.nexus.domain.game.mail.service;
 
-import com.qwerty.nexus.domain.mail.UserMailStatus;
-import com.qwerty.nexus.domain.mail.command.UserMailDeleteCommand;
-import com.qwerty.nexus.domain.mail.command.UserMailListCommand;
-import com.qwerty.nexus.domain.mail.command.UserMailReadCommand;
-import com.qwerty.nexus.domain.mail.command.UserMailReceiveCommand;
-import com.qwerty.nexus.domain.mail.dto.response.UserMailResponseDto;
-import com.qwerty.nexus.domain.mail.entity.UserMailEntity;
-import com.qwerty.nexus.domain.mail.repository.UserMailRepository;
+import com.qwerty.nexus.domain.game.mail.UserMailStatus;
+import com.qwerty.nexus.domain.game.mail.command.UserMailDeleteCommand;
+import com.qwerty.nexus.domain.game.mail.command.UserMailListCommand;
+import com.qwerty.nexus.domain.game.mail.command.UserMailReadCommand;
+import com.qwerty.nexus.domain.game.mail.command.UserMailReceiveCommand;
+import com.qwerty.nexus.domain.game.mail.dto.response.UserMailResponseDto;
+import com.qwerty.nexus.domain.game.mail.entity.UserMailEntity;
+import com.qwerty.nexus.domain.game.mail.repository.UserMailRepository;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.response.Result;

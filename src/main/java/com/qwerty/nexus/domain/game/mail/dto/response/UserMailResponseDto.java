@@ -1,7 +1,7 @@
-package com.qwerty.nexus.domain.mail.dto.response;
+package com.qwerty.nexus.domain.game.mail.dto.response;
 
-import com.qwerty.nexus.domain.mail.UserMailStatus;
-import com.qwerty.nexus.domain.mail.entity.UserMailEntity;
+import com.qwerty.nexus.domain.game.mail.UserMailStatus;
+import com.qwerty.nexus.domain.game.mail.entity.UserMailEntity;
 import lombok.Builder;
 import lombok.Getter;
 

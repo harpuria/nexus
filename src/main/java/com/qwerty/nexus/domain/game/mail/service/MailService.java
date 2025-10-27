@@ -1,15 +1,15 @@
-package com.qwerty.nexus.domain.mail.service;
+package com.qwerty.nexus.domain.game.mail.service;
 
-import com.qwerty.nexus.domain.mail.MailTargetType;
-import com.qwerty.nexus.domain.mail.UserMailStatus;
-import com.qwerty.nexus.domain.mail.command.MailSendCommand;
-import com.qwerty.nexus.domain.mail.command.MailTemplateCreateCommand;
-import com.qwerty.nexus.domain.mail.dto.response.MailSendResponseDto;
-import com.qwerty.nexus.domain.mail.dto.response.MailTemplateResponseDto;
-import com.qwerty.nexus.domain.mail.entity.MailTemplateEntity;
-import com.qwerty.nexus.domain.mail.entity.UserMailEntity;
-import com.qwerty.nexus.domain.mail.repository.MailTemplateRepository;
-import com.qwerty.nexus.domain.mail.repository.UserMailRepository;
+import com.qwerty.nexus.domain.game.mail.MailTargetType;
+import com.qwerty.nexus.domain.game.mail.UserMailStatus;
+import com.qwerty.nexus.domain.game.mail.command.MailSendCommand;
+import com.qwerty.nexus.domain.game.mail.command.MailTemplateCreateCommand;
+import com.qwerty.nexus.domain.game.mail.dto.response.MailSendResponseDto;
+import com.qwerty.nexus.domain.game.mail.dto.response.MailTemplateResponseDto;
+import com.qwerty.nexus.domain.game.mail.entity.MailTemplateEntity;
+import com.qwerty.nexus.domain.game.mail.entity.UserMailEntity;
+import com.qwerty.nexus.domain.game.mail.repository.MailTemplateRepository;
+import com.qwerty.nexus.domain.game.mail.repository.UserMailRepository;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.response.Result;

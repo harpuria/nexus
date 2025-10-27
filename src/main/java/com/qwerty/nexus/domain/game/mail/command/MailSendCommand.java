@@ -1,7 +1,7 @@
-package com.qwerty.nexus.domain.mail.command;
+package com.qwerty.nexus.domain.game.mail.command;
 
-import com.qwerty.nexus.domain.mail.MailTargetType;
-import com.qwerty.nexus.domain.mail.dto.request.MailSendRequestDto;
+import com.qwerty.nexus.domain.game.mail.MailTargetType;
+import com.qwerty.nexus.domain.game.mail.dto.request.MailSendRequestDto;
 
 import java.util.List;
 

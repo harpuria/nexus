@@ -1,6 +1,6 @@
-package com.qwerty.nexus.domain.mail.repository;
+package com.qwerty.nexus.domain.game.mail.repository;
 
-import com.qwerty.nexus.domain.mail.entity.MailTemplateEntity;
+import com.qwerty.nexus.domain.game.mail.entity.MailTemplateEntity;
 import org.springframework.stereotype.Repository;
 
 import java.time.OffsetDateTime;

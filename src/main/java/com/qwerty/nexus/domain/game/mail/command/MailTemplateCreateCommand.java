@@ -1,6 +1,6 @@
-package com.qwerty.nexus.domain.mail.command;
+package com.qwerty.nexus.domain.game.mail.command;
 
-import com.qwerty.nexus.domain.mail.dto.request.MailTemplateCreateRequestDto;
+import com.qwerty.nexus.domain.game.mail.dto.request.MailTemplateCreateRequestDto;
 
 public record MailTemplateCreateCommand(
         String title,

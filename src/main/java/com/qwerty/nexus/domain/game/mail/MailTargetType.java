@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.mail;
+package com.qwerty.nexus.domain.game.mail;
 
 /**
  * 메일 전송 범위 정의

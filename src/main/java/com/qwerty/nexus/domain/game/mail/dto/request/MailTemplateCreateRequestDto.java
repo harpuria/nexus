@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.mail.dto.request;
+package com.qwerty.nexus.domain.game.mail.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

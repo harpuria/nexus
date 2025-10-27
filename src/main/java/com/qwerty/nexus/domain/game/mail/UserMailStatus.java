@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.mail;
+package com.qwerty.nexus.domain.game.mail;
 
 /**
  * 유저 메일 상태 정의

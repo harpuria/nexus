@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.mail.dto.response;
+package com.qwerty.nexus.domain.game.mail.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
