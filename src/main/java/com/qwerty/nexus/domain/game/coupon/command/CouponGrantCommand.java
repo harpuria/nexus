@@ -11,9 +11,9 @@ public class CouponGrantCommand {
     private Integer userId;
     private String requestedBy;
 
-    public static CouponGrantCommand from(String code, CouponGrantRequestDto dto) {
+    public static CouponGrantCommand from(CouponGrantRequestDto dto) {
         return CouponGrantCommand.builder()
-                .code(code)
+                .code(dto.getCode())
                 .userId(dto.getUserId())
                 .requestedBy(dto.getRequestedBy())
                 .build();

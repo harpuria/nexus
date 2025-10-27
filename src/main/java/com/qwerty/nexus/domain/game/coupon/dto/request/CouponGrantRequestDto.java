@@ -9,5 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CouponGrantRequestDto {
     private Integer userId;
+    private String code;
     private String requestedBy;
 }
