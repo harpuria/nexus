@@ -39,6 +39,7 @@ public class GameService {
                 .status(GameStatus.STOPPED)
                 .clientAppId(UUID.randomUUID())
                 .signatureKey(UUID.randomUUID())
+                .version(command.getVersion())
                 .build();
 
         Optional<GameEntity> insertRst = Optional.ofNullable(repository.insertGame(gameEntity));
