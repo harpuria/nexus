@@ -10,6 +10,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 /**
  * SecurityConfig
@@ -31,6 +36,7 @@ public class SecurityConfig {
 
         http.csrf(csrf -> csrf
                         .disable()) // CSRF 보호기능 비활성화 (REST API 는 JWT 토큰 사용하기 때문)
+            .cors(cors -> cors.configurationSource(corsConfigurationSource())) // CORS 설정 추가
             .sessionManagement(session -> session
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 서버에서 세션 생성하지 않는 정책 (무상태)
             .authorizeHttpRequests(auth -> auth
@@ -45,5 +51,27 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.setAllowedOriginPatterns(Arrays.asList("*")); // 모든 origin 허용 (개발용)
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+
+        /* 추후 운영환경에서는 허용하는 도메인만 아래에 입력하면 됨
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://localhost:3000",
+                "https://yourdomain.com"
+        ));
+         */
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }
