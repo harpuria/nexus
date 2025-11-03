@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.pojos;
 
 
+import com.qwerty.nexus.domain.management.admin.AdminRole;
+
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 
@@ -21,7 +23,7 @@ public class Admin implements Serializable {
     private Integer gameId;
     private String loginId;
     private String loginPw;
-    private String adminRole;
+    private AdminRole adminRole;
     private String adminEmail;
     private String adminNm;
     private OffsetDateTime createdAt;
@@ -54,7 +56,7 @@ public class Admin implements Serializable {
         Integer gameId,
         String loginId,
         String loginPw,
-        String adminRole,
+        AdminRole adminRole,
         String adminEmail,
         String adminNm,
         OffsetDateTime createdAt,
@@ -156,14 +158,14 @@ public class Admin implements Serializable {
     /**
      * Getter for <code>nexus.ADMIN.ADMIN_ROLE</code>. 관리자 권한
      */
-    public String getAdminRole() {
+    public AdminRole getAdminRole() {
         return this.adminRole;
     }
 
     /**
      * Setter for <code>nexus.ADMIN.ADMIN_ROLE</code>. 관리자 권한
      */
-    public Admin setAdminRole(String adminRole) {
+    public Admin setAdminRole(AdminRole adminRole) {
         this.adminRole = adminRole;
         return this;
     }

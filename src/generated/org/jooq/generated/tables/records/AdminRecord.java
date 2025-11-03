@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.records;
 
 
+import com.qwerty.nexus.domain.management.admin.AdminRole;
+
 import java.time.OffsetDateTime;
 
 import org.jooq.Record1;
@@ -98,7 +100,7 @@ public class AdminRecord extends UpdatableRecordImpl<AdminRecord> {
     /**
      * Setter for <code>nexus.ADMIN.ADMIN_ROLE</code>. 관리자 권한
      */
-    public AdminRecord setAdminRole(String value) {
+    public AdminRecord setAdminRole(AdminRole value) {
         set(5, value);
         return this;
     }
@@ -106,8 +108,8 @@ public class AdminRecord extends UpdatableRecordImpl<AdminRecord> {
     /**
      * Getter for <code>nexus.ADMIN.ADMIN_ROLE</code>. 관리자 권한
      */
-    public String getAdminRole() {
-        return (String) get(5);
+    public AdminRole getAdminRole() {
+        return (AdminRole) get(5);
     }
 
     /**
@@ -238,7 +240,7 @@ public class AdminRecord extends UpdatableRecordImpl<AdminRecord> {
     /**
      * Create a detached, initialised AdminRecord
      */
-    public AdminRecord(Integer adminId, Integer orgId, Integer gameId, String loginId, String loginPw, String adminRole, String adminEmail, String adminNm, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public AdminRecord(Integer adminId, Integer orgId, Integer gameId, String loginId, String loginPw, AdminRole adminRole, String adminEmail, String adminNm, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JAdmin.ADMIN);
 
         setAdminId(adminId);

@@ -135,6 +135,7 @@ public class AdminRepository {
         // 삭제되지 않은 관리자만 조회
         condition = condition.and(ADMIN.IS_DEL.isNull().or(ADMIN.IS_DEL.eq("N")));
 
+        /*
         // 키워드 검색 (아이디, 이름, 이메일)
         if (entity.getKeyword() != null && !entity.getKeyword().isBlank()) {
             String keyword = "%" + entity.getKeyword().trim() + "%";
@@ -158,6 +159,8 @@ public class AdminRepository {
                 .offset(page * size)
                 .fetch()
                 .map(AdminEntity::from);
+         */
+        return null;
     }
 
     private SortField<?> resolveSortField(String sort, String direction) {
@@ -206,12 +209,14 @@ public class AdminRepository {
                 .fetchOneInto(String.class);
     }
 
+    /**
+     * 로그인 아이디 조회
+     * @param loginId
+     * @return
+     */
     public Optional<AdminEntity> findByLoginId(String loginId) {
-        AdminRecord record = dslContext.selectFrom(ADMIN)
+        return Optional.ofNullable(dslContext.selectFrom(ADMIN)
                 .where(ADMIN.LOGIN_ID.eq(loginId))
-                .fetchOne();
-
-        return Optional.ofNullable(record)
-                .map(AdminEntity::from);
+                .fetchOneInto(AdminEntity.class));
     }
 }

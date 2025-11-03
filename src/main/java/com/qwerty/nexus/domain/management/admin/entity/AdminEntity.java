@@ -1,17 +1,15 @@
 package com.qwerty.nexus.domain.management.admin.entity;
 
 import com.qwerty.nexus.domain.management.admin.AdminRole;
-import com.qwerty.nexus.domain.management.admin.dto.response.AdminResponseDto;
-import com.qwerty.nexus.global.extend.entity.PagingEntity;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
 import org.jooq.generated.tables.records.AdminRecord;
 
 import java.time.OffsetDateTime;
 
 @Getter
-@SuperBuilder
-public class AdminEntity extends PagingEntity {
+@Builder
+public class AdminEntity {
     private Integer adminId;
     private Integer orgId;
     private Integer gameId;
@@ -33,7 +31,7 @@ public class AdminEntity extends PagingEntity {
                 .gameId(record.getGameId())
                 .loginId(record.getLoginId())
                 .loginPw(record.getLoginPw())
-                .adminRole(AdminRole.valueOf(record.getAdminRole()))
+                .adminRole(record.getAdminRole())
                 .adminEmail(record.getAdminEmail())
                 .adminNm(record.getAdminNm())
                 .createdAt(record.getCreatedAt())

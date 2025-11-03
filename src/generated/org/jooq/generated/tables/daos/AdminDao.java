@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.daos;
 
 
+import com.qwerty.nexus.domain.management.admin.AdminRole;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +15,7 @@ import org.jooq.generated.tables.JAdmin;
 import org.jooq.generated.tables.pojos.Admin;
 import org.jooq.generated.tables.records.AdminRecord;
 import org.jooq.impl.DAOImpl;
+import org.jooq.impl.EnumConverter;
 
 
 /**
@@ -147,14 +150,14 @@ public class AdminDao extends DAOImpl<AdminRecord, Admin, Integer> {
      * Fetch records that have <code>ADMIN_ROLE BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<Admin> fetchRangeOfJAdminRole(String lowerInclusive, String upperInclusive) {
+    public List<Admin> fetchRangeOfJAdminRole(AdminRole lowerInclusive, AdminRole upperInclusive) {
         return fetchRange(JAdmin.ADMIN.ADMIN_ROLE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>ADMIN_ROLE IN (values)</code>
      */
-    public List<Admin> fetchByJAdminRole(String... values) {
+    public List<Admin> fetchByJAdminRole(AdminRole... values) {
         return fetch(JAdmin.ADMIN.ADMIN_ROLE, values);
     }
 

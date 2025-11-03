@@ -60,6 +60,7 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
 }
 
+// jooq dsl setting
 jooq {
 	configuration {
 		jdbc {
@@ -83,6 +84,14 @@ jooq {
 			database {
 				name = "org.jooq.meta.postgres.PostgresDatabase"
 				inputSchema = "nexus"
+                forcedTypes {
+                    // enum converter
+                    forcedType {
+                        userType = "com.qwerty.nexus.domain.management.admin.AdminRole"
+                        enumConverter = true
+                        includeExpression = "ADMIN\\.ADMIN_ROLE" // 어떤 컬럼에 적용할 것인가
+                    }
+                }
 			}
 			generate {
 				daos = true

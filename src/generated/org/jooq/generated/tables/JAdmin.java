@@ -4,6 +4,8 @@
 package org.jooq.generated.tables;
 
 
+import com.qwerty.nexus.domain.management.admin.AdminRole;
+
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collection;
@@ -33,6 +35,7 @@ import org.jooq.generated.tables.JGame.GamePath;
 import org.jooq.generated.tables.JOrganization.OrganizationPath;
 import org.jooq.generated.tables.records.AdminRecord;
 import org.jooq.impl.DSL;
+import org.jooq.impl.EnumConverter;
 import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
@@ -87,7 +90,7 @@ public class JAdmin extends TableImpl<AdminRecord> {
     /**
      * The column <code>nexus.ADMIN.ADMIN_ROLE</code>. 관리자 권한
      */
-    public final TableField<AdminRecord, String> ADMIN_ROLE = createField(DSL.name("ADMIN_ROLE"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'NO_ROLE'::character varying"), SQLDataType.VARCHAR)), this, "관리자 권한");
+    public final TableField<AdminRecord, AdminRole> ADMIN_ROLE = createField(DSL.name("ADMIN_ROLE"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'NO_ROLE'::character varying"), SQLDataType.VARCHAR)), this, "관리자 권한", new EnumConverter<String, AdminRole>(String.class, AdminRole.class));
 
     /**
      * The column <code>nexus.ADMIN.ADMIN_EMAIL</code>. 관리자 이메일

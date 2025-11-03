@@ -201,15 +201,17 @@ public class AdminService {
     public Result<List<AdminResponseDto>> selectAll(AdminSearchCommand command) {
         List<AdminResponseDto> rst = new ArrayList<>();
 
-        AdminEntity entity = AdminEntity.builder()
+
+        /*AdminEntity entity = AdminEntity.builder()
                 .sort(command.getSort())
                 .keyword(command.getKeyword())
                 .page(command.getPage())
                 .size(command.getSize())
                 .direction(command.getDirection())
                 .build();
+         */
 
-        Optional<List<AdminEntity>> selectRst = Optional.ofNullable(repository.selectAllAdmin(entity));
+        Optional<List<AdminEntity>> selectRst = Optional.ofNullable(repository.selectAllAdmin(AdminEntity.builder().build()));
         if(selectRst.isPresent()) {
             selectRst.get().forEach(adminEntity -> {
                 rst.add(AdminResponseDto.from(adminEntity));
@@ -217,9 +219,6 @@ public class AdminService {
         }else{
             return Result.Failure.of("관리자 목록이 존재하지 않음.",  ErrorCode.INTERNAL_ERROR.getCode());
         }
-        System.out.println("=======");
-        rst.forEach(System.out::println);
-        System.out.println("=======");
 
         return Result.Success.of(rst, "관리자 목록 조회 완료.");
     }
@@ -253,7 +252,7 @@ public class AdminService {
         }
 
         JwtTokenGenerationData jwtData = JwtTokenGenerationData.builder()
-                .socialId(String.valueOf(admin.getAdminId()))
+                .socialId(admin.getAdminId() + "9630")
                 .email(admin.getAdminEmail())
                 .build();
 
