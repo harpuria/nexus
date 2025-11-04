@@ -1,6 +1,7 @@
 package com.qwerty.nexus.domain.management.admin.repository;
 
 import com.qwerty.nexus.domain.management.admin.entity.AdminEntity;
+import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.*;
 import org.jooq.generated.tables.JAdmin;
@@ -113,32 +114,25 @@ public class AdminRepository {
             condition = condition.and(ADMIN.ADMIN_ID.eq(admin.getAdminId()));
         }
 
-        AdminRecord record = dslContext.selectFrom(ADMIN)
+        return dslContext.selectFrom(ADMIN)
                 .where(condition)
-                .fetchOne();
-
-        if(record == null){
-            return null;
-        }
-
-        return AdminEntity.from(record);
+                .fetchOneInto(AdminEntity.class);
     }
 
     /**
      * 관리자 목록 조회
      * @return
      */
-    public List<AdminEntity> selectAllAdmin(AdminEntity entity){
+    public List<AdminEntity> selectAllAdmin(AdminEntity entity, PagingEntity pagingEntity){
         // 조건 설정
         Condition condition = DSL.noCondition();
 
         // 삭제되지 않은 관리자만 조회
         condition = condition.and(ADMIN.IS_DEL.isNull().or(ADMIN.IS_DEL.eq("N")));
 
-        /*
         // 키워드 검색 (아이디, 이름, 이메일)
-        if (entity.getKeyword() != null && !entity.getKeyword().isBlank()) {
-            String keyword = "%" + entity.getKeyword().trim() + "%";
+        if (pagingEntity.getKeyword() != null && !pagingEntity.getKeyword().isBlank()) {
+            String keyword = "%" + pagingEntity.getKeyword().trim() + "%";
             condition = condition.and(
                     ADMIN.LOGIN_ID.likeIgnoreCase(keyword)
                             .or(ADMIN.ADMIN_NM.likeIgnoreCase(keyword))
@@ -147,20 +141,17 @@ public class AdminRepository {
         }
 
         // 정렬 기준 설정
-        String sortDirection = Optional.ofNullable(entity.getDirection()).orElse("DESC");
-        int size = entity.getSize() > 0 ? entity.getSize() : 10;
-        int page = Math.max(entity.getPage(), 0);
+        String sortDirection = Optional.ofNullable(pagingEntity.getDirection()).orElse("DESC");
+        int size = pagingEntity.getSize() > 0 ? pagingEntity.getSize() : 10;
+        int page = Math.max(pagingEntity.getPage(), 0);
         Condition finalCondition = condition;
 
         return dslContext.selectFrom(ADMIN)
                 .where(finalCondition)
-                .orderBy(resolveSortField(entity.getSort(), sortDirection))
+                .orderBy(resolveSortField(pagingEntity.getSort(), sortDirection))
                 .limit(size)
                 .offset(page * size)
-                .fetch()
-                .map(AdminEntity::from);
-         */
-        return null;
+                .fetchInto(AdminEntity.class);
     }
 
     private SortField<?> resolveSortField(String sort, String direction) {

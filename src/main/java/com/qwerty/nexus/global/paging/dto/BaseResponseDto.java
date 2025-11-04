@@ -1,7 +1,6 @@
-package com.qwerty.nexus.global.extend.dto;
+package com.qwerty.nexus.global.paging.dto;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.time.OffsetDateTime;

@@ -1,4 +1,4 @@
-package com.qwerty.nexus.global.extend.dto;
+package com.qwerty.nexus.global.paging.dto;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;

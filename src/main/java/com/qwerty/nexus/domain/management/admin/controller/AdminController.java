@@ -7,6 +7,8 @@ import com.qwerty.nexus.domain.management.admin.service.AdminService;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminLoginResponseDto;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminResponseDto;
 import com.qwerty.nexus.global.constant.ApiConstants;
+import com.qwerty.nexus.global.paging.command.PagingCommand;
+import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.ResponseEntityUtils;
 import com.qwerty.nexus.global.response.Result;
@@ -109,13 +111,29 @@ public class AdminController {
 
     /**
      * 관리자 목록 조회
-     * @param dto 관리자 목록 조회에 필요한 정보(페이징 처리 등) 관련된 객체 (DTO)
+     * @param page 페이지 번호
+     * @param size 페이지 사이즈
+     * @param sort 정렬 컬럼
+     * @param keyword 검색어
+     * @param direction 정렬 방향
      * @return 복수의 관리자 정보를 담은 리스트 객체 (DTO)
      */
     @GetMapping("/list")
     @Operation(summary = "관리자 목록 조회")
-    public ResponseEntity<ApiResponse<List<AdminResponseDto>>> selectAllAdmin(@RequestBody AdminSearchRequestDto dto){
-        Result<List<AdminResponseDto>> result = service.selectAll(AdminSearchCommand.from(dto));
+    public ResponseEntity<ApiResponse<List<AdminResponseDto>>> selectAllAdmin(@RequestParam int page,
+                                                                              @RequestParam int size,
+                                                                              @RequestParam String sort,
+                                                                              @RequestParam String keyword,
+                                                                              @RequestParam String direction){
+
+        PagingRequestDto dto = new PagingRequestDto();
+        dto.setPage(page);
+        dto.setSize(size);
+        dto.setSort(sort);
+        dto.setKeyword(keyword);
+        dto.setDirection(direction);
+
+        Result<List<AdminResponseDto>> result = service.selectAll(PagingCommand.from(dto));
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }

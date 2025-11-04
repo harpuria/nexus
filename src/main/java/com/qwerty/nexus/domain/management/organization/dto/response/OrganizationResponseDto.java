@@ -1,9 +1,8 @@
 package com.qwerty.nexus.domain.management.organization.dto.response;
 
 import com.qwerty.nexus.domain.management.organization.entity.OrganizationEntity;
-import com.qwerty.nexus.global.extend.dto.BaseResponseDto;
+import com.qwerty.nexus.global.paging.dto.BaseResponseDto;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @Getter

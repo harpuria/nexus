@@ -8,6 +8,8 @@ import com.qwerty.nexus.domain.management.admin.dto.response.AdminResponseDto;
 import com.qwerty.nexus.domain.management.organization.entity.OrganizationEntity;
 import com.qwerty.nexus.domain.management.organization.repository.OrganizationRepository;
 import com.qwerty.nexus.global.exception.ErrorCode;
+import com.qwerty.nexus.global.paging.command.PagingCommand;
+import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
 import com.qwerty.nexus.global.util.jwt.JwtTokenGenerationData;
 import com.qwerty.nexus.global.util.jwt.JwtUtil;
@@ -198,20 +200,13 @@ public class AdminService {
      * @param command
      * @return
      */
-    public Result<List<AdminResponseDto>> selectAll(AdminSearchCommand command) {
+    public Result<List<AdminResponseDto>> selectAll(PagingCommand command) {
         List<AdminResponseDto> rst = new ArrayList<>();
 
-
-        /*AdminEntity entity = AdminEntity.builder()
-                .sort(command.getSort())
-                .keyword(command.getKeyword())
-                .page(command.getPage())
-                .size(command.getSize())
-                .direction(command.getDirection())
+        AdminEntity entity = AdminEntity.builder()
                 .build();
-         */
 
-        Optional<List<AdminEntity>> selectRst = Optional.ofNullable(repository.selectAllAdmin(AdminEntity.builder().build()));
+        Optional<List<AdminEntity>> selectRst = Optional.ofNullable(repository.selectAllAdmin(entity, PagingEntity.from(command)));
         if(selectRst.isPresent()) {
             selectRst.get().forEach(adminEntity -> {
                 rst.add(AdminResponseDto.from(adminEntity));

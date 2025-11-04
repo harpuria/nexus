@@ -2,7 +2,7 @@ package com.qwerty.nexus.domain.management.admin.dto.response;
 
 import com.qwerty.nexus.domain.management.admin.AdminRole;
 import com.qwerty.nexus.domain.management.admin.entity.AdminEntity;
-import com.qwerty.nexus.global.extend.dto.BaseResponseDto;
+import com.qwerty.nexus.global.paging.dto.BaseResponseDto;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 

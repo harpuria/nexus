@@ -2,7 +2,7 @@ package com.qwerty.nexus.domain.game.product.dto.response;
 
 import com.qwerty.nexus.domain.game.product.PurchaseType;
 import com.qwerty.nexus.domain.game.product.entity.ProductEntity;
-import com.qwerty.nexus.global.extend.dto.BaseResponseDto;
+import com.qwerty.nexus.global.paging.dto.BaseResponseDto;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import java.math.BigDecimal;

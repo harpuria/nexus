@@ -1,11 +1,9 @@
 package com.qwerty.nexus.domain.management.game.dto.response;
 
 import com.qwerty.nexus.domain.management.game.GameStatus;
-import com.qwerty.nexus.domain.management.game.dto.request.GameUpdateRequestDto;
 import com.qwerty.nexus.domain.management.game.entity.GameEntity;
-import com.qwerty.nexus.global.extend.dto.BaseResponseDto;
+import com.qwerty.nexus.global.paging.dto.BaseResponseDto;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;

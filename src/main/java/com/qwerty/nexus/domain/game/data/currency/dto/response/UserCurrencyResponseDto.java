@@ -1,7 +1,7 @@
 package com.qwerty.nexus.domain.game.data.currency.dto.response;
 
 import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
-import com.qwerty.nexus.global.extend.dto.BaseResponseDto;
+import com.qwerty.nexus.global.paging.dto.BaseResponseDto;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 

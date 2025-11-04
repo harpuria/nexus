@@ -5,7 +5,6 @@ import com.qwerty.nexus.domain.management.admin.AdminRole;
 import com.qwerty.nexus.domain.management.admin.dto.request.AdminCreateRequestDto;
 import com.qwerty.nexus.domain.management.admin.dto.request.AdminInitCreateRequestDto;
 import com.qwerty.nexus.domain.management.admin.dto.request.AdminLoginRequestDto;
-import com.qwerty.nexus.domain.management.admin.dto.request.AdminSearchRequestDto;
 import com.qwerty.nexus.domain.management.admin.dto.request.AdminUpdateRequestDto;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminResponseDto;
 import com.qwerty.nexus.domain.management.admin.service.AdminService;
