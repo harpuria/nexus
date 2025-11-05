@@ -144,13 +144,14 @@ public class AdminRepository {
         String sortDirection = Optional.ofNullable(pagingEntity.getDirection()).orElse("DESC");
         int size = pagingEntity.getSize() > 0 ? pagingEntity.getSize() : 10;
         int page = Math.max(pagingEntity.getPage(), 0);
+        int offset = (page - 1 ) * size;
         Condition finalCondition = condition;
 
         return dslContext.selectFrom(ADMIN)
                 .where(finalCondition)
                 .orderBy(resolveSortField(pagingEntity.getSort(), sortDirection))
                 .limit(size)
-                .offset(page * size)
+                .offset(offset)
                 .fetchInto(AdminEntity.class);
     }
 

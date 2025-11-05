@@ -120,11 +120,11 @@ public class AdminController {
      */
     @GetMapping("/list")
     @Operation(summary = "관리자 목록 조회")
-    public ResponseEntity<ApiResponse<List<AdminResponseDto>>> selectAllAdmin(@RequestParam int page,
-                                                                              @RequestParam int size,
-                                                                              @RequestParam String sort,
-                                                                              @RequestParam String keyword,
-                                                                              @RequestParam String direction){
+    public ResponseEntity<ApiResponse<List<AdminResponseDto>>> selectAllAdmin(@RequestParam(defaultValue = "1") int page,
+                                                                              @RequestParam(defaultValue = "10") int size,
+                                                                              @RequestParam(required = false) String sort,
+                                                                              @RequestParam(required = false) String keyword,
+                                                                              @RequestParam(defaultValue = "desc") String direction){
 
         PagingRequestDto dto = new PagingRequestDto();
         dto.setPage(page);
