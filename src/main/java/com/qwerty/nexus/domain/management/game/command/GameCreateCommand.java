@@ -10,13 +10,13 @@ public class GameCreateCommand {
     private int orgId;
     private String name;
     private String version;
-    private String createBy;
+    private String createdBy;
 
     public static GameCreateCommand from(GameCreateRequestDto dto){
         return GameCreateCommand.builder()
                 .orgId(dto.getOrgId())
                 .name(dto.getName())
-                .createBy(dto.getCreateBy())
+                .createdBy(dto.getCreatedBy())
                 .version(dto.getVersion())
                 .build();
     }

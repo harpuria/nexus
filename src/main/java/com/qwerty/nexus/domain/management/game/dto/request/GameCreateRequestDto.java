@@ -1,6 +1,5 @@
 package com.qwerty.nexus.domain.management.game.dto.request;
 
-import com.qwerty.nexus.domain.management.game.command.GameCreateCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +16,7 @@ public class GameCreateRequestDto {
     private String name;
 
     @Schema(example = "admin")
-    private String createBy;
+    private String createdBy;
 
     @Schema(example = "0.01")
     private String version;

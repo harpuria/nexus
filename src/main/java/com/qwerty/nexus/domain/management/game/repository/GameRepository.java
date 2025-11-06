@@ -1,15 +1,19 @@
 package com.qwerty.nexus.domain.management.game.repository;
 
 import com.qwerty.nexus.domain.management.game.entity.GameEntity;
+import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import lombok.extern.log4j.Log4j2;
+import org.jooq.Condition;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
 import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.daos.GameDao;
 import org.jooq.generated.tables.records.GameRecord;
+import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @Repository
@@ -68,19 +72,34 @@ public class GameRepository {
     /**
      * 게임 목록 조회 (페이징)
      *
-     * @param page 페이지 번호 (0부터 시작)
-     * @param size 페이지 크기
-     * @return 요청한 페이지에 해당하는 게임 목록
      */
-    public List<GameEntity> selectGameList(int page, int size){
-        int safePage = Math.max(page, 0);
-        int safeSize = Math.max(size, 1);
+    public List<GameEntity> selectGameList(PagingEntity pagingEntity){
+        // 조건 설정
+        Condition condition = DSL.noCondition();
+
+        // 삭제되지 않은 게임만 조회
+        condition = condition.and(GAME.IS_DEL.isNull().or(GAME.IS_DEL.eq("N")));
+
+        // 키워드 검색 (이름검색 <추후 필요시 검색 조건 나눠서 검색하는 부분 만들것>)
+        if (pagingEntity.getKeyword() != null && !pagingEntity.getKeyword().isBlank()) {
+            String keyword = "%" + pagingEntity.getKeyword().trim() + "%";
+            condition = condition.and(
+                    GAME.NAME.likeIgnoreCase(keyword)
+            );
+        }
+
+        // 정렬 기준 설정
+        String sortDirection = Optional.ofNullable(pagingEntity.getDirection()).orElse("DESC");
+        int size = pagingEntity.getSize() > 0 ? pagingEntity.getSize() : 10;
+        int page = Math.max(pagingEntity.getPage(), 0);
+        int offset = page * size;
+        Condition finalCondition = condition;
 
         return dslContext.selectFrom(GAME)
-                .where(GAME.IS_DEL.eq("N"))
+                .where(finalCondition)
                 .orderBy(GAME.CREATED_AT.desc())
-                .limit(safeSize)
-                .offset(safePage * safeSize)
+                .limit(size)
+                .offset(offset)
                 .fetchInto(GameEntity.class);
     }
 

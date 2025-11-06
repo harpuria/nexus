@@ -52,7 +52,7 @@ public final class ApiConstants {
     public static final class Pagination {
         private Pagination() {}
 
-        public static final int DEFAULT_PAGE_SIZE = 20;
+        public static final int DEFAULT_PAGE_SIZE = 10;
         public static final int MAX_PAGE_SIZE = 100;
         public static final int MIN_PAGE_SIZE = 1;
         public static final int DEFAULT_PAGE_NUMBER = 0; // Spring Data는 0부터 시작

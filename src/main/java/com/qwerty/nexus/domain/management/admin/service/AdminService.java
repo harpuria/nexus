@@ -1,12 +1,14 @@
 package com.qwerty.nexus.domain.management.admin.service;
 
 import com.qwerty.nexus.domain.management.admin.command.*;
+import com.qwerty.nexus.domain.management.admin.dto.response.AdminListResponseDto;
 import com.qwerty.nexus.domain.management.admin.entity.AdminEntity;
 import com.qwerty.nexus.domain.management.admin.repository.AdminRepository;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminLoginResponseDto;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminResponseDto;
 import com.qwerty.nexus.domain.management.organization.entity.OrganizationEntity;
 import com.qwerty.nexus.domain.management.organization.repository.OrganizationRepository;
+import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.command.PagingCommand;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
@@ -20,7 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -197,25 +198,36 @@ public class AdminService {
 
     /**
      * 관리자 목록 조회
-     * @param command
+     * @param pagingCommand
      * @return
      */
-    public Result<List<AdminResponseDto>> selectAll(PagingCommand command) {
-        List<AdminResponseDto> rst = new ArrayList<>();
+    public Result<AdminListResponseDto> selectAll(PagingCommand pagingCommand) {
+        int validatedSize = ApiConstants.validatePageSize(pagingCommand.getSize());
+        int safePage = Math.max(pagingCommand.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
 
-        AdminEntity entity = AdminEntity.builder()
-                .build();
-
-        Optional<List<AdminEntity>> selectRst = Optional.ofNullable(repository.selectAllAdmin(entity, PagingEntity.from(command)));
-        if(selectRst.isPresent()) {
-            selectRst.get().forEach(adminEntity -> {
-                rst.add(AdminResponseDto.from(adminEntity));
-            });
-        }else{
+        Optional<List<AdminEntity>> selectRst = Optional.ofNullable(repository.selectAllAdmin(PagingEntity.from(pagingCommand)));
+        if(selectRst.isEmpty()) {
             return Result.Failure.of("관리자 목록이 존재하지 않음.",  ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(rst, "관리자 목록 조회 완료.");
+        List<AdminResponseDto> admins = selectRst.get().stream().map(AdminResponseDto::from).toList();
+
+        long totalCount = repository.countActiveAdmins();
+        int totalPages = validatedSize == 0 ? 0 : (int) Math.ceil((double) totalCount / validatedSize);
+        boolean hasNext = safePage + 1 < totalPages;
+        boolean hasPrevious = safePage > 0 && totalPages > 0;
+
+        AdminListResponseDto response = AdminListResponseDto.builder()
+                .admins(admins)
+                .page(safePage)
+                .size(validatedSize)
+                .totalCount(totalCount)
+                .totalPages(totalPages)
+                .hasNext(hasNext)
+                .hasPrevious(hasPrevious)
+                .build();
+
+        return Result.Success.of(response, "관리자 목록 조회 완료.");
     }
 
     /**

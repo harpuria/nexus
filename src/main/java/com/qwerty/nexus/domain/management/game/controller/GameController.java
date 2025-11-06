@@ -8,6 +8,8 @@ import com.qwerty.nexus.domain.management.game.dto.response.GameListResponseDto;
 import com.qwerty.nexus.domain.management.game.dto.response.GameResponseDto;
 import com.qwerty.nexus.domain.management.game.service.GameService;
 import com.qwerty.nexus.global.constant.ApiConstants;
+import com.qwerty.nexus.global.paging.command.PagingCommand;
+import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.ResponseEntityUtils;
 import com.qwerty.nexus.global.response.Result;
@@ -72,15 +74,30 @@ public class GameController {
 
     /**
      * 게임 목록 조회
-     * @return
+     * @param page 페이지 번호
+     * @param size 페이지 사이즈
+     * @param sort 정렬 컬럼
+     * @param keyword 검색어
+     * @param direction 정렬 방향
+     * @return 복수의 관리자 정보를 담은 리스트 객체 (DTO)
      */
     @GetMapping("/list")
     @Operation(summary = "게임 목록 조회")
     public ResponseEntity<ApiResponse<GameListResponseDto>> selectGameList(
-            @RequestParam(value = ApiConstants.Pagination.PAGE_PARAM, defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
-            @RequestParam(value = ApiConstants.Pagination.SIZE_PARAM, defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_SIZE) int size
+            @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_SIZE) int size,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = ApiConstants.Pagination.DEFAULT_SORT_DIRECTION) String direction
     ){
-        Result<GameListResponseDto> result = service.selectGameList(page, size);
+        PagingRequestDto pagingRequestDto = new PagingRequestDto();
+        pagingRequestDto.setPage(page);
+        pagingRequestDto.setSize(size);
+        pagingRequestDto.setSort(sort);
+        pagingRequestDto.setDirection(direction);
+        pagingRequestDto.setKeyword(keyword);
+
+        Result<GameListResponseDto> result = service.selectGameList(PagingCommand.from(pagingRequestDto));
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }

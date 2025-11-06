@@ -44,7 +44,7 @@ class GameControllerTest {
         GameCreateRequestDto request = new GameCreateRequestDto();
         request.setOrgId(1);
         request.setName("Test Game");
-        request.setCreateBy("tester");
+        request.setCreatedBy("tester");
 
         when(gameService.createGame(any())).thenReturn(Result.Success.of(null, "created"));
 
@@ -66,7 +66,7 @@ class GameControllerTest {
         GameCreateRequestDto request = new GameCreateRequestDto();
         request.setOrgId(1);
         request.setName("Test Game");
-        request.setCreateBy("tester");
+        request.setCreatedBy("tester");
 
         when(gameService.createGame(any())).thenReturn(Result.Failure.of("에러", "ERROR_CODE"));
 

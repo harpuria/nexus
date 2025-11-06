@@ -123,20 +123,18 @@ public class AdminRepository {
      * 관리자 목록 조회
      * @return
      */
-    public List<AdminEntity> selectAllAdmin(AdminEntity entity, PagingEntity pagingEntity){
+    public List<AdminEntity> selectAllAdmin(PagingEntity pagingEntity){
         // 조건 설정
         Condition condition = DSL.noCondition();
 
         // 삭제되지 않은 관리자만 조회
         condition = condition.and(ADMIN.IS_DEL.isNull().or(ADMIN.IS_DEL.eq("N")));
 
-        // 키워드 검색 (아이디, 이름, 이메일)
+        // 키워드 검색 (이름검색 <추후 필요시 검색 조건 나눠서 검색하는 부분 만들것>)
         if (pagingEntity.getKeyword() != null && !pagingEntity.getKeyword().isBlank()) {
             String keyword = "%" + pagingEntity.getKeyword().trim() + "%";
             condition = condition.and(
-                    ADMIN.LOGIN_ID.likeIgnoreCase(keyword)
-                            .or(ADMIN.ADMIN_NM.likeIgnoreCase(keyword))
-                            .or(ADMIN.ADMIN_EMAIL.likeIgnoreCase(keyword))
+                    ADMIN.ADMIN_NM.likeIgnoreCase(keyword)
             );
         }
 
@@ -144,7 +142,7 @@ public class AdminRepository {
         String sortDirection = Optional.ofNullable(pagingEntity.getDirection()).orElse("DESC");
         int size = pagingEntity.getSize() > 0 ? pagingEntity.getSize() : 10;
         int page = Math.max(pagingEntity.getPage(), 0);
-        int offset = (page - 1 ) * size;
+        int offset = page * size;
         Condition finalCondition = condition;
 
         return dslContext.selectFrom(ADMIN)
@@ -210,5 +208,19 @@ public class AdminRepository {
         return Optional.ofNullable(dslContext.selectFrom(ADMIN)
                 .where(ADMIN.LOGIN_ID.eq(loginId))
                 .fetchOneInto(AdminEntity.class));
+    }
+
+    /**
+     * 삭제되지 않은 전체 관리자 개수 조회
+     *
+     * @return 전체 건수
+     */
+    public long countActiveAdmins() {
+        Long count = dslContext.selectCount()
+                .from(ADMIN)
+                .where(ADMIN.IS_DEL.eq("N"))
+                .fetchOneInto(Long.class);
+
+        return count != null ? count : 0L;
     }
 }

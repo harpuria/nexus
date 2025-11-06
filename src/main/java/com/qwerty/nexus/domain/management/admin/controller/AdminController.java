@@ -3,6 +3,7 @@ package com.qwerty.nexus.domain.management.admin.controller;
 import com.qwerty.nexus.domain.management.admin.AdminRole;
 import com.qwerty.nexus.domain.management.admin.command.*;
 import com.qwerty.nexus.domain.management.admin.dto.request.*;
+import com.qwerty.nexus.domain.management.admin.dto.response.AdminListResponseDto;
 import com.qwerty.nexus.domain.management.admin.service.AdminService;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminLoginResponseDto;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminResponseDto;
@@ -120,20 +121,21 @@ public class AdminController {
      */
     @GetMapping("/list")
     @Operation(summary = "관리자 목록 조회")
-    public ResponseEntity<ApiResponse<List<AdminResponseDto>>> selectAllAdmin(@RequestParam(defaultValue = "1") int page,
-                                                                              @RequestParam(defaultValue = "10") int size,
-                                                                              @RequestParam(required = false) String sort,
-                                                                              @RequestParam(required = false) String keyword,
-                                                                              @RequestParam(defaultValue = "desc") String direction){
+    public ResponseEntity<ApiResponse<AdminListResponseDto>> selectAllAdmin(
+            @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_SIZE) int size,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = ApiConstants.Pagination.DEFAULT_SORT_DIRECTION) String direction
+    ){
+        PagingRequestDto pagingRequestDto = new PagingRequestDto();
+        pagingRequestDto.setPage(page);
+        pagingRequestDto.setSize(size);
+        pagingRequestDto.setSort(sort);
+        pagingRequestDto.setKeyword(keyword);
+        pagingRequestDto.setDirection(direction);
 
-        PagingRequestDto dto = new PagingRequestDto();
-        dto.setPage(page);
-        dto.setSize(size);
-        dto.setSort(sort);
-        dto.setKeyword(keyword);
-        dto.setDirection(direction);
-
-        Result<List<AdminResponseDto>> result = service.selectAll(PagingCommand.from(dto));
+        Result<AdminListResponseDto> result = service.selectAll(PagingCommand.from(pagingRequestDto));
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }

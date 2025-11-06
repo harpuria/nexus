@@ -9,6 +9,8 @@ import com.qwerty.nexus.domain.management.game.entity.GameEntity;
 import com.qwerty.nexus.domain.management.game.repository.GameRepository;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
+import com.qwerty.nexus.global.paging.command.PagingCommand;
+import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -34,8 +36,8 @@ public class GameService {
         GameEntity gameEntity = GameEntity.builder()
                 .orgId(command.getOrgId())
                 .name(command.getName())
-                .createdBy(command.getCreateBy())
-                .updatedBy(command.getCreateBy())
+                .createdBy(command.getCreatedBy())
+                .updatedBy(command.getCreatedBy())
                 .status(GameStatus.STOPPED)
                 .clientAppId(UUID.randomUUID())
                 .signatureKey(UUID.randomUUID())
@@ -95,15 +97,16 @@ public class GameService {
     /**
      * 게임 목록 조회 (페이징)
      *
-     * @param page 페이지 번호 (0부터 시작)
-     * @param size 페이지 크기
+     * @param pagingCommand
      * @return 페이징 메타데이터와 함께 게임 목록
      */
-    public Result<GameListResponseDto> selectGameList(int page, int size){
-        int validatedSize = ApiConstants.validatePageSize(size);
-        int safePage = Math.max(page, ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
+    public Result<GameListResponseDto> selectGameList(PagingCommand pagingCommand){
+        int validatedSize = ApiConstants.validatePageSize(pagingCommand.getSize());
+        int safePage = Math.max(pagingCommand.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
 
-        Optional<List<GameEntity>> selectRst = Optional.ofNullable(repository.selectGameList(safePage, validatedSize));
+        PagingEntity pagingEntity = PagingEntity.builder().build();
+
+        Optional<List<GameEntity>> selectRst = Optional.ofNullable(repository.selectGameList(pagingEntity));
 
         if(selectRst.isEmpty()){
             return Result.Failure.of("게임 목록이 존재하지 않음.", ErrorCode.INTERNAL_ERROR.getCode());
