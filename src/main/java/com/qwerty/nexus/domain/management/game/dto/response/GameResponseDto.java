@@ -16,7 +16,10 @@ public class GameResponseDto extends BaseResponseDto {
     private String name;
     private UUID clientAppId;
     private UUID signatureKey;
+    private String googleClientId;
+    private String googleClientSecret;
     private GameStatus status;
+    private String version;
 
     public static GameResponseDto from(GameEntity entity) {
         return GameResponseDto.builder()
@@ -25,7 +28,10 @@ public class GameResponseDto extends BaseResponseDto {
                 .name(entity.getName())
                 .clientAppId(entity.getClientAppId())
                 .signatureKey(entity.getSignatureKey())
+                .googleClientId(entity.getGoogleClientId())
+                .googleClientSecret(entity.getGoogleClientSecret())
                 .status(entity.getStatus())
+                .version(entity.getVersion())
                 .createdBy(entity.getCreatedBy())
                 .updatedBy(entity.getUpdatedBy())
                 .isDel(entity.getIsDel())
