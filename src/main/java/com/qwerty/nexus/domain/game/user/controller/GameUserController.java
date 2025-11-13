@@ -8,9 +8,12 @@ import com.qwerty.nexus.domain.game.user.dto.request.GameUserBlockRequestDto;
 import com.qwerty.nexus.domain.game.user.dto.request.GameUserCreateRequestDto;
 import com.qwerty.nexus.domain.game.user.dto.request.GameUserUpdateRequestDto;
 import com.qwerty.nexus.domain.game.user.dto.request.GameUserWithdrawalRequestDto;
+import com.qwerty.nexus.domain.game.user.dto.response.GameUserListResponseDto;
 import com.qwerty.nexus.domain.game.user.dto.response.GameUserResponseDto;
 import com.qwerty.nexus.domain.game.user.service.GameUserService;
 import com.qwerty.nexus.global.constant.ApiConstants;
+import com.qwerty.nexus.global.paging.command.PagingCommand;
+import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.ResponseEntityUtils;
 import com.qwerty.nexus.global.response.Result;
@@ -100,5 +103,29 @@ public class GameUserController {
         Result<Void> result = gameUserService.withdrawalGameUser(GameUserWithdrawalCommand.from(dto));
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
+    }
+
+    /**
+     * 게임 유저 목록 조회
+     */
+    @GetMapping
+    @Operation(summary = "게임 유저 목록 조회")
+    public ResponseEntity<ApiResponse<GameUserListResponseDto>> listGameUsers(
+            @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_SIZE) int size,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = ApiConstants.Pagination.DEFAULT_SORT_DIRECTION) String direction
+    ) {
+        PagingRequestDto pagingRequestDto = new PagingRequestDto();
+        pagingRequestDto.setPage(page);
+        pagingRequestDto.setSize(size);
+        pagingRequestDto.setSort(sort);
+        pagingRequestDto.setKeyword(keyword);
+        pagingRequestDto.setDirection(direction);
+
+        Result<GameUserListResponseDto> result = gameUserService.listGameUsers(PagingCommand.from(pagingRequestDto));
+
+        return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 }

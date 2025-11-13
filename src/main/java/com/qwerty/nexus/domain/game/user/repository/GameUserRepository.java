@@ -1,15 +1,23 @@
 package com.qwerty.nexus.domain.game.user.repository;
 
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
+import com.qwerty.nexus.global.constant.ApiConstants;
 import lombok.extern.log4j.Log4j2;
+import org.jooq.Condition;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
+import org.jooq.Field;
 import org.jooq.generated.tables.JGameUser;
 import org.jooq.generated.tables.daos.GameUserDao;
 import org.jooq.generated.tables.records.GameUserRecord;
+import org.jooq.SortField;
 import org.springframework.stereotype.Repository;
 
+import com.qwerty.nexus.global.paging.entity.PagingEntity;
+
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 
 @Log4j2
 @Repository
@@ -84,5 +92,66 @@ public class GameUserRepository {
         return dslContext.select(GAME_USER.USER_ID).from(GAME_USER)
                 .where(GAME_USER.GAME_ID.eq((entity.getGameId())))
                 .fetch(GAME_USER.USER_ID); // 개별 컬럼을 가져올 때는 이런식으로 반환 처리
+    }
+
+    public List<GameUserEntity> selectGameUsers(PagingEntity paging) {
+        Condition condition = buildBaseCondition(paging);
+
+        int size = paging.getSize() > 0 ? paging.getSize() : ApiConstants.Pagination.DEFAULT_PAGE_SIZE;
+        int page = Math.max(paging.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
+        int offset = page * size;
+
+        return dslContext.selectFrom(GAME_USER)
+                .where(condition)
+                .orderBy(resolveSortField(paging.getSort(), paging.getDirection()))
+                .limit(size)
+                .offset(offset)
+                .fetchInto(GameUserRecord.class)
+                .stream()
+                .map(GameUserEntity::from)
+                .toList();
+    }
+
+    public long countGameUsers(PagingEntity paging) {
+        Condition condition = buildBaseCondition(paging);
+
+        Long count = dslContext.selectCount()
+                .from(GAME_USER)
+                .where(condition)
+                .fetchOneInto(Long.class);
+
+        return count != null ? count : 0L;
+    }
+
+    private Condition buildBaseCondition(PagingEntity paging) {
+        Condition condition = GAME_USER.IS_DEL.isNull().or(GAME_USER.IS_DEL.eq("N"));
+
+        if (paging.getKeyword() != null && !paging.getKeyword().isBlank()) {
+            String keyword = "%" + paging.getKeyword().trim() + "%";
+            condition = condition.and(
+                    GAME_USER.NICKNAME.likeIgnoreCase(keyword)
+                            .or(GAME_USER.USER_L_ID.likeIgnoreCase(keyword))
+            );
+        }
+
+        return condition;
+    }
+
+    private SortField<?> resolveSortField(String sort, String direction) {
+        String sortKey = Optional.ofNullable(sort)
+                .orElse(ApiConstants.Pagination.DEFAULT_SORT_FIELD)
+                .toLowerCase(Locale.ROOT);
+
+        Field<?> sortField = switch (sortKey) {
+            case "userid" -> GAME_USER.USER_ID;
+            case "nickname" -> GAME_USER.NICKNAME;
+            case "userlid", "user_l_id" -> GAME_USER.USER_L_ID;
+            case "updatedat" -> GAME_USER.UPDATED_AT;
+            case "createdat" -> GAME_USER.CREATED_AT;
+            default -> GAME_USER.CREATED_AT;
+        };
+
+        boolean isAsc = ApiConstants.Pagination.SORT_ASC.equalsIgnoreCase(direction);
+        return isAsc ? sortField.asc() : sortField.desc();
     }
 }
