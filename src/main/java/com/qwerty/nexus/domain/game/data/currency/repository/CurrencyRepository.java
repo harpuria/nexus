@@ -1,12 +1,19 @@
 package com.qwerty.nexus.domain.game.data.currency.repository;
 
 import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyEntity;
+import com.qwerty.nexus.domain.game.data.currency.entity.CurrencySearchEntity;
+import com.qwerty.nexus.global.constant.ApiConstants;
+import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
+import org.jooq.Condition;
 import org.jooq.generated.tables.JCurrency;
 import org.jooq.generated.tables.daos.CurrencyDao;
 import org.jooq.generated.tables.records.CurrencyRecord;
+import org.jooq.impl.DSL;
+import org.jooq.SortField;
+import org.jooq.TableField;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -76,5 +83,72 @@ public class CurrencyRepository {
                 .from(CURRENCY)
                 .where(CURRENCY.GAME_ID.eq(entity.getGameId()))
                 .fetchInto(Integer.class);
+    }
+
+    public List<CurrencyEntity> selectCurrencies(CurrencySearchEntity search) {
+        Condition condition = buildBaseCondition(search);
+
+        var query = dslContext.selectFrom(CURRENCY)
+                .where(condition);
+
+        SortField<?> sortField = resolveSortField(search.getPagingOptional().orElse(null));
+        if(sortField != null){
+            query.orderBy(sortField);
+        }
+
+        search.getPagingOptional().ifPresent(paging -> {
+            if(paging.getSize() > 0){
+                query.limit(paging.getSize())
+                        .offset(Math.max(paging.getPage(), 0) * paging.getSize());
+            }
+        });
+
+        return query.fetchInto(CurrencyEntity.class);
+    }
+
+    public long countCurrencies(CurrencySearchEntity search) {
+        Condition condition = buildBaseCondition(search);
+
+        return dslContext.selectCount()
+                .from(CURRENCY)
+                .where(condition)
+                .fetchOne(0, long.class);
+    }
+
+    private Condition buildBaseCondition(CurrencySearchEntity search) {
+        Condition condition = DSL.trueCondition();
+
+        if(search.getGameId() != null){
+            condition = condition.and(CURRENCY.GAME_ID.eq(search.getGameId()));
+        }
+
+        if(!search.isIncludeDeleted()){
+            condition = condition.and(CURRENCY.IS_DEL.eq("N"));
+        }
+
+        return condition;
+    }
+
+    private SortField<?> resolveSortField(PagingEntity paging) {
+        TableField<CurrencyRecord, ?> sortColumn = CURRENCY.CREATED_AT;
+        boolean ascending = false;
+
+        if(paging != null){
+            if(paging.getSort() != null && !paging.getSort().isBlank()){
+                sortColumn = mapSortColumn(paging.getSort());
+            }
+            ascending = ApiConstants.Pagination.SORT_ASC.equalsIgnoreCase(paging.getDirection());
+        }
+
+        return ascending ? sortColumn.asc() : sortColumn.desc();
+    }
+
+    private TableField<CurrencyRecord, ?> mapSortColumn(String sort) {
+        return switch (sort) {
+            case "name" -> CURRENCY.NAME;
+            case "updatedAt" -> CURRENCY.UPDATED_AT;
+            case "maxAmount" -> CURRENCY.MAX_AMOUNT;
+            default -> CURRENCY.CREATED_AT;
+        };
     }
 }

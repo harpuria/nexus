@@ -4,12 +4,15 @@ import com.qwerty.nexus.domain.game.data.currency.command.CurrencyCreateCommand;
 import com.qwerty.nexus.domain.game.data.currency.command.CurrencyUpdateCommand;
 import com.qwerty.nexus.domain.game.data.currency.dto.response.CurrencyResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyEntity;
+import com.qwerty.nexus.domain.game.data.currency.entity.CurrencySearchEntity;
 import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.repository.CurrencyRepository;
 import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
 import com.qwerty.nexus.global.exception.ErrorCode;
+import com.qwerty.nexus.global.paging.command.PagingCommand;
+import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -123,5 +127,37 @@ public class CurrencyService {
         }else{
             return Result.Failure.of("재화 정보 조회 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
+    }
+
+    public Result<List<CurrencyResponseDto>> listCurrencies(PagingCommand command, Integer gameId, Boolean includeDeleted) {
+        CurrencySearchEntity.CurrencySearchEntityBuilder builder = CurrencySearchEntity.builder()
+                .gameId(gameId)
+                .includeDeleted(Boolean.TRUE.equals(includeDeleted));
+
+        if(command != null){
+            builder.paging(PagingEntity.from(command));
+        }
+
+        CurrencySearchEntity search = builder.build();
+
+        List<CurrencyEntity> entities = repository.selectCurrencies(search);
+        List<CurrencyResponseDto> responseDtos = entities == null ? List.of() :
+                entities.stream()
+                        .map(CurrencyResponseDto::from)
+                        .collect(Collectors.toList());
+
+        String message;
+        if(responseDtos.isEmpty()){
+            message = "재화 정보가 존재하지 않습니다.";
+        }else{
+            message = "재화 목록 조회 완료.";
+        }
+
+        if(search.getPagingOptional().isPresent()){
+            long totalCount = repository.countCurrencies(search);
+            message = String.format("재화 목록 조회 완료. 총 %d건 중 %d건 반환.", totalCount, responseDtos.size());
+        }
+
+        return Result.Success.of(responseDtos, message);
     }
 }
