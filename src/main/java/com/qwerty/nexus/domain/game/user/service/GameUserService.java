@@ -1,10 +1,15 @@
 package com.qwerty.nexus.domain.game.user.service;
 
 import com.qwerty.nexus.domain.game.user.command.*;
+import com.qwerty.nexus.domain.game.user.dto.response.GameUserListResponseDto;
 import com.qwerty.nexus.domain.game.user.dto.response.GameUserLoginResponseDto;
+import com.qwerty.nexus.domain.game.user.dto.response.GameUserResponseDto;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
+import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
+import com.qwerty.nexus.global.paging.command.PagingCommand;
+import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
 import com.qwerty.nexus.global.util.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +17,10 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -148,5 +156,43 @@ public class GameUserService {
          */
 
         return Result.Success.of(rst, "유저 인증 성공");
+    }
+
+    public Result<GameUserListResponseDto> listGameUsers(PagingCommand pagingCommand) {
+        int validatedSize = ApiConstants.validatePageSize(pagingCommand.getSize());
+        int safePage = Math.max(pagingCommand.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
+
+        PagingEntity pagingEntity = PagingEntity.builder()
+                .page(safePage)
+                .size(validatedSize)
+                .sort(pagingCommand.getSort())
+                .direction(pagingCommand.getDirection())
+                .keyword(pagingCommand.getKeyword())
+                .build();
+
+        List<GameUserEntity> gameUsers = Optional.ofNullable(repository.selectGameUsers(pagingEntity))
+                .orElseGet(Collections::emptyList);
+
+        long totalCount = repository.countGameUsers(pagingEntity);
+
+        List<GameUserResponseDto> responses = gameUsers.stream()
+                .map(GameUserResponseDto::from)
+                .collect(Collectors.toList());
+
+        int totalPages = validatedSize == 0 ? 0 : (int) Math.ceil((double) totalCount / validatedSize);
+        boolean hasNext = (long) (safePage + 1) * validatedSize < totalCount;
+        boolean hasPrevious = safePage > 0 && totalCount > 0;
+
+        GameUserListResponseDto responseDto = GameUserListResponseDto.builder()
+                .users(responses)
+                .page(safePage)
+                .size(validatedSize)
+                .totalCount(totalCount)
+                .totalPages(totalPages)
+                .hasNext(hasNext)
+                .hasPrevious(hasPrevious)
+                .build();
+
+        return Result.Success.of(responseDto, "게임 유저 목록 조회 완료.");
     }
 }
