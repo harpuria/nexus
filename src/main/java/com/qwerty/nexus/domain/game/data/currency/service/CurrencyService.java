@@ -4,12 +4,16 @@ import com.qwerty.nexus.domain.game.data.currency.command.CurrencyCreateCommand;
 import com.qwerty.nexus.domain.game.data.currency.command.CurrencyUpdateCommand;
 import com.qwerty.nexus.domain.game.data.currency.dto.response.CurrencyResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyEntity;
-import com.qwerty.nexus.domain.game.data.currency.entity.CurrencySearchEntity;
+import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyListResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.repository.CurrencyRepository;
 import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
+import com.qwerty.nexus.domain.management.admin.dto.response.AdminListResponseDto;
+import com.qwerty.nexus.domain.management.admin.dto.response.AdminResponseDto;
+import com.qwerty.nexus.domain.management.admin.entity.AdminEntity;
+import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.command.PagingCommand;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
@@ -129,35 +133,39 @@ public class CurrencyService {
         }
     }
 
-    public Result<List<CurrencyResponseDto>> listCurrencies(PagingCommand command, Integer gameId, Boolean includeDeleted) {
-        CurrencySearchEntity.CurrencySearchEntityBuilder builder = CurrencySearchEntity.builder()
-                .gameId(gameId)
-                .includeDeleted(Boolean.TRUE.equals(includeDeleted));
+    /**
+     * 재화 목록 가져오기
+     * @param pagingCommand
+     * @param gameId
+     * @return
+     */
+    public Result<CurrencyListResponseDto> selectAll(PagingCommand pagingCommand, Integer gameId) {
 
-        if(command != null){
-            builder.paging(PagingEntity.from(command));
+        int validatedSize = ApiConstants.validatePageSize(pagingCommand.getSize());
+        int safePage = Math.max(pagingCommand.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
+
+        Optional<List<CurrencyEntity>> selectRst = Optional.ofNullable(repository.selectCurrencies(PagingEntity.from(pagingCommand), gameId));
+        if(selectRst.isEmpty()) {
+            return Result.Failure.of("재화 목록이 존재하지 않음.",  ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        CurrencySearchEntity search = builder.build();
+        List<CurrencyResponseDto> currencies = selectRst.get().stream().map(CurrencyResponseDto::from).toList();
 
-        List<CurrencyEntity> entities = repository.selectCurrencies(search);
-        List<CurrencyResponseDto> responseDtos = entities == null ? List.of() :
-                entities.stream()
-                        .map(CurrencyResponseDto::from)
-                        .collect(Collectors.toList());
+        long totalCount = currencies.size();
+        int totalPages = validatedSize == 0 ? 0 : (int) Math.ceil((double) totalCount / validatedSize);
+        boolean hasNext = safePage + 1 < totalPages;
+        boolean hasPrevious = safePage > 0 && totalPages > 0;
 
-        String message;
-        if(responseDtos.isEmpty()){
-            message = "재화 정보가 존재하지 않습니다.";
-        }else{
-            message = "재화 목록 조회 완료.";
-        }
+        CurrencyListResponseDto response = CurrencyListResponseDto.builder()
+                .currencies(currencies)
+                .page(safePage)
+                .size(validatedSize)
+                .totalCount(totalCount)
+                .totalPages(totalPages)
+                .hasNext(hasNext)
+                .hasPrevious(hasPrevious)
+                .build();
 
-        if(search.getPagingOptional().isPresent()){
-            long totalCount = repository.countCurrencies(search);
-            message = String.format("재화 목록 조회 완료. 총 %d건 중 %d건 반환.", totalCount, responseDtos.size());
-        }
-
-        return Result.Success.of(responseDtos, message);
+        return Result.Success.of(response, "재화 목록 조회 완료.");
     }
 }

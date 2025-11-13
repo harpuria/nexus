@@ -26,8 +26,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class GameUserService {
-    private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
     private final GameUserRepository repository;
 
     /**
@@ -136,28 +134,10 @@ public class GameUserService {
     }
 
     /**
-     * 사용자 인증 처리
-     * @param command
+     * 게임 유저 목록 조회
+     * @param pagingCommand
      * @return
      */
-    public Result<GameUserLoginResponseDto> authenticate(GameUserLoginRequestCommand command){
-        GameUserLoginResponseDto rst = new GameUserLoginResponseDto();
-
-        // 1) DB 에서 사용자 조회
-        // 2) 비밀번호 검증처리 (소셜로그인의 경우는 이 과정이 불필요할듯)
-        // 3) JWT 토큰 생성
-
-        /*
-        String token = jwtUtil.generateAccessToken(1L, "test@naver.com", "testName");
-
-        System.out.println("======");
-        System.out.println(token);
-        System.out.println("======");
-         */
-
-        return Result.Success.of(rst, "유저 인증 성공");
-    }
-
     public Result<GameUserListResponseDto> listGameUsers(PagingCommand pagingCommand) {
         int validatedSize = ApiConstants.validatePageSize(pagingCommand.getSize());
         int safePage = Math.max(pagingCommand.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);

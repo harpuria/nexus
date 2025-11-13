@@ -1,7 +1,7 @@
 package com.qwerty.nexus.domain.game.data.currency.repository;
 
 import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyEntity;
-import com.qwerty.nexus.domain.game.data.currency.entity.CurrencySearchEntity;
+import com.qwerty.nexus.domain.management.admin.entity.AdminEntity;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import lombok.extern.log4j.Log4j2;
@@ -85,70 +85,40 @@ public class CurrencyRepository {
                 .fetchInto(Integer.class);
     }
 
-    public List<CurrencyEntity> selectCurrencies(CurrencySearchEntity search) {
-        Condition condition = buildBaseCondition(search);
+    /**
+     * 재화 목록 가져오기
+     * @param pagingEntity
+     * @param gameId
+     * @return
+     */
+    public List<CurrencyEntity> selectCurrencies(PagingEntity pagingEntity, int gameId) {
+        // 조건 설정
+        Condition condition = DSL.noCondition();
 
-        var query = dslContext.selectFrom(CURRENCY)
-                .where(condition);
+        // 삭제되지 않은 관리자만 조회
+        condition = condition.and(CURRENCY.IS_DEL.isNull().or(CURRENCY.IS_DEL.eq("N")));
+        condition = condition.and(CURRENCY.GAME_ID.eq(gameId));
 
-        SortField<?> sortField = resolveSortField(search.getPagingOptional().orElse(null));
-        if(sortField != null){
-            query.orderBy(sortField);
+        // 키워드 검색 (이름검색 <추후 필요시 검색 조건 나눠서 검색하는 부분 만들것>)
+        if (pagingEntity.getKeyword() != null && !pagingEntity.getKeyword().isBlank()) {
+            String keyword = "%" + pagingEntity.getKeyword().trim() + "%";
+            condition = condition.and(
+                    CURRENCY.NAME.likeIgnoreCase(keyword)
+            );
         }
 
-        search.getPagingOptional().ifPresent(paging -> {
-            if(paging.getSize() > 0){
-                query.limit(paging.getSize())
-                        .offset(Math.max(paging.getPage(), 0) * paging.getSize());
-            }
-        });
+        // 정렬 기준 설정
+        String sortDirection = Optional.ofNullable(pagingEntity.getDirection()).orElse("DESC");
+        int size = pagingEntity.getSize() > 0 ? pagingEntity.getSize() : 10;
+        int page = Math.max(pagingEntity.getPage(), 0);
+        int offset = page * size;
+        Condition finalCondition = condition;
 
-        return query.fetchInto(CurrencyEntity.class);
-    }
-
-    public long countCurrencies(CurrencySearchEntity search) {
-        Condition condition = buildBaseCondition(search);
-
-        return dslContext.selectCount()
-                .from(CURRENCY)
-                .where(condition)
-                .fetchOne(0, long.class);
-    }
-
-    private Condition buildBaseCondition(CurrencySearchEntity search) {
-        Condition condition = DSL.trueCondition();
-
-        if(search.getGameId() != null){
-            condition = condition.and(CURRENCY.GAME_ID.eq(search.getGameId()));
-        }
-
-        if(!search.isIncludeDeleted()){
-            condition = condition.and(CURRENCY.IS_DEL.eq("N"));
-        }
-
-        return condition;
-    }
-
-    private SortField<?> resolveSortField(PagingEntity paging) {
-        TableField<CurrencyRecord, ?> sortColumn = CURRENCY.CREATED_AT;
-        boolean ascending = false;
-
-        if(paging != null){
-            if(paging.getSort() != null && !paging.getSort().isBlank()){
-                sortColumn = mapSortColumn(paging.getSort());
-            }
-            ascending = ApiConstants.Pagination.SORT_ASC.equalsIgnoreCase(paging.getDirection());
-        }
-
-        return ascending ? sortColumn.asc() : sortColumn.desc();
-    }
-
-    private TableField<CurrencyRecord, ?> mapSortColumn(String sort) {
-        return switch (sort) {
-            case "name" -> CURRENCY.NAME;
-            case "updatedAt" -> CURRENCY.UPDATED_AT;
-            case "maxAmount" -> CURRENCY.MAX_AMOUNT;
-            default -> CURRENCY.CREATED_AT;
-        };
+        return dslContext.selectFrom(CURRENCY)
+                .where(finalCondition)
+                //.orderBy(resolveSortField(pagingEntity.getSort(), sortDirection))
+                .limit(size)
+                .offset(offset)
+                .fetchInto(CurrencyEntity.class);
     }
 }

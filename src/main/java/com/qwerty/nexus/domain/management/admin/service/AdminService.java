@@ -212,7 +212,7 @@ public class AdminService {
 
         List<AdminResponseDto> admins = selectRst.get().stream().map(AdminResponseDto::from).toList();
 
-        long totalCount = repository.countActiveAdmins();
+        long totalCount = admins.size();
         int totalPages = validatedSize == 0 ? 0 : (int) Math.ceil((double) totalCount / validatedSize);
         boolean hasNext = safePage + 1 < totalPages;
         boolean hasPrevious = safePage > 0 && totalPages > 0;

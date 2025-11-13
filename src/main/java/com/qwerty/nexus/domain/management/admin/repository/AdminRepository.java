@@ -209,18 +209,4 @@ public class AdminRepository {
                 .where(ADMIN.LOGIN_ID.eq(loginId))
                 .fetchOneInto(AdminEntity.class));
     }
-
-    /**
-     * 삭제되지 않은 전체 관리자 개수 조회
-     *
-     * @return 전체 건수
-     */
-    public long countActiveAdmins() {
-        Long count = dslContext.selectCount()
-                .from(ADMIN)
-                .where(ADMIN.IS_DEL.eq("N"))
-                .fetchOneInto(Long.class);
-
-        return count != null ? count : 0L;
-    }
 }

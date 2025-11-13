@@ -5,6 +5,7 @@ import com.qwerty.nexus.domain.game.data.currency.command.CurrencyUpdateCommand;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.CurrencyCreateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.CurrencyUpdateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.response.CurrencyResponseDto;
+import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyListResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.service.CurrencyService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.command.PagingCommand;
@@ -92,7 +93,6 @@ public class CurrencyController {
      * 전체 재화 정보 조회 (페이징 및 필터 지원)
      *
      * @param gameId         필터링할 게임 아이디
-     * @param includeDeleted 삭제된 재화 포함 여부
      * @param page           페이지 번호 (옵션)
      * @param size           페이지 사이즈 (옵션)
      * @param sort           정렬 컬럼 (옵션)
@@ -100,38 +100,24 @@ public class CurrencyController {
      * @param keyword        검색 키워드 (옵션)
      * @return 재화 목록
      */
-    @GetMapping
+    @GetMapping("/list/{gameId}")
     @Operation(summary = "전체 재화 정보 조회", description = "게임 ID, 삭제 여부, 페이징 파라미터를 통해 재화 목록을 조회합니다.")
-    public ResponseEntity<ApiResponse<List<CurrencyResponseDto>>> selectAllCurrencies(
-            @RequestParam(value = "gameId", required = false) Integer gameId,
-            @RequestParam(value = "includeDeleted", required = false, defaultValue = "false") boolean includeDeleted,
-            @RequestParam(value = ApiConstants.Pagination.PAGE_PARAM, required = false) Integer page,
-            @RequestParam(value = ApiConstants.Pagination.SIZE_PARAM, required = false) Integer size,
-            @RequestParam(value = ApiConstants.Pagination.SORT_PARAM, required = false) String sort,
-            @RequestParam(value = "direction", required = false) String direction,
-            @RequestParam(value = "keyword", required = false) String keyword
+    public ResponseEntity<ApiResponse<CurrencyListResponseDto>> selectAllCurrencies(
+            @PathVariable("gameId") int gameId,
+            @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_SIZE) int size,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = ApiConstants.Pagination.DEFAULT_SORT_DIRECTION) String direction
     ){
-        PagingCommand pagingCommand = null;
-        boolean pagingRequested = page != null || size != null || sort != null || direction != null || keyword != null;
+        PagingRequestDto pagingRequestDto = new PagingRequestDto();
+        pagingRequestDto.setPage(page);
+        pagingRequestDto.setSize(size);
+        pagingRequestDto.setSort(sort);
+        pagingRequestDto.setKeyword(keyword);
+        pagingRequestDto.setDirection(direction);
 
-        if(pagingRequested){
-            PagingRequestDto pagingRequestDto = new PagingRequestDto();
-            pagingRequestDto.setPage(page != null ? page : ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
-            pagingRequestDto.setSize(size != null ? size : ApiConstants.Pagination.DEFAULT_PAGE_SIZE);
-            if(sort != null){
-                pagingRequestDto.setSort(sort);
-            }
-            if(direction != null){
-                pagingRequestDto.setDirection(direction);
-            }
-            if(keyword != null){
-                pagingRequestDto.setKeyword(keyword);
-            }
-
-            pagingCommand = PagingCommand.from(pagingRequestDto);
-        }
-
-        Result<List<CurrencyResponseDto>> result = service.listCurrencies(pagingCommand, gameId, includeDeleted);
+        Result<CurrencyListResponseDto> result = service.selectAll(PagingCommand.from(pagingRequestDto), gameId);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
