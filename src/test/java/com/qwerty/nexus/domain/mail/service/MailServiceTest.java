@@ -15,6 +15,7 @@ import com.qwerty.nexus.domain.game.mail.repository.MailTemplateRepository;
 import com.qwerty.nexus.domain.game.mail.repository.UserMailRepository;
 import com.qwerty.nexus.domain.game.mail.service.MailService;
 import com.qwerty.nexus.domain.game.mail.service.UserMailService;
+import com.qwerty.nexus.global.paging.command.PagingCommand;
 import com.qwerty.nexus.global.response.Result;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -93,6 +94,48 @@ class MailServiceTest {
         assertThat(deleteResult).isInstanceOf(Result.Success.class);
         Result<List<UserMailResponseDto>> afterDelete = userMailService.getInbox(UserMailListCommand.of(10L));
         assertThat(((Result.Success<List<UserMailResponseDto>>) afterDelete).data()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("템플릿 목록을 최신순으로 조회한다")
+    void listTemplates_defaultOrdering() {
+        MailTemplateResponseDto first = ((Result.Success<MailTemplateResponseDto>) mailService.createTemplate(
+                new MailTemplateCreateCommand("공지1", "내용1", null)
+        )).data();
+        MailTemplateResponseDto second = ((Result.Success<MailTemplateResponseDto>) mailService.createTemplate(
+                new MailTemplateCreateCommand("공지2", "내용2", null)
+        )).data();
+
+        Result<List<MailTemplateResponseDto>> result = mailService.listTemplates(null);
+
+        assertThat(result).isInstanceOf(Result.Success.class);
+        List<MailTemplateResponseDto> templates = ((Result.Success<List<MailTemplateResponseDto>>) result).data();
+        assertThat(templates).hasSize(2);
+        assertThat(templates.getFirst().getTemplateId()).isEqualTo(second.getTemplateId());
+        assertThat(templates.get(1).getTemplateId()).isEqualTo(first.getTemplateId());
+    }
+
+    @Test
+    @DisplayName("템플릿 목록을 제목 오름차순으로 페이징한다")
+    void listTemplates_withPaging() {
+        mailService.createTemplate(new MailTemplateCreateCommand("C", "내용", null));
+        mailService.createTemplate(new MailTemplateCreateCommand("A", "내용", null));
+        mailService.createTemplate(new MailTemplateCreateCommand("B", "내용", null));
+
+        PagingCommand pagingCommand = PagingCommand.builder()
+                .page(0)
+                .size(2)
+                .sort("title")
+                .direction("asc")
+                .build();
+
+        Result<List<MailTemplateResponseDto>> result = mailService.listTemplates(pagingCommand);
+
+        assertThat(result).isInstanceOf(Result.Success.class);
+        List<MailTemplateResponseDto> templates = ((Result.Success<List<MailTemplateResponseDto>>) result).data();
+        assertThat(templates).hasSize(2);
+        assertThat(templates.get(0).getTitle()).isEqualTo("A");
+        assertThat(templates.get(1).getTitle()).isEqualTo("B");
     }
 }
 
