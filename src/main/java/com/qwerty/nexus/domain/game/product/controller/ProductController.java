@@ -3,10 +3,12 @@ package com.qwerty.nexus.domain.game.product.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.qwerty.nexus.domain.game.product.command.ProductBuyCommand;
 import com.qwerty.nexus.domain.game.product.command.ProductCreateCommand;
+import com.qwerty.nexus.domain.game.product.command.ProductSearchCommand;
 import com.qwerty.nexus.domain.game.product.command.ProductUpdateCommand;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductBuyRequestDto;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductCreateRequestDto;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductUpdateRequestDto;
+import com.qwerty.nexus.domain.game.product.dto.response.ProductListResponseDto;
 import com.qwerty.nexus.domain.game.product.service.ProductService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
@@ -27,6 +29,24 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "상품", description = "상품 관련 API")
 public class ProductController {
     private final ProductService service;
+
+    @GetMapping
+    @Operation(summary = "상품 목록 조회")
+    public ResponseEntity<ApiResponse<ProductListResponseDto>> list(
+            @RequestParam int gameId,
+            @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_SIZE) int size,
+            @RequestParam(required = false) String keyword
+    ) {
+        Result<ProductListResponseDto> rst = service.list(ProductSearchCommand.builder()
+                .gameId(gameId)
+                .page(page)
+                .size(size)
+                .keyword(keyword)
+                .build());
+
+        return ResponseEntityUtils.toResponseEntity(rst, HttpStatus.OK);
+    }
 
     /**
      * 상품 정보 생성

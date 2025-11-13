@@ -10,16 +10,22 @@ import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyReposit
 import com.qwerty.nexus.domain.game.product.PurchaseType;
 import com.qwerty.nexus.domain.game.product.command.ProductBuyCommand;
 import com.qwerty.nexus.domain.game.product.command.ProductCreateCommand;
+import com.qwerty.nexus.domain.game.product.command.ProductSearchCommand;
 import com.qwerty.nexus.domain.game.product.command.ProductUpdateCommand;
 import com.qwerty.nexus.domain.game.product.dto.ProductInfo;
+import com.qwerty.nexus.domain.game.product.dto.response.ProductListResponseDto;
+import com.qwerty.nexus.domain.game.product.dto.response.ProductResponseDto;
 import com.qwerty.nexus.domain.game.product.entity.ProductEntity;
+import com.qwerty.nexus.domain.game.product.entity.ProductSearchEntity;
 import com.qwerty.nexus.domain.game.product.repository.ProductRepository;
+import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.response.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -84,6 +90,44 @@ public class ProductService {
         else{
             return Result.Failure.of(String.format("상품 %s 실패", type), ErrorCode.INTERNAL_ERROR.getCode());
         }
+    }
+
+    @Transactional(readOnly = true)
+    public Result<ProductListResponseDto> list(ProductSearchCommand command) {
+        int validatedSize = ApiConstants.validatePageSize(command.getSize());
+        int safePage = Math.max(command.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
+        String normalizedKeyword = command.getKeyword();
+        if (normalizedKeyword != null) {
+            normalizedKeyword = normalizedKeyword.trim();
+        }
+
+        ProductSearchEntity searchEntity = ProductSearchEntity.builder()
+                .gameId(command.getGameId())
+                .keyword(StringUtils.hasText(normalizedKeyword) ? normalizedKeyword : null)
+                .offset(safePage * validatedSize)
+                .limit(validatedSize)
+                .build();
+
+        List<ProductResponseDto> products = repository.selectProducts(searchEntity).stream()
+                .map(ProductResponseDto::from)
+                .toList();
+
+        long totalCount = repository.countProducts(searchEntity);
+        int totalPages = validatedSize == 0 ? 0 : (int) Math.ceil((double) totalCount / validatedSize);
+        boolean hasNext = safePage + 1 < totalPages;
+        boolean hasPrevious = safePage > 0;
+
+        ProductListResponseDto response = ProductListResponseDto.builder()
+                .products(products)
+                .page(safePage)
+                .size(validatedSize)
+                .totalCount(totalCount)
+                .totalPages(totalPages)
+                .hasNext(hasNext)
+                .hasPrevious(hasPrevious)
+                .build();
+
+        return Result.Success.of(response, ApiConstants.Messages.Success.RETRIEVED);
     }
 
     /**

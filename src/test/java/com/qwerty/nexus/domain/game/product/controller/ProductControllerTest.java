@@ -3,6 +3,7 @@ package com.qwerty.nexus.domain.game.product.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductCreateRequestDto;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductUpdateRequestDto;
+import com.qwerty.nexus.domain.game.product.dto.response.ProductListResponseDto;
 import com.qwerty.nexus.domain.game.product.service.ProductService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.Result;
@@ -18,10 +19,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
 
 @WebMvcTest(ProductController.class)
 class ProductControllerTest {
@@ -147,4 +151,40 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.success").value(false))
                 .andExpect(jsonPath("$.errorCode").value("ERROR_CODE"));
     }
+    @Test
+    @DisplayName("상품 목록 조회 성공")
+    void listProducts_success() throws Exception {
+        ProductListResponseDto response = ProductListResponseDto.builder()
+                .products(List.of())
+                .page(0)
+                .size(10)
+                .totalCount(0)
+                .totalPages(0)
+                .hasNext(false)
+                .hasPrevious(false)
+                .build();
+
+        when(productService.list(any())).thenReturn(Result.Success.of(response, "ok"));
+
+        mockMvc.perform(get(ApiConstants.Path.PRODUCT_PATH)
+                        .param("gameId", "1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value("ok"));
+
+        verify(productService).list(any());
+    }
+
+    @Test
+    @DisplayName("상품 목록 조회 실패")
+    void listProducts_failure() throws Exception {
+        when(productService.list(any())).thenReturn(Result.Failure.of("에러", "ERROR_CODE"));
+
+        mockMvc.perform(get(ApiConstants.Path.PRODUCT_PATH)
+                        .param("gameId", "1"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.errorCode").value("ERROR_CODE"));
+    }
+
 }
