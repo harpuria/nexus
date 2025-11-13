@@ -24,6 +24,7 @@ import java.util.Set;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,6 +40,28 @@ class MailControllerTest {
 
     @MockitoBean
     private MailService mailService;
+
+    @Test
+    @DisplayName("메일 템플릿 목록 조회 성공")
+    void listTemplates_success() throws Exception {
+        MailTemplateResponseDto response = MailTemplateResponseDto.builder()
+                .templateId(1L)
+                .title("공지")
+                .content("내용")
+                .createdAt(OffsetDateTime.now())
+                .build();
+
+        when(mailService.listTemplates(any())).thenReturn(Result.Success.of(List.of(response), "조회 성공"));
+
+        mockMvc.perform(get(ApiConstants.Path.MAIL_PATH + "/templates")
+                        .param("page", "0")
+                        .param("size", "1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data[0].templateId").value(1L));
+
+        verify(mailService).listTemplates(any());
+    }
 
     @Test
     @DisplayName("메일 템플릿 생성 성공")
