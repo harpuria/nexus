@@ -3,9 +3,11 @@ package com.qwerty.nexus.domain.game.coupon.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qwerty.nexus.domain.game.coupon.command.CouponCreateCommand;
 import com.qwerty.nexus.domain.game.coupon.command.CouponGrantCommand;
+import com.qwerty.nexus.domain.game.coupon.command.CouponSearchCommand;
 import com.qwerty.nexus.domain.game.coupon.command.CouponUpdateCommand;
 import com.qwerty.nexus.domain.game.coupon.entity.CouponEntity;
 import com.qwerty.nexus.domain.game.coupon.entity.CouponUseLogEntity;
+import com.qwerty.nexus.domain.game.coupon.dto.response.CouponListResponseDto;
 import com.qwerty.nexus.domain.game.coupon.repository.CouponRepository;
 import com.qwerty.nexus.domain.game.coupon.repository.CouponUseLogRepository;
 import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyEntity;
@@ -22,6 +24,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -247,6 +250,56 @@ class CouponServiceTest {
                 .build();
 
         Result<Void> result = couponService.grant(command);
+
+        assertInstanceOf(Result.Failure.class, result);
+    }
+
+    @Test
+    @DisplayName("쿠폰 목록 조회 성공")
+    void listCoupons_success() {
+        CouponSearchCommand command = CouponSearchCommand.builder()
+                .gameId(1)
+                .page(0)
+                .size(5)
+                .build();
+
+        OffsetDateTime now = OffsetDateTime.now();
+        CouponEntity entity = CouponEntity.builder()
+                .couponId(1)
+                .gameId(1)
+                .name("테스트")
+                .code("TEST")
+                .startDate(now)
+                .endDate(now.plusDays(1))
+                .maxIssueCount(10L)
+                .useLimitPerUser(1)
+                .createdAt(now)
+                .createdBy("tester")
+                .updatedAt(now)
+                .updatedBy("tester")
+                .isDel("N")
+                .build();
+
+        doReturn(List.of(entity)).when(couponRepository).selectCoupons(any());
+        doReturn(1L).when(couponRepository).countCoupons(any());
+
+        Result<CouponListResponseDto> result = couponService.listCoupons(command);
+
+        assertInstanceOf(Result.Success.class, result);
+        CouponListResponseDto response = ((Result.Success<CouponListResponseDto>) result).data();
+        assertThat(response.coupons()).hasSize(1);
+        assertThat(response.totalCount()).isEqualTo(1);
+    }
+
+    @Test
+    @DisplayName("게임 아이디 없이 쿠폰 목록 조회 시 실패")
+    void listCoupons_missingGame_failure() {
+        CouponSearchCommand command = CouponSearchCommand.builder()
+                .page(0)
+                .size(5)
+                .build();
+
+        Result<CouponListResponseDto> result = couponService.listCoupons(command);
 
         assertInstanceOf(Result.Failure.class, result);
     }

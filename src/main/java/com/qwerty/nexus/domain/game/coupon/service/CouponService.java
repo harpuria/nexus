@@ -5,9 +5,13 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qwerty.nexus.domain.game.coupon.command.CouponCreateCommand;
 import com.qwerty.nexus.domain.game.coupon.command.CouponGrantCommand;
+import com.qwerty.nexus.domain.game.coupon.command.CouponSearchCommand;
 import com.qwerty.nexus.domain.game.coupon.command.CouponUpdateCommand;
 import com.qwerty.nexus.domain.game.coupon.dto.CouponRewardInfo;
+import com.qwerty.nexus.domain.game.coupon.dto.response.CouponListResponseDto;
+import com.qwerty.nexus.domain.game.coupon.dto.response.CouponResponseDto;
 import com.qwerty.nexus.domain.game.coupon.entity.CouponEntity;
+import com.qwerty.nexus.domain.game.coupon.entity.CouponSearchEntity;
 import com.qwerty.nexus.domain.game.coupon.entity.CouponUseLogEntity;
 import com.qwerty.nexus.domain.game.coupon.repository.CouponRepository;
 import com.qwerty.nexus.domain.game.coupon.repository.CouponUseLogRepository;
@@ -15,12 +19,14 @@ import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.repository.CurrencyRepository;
 import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
+import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.response.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -35,6 +41,63 @@ public class CouponService {
     private final CurrencyRepository currencyRepository;
     private final UserCurrencyRepository userCurrencyRepository;
     private final ObjectMapper objectMapper;
+
+    public Result<CouponListResponseDto> listCoupons(CouponSearchCommand command) {
+        if (command.getGameId() == null) {
+            return Result.Failure.of("게임 정보 없음", ErrorCode.INVALID_REQUEST.getCode());
+        }
+
+        int page = command.getPage() == null ? ApiConstants.Pagination.DEFAULT_PAGE_NUMBER : Math.max(command.getPage(), 0);
+        int size = command.getSize() == null ? ApiConstants.Pagination.DEFAULT_PAGE_SIZE : command.getSize();
+        if (size < ApiConstants.Pagination.MIN_PAGE_SIZE) {
+            size = ApiConstants.Pagination.MIN_PAGE_SIZE;
+        }
+        if (size > ApiConstants.Pagination.MAX_PAGE_SIZE) {
+            size = ApiConstants.Pagination.MAX_PAGE_SIZE;
+        }
+
+        String sort = StringUtils.hasText(command.getSort()) ? command.getSort() : ApiConstants.Pagination.DEFAULT_SORT_FIELD;
+        String direction = StringUtils.hasText(command.getDirection()) ? command.getDirection() : ApiConstants.Pagination.DEFAULT_SORT_DIRECTION;
+
+        CouponSearchEntity search = CouponSearchEntity.builder()
+                .gameId(command.getGameId())
+                .code(command.getCode())
+                .keyword(command.getKeyword())
+                .isDel(command.getIsDel())
+                .startDateFrom(command.getStartDateFrom())
+                .startDateTo(command.getStartDateTo())
+                .endDateFrom(command.getEndDateFrom())
+                .endDateTo(command.getEndDateTo())
+                .createdFrom(command.getCreatedFrom())
+                .createdTo(command.getCreatedTo())
+                .limit(size)
+                .offset(page * size)
+                .sort(sort)
+                .direction(direction)
+                .build();
+
+        List<CouponEntity> entities = couponRepository.selectCoupons(search);
+        long totalCount = couponRepository.countCoupons(search);
+        int totalPages = size == 0 ? 0 : (int) Math.ceil((double) totalCount / size);
+        boolean hasNext = page + 1 < totalPages;
+        boolean hasPrevious = page > 0 && totalPages > 0;
+
+        List<CouponResponseDto> coupons = entities.stream()
+                .map(CouponResponseDto::from)
+                .toList();
+
+        CouponListResponseDto response = CouponListResponseDto.builder()
+                .coupons(coupons)
+                .page(page)
+                .size(size)
+                .totalCount(totalCount)
+                .totalPages(totalPages)
+                .hasNext(hasNext)
+                .hasPrevious(hasPrevious)
+                .build();
+
+        return Result.Success.of(response, "쿠폰 목록 조회 성공");
+    }
 
     @Transactional
     public Result<Void> create(CouponCreateCommand command) {
