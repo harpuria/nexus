@@ -108,9 +108,10 @@ public class GameUserController {
     /**
      * 게임 유저 목록 조회
      */
-    @GetMapping
+    @GetMapping("/list/{gameId}")
     @Operation(summary = "게임 유저 목록 조회")
     public ResponseEntity<ApiResponse<GameUserListResponseDto>> listGameUsers(
+            @PathVariable("gameId") int gameId,
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_SIZE) int size,
             @RequestParam(required = false) String sort,
@@ -124,7 +125,7 @@ public class GameUserController {
         pagingRequestDto.setKeyword(keyword);
         pagingRequestDto.setDirection(direction);
 
-        Result<GameUserListResponseDto> result = gameUserService.listGameUsers(PagingCommand.from(pagingRequestDto));
+        Result<GameUserListResponseDto> result = gameUserService.listGameUsers(PagingCommand.from(pagingRequestDto), gameId);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }

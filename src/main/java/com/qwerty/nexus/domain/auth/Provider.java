@@ -6,5 +6,6 @@ public enum Provider {
     META,
     KAKAO,
     NAVER,
-    GUEST
+    GUEST,
+    ETC
 }

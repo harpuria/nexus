@@ -29,28 +29,4 @@ public class GameUserEntity {
     private OffsetDateTime updatedAt;
     private String updatedBy;
     private String isDel;
-
-    public static GameUserEntity from(GameUserRecord record){
-        return GameUserEntity.builder()
-                .userId(record.getUserId())
-                .gameId(record.getGameId())
-                .userLId(record.getUserLId())
-                .userLPw(record.getUserLPw())
-                .provider(Provider.valueOf(record.getProvider()))
-                .socialId(record.getSocialId())
-                .nickname(record.getNickname())
-                .device(record.getDevice())
-                .blockStartDate(record.getBlockStartDate())
-                .blockEndDate(record.getBlockEndDate())
-                .blockReason(record.getBlockReason())
-                .isWithdrawal(record.getIsWithdrawal())
-                .withdrawalDate(record.getWithdrawalDate())
-                .withdrawalReason(record.getWithdrawalReason())
-                .createdAt(record.getCreatedAt())
-                .createdBy(record.getCreatedBy())
-                .updatedAt(record.getUpdatedAt())
-                .updatedBy(record.getUpdatedBy())
-                .isDel(record.getIsDel())
-                .build();
-    }
 }

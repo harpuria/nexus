@@ -23,6 +23,9 @@ public class GameUserCreateRequestDto {
     @Schema(example = "테스트유저")
     private String nickname;
 
+    @Schema(example ="socialIdTest")
+    private String socialId;
+
     @Schema(example = "GOOGLE")
     private Provider provider;
 

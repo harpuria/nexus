@@ -40,6 +40,7 @@ public class GameUserService {
                 .userLPw(command.getUserLPw())
                 .nickname(command.getNickname())
                 .provider(command.getProvider())
+                .socialId(command.getSocialId())
                 .device(command.getDevice())
                 .createdBy(command.getCreatedBy())
                 .updatedBy(command.getCreatedBy())
@@ -138,7 +139,7 @@ public class GameUserService {
      * @param pagingCommand
      * @return
      */
-    public Result<GameUserListResponseDto> listGameUsers(PagingCommand pagingCommand) {
+    public Result<GameUserListResponseDto> listGameUsers(PagingCommand pagingCommand, int gameId) {
         int validatedSize = ApiConstants.validatePageSize(pagingCommand.getSize());
         int safePage = Math.max(pagingCommand.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
 
@@ -150,10 +151,10 @@ public class GameUserService {
                 .keyword(pagingCommand.getKeyword())
                 .build();
 
-        List<GameUserEntity> gameUsers = Optional.ofNullable(repository.selectGameUsers(pagingEntity))
+        List<GameUserEntity> gameUsers = Optional.ofNullable(repository.selectGameUsers(pagingEntity, gameId))
                 .orElseGet(Collections::emptyList);
 
-        long totalCount = repository.countGameUsers(pagingEntity);
+        long totalCount = gameUsers.size();
 
         List<GameUserResponseDto> responses = gameUsers.stream()
                 .map(GameUserResponseDto::from)

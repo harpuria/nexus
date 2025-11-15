@@ -11,6 +11,7 @@ import org.jooq.generated.tables.JGameUser;
 import org.jooq.generated.tables.daos.GameUserDao;
 import org.jooq.generated.tables.records.GameUserRecord;
 import org.jooq.SortField;
+import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
 
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
@@ -94,8 +95,19 @@ public class GameUserRepository {
                 .fetch(GAME_USER.USER_ID); // 개별 컬럼을 가져올 때는 이런식으로 반환 처리
     }
 
-    public List<GameUserEntity> selectGameUsers(PagingEntity paging) {
-        Condition condition = buildBaseCondition(paging);
+    public List<GameUserEntity> selectGameUsers(PagingEntity paging, int gameId) {
+        Condition condition = DSL.noCondition();
+
+        condition = condition.and(GAME_USER.IS_DEL.isNull().or(GAME_USER.IS_DEL.eq("N")));
+        condition = condition.and(GAME_USER.GAME_ID.eq(gameId));
+
+        if (paging.getKeyword() != null && !paging.getKeyword().isBlank()) {
+            String keyword = "%" + paging.getKeyword().trim() + "%";
+            condition = condition.and(
+                    GAME_USER.NICKNAME.likeIgnoreCase(keyword)
+                            .or(GAME_USER.USER_L_ID.likeIgnoreCase(keyword))
+            );
+        }
 
         int size = paging.getSize() > 0 ? paging.getSize() : ApiConstants.Pagination.DEFAULT_PAGE_SIZE;
         int page = Math.max(paging.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
@@ -106,35 +118,7 @@ public class GameUserRepository {
                 .orderBy(resolveSortField(paging.getSort(), paging.getDirection()))
                 .limit(size)
                 .offset(offset)
-                .fetchInto(GameUserRecord.class)
-                .stream()
-                .map(GameUserEntity::from)
-                .toList();
-    }
-
-    public long countGameUsers(PagingEntity paging) {
-        Condition condition = buildBaseCondition(paging);
-
-        Long count = dslContext.selectCount()
-                .from(GAME_USER)
-                .where(condition)
-                .fetchOneInto(Long.class);
-
-        return count != null ? count : 0L;
-    }
-
-    private Condition buildBaseCondition(PagingEntity paging) {
-        Condition condition = GAME_USER.IS_DEL.isNull().or(GAME_USER.IS_DEL.eq("N"));
-
-        if (paging.getKeyword() != null && !paging.getKeyword().isBlank()) {
-            String keyword = "%" + paging.getKeyword().trim() + "%";
-            condition = condition.and(
-                    GAME_USER.NICKNAME.likeIgnoreCase(keyword)
-                            .or(GAME_USER.USER_L_ID.likeIgnoreCase(keyword))
-            );
-        }
-
-        return condition;
+                .fetchInto(GameUserEntity.class);
     }
 
     private SortField<?> resolveSortField(String sort, String direction) {
