@@ -40,6 +40,7 @@ public class GameUserResponseDto extends BaseResponseDto {
                 .isWithdrawal(entity.getIsWithdrawal())
                 .withdrawalDate(entity.getWithdrawalDate())
                 .withdrawalReason(entity.getWithdrawalReason())
+                .isDel(entity.getIsDel())
                 .build();
     }
 }

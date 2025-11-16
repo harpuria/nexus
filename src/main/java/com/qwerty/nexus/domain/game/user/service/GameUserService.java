@@ -1,5 +1,10 @@
 package com.qwerty.nexus.domain.game.user.service;
 
+import com.qwerty.nexus.domain.auth.commnad.AuthCommand;
+import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyEntity;
+import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
+import com.qwerty.nexus.domain.game.data.currency.repository.CurrencyRepository;
+import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
 import com.qwerty.nexus.domain.game.user.command.*;
 import com.qwerty.nexus.domain.game.user.dto.response.GameUserListResponseDto;
 import com.qwerty.nexus.domain.game.user.dto.response.GameUserLoginResponseDto;
@@ -28,6 +33,9 @@ import java.util.stream.Collectors;
 public class GameUserService {
     private final GameUserRepository repository;
 
+    private final CurrencyRepository currencyRepository;
+    private final UserCurrencyRepository userCurrencyRepository;
+
     /**
      * 게임 유저 생성
      * @param command
@@ -49,6 +57,9 @@ public class GameUserService {
         Optional<GameUserEntity> insertRst = Optional.ofNullable(repository.createGameUser(entity));
 
         if(insertRst.isPresent()){
+            // 신규회원에게 USER_XXX 에블에 있는 모든 정보 INSERT 처리 (ex : USER_CURRENCY)
+            createUserData(command.getGameId(), insertRst.get().getUserId(), entity.getSocialId());
+
             return Result.Success.of(null, "유저 생성 성공.");
         }else{
             return Result.Failure.of("유저 생성 실패.", ErrorCode.INTERNAL_ERROR.getCode());
@@ -175,5 +186,52 @@ public class GameUserService {
                 .build();
 
         return Result.Success.of(responseDto, "게임 유저 목록 조회 완료.");
+    }
+
+    /**
+     * 신규 유저 데이터 생성
+     */
+    private void createUserData(int gameId, int userId, String socialId){
+        // 사용자 정의 테이블의 경우 초반 테이블 만들때 유저데이터 컬럼(가칭)이 Y 인 경우에는 생성하게 끔 처리하면 될듯
+        // 먼저 현재 있는건 유저재화니까 이거부터 정리 해봄
+        // 1) 현재 이 게임의 재화 목록을 모두 가져오기 (currencyId)
+
+        // 유저 재화
+        List<Integer> currencyIdList = currencyRepository.selectAllCurrencyId(CurrencyEntity.builder().gameId(gameId).build());
+        if(!currencyIdList.isEmpty()){
+            currencyIdList.forEach(currencyId -> {
+                UserCurrencyEntity userCurrencyEntity = UserCurrencyEntity.builder()
+                        .currencyId(currencyId)
+                        .userId(userId)
+                        .createdBy(socialId)
+                        .updatedBy(socialId)
+                        .build();
+
+                userCurrencyRepository.createUserCurrency(userCurrencyEntity);
+            });
+        }
+
+        // 유저 데이터 추가될 때 마다 아래에 추가
+    }
+
+    /**
+     * 한 건의 게임 유저 조회
+     * @param gameId
+     * @param userId
+     * @return
+     */
+    public Result<GameUserResponseDto> selectOneGameUser(int gameId, int userId) {
+        GameUserEntity entity = GameUserEntity.builder()
+                .gameId(gameId)
+                .userId(userId)
+                .build();
+
+        Optional<GameUserEntity> result = repository.selectOneGameUser(entity);
+
+        if(result.isEmpty()){
+            return Result.Failure.of("유저 정보가 존재하지 않음", ErrorCode.INTERNAL_ERROR.getCode());
+        } else{
+          return Result.Success.of(GameUserResponseDto.from(result.get()));
+        }
     }
 }

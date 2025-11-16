@@ -53,10 +53,10 @@ public class GameUserController {
      * @param dto 수정할 게임 유저 정보를 담은 객체 (DTO)
      * @return
      */
-    @PatchMapping("/{gameUserId}")
+    @PatchMapping("/{userId}")
     @Operation(summary = "게임 유저 수정")
-    public ResponseEntity<ApiResponse<Void>> updateGameUser(@PathVariable("gameUserId") int gameUserId, @RequestBody GameUserUpdateRequestDto dto) {
-        dto.setUserId(gameUserId);
+    public ResponseEntity<ApiResponse<Void>> updateGameUser(@PathVariable("userId") int userId, @RequestBody GameUserUpdateRequestDto dto) {
+        dto.setUserId(userId);
 
         Result<Void> result = gameUserService.updateGameUser(GameUserUpdateCommand.from(dto));
 
@@ -65,14 +65,14 @@ public class GameUserController {
 
     /**
      * 유저 정지 처리
-     * @param gameUserId
+     * @param userId
      * @param dto
      * @return
      */
-    @PatchMapping("/block/{gameUserId}")
+    @PatchMapping("/block/{userId}")
     @Operation(summary = "유저 정지 처리")
-    public ResponseEntity<ApiResponse<Void>> blockGameUser(@PathVariable("gameUserId") int gameUserId, @RequestBody GameUserBlockRequestDto dto) {
-        dto.setUserId(gameUserId);
+    public ResponseEntity<ApiResponse<Void>> blockGameUser(@PathVariable("userId") int userId, @RequestBody GameUserBlockRequestDto dto) {
+        dto.setUserId(userId);
 
         // 정지일수가 1일 이상 존재하면 시작일에서 정지일수를 더한 값만큼 계산
         if(dto.getBlockDay() > 0)
@@ -89,20 +89,33 @@ public class GameUserController {
 
     /**
      * 유저 탈퇴 처리
-     * @param gameUserId
+     * @param userId
      * @param dto
      * @return
      */
-    @PatchMapping("/withdrawal/{gameUserId}")
+    @PatchMapping("/withdrawal/{userId}")
     @Operation(summary = "유저 탈퇴 처리")
-    public ResponseEntity<ApiResponse<Void>>  withdrawalGameUser(@PathVariable("gameUserId") int gameUserId, @RequestBody GameUserWithdrawalRequestDto dto) {
-        dto.setUserId(gameUserId);
+    public ResponseEntity<ApiResponse<Void>>  withdrawalGameUser(@PathVariable("userId") int userId, @RequestBody GameUserWithdrawalRequestDto dto) {
+        dto.setUserId(userId);
         dto.setIsWithdrawal("Y");
         dto.setWithdrawalDate(OffsetDateTime.now());
 
         Result<Void> result = gameUserService.withdrawalGameUser(GameUserWithdrawalCommand.from(dto));
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
+    }
+
+    /**
+     * 한 건의 게임 유저 조회
+     * @param gameId 게임 아이디 (FK)
+     * @param userId 게임 유저 아이디 (PK)
+     * @return 유저 정보를 담은 응답 DTO
+     */
+    @GetMapping("/{gameId}/{userId}")
+    @Operation(summary = "한 건의 게임 유저 조회")
+    public ResponseEntity<ApiResponse<GameUserResponseDto>> selectOneGameUser(@PathVariable("gameId") int gameId, @PathVariable("userId") int userId) {
+        Result<GameUserResponseDto> result = gameUserService.selectOneGameUser(gameId, userId);
+        return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
     /**

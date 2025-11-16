@@ -138,4 +138,15 @@ public class GameUserRepository {
         boolean isAsc = ApiConstants.Pagination.SORT_ASC.equalsIgnoreCase(direction);
         return isAsc ? sortField.asc() : sortField.desc();
     }
+
+    /**
+     * 한 건의 게임 유저 조회
+     * @param entity
+     */
+    public Optional<GameUserEntity> selectOneGameUser(GameUserEntity entity) {
+        return Optional.ofNullable(dslContext.selectFrom(GAME_USER)
+                .where(GAME_USER.GAME_ID.eq(entity.getGameId())
+                        .and(GAME_USER.USER_ID.eq(entity.getUserId())))
+                .fetchOneInto(GameUserEntity.class));
+    }
 }
