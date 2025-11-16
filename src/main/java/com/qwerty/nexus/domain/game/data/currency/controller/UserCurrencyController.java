@@ -71,6 +71,18 @@ public class UserCurrencyController {
     }
 
     /**
+     * 유저 재화 조회
+     * @param userCurrencyId
+     * @return
+     */
+    @GetMapping("/{userCurrencyId}")
+    @Operation(summary = "유저 재화 조회")
+    public ResponseEntity<ApiResponse<UserCurrencyResponseDto>> selectOneUserCurrency(@PathVariable("userCurrencyId") int userCurrencyId) {
+        Result<UserCurrencyResponseDto> result = service.selectOneUserCurrency(userCurrencyId);
+        return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
+    }
+
+    /**
      * 유저 재화 수정
      * @param dto
      * @return

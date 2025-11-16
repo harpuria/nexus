@@ -102,7 +102,21 @@ public class UserCurrencyRepository {
     public Optional<UserCurrencyEntity> selectUserCurrency(UserCurrencyEntity userCurrencyEntity) {
         return Optional.ofNullable(dslContext.selectFrom(USER_CURRENCY)
                 .where(USER_CURRENCY.USER_ID.eq(userCurrencyEntity.getUserId())
-                        .and(USER_CURRENCY.CURRENCY_ID.eq(userCurrencyEntity.getCurrencyId())))
+                        .and(USER_CURRENCY.CURRENCY_ID.eq(userCurrencyEntity.getCurrencyId()))
+                        .and(USER_CURRENCY.IS_DEL.eq("N")))
+                .fetchOneInto(UserCurrencyEntity.class));
+    }
+
+    /**
+     * 유저 재화 단건 조회 (soft-delete 제외)
+     *
+     * @param userCurrencyId
+     * @return Optional of UserCurrencyEntity
+     */
+    public Optional<UserCurrencyEntity> findByUserCurrencyId(int userCurrencyId) {
+        return Optional.ofNullable(dslContext.selectFrom(USER_CURRENCY)
+                .where(USER_CURRENCY.USER_CURRENCY_ID.eq(userCurrencyId)
+                        .and(USER_CURRENCY.IS_DEL.eq("N")))
                 .fetchOneInto(UserCurrencyEntity.class));
     }
 }
