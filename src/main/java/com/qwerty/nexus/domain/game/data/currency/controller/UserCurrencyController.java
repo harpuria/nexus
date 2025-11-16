@@ -6,9 +6,12 @@ import com.qwerty.nexus.domain.game.data.currency.command.UserCurrencyUpdateComm
 import com.qwerty.nexus.domain.game.data.currency.dto.request.UserCurrencyCreateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.UserCurrencyOperateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.UserCurrencyUpdateRequestDto;
+import com.qwerty.nexus.domain.game.data.currency.dto.response.UserCurrencyListResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.response.UserCurrencyResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.service.UserCurrencyService;
 import com.qwerty.nexus.global.constant.ApiConstants;
+import com.qwerty.nexus.global.paging.command.PagingCommand;
+import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.ResponseEntityUtils;
 import com.qwerty.nexus.global.response.Result;
@@ -125,6 +128,33 @@ public class UserCurrencyController {
          */
 
         Result<UserCurrencyResponseDto> result = service.operate(UserCurrencyOperateCommand.from(dto));
+        return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/list/{userId}")
+    @Operation(summary = "유저 재화 목록 조회")
+    public ResponseEntity<ApiResponse<UserCurrencyListResponseDto>> listUserCurrencies(
+            @PathVariable("userId") int userId,
+            @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_SIZE) int size,
+            @RequestParam(defaultValue = ApiConstants.Pagination.DEFAULT_SORT_FIELD) String sort,
+            @RequestParam(defaultValue = ApiConstants.Pagination.DEFAULT_SORT_DIRECTION) String direction,
+            @RequestParam(required = false) Integer currencyId,
+            @RequestParam(required = false) Integer gameId
+    ) {
+        PagingRequestDto pagingRequestDto = new PagingRequestDto();
+        pagingRequestDto.setPage(page);
+        pagingRequestDto.setSize(size);
+        pagingRequestDto.setSort(sort);
+        pagingRequestDto.setDirection(direction);
+
+        Result<UserCurrencyListResponseDto> result = service.selectAllUserCurrency(
+                PagingCommand.from(pagingRequestDto),
+                userId,
+                gameId,
+                currencyId
+        );
+
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
