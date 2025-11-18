@@ -27,5 +27,5 @@ public class AdminCreateRequestDto {
     private AdminRole adminRole;
 
     @Schema(example = "1")
-    private int orgId;
+    private Integer orgId;
 }

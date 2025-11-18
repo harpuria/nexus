@@ -1,6 +1,7 @@
 package com.qwerty.nexus.domain.management.admin.service;
 
 import com.qwerty.nexus.domain.management.admin.command.*;
+import com.qwerty.nexus.domain.management.admin.dto.request.AdminInitCreateRequestDto;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminListResponseDto;
 import com.qwerty.nexus.domain.management.admin.entity.AdminEntity;
 import com.qwerty.nexus.domain.management.admin.repository.AdminRepository;
@@ -38,24 +39,23 @@ public class AdminService {
 
     /**
      * 초기 관리자 등록 + 단체 정보 등록
-     * @param command
+     * @param dto
      * @return
      */
     @Transactional
-    public Result<Void> initialize(AdminInitCreateCommand command) {
+    public Result<Void> initialize(AdminInitCreateRequestDto dto) {
         // 비밀번호 암호화 인코더
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(command.getLoginPw());
+        String encodedPassword = passwordEncoder.encode(dto.getLoginPw());
 
         AdminEntity adminEntity = AdminEntity.builder()
-                .loginId(command.getLoginId())
+                .loginId(dto.getLoginId())
                 .loginPw(encodedPassword)
-                .adminNm(command.getAdminNm())
-                .adminEmail(command.getAdminEmail())
-                .adminRole(command.getAdminRole())
-                .createdBy(command.getLoginId())
-                .updatedBy(command.getLoginId())
-                .orgId(command.getOrgId())
+                .adminNm(dto.getAdminNm())
+                .adminEmail(dto.getAdminEmail())
+                .adminRole(dto.getAdminRole())
+                .createdBy(dto.getLoginId())
+                .updatedBy(dto.getLoginId())
                 .build();
 
         // 회원 중복 확인
@@ -72,23 +72,23 @@ public class AdminService {
 
         // 단체 정보 생성 후 orgId 넣기
         OrganizationEntity organizationEntity = OrganizationEntity.builder()
-                .orgNm(command.getOrgNm())
-                .orgCd(command.getOrgCd())
-                .createdBy(command.getLoginId())
-                .updatedBy(command.getLoginId())
+                .orgNm(dto.getOrgNm())
+                .orgCd(dto.getOrgCd())
+                .createdBy(dto.getLoginId())
+                .updatedBy(dto.getLoginId())
                 .build();
 
         organizationEntity = organizationRepository.insert(organizationEntity);
 
         adminEntity = AdminEntity.builder()
-                .loginId(command.getLoginId())
+                .loginId(dto.getLoginId())
                 .orgId(organizationEntity.getOrgId())
                 .loginPw(encodedPassword)
-                .adminNm(command.getAdminNm())
-                .adminEmail(command.getAdminEmail())
-                .adminRole(command.getAdminRole())
-                .createdBy(command.getLoginId())
-                .updatedBy(command.getLoginId())
+                .adminNm(dto.getAdminNm())
+                .adminEmail(dto.getAdminEmail())
+                .adminRole(dto.getAdminRole())
+                .createdBy(dto.getLoginId())
+                .updatedBy(dto.getLoginId())
                 .build();
 
         // 중복 확인이 끝났으면 회원 등록(INSERT) 수행

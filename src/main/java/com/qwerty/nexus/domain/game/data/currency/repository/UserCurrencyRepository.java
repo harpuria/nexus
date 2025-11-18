@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.data.currency.repository;
 
+import com.qwerty.nexus.domain.game.data.currency.dto.response.TestDto;
 import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
@@ -25,11 +26,14 @@ import java.util.Optional;
 public class UserCurrencyRepository {
     private final DSLContext dslContext;
     private final JUserCurrency USER_CURRENCY = JUserCurrency.USER_CURRENCY;
+    private final JCurrency CURRENCY = JCurrency.CURRENCY;
     private final UserCurrencyDao dao;
+    private final Configuration configuration;
 
     public UserCurrencyRepository(Configuration configuration, DSLContext dslContext) {
         this.dslContext = dslContext;
         this.dao = new UserCurrencyDao(configuration);
+        this.configuration = configuration;
     }
 
     /**
@@ -113,6 +117,14 @@ public class UserCurrencyRepository {
                 .fetchOneInto(UserCurrencyEntity.class));
     }
 
+    /**
+     * 유저 재화 목록 가져오기
+     * @param paging
+     * @param userId
+     * @param gameId
+     * @param currencyId
+     * @return
+     */
     public List<UserCurrencyEntity> selectUserCurrencies(
             PagingEntity paging,
             Integer userId,
@@ -158,12 +170,26 @@ public class UserCurrencyRepository {
 
         SortField<?> sortField = resolveSortField(effectivePaging.getSort(), effectivePaging.getDirection());
 
+        List<UserCurrencyEntity> dtos = dslContext.select(CURRENCY.NAME, USER_CURRENCY.AMOUNT).from(USER_CURRENCY)
+                .innerJoin(CURRENCY)
+                .on(USER_CURRENCY.CURRENCY_ID.eq(CURRENCY.CURRENCY_ID))
+                .where(condition)
+                .orderBy(sortField)
+                .limit(size)
+                .offset(offset)
+                .fetchInto(UserCurrencyEntity.class); // 매핑 필요함 이대로 하면 오류
+
+        System.out.println(dtos.size());
+    return null;
+        /* before (join 이전)
         return dslContext.selectFrom(USER_CURRENCY)
                 .where(condition)
                 .orderBy(sortField)
                 .limit(size)
                 .offset(offset)
                 .fetchInto(UserCurrencyEntity.class);
+
+         */
     }
 
     private SortField<?> resolveSortField(String sort, String direction) {
