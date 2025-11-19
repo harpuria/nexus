@@ -8,11 +8,10 @@ import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.repository.CurrencyRepository;
 import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
 import com.qwerty.nexus.domain.game.product.PurchaseType;
-import com.qwerty.nexus.domain.game.product.command.ProductBuyCommand;
-import com.qwerty.nexus.domain.game.product.command.ProductCreateCommand;
-import com.qwerty.nexus.domain.game.product.command.ProductSearchCommand;
-import com.qwerty.nexus.domain.game.product.command.ProductUpdateCommand;
 import com.qwerty.nexus.domain.game.product.dto.ProductInfo;
+import com.qwerty.nexus.domain.game.product.dto.request.ProductBuyRequestDto;
+import com.qwerty.nexus.domain.game.product.dto.request.ProductCreateRequestDto;
+import com.qwerty.nexus.domain.game.product.dto.request.ProductUpdateRequestDto;
 import com.qwerty.nexus.domain.game.product.dto.response.ProductListResponseDto;
 import com.qwerty.nexus.domain.game.product.dto.response.ProductResponseDto;
 import com.qwerty.nexus.domain.game.product.entity.ProductEntity;
@@ -20,6 +19,7 @@ import com.qwerty.nexus.domain.game.product.entity.ProductSearchEntity;
 import com.qwerty.nexus.domain.game.product.repository.ProductRepository;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
+import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.response.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -41,24 +41,24 @@ public class ProductService {
 
     /**
      * 상품 정보 생성
-     * @param command
+     * @param dto
      * @return
      */
     @Transactional
-    public Result<Void> create(ProductCreateCommand command) {
+    public Result<Void> create(ProductCreateRequestDto dto) {
         ProductEntity entity = ProductEntity.builder()
-                .gameId(command.getGameId())
-                .purchaseType(command.getPurchaseType())
-                .currencyId(command.getCurrencyId())
-                .name(command.getName())
-                .desc(command.getDesc())
-                .price(command.getPrice())
-                .rewards(command.getRewards())
-                .limitType(command.getLimitType())
-                .availableStart(command.getAvailableStart())
-                .availableEnd(command.getAvailableEnd())
-                .createdBy(command.getCreatedBy())
-                .updatedBy(command.getUpdatedBy())
+                .gameId(dto.getGameId())
+                .purchaseType(dto.getPurchaseType())
+                .currencyId(dto.getCurrencyId())
+                .name(dto.getName())
+                .desc(dto.getDesc())
+                .price(dto.getPrice())
+                .rewards(dto.getRewards())
+                .limitType(dto.getLimitType())
+                .availableStart(dto.getAvailableStart())
+                .availableEnd(dto.getAvailableEnd())
+                .createdBy(dto.getCreatedBy())
+                .updatedBy(dto.getUpdatedBy())
                 .build();
 
         Optional<ProductEntity> createRst = Optional.ofNullable(repository.create(entity));
@@ -72,16 +72,16 @@ public class ProductService {
 
     /**
      * 상품 정보 수정 (논리적 삭제 포함)
-     * @param command
+     * @param dto
      * @return
      */
-    public Result<Void> update(ProductUpdateCommand command) {
+    public Result<Void> update(ProductUpdateRequestDto dto) {
 
         ProductEntity entity = ProductEntity.builder().build();
         Optional<ProductEntity> updateRst = Optional.ofNullable(repository.update(entity));
 
         String type = "수정";
-        if(command.getIsDel() != null && command.getIsDel().equalsIgnoreCase("Y"))
+        if(dto.getIsDel() != null && dto.getIsDel().equalsIgnoreCase("Y"))
             type = "삭제";
 
         if(updateRst.isPresent()){
@@ -93,16 +93,16 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Result<ProductListResponseDto> list(ProductSearchCommand command) {
-        int validatedSize = ApiConstants.validatePageSize(command.getSize());
-        int safePage = Math.max(command.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
-        String normalizedKeyword = command.getKeyword();
+    public Result<ProductListResponseDto> list(PagingRequestDto dto, int gameId) {
+        int validatedSize = ApiConstants.validatePageSize(dto.getSize());
+        int safePage = Math.max(dto.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
+        String normalizedKeyword = dto.getKeyword();
         if (normalizedKeyword != null) {
             normalizedKeyword = normalizedKeyword.trim();
         }
 
         ProductSearchEntity searchEntity = ProductSearchEntity.builder()
-                .gameId(command.getGameId())
+                .gameId(gameId)
                 .keyword(StringUtils.hasText(normalizedKeyword) ? normalizedKeyword : null)
                 .offset(safePage * validatedSize)
                 .limit(validatedSize)
@@ -132,13 +132,13 @@ public class ProductService {
 
     /**
      * 상품 구매 및 지급
-     * @param command
+     * @param dto
      * @return
      */
     @Transactional
-    public Result<Void> buy(ProductBuyCommand command) throws JsonProcessingException {
+    public Result<Void> buy(ProductBuyRequestDto dto) throws JsonProcessingException {
         // 구매할 상품 정보 가져오기
-        Optional<ProductEntity> buyProductInfo = repository.selectOne(command.getProductId());
+        Optional<ProductEntity> buyProductInfo = repository.selectOne(dto.getProductId());
         if(buyProductInfo.isPresent()){
             ProductEntity productEntity = buyProductInfo.get();
             switch (productEntity.getPurchaseType()) {
@@ -149,7 +149,7 @@ public class ProductService {
                     // 내부재화 구매인 경우 내부 재화 차감 후 지급 처리
                     // 유저 재화 차감 - s
                     UserCurrencyEntity userCurrencyEntity = UserCurrencyEntity.builder()
-                            .userId(command.getUserId())
+                            .userId(dto.getUserId())
                             .currencyId(buyProductInfo.get().getCurrencyId())
                             .build();
 
@@ -182,7 +182,7 @@ public class ProductService {
                         }
 
                         userCurrencyEntity = UserCurrencyEntity.builder()
-                                .userId(command.getUserId())
+                                .userId(dto.getUserId())
                                 .currencyId(reward.getCurrencyId())
                                 .build();
 

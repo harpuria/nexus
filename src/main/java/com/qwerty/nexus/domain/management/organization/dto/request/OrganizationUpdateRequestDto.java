@@ -18,7 +18,7 @@ public class OrganizationUpdateRequestDto {
     private String orgCd;
 
     @Schema(example = "admin")
-    private String updateBy;
+    private String updatedBy;
 
     // no parameter
     @JsonIgnore

@@ -1,7 +1,5 @@
 package com.qwerty.nexus.domain.management.game.controller;
 
-import com.qwerty.nexus.domain.management.game.command.GameCreateCommand;
-import com.qwerty.nexus.domain.management.game.command.GameUpdateCommand;
 import com.qwerty.nexus.domain.management.game.dto.request.GameCreateRequestDto;
 import com.qwerty.nexus.domain.management.game.dto.request.GameUpdateRequestDto;
 import com.qwerty.nexus.domain.management.game.dto.response.GameListResponseDto;
@@ -37,7 +35,7 @@ public class GameController {
     @PostMapping
     @Operation(summary = "게임 정보 생성")
     public ResponseEntity<ApiResponse<Void>> createGame(@RequestBody GameCreateRequestDto dto){
-        Result<Void> result = service.createGame(GameCreateCommand.from(dto));
+        Result<Void> result = service.createGame(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
@@ -54,7 +52,7 @@ public class GameController {
 
         dto.setGameId(gameId);
 
-        Result<Void> result = service.updateGame(GameUpdateCommand.from(dto));
+        Result<Void> result = service.updateGame(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }

@@ -1,7 +1,6 @@
 package com.qwerty.nexus.domain.management.admin.controller;
 
 import com.qwerty.nexus.domain.management.admin.AdminRole;
-import com.qwerty.nexus.domain.management.admin.command.*;
 import com.qwerty.nexus.domain.management.admin.dto.request.*;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminListResponseDto;
 import com.qwerty.nexus.domain.management.admin.service.AdminService;
@@ -58,7 +57,7 @@ public class AdminController {
     @Operation(summary = "관리자 생성 (SUPER 관리자가 생성)")
     public ResponseEntity<ApiResponse<Void>> createAdmin(
             @Parameter @RequestBody AdminCreateRequestDto dto){
-        Result<Void> result = service.create(AdminCreateCommand.from(dto));
+        Result<Void> result = service.create(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
@@ -75,7 +74,7 @@ public class AdminController {
                                                                      @Parameter @RequestBody AdminUpdateRequestDto dto){
         dto.setAdminId(adminId);
 
-        Result<Void> result = service.update(AdminUpdateCommand.from(dto));
+        Result<Void> result = service.update(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -92,7 +91,7 @@ public class AdminController {
         dto.setAdminId(adminId);
         dto.setIsDel("Y");
 
-        Result<Void> result = service.update(AdminUpdateCommand.from(dto));
+        Result<Void> result = service.update(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -149,7 +148,7 @@ public class AdminController {
     @PostMapping("/login")
     @Operation(summary = "관리자 로그인")
     public ResponseEntity<ApiResponse<AdminLoginResponseDto>> login(@RequestBody AdminLoginRequestDto dto){
-        Result<AdminLoginResponseDto> result = service.login(AdminLoginCommand.from(dto));
+        Result<AdminLoginResponseDto> result = service.login(dto);
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
@@ -161,7 +160,7 @@ public class AdminController {
     @PostMapping("/logout")
     @Operation(summary = "관리자 로그아웃")
     public ResponseEntity<ApiResponse<Void>> logout(@RequestBody AdminLogoutRequestDto dto){
-        Result<Void> result = service.logout(AdminLogoutCommand.from(dto));
+        Result<Void> result = service.logout(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }

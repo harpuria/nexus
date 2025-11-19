@@ -2,7 +2,6 @@ package com.qwerty.nexus.domain.management.game.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.qwerty.nexus.domain.management.game.GameStatus;
-import com.qwerty.nexus.domain.management.game.command.GameUpdateCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +21,7 @@ public class GameUpdateRequestDto {
     private String isDel;
 
     @Schema(example = "admin")
-    private String updateBy;
+    private String updatedBy;
 
     @Schema(example = "0.01")
     private String version;

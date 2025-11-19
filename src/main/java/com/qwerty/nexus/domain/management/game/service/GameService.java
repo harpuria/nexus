@@ -1,8 +1,8 @@
 package com.qwerty.nexus.domain.management.game.service;
 
 import com.qwerty.nexus.domain.management.game.GameStatus;
-import com.qwerty.nexus.domain.management.game.command.GameCreateCommand;
-import com.qwerty.nexus.domain.management.game.command.GameUpdateCommand;
+import com.qwerty.nexus.domain.management.game.dto.request.GameCreateRequestDto;
+import com.qwerty.nexus.domain.management.game.dto.request.GameUpdateRequestDto;
 import com.qwerty.nexus.domain.management.game.dto.response.GameListResponseDto;
 import com.qwerty.nexus.domain.management.game.dto.response.GameResponseDto;
 import com.qwerty.nexus.domain.management.game.entity.GameEntity;
@@ -29,19 +29,19 @@ public class GameService {
 
     /**
      * 게임 정보 생성
-     * @param command
+     * @param dto
      * @return
      */
-    public Result<Void> createGame(GameCreateCommand command) {
+    public Result<Void> createGame(GameCreateRequestDto dto) {
         GameEntity gameEntity = GameEntity.builder()
-                .orgId(command.getOrgId())
-                .name(command.getName())
-                .createdBy(command.getCreatedBy())
-                .updatedBy(command.getCreatedBy())
+                .orgId(dto.getOrgId())
+                .name(dto.getName())
+                .createdBy(dto.getCreatedBy())
+                .updatedBy(dto.getCreatedBy())
                 .status(GameStatus.STOPPED)
                 .clientAppId(UUID.randomUUID())
                 .signatureKey(UUID.randomUUID())
-                .version(command.getVersion())
+                .version(dto.getVersion())
                 .build();
 
         Optional<GameEntity> insertRst = Optional.ofNullable(repository.insertGame(gameEntity));
@@ -56,17 +56,17 @@ public class GameService {
 
     /**
      * 게임 정보 수정
-     * @param command
+     * @param dto
      * @return
      */
-    public Result<Void> updateGame(GameUpdateCommand command){
+    public Result<Void> updateGame(GameUpdateRequestDto dto){
         GameEntity gameEntity = GameEntity.builder()
-                .gameId(command.getGameId())
-                .name(command.getName())
-                .status(command.getStatus())
-                .isDel(command.getIsDel())
-                .version(command.getVersion())
-                .updatedBy(command.getUpdatedBy())
+                .gameId(dto.getGameId())
+                .name(dto.getName())
+                .status(dto.getStatus())
+                .isDel(dto.getIsDel())
+                .version(dto.getVersion())
+                .updatedBy(dto.getUpdatedBy())
                 .build();
 
         Optional<GameEntity> updateRst = Optional.ofNullable(repository.updateGame(gameEntity));

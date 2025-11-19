@@ -1,25 +1,24 @@
 package com.qwerty.nexus.domain.game.user.service;
 
-import com.qwerty.nexus.domain.auth.commnad.AuthCommand;
 import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.repository.CurrencyRepository;
 import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
-import com.qwerty.nexus.domain.game.user.command.*;
+import com.qwerty.nexus.domain.game.user.dto.request.GameUserBlockRequestDto;
+import com.qwerty.nexus.domain.game.user.dto.request.GameUserCreateRequestDto;
+import com.qwerty.nexus.domain.game.user.dto.request.GameUserUpdateRequestDto;
+import com.qwerty.nexus.domain.game.user.dto.request.GameUserWithdrawalRequestDto;
 import com.qwerty.nexus.domain.game.user.dto.response.GameUserListResponseDto;
-import com.qwerty.nexus.domain.game.user.dto.response.GameUserLoginResponseDto;
 import com.qwerty.nexus.domain.game.user.dto.response.GameUserResponseDto;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
-import com.qwerty.nexus.global.paging.command.PagingCommand;
+import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
-import com.qwerty.nexus.global.util.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -38,27 +37,27 @@ public class GameUserService {
 
     /**
      * 게임 유저 생성
-     * @param command
+     * @param dto
      * @return
      */
-    public Result<Void> createGameUser(GameUserCreateCommand command) {
+    public Result<Void> createGameUser(GameUserCreateRequestDto dto) {
         GameUserEntity entity = GameUserEntity.builder()
-                .gameId(command.getGameId())
-                .userLId(command.getUserLId())
-                .userLPw(command.getUserLPw())
-                .nickname(command.getNickname())
-                .provider(command.getProvider())
-                .socialId(command.getSocialId())
-                .device(command.getDevice())
-                .createdBy(command.getCreatedBy())
-                .updatedBy(command.getCreatedBy())
+                .gameId(dto.getGameId())
+                .userLId(dto.getUserLId())
+                .userLPw(dto.getUserLPw())
+                .nickname(dto.getNickname())
+                .provider(dto.getProvider())
+                .socialId(dto.getSocialId())
+                .device(dto.getDevice())
+                .createdBy(dto.getCreatedBy())
+                .updatedBy(dto.getCreatedBy())
                 .build();
 
         Optional<GameUserEntity> insertRst = Optional.ofNullable(repository.createGameUser(entity));
 
         if(insertRst.isPresent()){
             // 신규회원에게 USER_XXX 에블에 있는 모든 정보 INSERT 처리 (ex : USER_CURRENCY)
-            createUserData(command.getGameId(), insertRst.get().getUserId(), entity.getSocialId());
+            createUserData(dto.getGameId(), insertRst.get().getUserId(), entity.getSocialId());
 
             return Result.Success.of(null, "유저 생성 성공.");
         }else{
@@ -68,26 +67,26 @@ public class GameUserService {
 
     /**
      * 게임 유저 수정
-     * @param command
+     * @param dto
      * @return
      */
-    public Result<Void> updateGameUser(GameUserUpdateCommand command) {
+    public Result<Void> updateGameUser(GameUserUpdateRequestDto dto) {
         GameUserEntity entity = GameUserEntity.builder()
-                .userId(command.getUserId())
-                .gameId(command.getGameId())
-                .userLId(command.getUserLId())
-                .userLPw(command.getUserLPw())
-                .nickname(command.getNickname())
-                .provider(command.getProvider())
-                .device(command.getDevice())
-                .blockStartDate(command.getBlockStartDate())
-                .blockEndDate(command.getBlockEndDate())
-                .blockReason(command.getBlockReason())
-                .isWithdrawal(command.getIsWithdrawal())
-                .withdrawalDate(command.getWithdrawalDate())
-                .withdrawalReason(command.getWithdrawalReason())
-                .updatedBy(command.getUpdatedBy())
-                .isDel(command.getIsDel())
+                .userId(dto.getUserId())
+                .gameId(dto.getGameId())
+                .userLId(dto.getUserLId())
+                .userLPw(dto.getUserLPw())
+                .nickname(dto.getNickname())
+                .provider(dto.getProvider())
+                .device(dto.getDevice())
+                .blockStartDate(dto.getBlockStartDate())
+                .blockEndDate(dto.getBlockEndDate())
+                .blockReason(dto.getBlockReason())
+                .isWithdrawal(dto.getIsWithdrawal())
+                .withdrawalDate(dto.getWithdrawalDate())
+                .withdrawalReason(dto.getWithdrawalReason())
+                .updatedBy(dto.getUpdatedBy())
+                .isDel(dto.getIsDel())
                 .build();
 
         Optional<GameUserEntity> updateRst = Optional.ofNullable(repository.updateGameUser(entity));
@@ -101,16 +100,16 @@ public class GameUserService {
 
     /**
      * 게임 유저 정지
-     * @param command
+     * @param dto
      * @return
      */
-    public Result<Void> blockGameUser(GameUserBlockCommand command) {
+    public Result<Void> blockGameUser(GameUserBlockRequestDto dto) {
         GameUserEntity entity = GameUserEntity.builder()
-                .userId(command.getUserId())
-                .blockStartDate(command.getBlockStartDate())
-                .blockEndDate(command.getBlockEndDate())
-                .blockReason(command.getBlockReason())
-                .updatedBy(command.getUpdatedBy())
+                .userId(dto.getUserId())
+                .blockStartDate(dto.getBlockStartDate())
+                .blockEndDate(dto.getBlockEndDate())
+                .blockReason(dto.getBlockReason())
+                .updatedBy(dto.getUpdatedBy())
                 .build();
 
         Optional<GameUserEntity> updateRst = Optional.ofNullable(repository.updateGameUser(entity));
@@ -124,16 +123,16 @@ public class GameUserService {
 
     /**
      * 게임 유저 탈퇴
-     * @param command
+     * @param dto
      * @return
      */
-    public Result<Void> withdrawalGameUser(GameUserWithdrawalCommand command) {
+    public Result<Void> withdrawalGameUser(GameUserWithdrawalRequestDto dto) {
         GameUserEntity entity = GameUserEntity.builder()
-                .userId(command.getUserId())
-                .isWithdrawal(command.getIsWithdrawal())
-                .withdrawalDate(command.getWithdrawalDate())
-                .withdrawalReason(command.getWithdrawalReason())
-                .updatedBy(command.getUpdatedBy())
+                .userId(dto.getUserId())
+                .isWithdrawal(dto.getIsWithdrawal())
+                .withdrawalDate(dto.getWithdrawalDate())
+                .withdrawalReason(dto.getWithdrawalReason())
+                .updatedBy(dto.getUpdatedBy())
                 .build();
 
         Optional<GameUserEntity> updateRst = Optional.ofNullable(repository.updateGameUser(entity));
@@ -147,19 +146,19 @@ public class GameUserService {
 
     /**
      * 게임 유저 목록 조회
-     * @param pagingCommand
+     * @param pagingRequestDto
      * @return
      */
-    public Result<GameUserListResponseDto> listGameUsers(PagingCommand pagingCommand, int gameId) {
-        int validatedSize = ApiConstants.validatePageSize(pagingCommand.getSize());
-        int safePage = Math.max(pagingCommand.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
+    public Result<GameUserListResponseDto> listGameUsers(PagingRequestDto pagingRequestDto, int gameId) {
+        int validatedSize = ApiConstants.validatePageSize(pagingRequestDto.getSize());
+        int safePage = Math.max(pagingRequestDto.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
 
         PagingEntity pagingEntity = PagingEntity.builder()
                 .page(safePage)
                 .size(validatedSize)
-                .sort(pagingCommand.getSort())
-                .direction(pagingCommand.getDirection())
-                .keyword(pagingCommand.getKeyword())
+                .sort(pagingRequestDto.getSort())
+                .direction(pagingRequestDto.getDirection())
+                .keyword(pagingRequestDto.getKeyword())
                 .build();
 
         List<GameUserEntity> gameUsers = Optional.ofNullable(repository.selectGameUsers(pagingEntity, gameId))

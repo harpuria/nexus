@@ -1,7 +1,6 @@
 package com.qwerty.nexus.domain.management.admin.service;
 
-import com.qwerty.nexus.domain.management.admin.command.*;
-import com.qwerty.nexus.domain.management.admin.dto.request.AdminInitCreateRequestDto;
+import com.qwerty.nexus.domain.management.admin.dto.request.*;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminListResponseDto;
 import com.qwerty.nexus.domain.management.admin.entity.AdminEntity;
 import com.qwerty.nexus.domain.management.admin.repository.AdminRepository;
@@ -102,23 +101,23 @@ public class AdminService {
 
     /**
      * 관리자 생성
-     * @param command
+     * @param dto
      * @return
      */
-    public Result<Void> create(AdminCreateCommand command) {
+    public Result<Void> create(AdminCreateRequestDto dto) {
         // 비밀번호 암호화 인코더
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(command.getLoginPw());
+        String encodedPassword = passwordEncoder.encode(dto.getLoginPw());
 
         AdminEntity adminEntity = AdminEntity.builder()
-                .loginId(command.getLoginId())
+                .loginId(dto.getLoginId())
                 .loginPw(encodedPassword)
-                .adminNm(command.getAdminNm())
-                .adminEmail(command.getAdminEmail())
-                .adminRole(command.getAdminRole())
-                .createdBy(command.getLoginId())
-                .updatedBy(command.getLoginId())
-                .orgId(command.getOrgId())
+                .adminNm(dto.getAdminNm())
+                .adminEmail(dto.getAdminEmail())
+                .adminRole(dto.getAdminRole())
+                .createdBy(dto.getLoginId())
+                .updatedBy(dto.getLoginId())
+                .orgId(dto.getOrgId())
                 .build();
 
         // 회원 중복 확인
@@ -144,31 +143,31 @@ public class AdminService {
 
     /**
      * 관리자 정보 수정
-     * @param command
+     * @param dto
      * @return
      */
-    public Result<Void> update(AdminUpdateCommand command) {
+    public Result<Void> update(AdminUpdateRequestDto dto) {
         // 변경할 비밀번호가 있는 경우 암호화 처리
         String modifiedPw = null;
-        if(command.getLoginPw() != null){
+        if(dto.getLoginPw() != null){
             PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            modifiedPw = passwordEncoder.encode(command.getLoginPw());
+            modifiedPw = passwordEncoder.encode(dto.getLoginPw());
         }
 
         AdminEntity adminEntity = AdminEntity.builder()
-                .adminId(command.getAdminId())
-                .adminNm(command.getAdminNm())
+                .adminId(dto.getAdminId())
+                .adminNm(dto.getAdminNm())
                 .loginPw(modifiedPw)
-                .adminEmail(command.getAdminEmail())
-                .adminRole(command.getAdminRole())
-                .isDel(command.getIsDel())
-                .updatedBy(command.getUpdatedBy())
+                .adminEmail(dto.getAdminEmail())
+                .adminRole(dto.getAdminRole())
+                .isDel(dto.getIsDel())
+                .updatedBy(dto.getUpdatedBy())
                 .build();
 
         Optional<AdminEntity> updateRst = Optional.ofNullable(repository.updateAdmin(adminEntity));
 
         String type = "수정";
-        if(command.getIsDel() != null && command.getIsDel().equalsIgnoreCase("Y"))
+        if(dto.getIsDel() != null && dto.getIsDel().equalsIgnoreCase("Y"))
             type = "삭제";
 
         if(updateRst.isEmpty()) {
@@ -232,16 +231,16 @@ public class AdminService {
 
     /**
      * 관리자 로그인
-     * @param command
+     * @param dto
      * @return
      */
-    public Result<AdminLoginResponseDto> login(AdminLoginCommand command) {
-        if (command.getLoginId() == null || command.getLoginId().isBlank()
-                || command.getLoginPw() == null || command.getLoginPw().isBlank()) {
+    public Result<AdminLoginResponseDto> login(AdminLoginRequestDto dto) {
+        if (dto.getLoginId() == null || dto.getLoginId().isBlank()
+                || dto.getLoginPw() == null || dto.getLoginPw().isBlank()) {
             return Result.Failure.of("로그인 아이디 또는 비밀번호가 누락되었습니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
-        Optional<AdminEntity> adminOptional = repository.findByLoginId(command.getLoginId());
+        Optional<AdminEntity> adminOptional = repository.findByLoginId(dto.getLoginId());
 
         if (adminOptional.isEmpty()) {
             return Result.Failure.of("관리자 계정이 존재하지 않습니다.", ErrorCode.USER_NOT_FOUND.getCode());
@@ -254,7 +253,7 @@ public class AdminService {
         }
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if (!passwordEncoder.matches(command.getLoginPw(), admin.getLoginPw())) {
+        if (!passwordEncoder.matches(dto.getLoginPw(), admin.getLoginPw())) {
             return Result.Failure.of("아이디 또는 비밀번호가 올바르지 않습니다.", ErrorCode.INVALID_CREDENTIALS.getCode());
         }
 
@@ -273,12 +272,12 @@ public class AdminService {
 
     /**
      * 관리자 로그아웃
-     * @param command
+     * @param dto
      * @return
      */
-    public Result<Void> logout(AdminLogoutCommand command) {
-        String accessToken = command.getAccessToken();
-        String refreshToken = command.getRefreshToken();
+    public Result<Void> logout(AdminLogoutRequestDto dto) {
+        String accessToken = dto.getAccessToken();
+        String refreshToken = dto.getRefreshToken();
 
         if (!hasText(accessToken) && !hasText(refreshToken)) {
             return Result.Failure.of("로그아웃에 필요한 토큰 정보가 없습니다.", ErrorCode.INVALID_REQUEST.getCode());

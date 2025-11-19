@@ -1,9 +1,5 @@
 package com.qwerty.nexus.domain.game.user.controller;
 
-import com.qwerty.nexus.domain.game.user.command.GameUserBlockCommand;
-import com.qwerty.nexus.domain.game.user.command.GameUserCreateCommand;
-import com.qwerty.nexus.domain.game.user.command.GameUserUpdateCommand;
-import com.qwerty.nexus.domain.game.user.command.GameUserWithdrawalCommand;
 import com.qwerty.nexus.domain.game.user.dto.request.GameUserBlockRequestDto;
 import com.qwerty.nexus.domain.game.user.dto.request.GameUserCreateRequestDto;
 import com.qwerty.nexus.domain.game.user.dto.request.GameUserUpdateRequestDto;
@@ -43,7 +39,7 @@ public class GameUserController {
     @PostMapping
     @Operation(summary = "게임 유저 생성")
     public ResponseEntity<ApiResponse<Void>> createGameUser(@RequestBody GameUserCreateRequestDto dto) {
-        Result<Void> result = gameUserService.createGameUser(GameUserCreateCommand.from(dto));
+        Result<Void> result = gameUserService.createGameUser(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
@@ -58,7 +54,7 @@ public class GameUserController {
     public ResponseEntity<ApiResponse<Void>> updateGameUser(@PathVariable("userId") int userId, @RequestBody GameUserUpdateRequestDto dto) {
         dto.setUserId(userId);
 
-        Result<Void> result = gameUserService.updateGameUser(GameUserUpdateCommand.from(dto));
+        Result<Void> result = gameUserService.updateGameUser(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -82,7 +78,7 @@ public class GameUserController {
         if(dto.getBlockDay() <= 0)
             dto.setBlockEndDate(dto.getBlockStartDate().plusDays(99999));
 
-        Result<Void> result = gameUserService.blockGameUser(GameUserBlockCommand.from(dto));
+        Result<Void> result = gameUserService.blockGameUser(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -100,7 +96,7 @@ public class GameUserController {
         dto.setIsWithdrawal("Y");
         dto.setWithdrawalDate(OffsetDateTime.now());
 
-        Result<Void> result = gameUserService.withdrawalGameUser(GameUserWithdrawalCommand.from(dto));
+        Result<Void> result = gameUserService.withdrawalGameUser(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -138,7 +134,7 @@ public class GameUserController {
         pagingRequestDto.setKeyword(keyword);
         pagingRequestDto.setDirection(direction);
 
-        Result<GameUserListResponseDto> result = gameUserService.listGameUsers(PagingCommand.from(pagingRequestDto), gameId);
+        Result<GameUserListResponseDto> result = gameUserService.listGameUsers(pagingRequestDto, gameId);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }

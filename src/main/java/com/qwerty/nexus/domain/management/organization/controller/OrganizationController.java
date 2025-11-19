@@ -34,7 +34,7 @@ public class OrganizationController {
     @Operation(summary = "단체 정보 수정")
     public ResponseEntity<ApiResponse<Void>> updateOrganization(@PathVariable("orgId") int orgId, @Parameter @RequestBody OrganizationUpdateRequestDto dto){
         dto.setOrgId(orgId);
-        Result<Void> result = service.update(OrganizationUpdateCommand.from(dto));
+        Result<Void> result = service.update(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }

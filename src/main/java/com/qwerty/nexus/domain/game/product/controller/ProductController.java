@@ -11,6 +11,7 @@ import com.qwerty.nexus.domain.game.product.dto.request.ProductUpdateRequestDto;
 import com.qwerty.nexus.domain.game.product.dto.response.ProductListResponseDto;
 import com.qwerty.nexus.domain.game.product.service.ProductService;
 import com.qwerty.nexus.global.constant.ApiConstants;
+import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.ResponseEntityUtils;
 import com.qwerty.nexus.global.response.Result;
@@ -38,12 +39,13 @@ public class ProductController {
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_SIZE) int size,
             @RequestParam(required = false) String keyword
     ) {
-        Result<ProductListResponseDto> rst = service.list(ProductSearchCommand.builder()
-                .gameId(gameId)
-                .page(page)
-                .size(size)
-                .keyword(keyword)
-                .build());
+
+        PagingRequestDto pagingRequestDto = new PagingRequestDto();
+        pagingRequestDto.setPage(page);
+        pagingRequestDto.setSize(size);
+        pagingRequestDto.setKeyword(keyword);
+
+        Result<ProductListResponseDto> rst = service.list(pagingRequestDto, gameId);
 
         return ResponseEntityUtils.toResponseEntity(rst, HttpStatus.OK);
     }
@@ -56,7 +58,7 @@ public class ProductController {
     @PostMapping
     @Operation(summary = "상품 정보 생성")
     public ResponseEntity<ApiResponse<Void>> create(@RequestBody ProductCreateRequestDto dto){
-        Result<Void> rst = service.create(ProductCreateCommand.from(dto));
+        Result<Void> rst = service.create(dto);
         return ResponseEntityUtils.toResponseEntityVoid(rst, HttpStatus.CREATED);
     }
 
@@ -70,7 +72,7 @@ public class ProductController {
     public ResponseEntity<ApiResponse<Void>> update(@PathVariable int productId, @RequestBody ProductUpdateRequestDto dto){
         dto.setProductId(productId);
 
-        Result<Void> rst = service.update(ProductUpdateCommand.from(dto));
+        Result<Void> rst = service.update(dto);
         return ResponseEntityUtils.toResponseEntityVoid(rst, HttpStatus.OK);
     }
 
@@ -85,7 +87,7 @@ public class ProductController {
         ProductUpdateRequestDto dto = new ProductUpdateRequestDto();
         dto.setIsDel("Y");
 
-        Result<Void> rst = service.update(ProductUpdateCommand.from(dto));
+        Result<Void> rst = service.update(dto);
         return ResponseEntityUtils.toResponseEntityVoid(rst, HttpStatus.OK);
     }
 
@@ -97,7 +99,7 @@ public class ProductController {
     @PostMapping("/buy")
     @Operation(summary = "상품 구매 및 지급")
     public ResponseEntity<ApiResponse<Void>> buy(ProductBuyRequestDto dto) throws JsonProcessingException {
-        Result<Void> rst = service.buy(ProductBuyCommand.from(dto));
+        Result<Void> rst = service.buy(dto);
         return ResponseEntityUtils.toResponseEntityVoid(rst, HttpStatus.OK);
     }
 }

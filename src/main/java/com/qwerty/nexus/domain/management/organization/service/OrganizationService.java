@@ -1,6 +1,6 @@
 package com.qwerty.nexus.domain.management.organization.service;
 
-import com.qwerty.nexus.domain.management.organization.command.OrganizationUpdateCommand;
+import com.qwerty.nexus.domain.management.organization.dto.request.OrganizationUpdateRequestDto;
 import com.qwerty.nexus.domain.management.organization.dto.response.OrganizationResponseDto;
 import com.qwerty.nexus.domain.management.organization.entity.OrganizationEntity;
 import com.qwerty.nexus.domain.management.organization.repository.OrganizationRepository;
@@ -20,18 +20,18 @@ public class OrganizationService {
 
     /**
      * 단체 정보 수정
-     * @param command
+     * @param dto
      */
-    public Result<Void> update(OrganizationUpdateCommand command) {
+    public Result<Void> update(OrganizationUpdateRequestDto dto) {
         // 업데이트를 하는 사람이 해당 조직의 소속된 사람인지, SUPER 권한을 가졌는지 확인
         // true 면 아래 update 진행
         //AdminResponseDTO admin = adminService.selectOneAdmin(organization.getAdmin().getAdminId());
         //admin.getOrgId();
         OrganizationEntity orgEntity = OrganizationEntity.builder()
-                .orgId(command.getOrgId())
-                .orgNm(command.getOrgNm())
-                .orgCd(command.getOrgCd())
-                .updatedBy(command.getUpdatedBy())
+                .orgId(dto.getOrgId())
+                .orgNm(dto.getOrgNm())
+                .orgCd(dto.getOrgCd())
+                .updatedBy(dto.getUpdatedBy())
                 .build();
 
         Optional<OrganizationEntity> updateRst = Optional.ofNullable(repository.update(orgEntity));
