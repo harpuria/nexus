@@ -1,7 +1,7 @@
 package com.qwerty.nexus.domain.game.data.currency.service;
 
-import com.qwerty.nexus.domain.game.data.currency.command.CurrencyCreateCommand;
-import com.qwerty.nexus.domain.game.data.currency.command.CurrencyUpdateCommand;
+import com.qwerty.nexus.domain.game.data.currency.dto.request.CurrencyCreateRequestDto;
+import com.qwerty.nexus.domain.game.data.currency.dto.request.CurrencyUpdateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.response.CurrencyResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyListResponseDto;
@@ -10,12 +10,9 @@ import com.qwerty.nexus.domain.game.data.currency.repository.CurrencyRepository;
 import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
-import com.qwerty.nexus.domain.management.admin.dto.response.AdminListResponseDto;
-import com.qwerty.nexus.domain.management.admin.dto.response.AdminResponseDto;
-import com.qwerty.nexus.domain.management.admin.entity.AdminEntity;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
-import com.qwerty.nexus.global.paging.command.PagingCommand;
+import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
 import lombok.RequiredArgsConstructor;
@@ -36,17 +33,17 @@ public class CurrencyService {
 
     /**
      * 재화 정보 생성
-     * @param command
+     * @param dto
      * @return
      */
-    public Result<Void> create(CurrencyCreateCommand command){
+    public Result<Void> create(CurrencyCreateRequestDto dto){
         CurrencyEntity entity = CurrencyEntity.builder()
-                .gameId(command.getGameId())
-                .name(command.getName())
-                .desc(command.getDesc())
-                .createdBy(command.getCreatedBy())
-                .updatedBy(command.getCreatedBy())
-                .maxAmount(command.getMaxAmount())
+                .gameId(dto.getGameId())
+                .name(dto.getName())
+                .desc(dto.getDesc())
+                .createdBy(dto.getCreatedBy())
+                .updatedBy(dto.getCreatedBy())
+                .maxAmount(dto.getMaxAmount())
                 .build();
 
         Optional<CurrencyEntity> createRst = Optional.ofNullable(repository.createCurrency(entity));
@@ -61,7 +58,7 @@ public class CurrencyService {
         // 2) 현재 존재하는 재화들 (삭제상태가 아닌 것)을 모두 해당 유저에게 생성하게 함
 
         if(createRst.isPresent()){
-            List<Integer> userIdList = gameUserRepository.selectAllUserId(GameUserEntity.builder().gameId(command.getGameId()).build());
+            List<Integer> userIdList = gameUserRepository.selectAllUserId(GameUserEntity.builder().gameId(dto.getGameId()).build());
             if(!userIdList.isEmpty()){
                 userIdList.forEach(userId -> {
                     log.info("===========================");
@@ -73,8 +70,8 @@ public class CurrencyService {
                     UserCurrencyEntity userCurrencyEntity = UserCurrencyEntity.builder()
                             .userId(userId)
                             .currencyId(createRst.get().getCurrencyId())
-                            .createdBy(command.getCreatedBy())
-                            .updatedBy(command.getCreatedBy())
+                            .createdBy(dto.getCreatedBy())
+                            .updatedBy(dto.getCreatedBy())
                             .build();
                     userCurrencyRepository.createUserCurrency(userCurrencyEntity);
                 });
@@ -89,21 +86,21 @@ public class CurrencyService {
 
     /**
      * 재화 정보 수정
-     * @param command
+     * @param dto
      * @return
      */
-    public Result<Void> updateCurrency(CurrencyUpdateCommand command){
+    public Result<Void> updateCurrency(CurrencyUpdateRequestDto dto){
         CurrencyEntity entity = CurrencyEntity.builder()
-                .currencyId(command.getCurrencyId())
-                .name(command.getName())
-                .desc(command.getDesc())
-                .updatedBy(command.getUpdatedBy())
-                .isDel(command.getIsDel())
-                .maxAmount(command.getMaxAmount())
+                .currencyId(dto.getCurrencyId())
+                .name(dto.getName())
+                .desc(dto.getDesc())
+                .updatedBy(dto.getUpdatedBy())
+                .isDel(dto.getIsDel())
+                .maxAmount(dto.getMaxAmount())
                 .build();
 
         String type = "수정";
-        if(command.getIsDel() != null && command.getIsDel().equalsIgnoreCase("Y"))
+        if(dto.getIsDel() != null && dto.getIsDel().equalsIgnoreCase("Y"))
             type = "삭제";
 
         Optional<CurrencyEntity> updateRst = Optional.ofNullable(repository.updateCurrency(entity));
@@ -135,16 +132,22 @@ public class CurrencyService {
 
     /**
      * 재화 목록 가져오기
-     * @param pagingCommand
+     * @param pagingDto
      * @param gameId
      * @return
      */
-    public Result<CurrencyListResponseDto> selectAll(PagingCommand pagingCommand, Integer gameId) {
+    public Result<CurrencyListResponseDto> selectAll(PagingRequestDto pagingDto, Integer gameId) {
 
-        int validatedSize = ApiConstants.validatePageSize(pagingCommand.getSize());
-        int safePage = Math.max(pagingCommand.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
+        int validatedSize = ApiConstants.validatePageSize(pagingDto.getSize());
+        int safePage = Math.max(pagingDto.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
 
-        Optional<List<CurrencyEntity>> selectRst = Optional.ofNullable(repository.selectCurrencies(PagingEntity.from(pagingCommand), gameId));
+        PagingEntity pagingEntity = PagingEntity.builder()
+                .direction(pagingDto.getDirection())
+                .size(validatedSize)
+                .page(pagingDto.getPage())
+                .build();
+
+        Optional<List<CurrencyEntity>> selectRst = Optional.ofNullable(repository.selectCurrencies(pagingEntity, gameId));
         if(selectRst.isEmpty()) {
             return Result.Failure.of("재화 목록이 존재하지 않음.",  ErrorCode.INTERNAL_ERROR.getCode());
         }

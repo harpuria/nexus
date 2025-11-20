@@ -1,8 +1,5 @@
 package com.qwerty.nexus.domain.game.data.currency.controller;
 
-import com.qwerty.nexus.domain.game.data.currency.command.UserCurrencyCreateCommand;
-import com.qwerty.nexus.domain.game.data.currency.command.UserCurrencyOperateCommand;
-import com.qwerty.nexus.domain.game.data.currency.command.UserCurrencyUpdateCommand;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.UserCurrencyCreateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.UserCurrencyOperateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.UserCurrencyUpdateRequestDto;
@@ -10,7 +7,6 @@ import com.qwerty.nexus.domain.game.data.currency.dto.response.UserCurrencyListR
 import com.qwerty.nexus.domain.game.data.currency.dto.response.UserCurrencyResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.service.UserCurrencyService;
 import com.qwerty.nexus.global.constant.ApiConstants;
-import com.qwerty.nexus.global.paging.command.PagingCommand;
 import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.ResponseEntityUtils;
@@ -69,7 +65,7 @@ public class UserCurrencyController {
     @PostMapping
     @Operation(summary = "유저 재화 생성")
     public ResponseEntity<ApiResponse<Void>> createUserCurrency(@RequestBody UserCurrencyCreateRequestDto dto){
-        Result<Void> result = service.create(UserCurrencyCreateCommand.from(dto));
+        Result<Void> result = service.create(dto);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
@@ -83,7 +79,7 @@ public class UserCurrencyController {
     public ResponseEntity<ApiResponse<Void>> updateUserCurrency(@PathVariable("userCurrencyId") int userCurrencyId, @RequestBody UserCurrencyUpdateRequestDto dto){
         dto.setUserCurrencyId(userCurrencyId);
 
-        Result<Void> result = service.update(UserCurrencyUpdateCommand.from(dto));
+        Result<Void> result = service.update(dto);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
@@ -99,7 +95,7 @@ public class UserCurrencyController {
         dto.setUserCurrencyId(userCurrencyId);
         dto.setIsDel("Y");
 
-        Result<Void> result = service.update(UserCurrencyUpdateCommand.from(dto));
+        Result<Void> result = service.update(dto);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
@@ -127,7 +123,7 @@ public class UserCurrencyController {
          *
          */
 
-        Result<UserCurrencyResponseDto> result = service.operate(UserCurrencyOperateCommand.from(dto));
+        Result<UserCurrencyResponseDto> result = service.operate(dto);
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
@@ -149,7 +145,7 @@ public class UserCurrencyController {
         pagingRequestDto.setDirection(direction);
 
         Result<UserCurrencyListResponseDto> result = service.selectAllUserCurrency(
-                PagingCommand.from(pagingRequestDto),
+                pagingRequestDto,
                 userId,
                 gameId,
                 currencyId

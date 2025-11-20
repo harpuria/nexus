@@ -1,8 +1,6 @@
 package com.qwerty.nexus.domain.game.user.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.qwerty.nexus.domain.game.user.command.GameUserBlockCommand;
-import com.qwerty.nexus.domain.game.user.command.GameUserUpdateCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

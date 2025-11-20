@@ -7,7 +7,6 @@ import com.qwerty.nexus.domain.management.admin.service.AdminService;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminLoginResponseDto;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminResponseDto;
 import com.qwerty.nexus.global.constant.ApiConstants;
-import com.qwerty.nexus.global.paging.command.PagingCommand;
 import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.ResponseEntityUtils;
@@ -134,7 +133,7 @@ public class AdminController {
         pagingRequestDto.setKeyword(keyword);
         pagingRequestDto.setDirection(direction);
 
-        Result<AdminListResponseDto> result = service.selectAll(PagingCommand.from(pagingRequestDto));
+        Result<AdminListResponseDto> result = service.selectAll(pagingRequestDto);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }

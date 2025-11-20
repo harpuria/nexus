@@ -1,7 +1,6 @@
 package com.qwerty.nexus.domain.management.organization.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.qwerty.nexus.domain.management.organization.command.OrganizationUpdateCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

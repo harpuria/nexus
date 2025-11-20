@@ -1,6 +1,5 @@
 package com.qwerty.nexus.domain.game.data.currency.dto.request;
 
-import com.qwerty.nexus.domain.game.data.currency.command.UserCurrencyUpdateCommand;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

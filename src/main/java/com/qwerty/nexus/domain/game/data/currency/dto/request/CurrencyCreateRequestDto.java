@@ -1,6 +1,5 @@
 package com.qwerty.nexus.domain.game.data.currency.dto.request;
 
-import com.qwerty.nexus.domain.game.data.currency.command.CurrencyCreateCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

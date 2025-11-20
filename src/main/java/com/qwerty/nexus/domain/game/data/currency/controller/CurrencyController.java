@@ -1,14 +1,11 @@
 package com.qwerty.nexus.domain.game.data.currency.controller;
 
-import com.qwerty.nexus.domain.game.data.currency.command.CurrencyCreateCommand;
-import com.qwerty.nexus.domain.game.data.currency.command.CurrencyUpdateCommand;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.CurrencyCreateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.CurrencyUpdateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.response.CurrencyResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyListResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.service.CurrencyService;
 import com.qwerty.nexus.global.constant.ApiConstants;
-import com.qwerty.nexus.global.paging.command.PagingCommand;
 import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.ResponseEntityUtils;
@@ -20,8 +17,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Log4j2
 @RequestMapping(ApiConstants.Path.CURRENCY_PATH)
@@ -39,7 +34,7 @@ public class CurrencyController {
     @PostMapping
     @Operation(summary = "재화 정보 생성")
     public ResponseEntity<ApiResponse<Void>> createCurrency(@RequestBody CurrencyCreateRequestDto dto){
-        Result<Void> result = service.create(CurrencyCreateCommand.from(dto));
+        Result<Void> result = service.create(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
@@ -54,7 +49,7 @@ public class CurrencyController {
     public ResponseEntity<ApiResponse<Void>> updateCurrency(@PathVariable("currencyId") int currencyId, @RequestBody CurrencyUpdateRequestDto dto){
         dto.setCurrencyId(currencyId);
 
-        Result<Void> result = service.updateCurrency(CurrencyUpdateCommand.from(dto));
+        Result<Void> result = service.updateCurrency(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -71,7 +66,7 @@ public class CurrencyController {
         dto.setCurrencyId(currencyId);
         dto.setIsDel("Y");
 
-        Result<Void> result = service.updateCurrency(CurrencyUpdateCommand.from(dto));
+        Result<Void> result = service.updateCurrency(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -117,7 +112,7 @@ public class CurrencyController {
         pagingRequestDto.setKeyword(keyword);
         pagingRequestDto.setDirection(direction);
 
-        Result<CurrencyListResponseDto> result = service.selectAll(PagingCommand.from(pagingRequestDto), gameId);
+        Result<CurrencyListResponseDto> result = service.selectAll(pagingRequestDto, gameId);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }

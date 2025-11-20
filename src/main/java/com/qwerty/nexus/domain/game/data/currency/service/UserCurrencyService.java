@@ -1,15 +1,15 @@
 package com.qwerty.nexus.domain.game.data.currency.service;
 
-import com.qwerty.nexus.domain.game.data.currency.command.UserCurrencyCreateCommand;
-import com.qwerty.nexus.domain.game.data.currency.command.UserCurrencyOperateCommand;
-import com.qwerty.nexus.domain.game.data.currency.command.UserCurrencyUpdateCommand;
+import com.qwerty.nexus.domain.game.data.currency.dto.request.UserCurrencyCreateRequestDto;
+import com.qwerty.nexus.domain.game.data.currency.dto.request.UserCurrencyOperateRequestDto;
+import com.qwerty.nexus.domain.game.data.currency.dto.request.UserCurrencyUpdateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.response.UserCurrencyListResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.response.UserCurrencyResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
-import com.qwerty.nexus.global.paging.command.PagingCommand;
+import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
 import lombok.RequiredArgsConstructor;
@@ -27,10 +27,10 @@ public class UserCurrencyService {
 
     /**
      * 유저 재화 생성
-     * @param command
+     * @param dto
      * @return
      */
-    public Result<Void> create(UserCurrencyCreateCommand command) {
+    public Result<Void> create(UserCurrencyCreateRequestDto dto) {
         UserCurrencyEntity entity = UserCurrencyEntity.builder().build();
 
         UserCurrencyEntity createRst = repository.createUserCurrency(entity);
@@ -40,10 +40,10 @@ public class UserCurrencyService {
 
     /**
      * 유저 재화 수정
-     * @param command
+     * @param dto
      * @return
      */
-    public Result<Void> update(UserCurrencyUpdateCommand command) {
+    public Result<Void> update(UserCurrencyUpdateRequestDto dto) {
         UserCurrencyEntity entity = UserCurrencyEntity.builder().build();
 
         UserCurrencyEntity updateRst = repository.updateUserCurrency(entity);
@@ -53,10 +53,10 @@ public class UserCurrencyService {
 
     /**
      * 유저 재화 연산
-     * @param from
+     * @param dto
      * @return
      */
-    public Result<UserCurrencyResponseDto> operate(UserCurrencyOperateCommand from) {
+    public Result<UserCurrencyResponseDto> operate(UserCurrencyOperateRequestDto dto) {
         UserCurrencyEntity entity = UserCurrencyEntity.builder().build();
 
         // 이거는 클라이언트를 믿어야하는 API 이기 때문에 어느정도 보안 누수는 감안해야함.
@@ -65,7 +65,7 @@ public class UserCurrencyService {
         // 현재 재화 상태(갯수 등) 가져오기 (어디에 연산해야할지 알아야 하니께)
 
         // 여기서 연산처리 한다음에
-        switch(from.getOperation()) {
+        switch(dto.getOperation()) {
             case "+" -> {}
             case "-" -> {}
             case "*" -> {}
@@ -79,27 +79,25 @@ public class UserCurrencyService {
     }
 
     public Result<UserCurrencyListResponseDto> selectAllUserCurrency(
-            PagingCommand command,
+            PagingRequestDto dto,
             Integer userId,
             Integer gameId,
             Integer currencyId
     ) {
-        PagingCommand safeCommand = command == null
-                ? PagingCommand.builder()
-                        .page(ApiConstants.Pagination.DEFAULT_PAGE_NUMBER)
-                        .size(ApiConstants.Pagination.DEFAULT_PAGE_SIZE)
-                        .sort(ApiConstants.Pagination.DEFAULT_SORT_FIELD)
-                        .direction(ApiConstants.Pagination.DEFAULT_SORT_DIRECTION)
-                        .build()
-                : command;
 
-        int validatedSize = ApiConstants.validatePageSize(safeCommand.getSize());
-        int safePage = Math.max(safeCommand.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
-        String sort = StringUtils.hasText(safeCommand.getSort())
-                ? safeCommand.getSort()
+        PagingRequestDto safeRequestDto = new PagingRequestDto();
+        safeRequestDto.setPage(ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
+        safeRequestDto.setSize(ApiConstants.Pagination.DEFAULT_PAGE_SIZE);
+        safeRequestDto.setSort(ApiConstants.Pagination.DEFAULT_SORT_FIELD);
+        safeRequestDto.setDirection(ApiConstants.Pagination.DEFAULT_SORT_DIRECTION);
+
+        int validatedSize = ApiConstants.validatePageSize(safeRequestDto.getSize());
+        int safePage = Math.max(safeRequestDto.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
+        String sort = StringUtils.hasText(safeRequestDto.getSort())
+                ? safeRequestDto.getSort()
                 : ApiConstants.Pagination.DEFAULT_SORT_FIELD;
-        String direction = StringUtils.hasText(safeCommand.getDirection())
-                ? safeCommand.getDirection()
+        String direction = StringUtils.hasText(safeRequestDto.getDirection())
+                ? safeRequestDto.getDirection()
                 : ApiConstants.Pagination.DEFAULT_SORT_DIRECTION;
 
         PagingEntity pagingEntity = PagingEntity.builder()
@@ -107,7 +105,7 @@ public class UserCurrencyService {
                 .size(validatedSize)
                 .sort(sort)
                 .direction(direction)
-                .keyword(safeCommand.getKeyword())
+                .keyword(safeRequestDto.getKeyword())
                 .build();
 
         List<UserCurrencyEntity> userCurrencies = repository.selectUserCurrencies(

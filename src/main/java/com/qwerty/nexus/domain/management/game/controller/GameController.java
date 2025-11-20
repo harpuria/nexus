@@ -6,7 +6,6 @@ import com.qwerty.nexus.domain.management.game.dto.response.GameListResponseDto;
 import com.qwerty.nexus.domain.management.game.dto.response.GameResponseDto;
 import com.qwerty.nexus.domain.management.game.service.GameService;
 import com.qwerty.nexus.global.constant.ApiConstants;
-import com.qwerty.nexus.global.paging.command.PagingCommand;
 import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.ResponseEntityUtils;
@@ -95,7 +94,7 @@ public class GameController {
         pagingRequestDto.setDirection(direction);
         pagingRequestDto.setKeyword(keyword);
 
-        Result<GameListResponseDto> result = service.selectGameList(PagingCommand.from(pagingRequestDto));
+        Result<GameListResponseDto> result = service.selectGameList(pagingRequestDto);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }

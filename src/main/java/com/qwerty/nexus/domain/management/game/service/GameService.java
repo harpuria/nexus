@@ -9,7 +9,7 @@ import com.qwerty.nexus.domain.management.game.entity.GameEntity;
 import com.qwerty.nexus.domain.management.game.repository.GameRepository;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
-import com.qwerty.nexus.global.paging.command.PagingCommand;
+import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
 import lombok.RequiredArgsConstructor;
@@ -97,12 +97,12 @@ public class GameService {
     /**
      * 게임 목록 조회 (페이징)
      *
-     * @param pagingCommand
+     * @param pagingDto
      * @return 페이징 메타데이터와 함께 게임 목록
      */
-    public Result<GameListResponseDto> selectGameList(PagingCommand pagingCommand){
-        int validatedSize = ApiConstants.validatePageSize(pagingCommand.getSize());
-        int safePage = Math.max(pagingCommand.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
+    public Result<GameListResponseDto> selectGameList(PagingRequestDto pagingDto){
+        int validatedSize = ApiConstants.validatePageSize(pagingDto.getSize());
+        int safePage = Math.max(pagingDto.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
 
         PagingEntity pagingEntity = PagingEntity.builder().build();
 

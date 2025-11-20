@@ -1,6 +1,5 @@
 package com.qwerty.nexus.domain.management.organization.controller;
 
-import com.qwerty.nexus.domain.management.organization.command.OrganizationUpdateCommand;
 import com.qwerty.nexus.domain.management.organization.dto.request.OrganizationUpdateRequestDto;
 import com.qwerty.nexus.domain.management.organization.dto.response.OrganizationResponseDto;
 import com.qwerty.nexus.domain.management.organization.service.OrganizationService;

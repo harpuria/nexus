@@ -1,7 +1,6 @@
 package com.qwerty.nexus.domain.game.user.dto.request;
 
 import com.qwerty.nexus.domain.auth.Provider;
-import com.qwerty.nexus.domain.game.user.command.GameUserUpdateCommand;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

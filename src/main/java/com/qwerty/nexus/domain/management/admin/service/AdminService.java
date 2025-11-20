@@ -10,7 +10,7 @@ import com.qwerty.nexus.domain.management.organization.entity.OrganizationEntity
 import com.qwerty.nexus.domain.management.organization.repository.OrganizationRepository;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
-import com.qwerty.nexus.global.paging.command.PagingCommand;
+import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
 import com.qwerty.nexus.global.util.jwt.JwtTokenGenerationData;
@@ -197,14 +197,19 @@ public class AdminService {
 
     /**
      * 관리자 목록 조회
-     * @param pagingCommand
+     * @param pagingDto
      * @return
      */
-    public Result<AdminListResponseDto> selectAll(PagingCommand pagingCommand) {
-        int validatedSize = ApiConstants.validatePageSize(pagingCommand.getSize());
-        int safePage = Math.max(pagingCommand.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
+    public Result<AdminListResponseDto> selectAll(PagingRequestDto pagingDto) {
+        int validatedSize = ApiConstants.validatePageSize(pagingDto.getSize());
+        int safePage = Math.max(pagingDto.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
 
-        Optional<List<AdminEntity>> selectRst = Optional.ofNullable(repository.selectAllAdmin(PagingEntity.from(pagingCommand)));
+        PagingEntity pagingEntity = PagingEntity.builder()
+                .page(safePage)
+                .size(validatedSize)
+                .build();
+
+        Optional<List<AdminEntity>> selectRst = Optional.ofNullable(repository.selectAllAdmin(pagingEntity));
         if(selectRst.isEmpty()) {
             return Result.Failure.of("관리자 목록이 존재하지 않음.",  ErrorCode.INTERNAL_ERROR.getCode());
         }
