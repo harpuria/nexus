@@ -140,8 +140,8 @@ public class AdminRepository {
 
         // 정렬 기준 설정
         String sortDirection = Optional.ofNullable(pagingEntity.getDirection()).orElse("DESC");
-        int size = pagingEntity.getSize() > 0 ? pagingEntity.getSize() : 10;
-        int page = Math.max(pagingEntity.getPage(), 0);
+        int size = pagingEntity.getSize();
+        int page = pagingEntity.getPage();
         int offset = page * size;
         Condition finalCondition = condition;
 
@@ -208,5 +208,19 @@ public class AdminRepository {
         return Optional.ofNullable(dslContext.selectFrom(ADMIN)
                 .where(ADMIN.LOGIN_ID.eq(loginId))
                 .fetchOneInto(AdminEntity.class));
+    }
+
+    /**
+     * 삭제되지 않은 전체 관리자 개수 조회
+     *
+     * @return 전체 건수
+     */
+    public long countActiveAdmins() {
+        Long count = dslContext.selectCount()
+                .from(ADMIN)
+                .where(ADMIN.IS_DEL.eq("N"))
+                .fetchOneInto(Long.class);
+
+        return count != null ? count : 0L;
     }
 }

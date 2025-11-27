@@ -104,7 +104,13 @@ public class GameService {
         int validatedSize = ApiConstants.validatePageSize(pagingDto.getSize());
         int safePage = Math.max(pagingDto.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
 
-        PagingEntity pagingEntity = PagingEntity.builder().build();
+        PagingEntity pagingEntity = PagingEntity.builder()
+                .page(safePage)
+                .size(validatedSize)
+                .direction(pagingDto.getDirection())
+                .keyword(pagingDto.getKeyword())
+                .sort(pagingDto.getSort())
+                .build();
 
         Optional<List<GameEntity>> selectRst = Optional.ofNullable(repository.selectGameList(pagingEntity));
 

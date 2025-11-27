@@ -205,8 +205,8 @@ public class AdminService {
         int safePage = Math.max(pagingDto.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
 
         PagingEntity pagingEntity = PagingEntity.builder()
-                .page(pagingDto.getPage())
-                .size(pagingDto.getSize())
+                .page(safePage)
+                .size(validatedSize)
                 .direction(pagingDto.getDirection())
                 .keyword(pagingDto.getKeyword())
                 .sort(pagingDto.getSort())
@@ -219,7 +219,7 @@ public class AdminService {
 
         List<AdminResponseDto> admins = selectRst.get().stream().map(AdminResponseDto::from).toList();
 
-        long totalCount = admins.size();
+        long totalCount = repository.countActiveAdmins();
         int totalPages = validatedSize == 0 ? 0 : (int) Math.ceil((double) totalCount / validatedSize);
         boolean hasNext = safePage + 1 < totalPages;
         boolean hasPrevious = safePage > 0 && totalPages > 0;
