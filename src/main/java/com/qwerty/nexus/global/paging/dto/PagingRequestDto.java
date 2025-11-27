@@ -31,16 +31,4 @@ public class PagingRequestDto {
     public boolean hasKeyword() {
         return keyword != null && !keyword.trim().isEmpty();
     }
-
-    public String getTrimmedKeyword() {
-        return hasKeyword() ? keyword.trim() : "";
-    }
-
-    public long getOffset() {
-        return (long) page * size;
-    }
-
-    public boolean isAsc() {
-        return "asc".equalsIgnoreCase(direction);
-    }
 }

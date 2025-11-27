@@ -205,8 +205,11 @@ public class AdminService {
         int safePage = Math.max(pagingDto.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
 
         PagingEntity pagingEntity = PagingEntity.builder()
-                .page(safePage)
-                .size(validatedSize)
+                .page(pagingDto.getPage())
+                .size(pagingDto.getSize())
+                .direction(pagingDto.getDirection())
+                .keyword(pagingDto.getKeyword())
+                .sort(pagingDto.getSort())
                 .build();
 
         Optional<List<AdminEntity>> selectRst = Optional.ofNullable(repository.selectAllAdmin(pagingEntity));
