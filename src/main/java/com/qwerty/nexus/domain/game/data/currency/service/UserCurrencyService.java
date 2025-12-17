@@ -7,6 +7,7 @@ import com.qwerty.nexus.domain.game.data.currency.dto.response.UserCurrencyListR
 import com.qwerty.nexus.domain.game.data.currency.dto.response.UserCurrencyResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
+import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
@@ -78,6 +79,19 @@ public class UserCurrencyService {
         return Result.Success.of(null, "성공");
     }
 
+    /**
+     * 유저 재화 단건 조회
+     * @param userCurrencyId
+     * @return Result<UserCurrencyResponseDto>
+     */
+    public Result<UserCurrencyResponseDto> selectOneUserCurrency(int userCurrencyId) {
+        return repository.findByUserCurrencyId(userCurrencyId)
+                .map(UserCurrencyResponseDto::from)
+                .<Result<UserCurrencyResponseDto>>map(Result.Success::of)
+                .orElseGet(() -> Result.Failure.of(
+                        ErrorCode.NOT_FOUND.getMessage(),
+                        ErrorCode.NOT_FOUND.getCode()
+                ));
     public Result<UserCurrencyListResponseDto> selectAllUserCurrency(
             PagingRequestDto dto,
             Integer userId,
