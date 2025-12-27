@@ -7,6 +7,7 @@ import com.qwerty.nexus.domain.game.data.currency.dto.response.UserCurrencyListR
 import com.qwerty.nexus.domain.game.data.currency.dto.response.UserCurrencyResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
+import com.qwerty.nexus.domain.game.data.currency.result.UserCurrencyListResult;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
@@ -108,7 +109,7 @@ public class UserCurrencyService {
                 .keyword(safeRequestDto.getKeyword())
                 .build();
 
-        List<UserCurrencyEntity> userCurrencies = repository.selectUserCurrencies(
+        List<UserCurrencyListResult> userCurrencies = repository.selectUserCurrencies(
                 pagingEntity,
                 userId,
                 gameId,

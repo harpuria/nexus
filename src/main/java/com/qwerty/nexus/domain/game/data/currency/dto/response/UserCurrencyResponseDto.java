@@ -1,6 +1,7 @@
 package com.qwerty.nexus.domain.game.data.currency.dto.response;
 
 import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
+import com.qwerty.nexus.domain.game.data.currency.result.UserCurrencyListResult;
 import com.qwerty.nexus.global.paging.dto.BaseResponseDto;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -23,6 +24,13 @@ public class UserCurrencyResponseDto extends BaseResponseDto {
                 .userId(entity.getUserId())
                 .amount(entity.getAmount())
                 .name(entity.getName())
+                .build();
+    }
+
+    public static UserCurrencyResponseDto from(UserCurrencyListResult result){
+        return UserCurrencyResponseDto.builder()
+                .amount(result.getAmount())
+                .name(result.getName())
                 .build();
     }
 }

@@ -1,7 +1,7 @@
 package com.qwerty.nexus.domain.game.data.currency.repository;
 
-import com.qwerty.nexus.domain.game.data.currency.dto.response.TestDto;
 import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
+import com.qwerty.nexus.domain.game.data.currency.result.UserCurrencyListResult;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import lombok.extern.log4j.Log4j2;
@@ -125,7 +125,7 @@ public class UserCurrencyRepository {
      * @param currencyId
      * @return
      */
-    public List<UserCurrencyEntity> selectUserCurrencies(
+    public List<UserCurrencyListResult> selectUserCurrencies(
             PagingEntity paging,
             Integer userId,
             Integer gameId,
@@ -170,26 +170,14 @@ public class UserCurrencyRepository {
 
         SortField<?> sortField = resolveSortField(effectivePaging.getSort(), effectivePaging.getDirection());
 
-        List<UserCurrencyEntity> dtos = dslContext.select(CURRENCY.NAME, USER_CURRENCY.AMOUNT).from(USER_CURRENCY)
+        return dslContext.select(CURRENCY.NAME, USER_CURRENCY.AMOUNT).from(USER_CURRENCY)
                 .innerJoin(CURRENCY)
                 .on(USER_CURRENCY.CURRENCY_ID.eq(CURRENCY.CURRENCY_ID))
                 .where(condition)
                 .orderBy(sortField)
                 .limit(size)
                 .offset(offset)
-                .fetchInto(UserCurrencyEntity.class); // 매핑 필요함 이대로 하면 오류
-
-        System.out.println(dtos.size());
-    return null;
-        /* before (join 이전)
-        return dslContext.selectFrom(USER_CURRENCY)
-                .where(condition)
-                .orderBy(sortField)
-                .limit(size)
-                .offset(offset)
-                .fetchInto(UserCurrencyEntity.class);
-
-         */
+                .fetchInto(UserCurrencyListResult.class);
     }
 
     private SortField<?> resolveSortField(String sort, String direction) {
