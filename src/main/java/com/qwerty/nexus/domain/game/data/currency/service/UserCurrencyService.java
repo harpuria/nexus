@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @Service
@@ -45,11 +46,18 @@ public class UserCurrencyService {
      * @return
      */
     public Result<Void> update(UserCurrencyUpdateRequestDto dto) {
-        UserCurrencyEntity entity = UserCurrencyEntity.builder().build();
+        UserCurrencyEntity entity = UserCurrencyEntity.builder()
+                .userCurrencyId(dto.getUserCurrencyId())
+                .amount(dto.getAmount())
+                .updatedBy(dto.getUpdatedBy())
+                .build();
 
-        UserCurrencyEntity updateRst = repository.updateUserCurrency(entity);
-
-        return Result.Success.of(null, "성공");
+        Optional<UserCurrencyEntity> updateRst = Optional.ofNullable(repository.updateUserCurrency(entity));
+        if(updateRst.isPresent()){
+            return Result.Success.of(null, "유저 데이터 수정 성공");
+        }else{
+            return Result.Failure.of("유저 데이터 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+        }
     }
 
     /**

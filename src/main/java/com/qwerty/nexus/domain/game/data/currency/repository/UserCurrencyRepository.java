@@ -55,7 +55,13 @@ public class UserCurrencyRepository {
      * @return
      */
     public UserCurrencyEntity updateUserCurrency(UserCurrencyEntity entity) {
-        return null;
+        UserCurrencyRecord record = dslContext.newRecord(USER_CURRENCY, entity);
+        record.changed(USER_CURRENCY.AMOUNT, entity.getAmount() != null);
+        record.changed(USER_CURRENCY.UPDATED_BY, entity.getUpdatedBy() != null);
+        record.changed(USER_CURRENCY.IS_DEL, entity.getIsDel() != null);
+        record.update();
+
+        return entity;
     }
 
     /*
