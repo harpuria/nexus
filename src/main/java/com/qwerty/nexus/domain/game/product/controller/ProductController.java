@@ -27,25 +27,6 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
     private final ProductService service;
 
-    @GetMapping
-    @Operation(summary = "상품 목록 조회")
-    public ResponseEntity<ApiResponse<ProductListResponseDto>> list(
-            @RequestParam int gameId,
-            @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
-            @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_SIZE) int size,
-            @RequestParam(required = false) String keyword
-    ) {
-
-        PagingRequestDto pagingRequestDto = new PagingRequestDto();
-        pagingRequestDto.setPage(page);
-        pagingRequestDto.setSize(size);
-        pagingRequestDto.setKeyword(keyword);
-
-        Result<ProductListResponseDto> rst = service.list(pagingRequestDto, gameId);
-
-        return ResponseEntityUtils.toResponseEntity(rst, HttpStatus.OK);
-    }
-
     /**
      * 상품 정보 생성
      * @param dto
@@ -97,5 +78,24 @@ public class ProductController {
     public ResponseEntity<ApiResponse<Void>> buy(ProductBuyRequestDto dto) throws JsonProcessingException {
         Result<Void> rst = service.buy(dto);
         return ResponseEntityUtils.toResponseEntityVoid(rst, HttpStatus.OK);
+    }
+
+    @GetMapping
+    @Operation(summary = "상품 목록 조회")
+    public ResponseEntity<ApiResponse<ProductListResponseDto>> list(
+            @RequestParam int gameId,
+            @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_SIZE) int size,
+            @RequestParam(required = false) String keyword
+    ) {
+
+        PagingRequestDto pagingRequestDto = new PagingRequestDto();
+        pagingRequestDto.setPage(page);
+        pagingRequestDto.setSize(size);
+        pagingRequestDto.setKeyword(keyword);
+
+        Result<ProductListResponseDto> rst = service.list(pagingRequestDto, gameId);
+
+        return ResponseEntityUtils.toResponseEntity(rst, HttpStatus.OK);
     }
 }

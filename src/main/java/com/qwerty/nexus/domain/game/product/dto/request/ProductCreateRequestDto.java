@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.product.dto.request;
 
+import com.qwerty.nexus.domain.game.product.LimitType;
 import com.qwerty.nexus.domain.game.product.PurchaseType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -35,7 +36,9 @@ public class ProductCreateRequestDto {
 
     @Schema(example = "[{\"currencyId\":1, \"amount\": 99999}]")
     private JSONB rewards;
-    private String limitType;
+
+    @Schema(example = "NONE")
+    private LimitType limitType;
     private OffsetDateTime availableStart;
     private OffsetDateTime availableEnd;
     private String createdBy;

@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.product.entity;
 
+import com.qwerty.nexus.domain.game.product.LimitType;
 import com.qwerty.nexus.domain.game.product.PurchaseType;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +20,7 @@ public class ProductEntity {
     private String desc;
     private BigDecimal price;
     private JSONB rewards;
-    private String limitType;
+    private LimitType limitType;
     private OffsetDateTime availableStart;
     private OffsetDateTime availableEnd;
     private OffsetDateTime createdAt;
