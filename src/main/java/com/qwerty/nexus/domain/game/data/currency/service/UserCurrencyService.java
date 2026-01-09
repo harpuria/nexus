@@ -13,6 +13,7 @@ import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
+import com.qwerty.nexus.global.util.PagingUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -100,7 +101,7 @@ public class UserCurrencyService {
         safeRequestDto.setSort(ApiConstants.Pagination.DEFAULT_SORT_FIELD);
         safeRequestDto.setDirection(ApiConstants.Pagination.DEFAULT_SORT_DIRECTION);
 
-        int validatedSize = ApiConstants.validatePageSize(safeRequestDto.getSize());
+        int validatedSize = PagingUtil.validatePageSize(safeRequestDto.getSize());
         int safePage = Math.max(safeRequestDto.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
         String sort = StringUtils.hasText(safeRequestDto.getSort())
                 ? safeRequestDto.getSort()

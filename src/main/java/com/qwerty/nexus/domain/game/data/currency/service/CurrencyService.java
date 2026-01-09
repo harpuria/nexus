@@ -15,6 +15,7 @@ import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
+import com.qwerty.nexus.global.util.PagingUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -137,15 +138,9 @@ public class CurrencyService {
      * @return
      */
     public Result<CurrencyListResponseDto> selectAll(PagingRequestDto pagingDto, Integer gameId) {
-
-        int validatedSize = ApiConstants.validatePageSize(pagingDto.getSize());
-        int safePage = Math.max(pagingDto.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
-
-        PagingEntity pagingEntity = PagingEntity.builder()
-                .direction(pagingDto.getDirection())
-                .size(validatedSize)
-                .page(pagingDto.getPage())
-                .build();
+        PagingEntity pagingEntity = PagingUtil.getPagingEntity(pagingDto);
+        int validatedSize = pagingEntity.getSize();
+        int safePage = pagingEntity.getPage();
 
         Optional<List<CurrencyEntity>> selectRst = Optional.ofNullable(repository.selectCurrencies(pagingEntity, gameId));
         if(selectRst.isEmpty()) {

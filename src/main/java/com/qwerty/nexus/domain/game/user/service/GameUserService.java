@@ -17,6 +17,7 @@ import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
+import com.qwerty.nexus.global.util.PagingUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -150,16 +151,9 @@ public class GameUserService {
      * @return
      */
     public Result<GameUserListResponseDto> listGameUsers(PagingRequestDto pagingRequestDto, int gameId) {
-        int validatedSize = ApiConstants.validatePageSize(pagingRequestDto.getSize());
-        int safePage = Math.max(pagingRequestDto.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
-
-        PagingEntity pagingEntity = PagingEntity.builder()
-                .page(safePage)
-                .size(validatedSize)
-                .sort(pagingRequestDto.getSort())
-                .direction(pagingRequestDto.getDirection())
-                .keyword(pagingRequestDto.getKeyword())
-                .build();
+        PagingEntity pagingEntity = PagingUtil.getPagingEntity(pagingRequestDto);
+        int validatedSize = pagingEntity.getSize();
+        int safePage = pagingEntity.getPage();
 
         List<GameUserEntity> gameUsers = Optional.ofNullable(repository.selectGameUsers(pagingEntity, gameId))
                 .orElseGet(Collections::emptyList);

@@ -1,5 +1,6 @@
 package com.qwerty.nexus.global.paging.entity;
 
+import com.qwerty.nexus.global.util.PagingUtil;
 import lombok.Builder;
 import lombok.Getter;
 

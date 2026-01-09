@@ -26,7 +26,7 @@ public class PagingRequestDto {
 
 
     @Size(max = 100, message = "검색어는 100자 이하여야 합니다.")
-    private String keyword; // 검색어 (선택)
+    private String keyword = ""; // 검색어 (선택)
 
     public boolean hasKeyword() {
         return keyword != null && !keyword.trim().isEmpty();

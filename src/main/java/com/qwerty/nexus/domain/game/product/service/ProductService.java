@@ -21,6 +21,7 @@ import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.response.Result;
+import com.qwerty.nexus.global.util.PagingUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -94,7 +95,7 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public Result<ProductListResponseDto> list(PagingRequestDto dto, int gameId) {
-        int validatedSize = ApiConstants.validatePageSize(dto.getSize());
+        int validatedSize = PagingUtil.validatePageSize(dto.getSize());
         int safePage = Math.max(dto.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
         String normalizedKeyword = dto.getKeyword();
         if (normalizedKeyword != null) {

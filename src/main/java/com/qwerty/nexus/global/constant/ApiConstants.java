@@ -383,17 +383,4 @@ public final class ApiConstants {
     public static String createBearerToken(String token) {
         return Headers.BEARER_PREFIX + token;
     }
-
-    /**
-     * 페이지 사이즈 검증 및 조정
-     *
-     * @param size 요청된 페이지 사이즈
-     * @return 검증된 페이지 사이즈
-     */
-    public static int validatePageSize(int size) {
-        if (size < Pagination.MIN_PAGE_SIZE) {
-            return Pagination.DEFAULT_PAGE_SIZE;
-        }
-        return Math.min(size, Pagination.MAX_PAGE_SIZE);
-    }
 }

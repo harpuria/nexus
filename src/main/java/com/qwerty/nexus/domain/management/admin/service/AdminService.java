@@ -13,6 +13,7 @@ import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
+import com.qwerty.nexus.global.util.PagingUtil;
 import com.qwerty.nexus.global.util.jwt.JwtTokenGenerationData;
 import com.qwerty.nexus.global.util.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -201,16 +202,9 @@ public class AdminService {
      * @return
      */
     public Result<AdminListResponseDto> selectAll(PagingRequestDto pagingDto) {
-        int validatedSize = ApiConstants.validatePageSize(pagingDto.getSize());
-        int safePage = Math.max(pagingDto.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
-
-        PagingEntity pagingEntity = PagingEntity.builder()
-                .page(safePage)
-                .size(validatedSize)
-                .direction(pagingDto.getDirection())
-                .keyword(pagingDto.getKeyword())
-                .sort(pagingDto.getSort())
-                .build();
+        PagingEntity pagingEntity = PagingUtil.getPagingEntity(pagingDto);
+        int validatedSize = pagingEntity.getSize();
+        int safePage = pagingEntity.getPage();
 
         Optional<List<AdminEntity>> selectRst = Optional.ofNullable(repository.selectAllAdmin(pagingEntity));
         if(selectRst.isEmpty()) {

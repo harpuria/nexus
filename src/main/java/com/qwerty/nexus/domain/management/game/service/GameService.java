@@ -12,6 +12,7 @@ import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
+import com.qwerty.nexus.global.util.PagingUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -101,16 +102,9 @@ public class GameService {
      * @return 페이징 메타데이터와 함께 게임 목록
      */
     public Result<GameListResponseDto> selectGameList(PagingRequestDto pagingDto){
-        int validatedSize = ApiConstants.validatePageSize(pagingDto.getSize());
-        int safePage = Math.max(pagingDto.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
-
-        PagingEntity pagingEntity = PagingEntity.builder()
-                .page(safePage)
-                .size(validatedSize)
-                .direction(pagingDto.getDirection())
-                .keyword(pagingDto.getKeyword())
-                .sort(pagingDto.getSort())
-                .build();
+        PagingEntity pagingEntity = PagingUtil.getPagingEntity(pagingDto);
+        int validatedSize = pagingEntity.getSize();
+        int safePage = pagingEntity.getPage();
 
         Optional<List<GameEntity>> selectRst = Optional.ofNullable(repository.selectGameList(pagingEntity));
 
