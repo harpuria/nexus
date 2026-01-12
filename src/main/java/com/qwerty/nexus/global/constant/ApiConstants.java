@@ -68,6 +68,13 @@ public final class ApiConstants {
         // 기본 정렬 필드
         public static final String DEFAULT_SORT_FIELD = "createdAt";
         public static final String DEFAULT_SORT_DIRECTION = SORT_DESC;
+
+        // 페이징 유틸
+        public static final String GET_SIZE = "getSize";
+        public static final String GET_PAGE = "getPage";
+        public static final String GET_DIRECTION = "getDirection";
+        public static final String GET_KEYWORD = "getKeyword";
+        public static final String GET_SORT = "getSort";
     }
 
     // =================================================================

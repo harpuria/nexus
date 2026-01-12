@@ -19,12 +19,11 @@ public class PagingUtil {
         try {
             Class<?> clazz = data.getClass();
 
-            // TODO : name 은 상수화 처리 예정
-            int size = (int)clazz.getMethod("getSize").invoke(data);
-            int page = (int)clazz.getMethod("getPage").invoke(data);
-            String direction = (String)clazz.getMethod("getDirection").invoke(data);
-            String keyword = (String)clazz.getMethod("getKeyword").invoke(data);
-            String sort = (String)clazz.getMethod("getSort").invoke(data);
+            int size = (int)clazz.getMethod(ApiConstants.Pagination.GET_SIZE).invoke(data);
+            int page = (int)clazz.getMethod(ApiConstants.Pagination.GET_PAGE).invoke(data);
+            String direction = (String)clazz.getMethod(ApiConstants.Pagination.GET_DIRECTION).invoke(data);
+            String keyword = (String)clazz.getMethod(ApiConstants.Pagination.GET_KEYWORD).invoke(data);
+            String sort = (String)clazz.getMethod(ApiConstants.Pagination.GET_SORT).invoke(data);
 
             int validationSize = Math.min(size, ApiConstants.Pagination.MAX_PAGE_SIZE);
             if (size < ApiConstants.Pagination.MIN_PAGE_SIZE) {
