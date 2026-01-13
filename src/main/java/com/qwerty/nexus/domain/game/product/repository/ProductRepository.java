@@ -2,6 +2,9 @@ package com.qwerty.nexus.domain.game.product.repository;
 
 import com.qwerty.nexus.domain.game.product.entity.ProductEntity;
 import com.qwerty.nexus.domain.game.product.entity.ProductSearchEntity;
+import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
+import com.qwerty.nexus.global.constant.ApiConstants;
+import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Condition;
 import org.jooq.Configuration;
@@ -9,6 +12,7 @@ import org.jooq.DSLContext;
 import org.jooq.generated.tables.JProduct;
 import org.jooq.generated.tables.daos.ProductDao;
 import org.jooq.generated.tables.records.ProductRecord;
+import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -74,31 +78,43 @@ public class ProductRepository {
                 .fetchOneInto(ProductEntity.class));
     }
 
-    public List<ProductEntity> selectProducts(ProductSearchEntity searchEntity) {
-        Condition condition = buildCondition(searchEntity);
+    /**
+     * 상품 목록 정보 가져오기
+     * @param paging
+     * @param gameId
+     * @return
+     */
+    public List<ProductEntity> selectProducts(PagingEntity paging, int gameId) {
+        Condition condition = DSL.noCondition();
+
+        condition = condition.and(PRODUCT.IS_DEL.isNull().or(PRODUCT.IS_DEL.eq("N")));
+        condition = condition.and(PRODUCT.GAME_ID.eq(gameId));
+
+        if (StringUtils.hasText(paging.getKeyword())) {
+            String keyword = "%" + paging.getKeyword().toLowerCase() + "%";
+            condition = condition.and(
+                    lower(PRODUCT.NAME).like(keyword)
+                            .or(lower(PRODUCT.DESC).like(keyword))
+            );
+        }
+
+        int size = paging.getSize() > 0 ? paging.getSize() : ApiConstants.Pagination.DEFAULT_PAGE_SIZE;
+        int page = Math.max(paging.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
+        int offset = page * size;
 
         return dslContext.selectFrom(PRODUCT)
                 .where(condition)
                 .orderBy(PRODUCT.CREATED_AT.desc(), PRODUCT.PRODUCT_ID.desc())
-                .limit(searchEntity.getLimit())
-                .offset(searchEntity.getOffset())
+                .limit(size)
+                .offset(offset)
                 .fetchInto(ProductEntity.class);
     }
 
-    public long countProducts(ProductSearchEntity searchEntity) {
-        Condition condition = buildCondition(searchEntity);
+    public long countProducts(PagingEntity searchEntity, int gameId) {
+        Condition condition = DSL.noCondition();
 
-        Long totalCount = dslContext.selectCount()
-                .from(PRODUCT)
-                .where(condition)
-                .fetchOne(0, Long.class);
-
-        return totalCount != null ? totalCount : 0L;
-    }
-
-    private Condition buildCondition(ProductSearchEntity searchEntity) {
-        Condition condition = PRODUCT.GAME_ID.eq(searchEntity.getGameId())
-                .and(PRODUCT.IS_DEL.eq(searchEntity.getIsDel()));
+        condition = condition.and(PRODUCT.IS_DEL.isNull().or(PRODUCT.IS_DEL.eq("N")));
+        condition = condition.and(PRODUCT.GAME_ID.eq(gameId));
 
         if (StringUtils.hasText(searchEntity.getKeyword())) {
             String keyword = "%" + searchEntity.getKeyword().toLowerCase() + "%";
@@ -108,6 +124,11 @@ public class ProductRepository {
             );
         }
 
-        return condition;
+        Long totalCount = dslContext.selectCount()
+                .from(PRODUCT)
+                .where(condition)
+                .fetchOne(0, Long.class);
+
+        return totalCount != null ? totalCount : 0L;
     }
 }

@@ -20,6 +20,7 @@ import com.qwerty.nexus.domain.game.product.repository.ProductRepository;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
+import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
 import com.qwerty.nexus.global.util.PagingUtil;
 import lombok.RequiredArgsConstructor;
@@ -77,8 +78,15 @@ public class ProductService {
      * @return
      */
     public Result<Void> update(ProductUpdateRequestDto dto) {
+        ProductEntity entity = ProductEntity.builder()
+                .productId(dto.getProductId())
+                .name(dto.getName())
+                .desc(dto.getDesc())
+                .price(dto.getPrice())
+                .updatedBy(dto.getUpdatedBy())
+                .isDel(dto.getIsDel())
+                .build();
 
-        ProductEntity entity = ProductEntity.builder().build();
         Optional<ProductEntity> updateRst = Optional.ofNullable(repository.update(entity));
 
         String type = "수정";
@@ -93,27 +101,23 @@ public class ProductService {
         }
     }
 
+    /**
+     * 상품 목록 가져오기
+     * @param dto
+     * @param gameId
+     * @return
+     */
     @Transactional(readOnly = true)
     public Result<ProductListResponseDto> list(PagingRequestDto dto, int gameId) {
-        int validatedSize = PagingUtil.validatePageSize(dto.getSize());
-        int safePage = Math.max(dto.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
-        String normalizedKeyword = dto.getKeyword();
-        if (normalizedKeyword != null) {
-            normalizedKeyword = normalizedKeyword.trim();
-        }
+        PagingEntity pagingEntity = PagingUtil.getPagingEntity(dto);
+        int validatedSize = pagingEntity.getSize();
+        int safePage = pagingEntity.getPage();
 
-        ProductSearchEntity searchEntity = ProductSearchEntity.builder()
-                .gameId(gameId)
-                .keyword(StringUtils.hasText(normalizedKeyword) ? normalizedKeyword : null)
-                .offset(safePage * validatedSize)
-                .limit(validatedSize)
-                .build();
-
-        List<ProductResponseDto> products = repository.selectProducts(searchEntity).stream()
+        List<ProductResponseDto> products = repository.selectProducts(pagingEntity, gameId).stream()
                 .map(ProductResponseDto::from)
                 .toList();
 
-        long totalCount = repository.countProducts(searchEntity);
+        long totalCount = repository.countProducts(pagingEntity, gameId);
         int totalPages = validatedSize == 0 ? 0 : (int) Math.ceil((double) totalCount / validatedSize);
         boolean hasNext = safePage + 1 < totalPages;
         boolean hasPrevious = safePage > 0;

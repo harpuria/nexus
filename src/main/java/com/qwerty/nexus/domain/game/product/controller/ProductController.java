@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(ApiConstants.Path.PRODUCT_PATH)
 @RequiredArgsConstructor
-@Tag(name = "상품", description = "상품 관련 API")
+@Tag(name = "상품", description = "게임 내에서 사용하는 상품 처리 관련 API")
 public class ProductController {
     private final ProductService service;
 
@@ -62,6 +62,7 @@ public class ProductController {
     @Operation(summary = "상품 정보 삭제")
     public ResponseEntity<ApiResponse<Void>> delete(@PathVariable int productId){
         ProductUpdateRequestDto dto = new ProductUpdateRequestDto();
+        dto.setProductId(productId);
         dto.setIsDel("Y");
 
         Result<Void> rst = service.update(dto);
@@ -80,10 +81,18 @@ public class ProductController {
         return ResponseEntityUtils.toResponseEntityVoid(rst, HttpStatus.OK);
     }
 
-    @GetMapping
+    /**
+     * 상품 목록 조회
+     * @param gameId
+     * @param page
+     * @param size
+     * @param keyword
+     * @return
+     */
+    @GetMapping("/list/{gameId}")
     @Operation(summary = "상품 목록 조회")
     public ResponseEntity<ApiResponse<ProductListResponseDto>> list(
-            @RequestParam int gameId,
+            @PathVariable("gameId") int gameId,
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_SIZE) int size,
             @RequestParam(required = false) String keyword
@@ -97,5 +106,17 @@ public class ProductController {
         Result<ProductListResponseDto> rst = service.list(pagingRequestDto, gameId);
 
         return ResponseEntityUtils.toResponseEntity(rst, HttpStatus.OK);
+    }
+
+    /**
+     * 하나의 상품 조회
+     * @param productId
+     * @return
+     */
+    @GetMapping("/{productId}")
+    @Operation(summary = "하나의 상품 조회")
+    public ResponseEntity<ApiResponse<ProductListResponseDto>> selectOneProduct(@PathVariable("productId") int productId){
+        //service.selectOneProduct();
+        return ResponseEntityUtils.toResponseEntity(null, HttpStatus.OK);
     }
 }
