@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductBuyRequestDto;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductCreateRequestDto;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductUpdateRequestDto;
+import com.qwerty.nexus.domain.game.product.dto.response.ProductDetailResponseDto;
 import com.qwerty.nexus.domain.game.product.dto.response.ProductListResponseDto;
 import com.qwerty.nexus.domain.game.product.service.ProductService;
 import com.qwerty.nexus.global.constant.ApiConstants;
@@ -96,6 +97,15 @@ public class ProductController {
 
         Result<ProductListResponseDto> rst = service.list(pagingRequestDto, gameId);
 
+        return ResponseEntityUtils.toResponseEntity(rst, HttpStatus.OK);
+    }
+
+    @GetMapping("/{productId}")
+    @Operation(summary = "상품 단건 조회")
+    public ResponseEntity<ApiResponse<ProductDetailResponseDto>> findOne(
+            @PathVariable int productId
+    ) {
+        Result<ProductDetailResponseDto> rst = service.findOne(productId);
         return ResponseEntityUtils.toResponseEntity(rst, HttpStatus.OK);
     }
 }
