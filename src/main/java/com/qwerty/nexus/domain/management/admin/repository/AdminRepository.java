@@ -66,7 +66,7 @@ public class AdminRepository {
      * @param admin
      * @return integer
      */
-    public Integer isUserAlreadyRegistered(AdminEntity admin){
+    public Integer existsByLoginId(AdminEntity admin){
         return dslContext.selectCount()
                 .from(ADMIN)
                 .where(ADMIN.LOGIN_ID.eq(admin.getLoginId()))
@@ -90,7 +90,7 @@ public class AdminRepository {
      * @param admin
      * @return
      */
-    public Integer checkPassword(AdminEntity admin){
+    public Integer checkAdminPassword(AdminEntity admin){
         return dslContext.selectCount()
                 .from(ADMIN)
                 .where(ADMIN.ADMIN_ID.eq(admin.getAdminId())
@@ -103,9 +103,11 @@ public class AdminRepository {
      * @param admin
      * @return
      */
-    public AdminEntity selectOneAdmin(AdminEntity admin){
+    public AdminEntity findByAdmin(AdminEntity admin){
         // 조건 설정
         Condition condition = DSL.noCondition();
+        condition = condition.and(ADMIN.IS_DEL.isNull().or(ADMIN.IS_DEL.eq("N")));
+
         if(admin.getLoginId() != null && !admin.getLoginId().isEmpty()){
             condition = condition.and(ADMIN.LOGIN_ID.eq(admin.getLoginId()));
         }
@@ -123,11 +125,9 @@ public class AdminRepository {
      * 관리자 목록 조회
      * @return
      */
-    public List<AdminEntity> selectAllAdmin(PagingEntity pagingEntity){
+    public List<AdminEntity> findAllAdmins(PagingEntity pagingEntity){
         // 조건 설정
         Condition condition = DSL.noCondition();
-
-        // 삭제되지 않은 관리자만 조회
         condition = condition.and(ADMIN.IS_DEL.isNull().or(ADMIN.IS_DEL.eq("N")));
 
         // 키워드 검색 (이름검색 <추후 필요시 검색 조건 나눠서 검색하는 부분 만들것>)
@@ -192,7 +192,7 @@ public class AdminRepository {
      * @param adminId
      * @return
      */
-    public String selectOneLoginId(int adminId){
+    public String findByLoginId(int adminId){
         return dslContext.select(ADMIN.LOGIN_ID)
                 .from(ADMIN)
                 .where(ADMIN.ADMIN_ID.eq(adminId))

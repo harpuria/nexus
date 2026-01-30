@@ -20,8 +20,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Log4j2
 @RestController
 @RequestMapping(ApiConstants.Path.ADMIN_PATH)
@@ -42,7 +40,7 @@ public class AdminController {
         // 초기 사용자는 무조건 SUPER 관리자로 등록
         dto.setAdminRole(AdminRole.SUPER);
 
-        Result<Void> result = service.initialize(dto);
+        Result<Void> result = service.initializeAdmin(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
@@ -56,7 +54,7 @@ public class AdminController {
     @Operation(summary = "관리자 생성 (SUPER 관리자가 생성)")
     public ResponseEntity<ApiResponse<Void>> createAdmin(
             @Parameter @RequestBody AdminCreateRequestDto dto){
-        Result<Void> result = service.create(dto);
+        Result<Void> result = service.createAdmin(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
@@ -73,7 +71,7 @@ public class AdminController {
                                                                      @Parameter @RequestBody AdminUpdateRequestDto dto){
         dto.setAdminId(adminId);
 
-        Result<Void> result = service.update(dto);
+        Result<Void> result = service.updateAdmin(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -90,7 +88,7 @@ public class AdminController {
         dto.setAdminId(adminId);
         dto.setIsDel("Y");
 
-        Result<Void> result = service.update(dto);
+        Result<Void> result = service.updateAdmin(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -102,8 +100,8 @@ public class AdminController {
      */
     @GetMapping("/{adminId}")
     @Operation(summary = "한 건의 관리자 정보 조회")
-    public ResponseEntity<ApiResponse<AdminResponseDto>> selectOneAdmin(@PathVariable("adminId") Integer adminId){
-        Result<AdminResponseDto> result = service.selectOne(adminId);
+    public ResponseEntity<ApiResponse<AdminResponseDto>> getAdmin(@PathVariable("adminId") Integer adminId){
+        Result<AdminResponseDto> result = service.findAdmin(adminId);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
@@ -119,7 +117,7 @@ public class AdminController {
      */
     @GetMapping("/list")
     @Operation(summary = "관리자 목록 조회")
-    public ResponseEntity<ApiResponse<AdminListResponseDto>> selectAllAdmin(
+    public ResponseEntity<ApiResponse<AdminListResponseDto>> listAdmins(
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_SIZE) int size,
             @RequestParam(required = false) String sort,
@@ -133,7 +131,7 @@ public class AdminController {
         pagingRequestDto.setKeyword(keyword);
         pagingRequestDto.setDirection(direction);
 
-        Result<AdminListResponseDto> result = service.selectAll(pagingRequestDto);
+        Result<AdminListResponseDto> result = service.listAdmins(pagingRequestDto);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
@@ -146,8 +144,8 @@ public class AdminController {
      */
     @PostMapping("/login")
     @Operation(summary = "관리자 로그인")
-    public ResponseEntity<ApiResponse<AdminLoginResponseDto>> login(@RequestBody AdminLoginRequestDto dto){
-        Result<AdminLoginResponseDto> result = service.login(dto);
+    public ResponseEntity<ApiResponse<AdminLoginResponseDto>> loginAdmin(@RequestBody AdminLoginRequestDto dto){
+        Result<AdminLoginResponseDto> result = service.loginAdmin(dto);
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
@@ -158,8 +156,8 @@ public class AdminController {
      */
     @PostMapping("/logout")
     @Operation(summary = "관리자 로그아웃")
-    public ResponseEntity<ApiResponse<Void>> logout(@RequestBody AdminLogoutRequestDto dto){
-        Result<Void> result = service.logout(dto);
+    public ResponseEntity<ApiResponse<Void>> logoutAdmin(@RequestBody AdminLogoutRequestDto dto){
+        Result<Void> result = service.logoutAdmin(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }

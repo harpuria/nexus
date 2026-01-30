@@ -78,6 +78,7 @@ public class ProductService {
      * @param dto
      * @return
      */
+    @Transactional
     public Result<Void> update(ProductUpdateRequestDto dto) {
         ProductEntity entity = ProductEntity.builder()
                 .productId(dto.getProductId())
@@ -137,8 +138,8 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Result<ProductDetailResponseDto> findOne(int productId) {
-        Optional<ProductEntity> product = repository.selectOneActive(productId);
+    public Result<ProductDetailResponseDto> selectOneProduct(int productId) {
+        Optional<ProductEntity> product = repository.selectOne(productId);
 
         if (product.isEmpty()) {
             return Result.Failure.of("상품 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());

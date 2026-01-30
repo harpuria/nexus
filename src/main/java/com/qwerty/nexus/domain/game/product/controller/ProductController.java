@@ -108,15 +108,6 @@ public class ProductController {
         return ResponseEntityUtils.toResponseEntity(rst, HttpStatus.OK);
     }
 
-    @GetMapping("/{productId}")
-    @Operation(summary = "상품 단건 조회")
-    public ResponseEntity<ApiResponse<ProductDetailResponseDto>> findOne(
-            @PathVariable int productId
-    ) {
-        Result<ProductDetailResponseDto> rst = service.findOne(productId);
-        return ResponseEntityUtils.toResponseEntity(rst, HttpStatus.OK);
-    }
-
     /**
      * 하나의 상품 조회
      * @param productId
@@ -124,8 +115,8 @@ public class ProductController {
      */
     @GetMapping("/{productId}")
     @Operation(summary = "하나의 상품 조회")
-    public ResponseEntity<ApiResponse<ProductListResponseDto>> selectOneProduct(@PathVariable("productId") int productId){
-        //service.selectOneProduct();
-        return ResponseEntityUtils.toResponseEntity(null, HttpStatus.OK);
+    public ResponseEntity<ApiResponse<ProductDetailResponseDto>> selectOneProduct(@PathVariable("productId") int productId){
+        Result<ProductDetailResponseDto> rst = service.selectOneProduct(productId);
+        return ResponseEntityUtils.toResponseEntity(rst, HttpStatus.OK);
     }
 }

@@ -8,7 +8,6 @@ import com.qwerty.nexus.domain.management.admin.dto.response.AdminLoginResponseD
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminResponseDto;
 import com.qwerty.nexus.domain.management.organization.entity.OrganizationEntity;
 import com.qwerty.nexus.domain.management.organization.repository.OrganizationRepository;
-import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
@@ -43,7 +42,7 @@ public class AdminService {
      * @return
      */
     @Transactional
-    public Result<Void> initialize(AdminInitCreateRequestDto dto) {
+    public Result<Void> initializeAdmin(AdminInitCreateRequestDto dto) {
         // 비밀번호 암호화 인코더
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(dto.getLoginPw());
@@ -59,7 +58,7 @@ public class AdminService {
                 .build();
 
         // 회원 중복 확인
-        boolean isUser = repository.isUserAlreadyRegistered(adminEntity) > 0;
+        boolean isUser = repository.existsByLoginId(adminEntity) > 0;
         if(isUser) {
             return Result.Failure.of("이미 사용중인 회원 아이디.", ErrorCode.INTERNAL_ERROR.getCode());
         }
@@ -105,7 +104,7 @@ public class AdminService {
      * @param dto
      * @return
      */
-    public Result<Void> create(AdminCreateRequestDto dto) {
+    public Result<Void> createAdmin(AdminCreateRequestDto dto) {
         // 비밀번호 암호화 인코더
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(dto.getLoginPw());
@@ -122,7 +121,7 @@ public class AdminService {
                 .build();
 
         // 회원 중복 확인
-        boolean isUser = repository.isUserAlreadyRegistered(adminEntity) > 0;
+        boolean isUser = repository.existsByLoginId(adminEntity) > 0;
         if(isUser) {
             return Result.Failure.of("이미 사용중인 회원 아이디.", ErrorCode.INTERNAL_ERROR.getCode());
         }
@@ -147,7 +146,7 @@ public class AdminService {
      * @param dto
      * @return
      */
-    public Result<Void> update(AdminUpdateRequestDto dto) {
+    public Result<Void> updateAdmin(AdminUpdateRequestDto dto) {
         // 변경할 비밀번호가 있는 경우 암호화 처리
         String modifiedPw = null;
         if(dto.getLoginPw() != null){
@@ -183,12 +182,12 @@ public class AdminService {
      * @param adminId
      * @return
      */
-    public Result<AdminResponseDto> selectOne(int adminId) {
+    public Result<AdminResponseDto> findAdmin(int adminId) {
         AdminEntity admin = AdminEntity.builder()
                 .adminId(adminId)
                 .build();
 
-        Optional<AdminEntity> selectRst = Optional.ofNullable(repository.selectOneAdmin(admin));
+        Optional<AdminEntity> selectRst = Optional.ofNullable(repository.findByAdmin(admin));
         if(selectRst.isPresent()) {
             return Result.Success.of(AdminResponseDto.from(selectRst.get()), "관리자 회원 정보 조회 완료.");
         }else{
@@ -201,12 +200,12 @@ public class AdminService {
      * @param pagingDto
      * @return
      */
-    public Result<AdminListResponseDto> selectAll(PagingRequestDto pagingDto) {
+    public Result<AdminListResponseDto> listAdmins(PagingRequestDto pagingDto) {
         PagingEntity pagingEntity = PagingUtil.getPagingEntity(pagingDto);
         int validatedSize = pagingEntity.getSize();
         int safePage = pagingEntity.getPage();
 
-        Optional<List<AdminEntity>> selectRst = Optional.ofNullable(repository.selectAllAdmin(pagingEntity));
+        Optional<List<AdminEntity>> selectRst = Optional.ofNullable(repository.findAllAdmins(pagingEntity));
         if(selectRst.isEmpty()) {
             return Result.Failure.of("관리자 목록이 존재하지 않음.",  ErrorCode.INTERNAL_ERROR.getCode());
         }
@@ -236,7 +235,7 @@ public class AdminService {
      * @param dto
      * @return
      */
-    public Result<AdminLoginResponseDto> login(AdminLoginRequestDto dto) {
+    public Result<AdminLoginResponseDto> loginAdmin(AdminLoginRequestDto dto) {
         if (dto.getLoginId() == null || dto.getLoginId().isBlank()
                 || dto.getLoginPw() == null || dto.getLoginPw().isBlank()) {
             return Result.Failure.of("로그인 아이디 또는 비밀번호가 누락되었습니다.", ErrorCode.INVALID_REQUEST.getCode());
@@ -277,7 +276,7 @@ public class AdminService {
      * @param dto
      * @return
      */
-    public Result<Void> logout(AdminLogoutRequestDto dto) {
+    public Result<Void> logoutAdmin(AdminLogoutRequestDto dto) {
         String accessToken = dto.getAccessToken();
         String refreshToken = dto.getRefreshToken();
 
