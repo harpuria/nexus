@@ -101,6 +101,20 @@ public class ProductRepository {
         int size = paging.getSize() > 0 ? paging.getSize() : ApiConstants.Pagination.DEFAULT_PAGE_SIZE;
         int page = Math.max(paging.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
         int offset = page * size;
+    /**
+     * 하나의 상품 정보 가져오기 (삭제 제외)
+     * @param productId
+     * @return
+     */
+    public Optional<ProductEntity> selectOneActive(int productId){
+        return Optional.ofNullable(dslContext.selectFrom(PRODUCT)
+                .where(PRODUCT.PRODUCT_ID.eq(productId))
+                .and(PRODUCT.IS_DEL.eq("N"))
+                .fetchOneInto(ProductEntity.class));
+    }
+
+    public List<ProductEntity> selectProducts(ProductSearchEntity searchEntity) {
+        Condition condition = buildCondition(searchEntity);
 
         return dslContext.selectFrom(PRODUCT)
                 .where(condition)

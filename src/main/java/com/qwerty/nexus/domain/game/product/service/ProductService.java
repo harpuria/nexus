@@ -12,6 +12,7 @@ import com.qwerty.nexus.domain.game.product.dto.ProductInfo;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductBuyRequestDto;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductCreateRequestDto;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductUpdateRequestDto;
+import com.qwerty.nexus.domain.game.product.dto.response.ProductDetailResponseDto;
 import com.qwerty.nexus.domain.game.product.dto.response.ProductListResponseDto;
 import com.qwerty.nexus.domain.game.product.dto.response.ProductResponseDto;
 import com.qwerty.nexus.domain.game.product.entity.ProductEntity;
@@ -132,6 +133,18 @@ public class ProductService {
                 .hasPrevious(hasPrevious)
                 .build();
 
+        return Result.Success.of(response, ApiConstants.Messages.Success.RETRIEVED);
+    }
+
+    @Transactional(readOnly = true)
+    public Result<ProductDetailResponseDto> findOne(int productId) {
+        Optional<ProductEntity> product = repository.selectOneActive(productId);
+
+        if (product.isEmpty()) {
+            return Result.Failure.of("상품 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
+        }
+
+        ProductDetailResponseDto response = ProductDetailResponseDto.from(product.get());
         return Result.Success.of(response, ApiConstants.Messages.Success.RETRIEVED);
     }
 
