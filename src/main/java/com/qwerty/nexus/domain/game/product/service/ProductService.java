@@ -172,7 +172,7 @@ public class ProductService {
                             .currencyId(buyProductInfo.get().getCurrencyId())
                             .build();
 
-                    Optional<UserCurrencyEntity> curUserConsumeCurrency = userCurrencyRepository.selectUserCurrency(userCurrencyEntity);
+                    Optional<UserCurrencyEntity> curUserConsumeCurrency = userCurrencyRepository.findByUserIdAndCurrencyId(userCurrencyEntity);
                     if(curUserConsumeCurrency.isEmpty()){
                         return Result.Failure.of("유저 재화 정보 없음.", ErrorCode.INTERNAL_ERROR.getCode());
                     }
@@ -184,7 +184,7 @@ public class ProductService {
                     }
 
                     // 재화 차감처리
-                    userCurrencyRepository.subtractCurrency(userCurrencyEntity, buyProductInfo.get().getPrice().longValue());
+                    userCurrencyRepository.updateUserCurrencyAmountSubtractByUserIdAndCurrencyId(userCurrencyEntity, buyProductInfo.get().getPrice().longValue());
                     // 유저 재화 차감 - e
 
                     // 유저 재화 지급 - s
@@ -195,7 +195,7 @@ public class ProductService {
 
                         // 현재 재화 정보를 가져와서
                         CurrencyEntity currencyEntity = CurrencyEntity.builder().currencyId(reward.getCurrencyId()).build();
-                        Optional<CurrencyEntity> currencyInfo = currencyRepository.selectOne(currencyEntity);
+                        Optional<CurrencyEntity> currencyInfo = currencyRepository.findByCurrencyId(currencyEntity);
                         if(currencyInfo.isEmpty()){
                             return Result.Failure.of("재화 정보 없음", ErrorCode.INTERNAL_ERROR.getCode());
                         }
@@ -205,7 +205,7 @@ public class ProductService {
                                 .currencyId(reward.getCurrencyId())
                                 .build();
 
-                        Optional<UserCurrencyEntity> curUserSuppliesCurrency = userCurrencyRepository.selectUserCurrency(userCurrencyEntity);
+                        Optional<UserCurrencyEntity> curUserSuppliesCurrency = userCurrencyRepository.findByUserIdAndCurrencyId(userCurrencyEntity);
                         if(curUserSuppliesCurrency.isEmpty()){
                             return Result.Failure.of("유저 재화 정보 없음.", ErrorCode.INTERNAL_ERROR.getCode());
                         }
@@ -215,7 +215,7 @@ public class ProductService {
                             return Result.Failure.of("보유가능한 최대 재화 초과.", ErrorCode.INTERNAL_ERROR.getCode());
                         }
 
-                        userCurrencyRepository.addCurrency(userCurrencyEntity, reward.getAmount(), reward.getCurrencyId());
+                        userCurrencyRepository.updateUserCurrencyAmountAddByUserIdAndCurrencyId(userCurrencyEntity, reward.getAmount(), reward.getCurrencyId());
                     }
                     // 유저 재화 지급 - e
                 }

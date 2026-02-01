@@ -33,10 +33,10 @@ public class UserCurrencyService {
      * @param dto
      * @return
      */
-    public Result<Void> create(UserCurrencyCreateRequestDto dto) {
+    public Result<Void> createUserCurrency(UserCurrencyCreateRequestDto dto) {
         UserCurrencyEntity entity = UserCurrencyEntity.builder().build();
 
-        UserCurrencyEntity createRst = repository.createUserCurrency(entity);
+        UserCurrencyEntity createRst = repository.insertUserCurrency(entity);
 
         return Result.Success.of(null, "성공");
     }
@@ -46,7 +46,7 @@ public class UserCurrencyService {
      * @param dto
      * @return
      */
-    public Result<Void> update(UserCurrencyUpdateRequestDto dto) {
+    public Result<Void> updateUserCurrency(UserCurrencyUpdateRequestDto dto) {
         UserCurrencyEntity entity = UserCurrencyEntity.builder()
                 .userCurrencyId(dto.getUserCurrencyId())
                 .amount(dto.getAmount())
@@ -66,7 +66,7 @@ public class UserCurrencyService {
      * @param dto
      * @return
      */
-    public Result<UserCurrencyResponseDto> operate(UserCurrencyOperateRequestDto dto) {
+    public Result<UserCurrencyResponseDto> operateUserCurrency(UserCurrencyOperateRequestDto dto) {
         UserCurrencyEntity entity = UserCurrencyEntity.builder().build();
 
         // 이거는 클라이언트를 믿어야하는 API 이기 때문에 어느정도 보안 누수는 감안해야함.
@@ -88,7 +88,7 @@ public class UserCurrencyService {
         return Result.Success.of(null, "성공");
     }
 
-    public Result<UserCurrencyListResponseDto> selectAllUserCurrency(
+    public Result<UserCurrencyListResponseDto> listUserCurrencies(
             PagingRequestDto dto,
             Integer userId,
             Integer gameId,
@@ -118,7 +118,7 @@ public class UserCurrencyService {
                 .keyword(safeRequestDto.getKeyword())
                 .build();
 
-        List<UserCurrencyListResult> userCurrencies = repository.selectUserCurrencies(
+        List<UserCurrencyListResult> userCurrencies = repository.findAllByUserIdAndGameIdAndCurrencyId(
                 pagingEntity,
                 userId,
                 gameId,

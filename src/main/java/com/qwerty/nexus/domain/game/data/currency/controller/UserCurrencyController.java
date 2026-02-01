@@ -65,7 +65,7 @@ public class UserCurrencyController {
     @PostMapping
     @Operation(summary = "유저 재화 생성")
     public ResponseEntity<ApiResponse<Void>> createUserCurrency(@RequestBody UserCurrencyCreateRequestDto dto){
-        Result<Void> result = service.create(dto);
+        Result<Void> result = service.createUserCurrency(dto);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
@@ -79,7 +79,7 @@ public class UserCurrencyController {
     public ResponseEntity<ApiResponse<Void>> updateUserCurrency(@PathVariable("userCurrencyId") int userCurrencyId, @RequestBody UserCurrencyUpdateRequestDto dto){
         dto.setUserCurrencyId(userCurrencyId);
 
-        Result<Void> result = service.update(dto);
+        Result<Void> result = service.updateUserCurrency(dto);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
@@ -95,7 +95,7 @@ public class UserCurrencyController {
         dto.setUserCurrencyId(userCurrencyId);
         dto.setIsDel("Y");
 
-        Result<Void> result = service.update(dto);
+        Result<Void> result = service.updateUserCurrency(dto);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
@@ -107,7 +107,7 @@ public class UserCurrencyController {
      */
     @PatchMapping("/operation/{userCurrencyId}")
     @Operation(summary = "유저 재화 연산")
-    public ResponseEntity<ApiResponse<UserCurrencyResponseDto>> operationUserCurrency(@PathVariable("userCurrencyId") int userCurrencyId, @RequestBody UserCurrencyOperateRequestDto dto){
+    public ResponseEntity<ApiResponse<UserCurrencyResponseDto>> operateUserCurrency(@PathVariable("userCurrencyId") int userCurrencyId, @RequestBody UserCurrencyOperateRequestDto dto){
         dto.setCurrencyId(userCurrencyId);
         /**
          *
@@ -123,7 +123,7 @@ public class UserCurrencyController {
          *
          */
 
-        Result<UserCurrencyResponseDto> result = service.operate(dto);
+        Result<UserCurrencyResponseDto> result = service.operateUserCurrency(dto);
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
@@ -144,7 +144,7 @@ public class UserCurrencyController {
         pagingRequestDto.setSort(sort);
         pagingRequestDto.setDirection(direction);
 
-        Result<UserCurrencyListResponseDto> result = service.selectAllUserCurrency(
+        Result<UserCurrencyListResponseDto> result = service.listUserCurrencies(
                 pagingRequestDto,
                 userId,
                 gameId,

@@ -190,7 +190,7 @@ public class GameUserService {
         // 1) 현재 이 게임의 재화 목록을 모두 가져오기 (currencyId)
 
         // 유저 재화
-        List<Integer> currencyIdList = currencyRepository.selectAllCurrencyId(CurrencyEntity.builder().gameId(gameId).build());
+        List<Integer> currencyIdList = currencyRepository.findAllCurrencyIdsByGameId(CurrencyEntity.builder().gameId(gameId).build());
         if(!currencyIdList.isEmpty()){
             currencyIdList.forEach(currencyId -> {
                 UserCurrencyEntity userCurrencyEntity = UserCurrencyEntity.builder()
@@ -200,7 +200,7 @@ public class GameUserService {
                         .updatedBy(socialId)
                         .build();
 
-                userCurrencyRepository.createUserCurrency(userCurrencyEntity);
+                userCurrencyRepository.insertUserCurrency(userCurrencyEntity);
             });
         }
 
