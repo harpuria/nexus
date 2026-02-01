@@ -34,7 +34,7 @@ public class CurrencyController {
     @PostMapping
     @Operation(summary = "재화 정보 생성")
     public ResponseEntity<ApiResponse<Void>> createCurrency(@RequestBody CurrencyCreateRequestDto dto){
-        Result<Void> result = service.create(dto);
+        Result<Void> result = service.createCurrency(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
@@ -78,8 +78,8 @@ public class CurrencyController {
      */
     @GetMapping("/{currencyId}")
     @Operation(summary = "한 건의 재화 정보 조회")
-    public ResponseEntity<ApiResponse<CurrencyResponseDto>> selectOneCurrency(@PathVariable("currencyId") int currencyId){
-        Result<CurrencyResponseDto> result = service.selectOneCurrency(currencyId);
+    public ResponseEntity<ApiResponse<CurrencyResponseDto>> getCurrency(@PathVariable("currencyId") int currencyId){
+        Result<CurrencyResponseDto> result = service.getCurrency(currencyId);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
@@ -97,7 +97,7 @@ public class CurrencyController {
      */
     @GetMapping("/list/{gameId}")
     @Operation(summary = "전체 재화 정보 조회", description = "게임 ID, 삭제 여부, 페이징 파라미터를 통해 재화 목록을 조회합니다.")
-    public ResponseEntity<ApiResponse<CurrencyListResponseDto>> selectAllCurrencies(
+    public ResponseEntity<ApiResponse<CurrencyListResponseDto>> listCurrencies(
             @PathVariable("gameId") int gameId,
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_SIZE) int size,
@@ -112,7 +112,7 @@ public class CurrencyController {
         pagingRequestDto.setKeyword(keyword);
         pagingRequestDto.setDirection(direction);
 
-        Result<CurrencyListResponseDto> result = service.selectAll(pagingRequestDto, gameId);
+        Result<CurrencyListResponseDto> result = service.listCurrencies(pagingRequestDto, gameId);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }

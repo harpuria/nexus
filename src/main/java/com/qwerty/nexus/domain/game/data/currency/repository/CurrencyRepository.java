@@ -36,7 +36,7 @@ public class CurrencyRepository {
      * @param entity
      * @return
      */
-    public CurrencyEntity createCurrency(CurrencyEntity entity){
+    public CurrencyEntity insertCurrency(CurrencyEntity entity){
         CurrencyRecord record = dslContext.newRecord(CURRENCY, entity);
         record.store();
 
@@ -66,7 +66,7 @@ public class CurrencyRepository {
      * @param entity
      * @return
      */
-    public Optional<CurrencyEntity> selectOne(CurrencyEntity entity){
+    public Optional<CurrencyEntity> findByCurrencyId(CurrencyEntity entity){
         return Optional.ofNullable(dslContext.selectFrom(CURRENCY)
                 .where(CURRENCY.CURRENCY_ID.eq(entity.getCurrencyId()))
                 .fetchOneInto(CurrencyEntity.class));
@@ -78,7 +78,7 @@ public class CurrencyRepository {
      * @param entity
      * @return
      */
-    public List<Integer> selectAllCurrencyId(CurrencyEntity entity){
+    public List<Integer> findAllCurrencyIdsByGameId(CurrencyEntity entity){
         return dslContext.select(CURRENCY.CURRENCY_ID)
                 .from(CURRENCY)
                 .where(CURRENCY.GAME_ID.eq(entity.getGameId()))
@@ -91,7 +91,7 @@ public class CurrencyRepository {
      * @param gameId
      * @return
      */
-    public List<CurrencyEntity> selectCurrencies(PagingEntity pagingEntity, int gameId) {
+    public List<CurrencyEntity> findAllByGameId(PagingEntity pagingEntity, int gameId) {
         // 조건 설정
         Condition condition = DSL.noCondition();
 

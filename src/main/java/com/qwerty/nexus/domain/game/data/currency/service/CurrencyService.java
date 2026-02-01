@@ -37,7 +37,7 @@ public class CurrencyService {
      * @param dto
      * @return
      */
-    public Result<Void> create(CurrencyCreateRequestDto dto){
+    public Result<Void> createCurrency(CurrencyCreateRequestDto dto){
         CurrencyEntity entity = CurrencyEntity.builder()
                 .gameId(dto.getGameId())
                 .name(dto.getName())
@@ -47,7 +47,7 @@ public class CurrencyService {
                 .maxAmount(dto.getMaxAmount())
                 .build();
 
-        Optional<CurrencyEntity> createRst = Optional.ofNullable(repository.createCurrency(entity));
+        Optional<CurrencyEntity> createRst = Optional.ofNullable(repository.insertCurrency(entity));
 
         // 추가로 새로운 재화가 생성되었을 때 유저가 존재하는 경우, 기본 유저재화 정보는 생성해줘야 할듯.
         // 1) 다이아 라는 재화를 생성
@@ -74,7 +74,7 @@ public class CurrencyService {
                             .createdBy(dto.getCreatedBy())
                             .updatedBy(dto.getCreatedBy())
                             .build();
-                    userCurrencyRepository.createUserCurrency(userCurrencyEntity);
+                    userCurrencyRepository.insertUserCurrency(userCurrencyEntity);
                 });
             }
 
@@ -118,12 +118,12 @@ public class CurrencyService {
      * @param currencyId
      * @return
      */
-    public Result<CurrencyResponseDto> selectOneCurrency(int currencyId){
+    public Result<CurrencyResponseDto> getCurrency(int currencyId){
         CurrencyEntity entity = CurrencyEntity.builder()
                 .currencyId(currencyId)
                 .build();
 
-        Optional<CurrencyEntity> selectRst = repository.selectOne(entity);
+        Optional<CurrencyEntity> selectRst = repository.findByCurrencyId(entity);
         if(selectRst.isPresent()){
             return Result.Success.of(CurrencyResponseDto.from(selectRst.get()), "재화 조회 완료");
         }else{
@@ -137,12 +137,12 @@ public class CurrencyService {
      * @param gameId
      * @return
      */
-    public Result<CurrencyListResponseDto> selectAll(PagingRequestDto pagingDto, Integer gameId) {
+    public Result<CurrencyListResponseDto> listCurrencies(PagingRequestDto pagingDto, Integer gameId) {
         PagingEntity pagingEntity = PagingUtil.getPagingEntity(pagingDto);
         int validatedSize = pagingEntity.getSize();
         int safePage = pagingEntity.getPage();
 
-        Optional<List<CurrencyEntity>> selectRst = Optional.ofNullable(repository.selectCurrencies(pagingEntity, gameId));
+        Optional<List<CurrencyEntity>> selectRst = Optional.ofNullable(repository.findAllByGameId(pagingEntity, gameId));
         if(selectRst.isEmpty()) {
             return Result.Failure.of("재화 목록이 존재하지 않음.",  ErrorCode.INTERNAL_ERROR.getCode());
         }

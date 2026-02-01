@@ -41,7 +41,7 @@ public class UserCurrencyRepository {
      * @param entity
      * @return
      */
-    public UserCurrencyEntity createUserCurrency(UserCurrencyEntity entity) {
+    public UserCurrencyEntity insertUserCurrency(UserCurrencyEntity entity) {
         UserCurrencyRecord record = dslContext.newRecord(USER_CURRENCY, entity);
         record.store();
         return UserCurrencyEntity.builder()
@@ -89,7 +89,7 @@ public class UserCurrencyRepository {
      * @param price
      * @return
      */
-    public int subtractCurrency(UserCurrencyEntity entity, Long price) {
+    public int updateUserCurrencyAmountSubtractByUserIdAndCurrencyId(UserCurrencyEntity entity, Long price) {
         return dslContext.update(USER_CURRENCY)
                 .set(USER_CURRENCY.AMOUNT, USER_CURRENCY.AMOUNT.subtract(price))
                 .where(USER_CURRENCY.USER_ID.eq(entity.getUserId())
@@ -104,7 +104,7 @@ public class UserCurrencyRepository {
      * @param currencyId
      * @return
      */
-    public int addCurrency(UserCurrencyEntity entity, Long amount, int currencyId) {
+    public int updateUserCurrencyAmountAddByUserIdAndCurrencyId(UserCurrencyEntity entity, Long amount, int currencyId) {
         return dslContext.update(USER_CURRENCY)
                 .set(USER_CURRENCY.AMOUNT, USER_CURRENCY.AMOUNT.add(amount))
                 .where(USER_CURRENCY.USER_ID.eq(entity.getUserId())
@@ -116,7 +116,7 @@ public class UserCurrencyRepository {
      * @param userCurrencyEntity
      * @return
      */
-    public Optional<UserCurrencyEntity> selectUserCurrency(UserCurrencyEntity userCurrencyEntity) {
+    public Optional<UserCurrencyEntity> findByUserIdAndCurrencyId(UserCurrencyEntity userCurrencyEntity) {
         return Optional.ofNullable(dslContext.selectFrom(USER_CURRENCY)
                 .where(USER_CURRENCY.USER_ID.eq(userCurrencyEntity.getUserId())
                         .and(USER_CURRENCY.CURRENCY_ID.eq(userCurrencyEntity.getCurrencyId())))
@@ -131,7 +131,7 @@ public class UserCurrencyRepository {
      * @param currencyId
      * @return
      */
-    public List<UserCurrencyListResult> selectUserCurrencies(
+    public List<UserCurrencyListResult> findAllByUserIdAndGameIdAndCurrencyId(
             PagingEntity paging,
             Integer userId,
             Integer gameId,
@@ -174,7 +174,7 @@ public class UserCurrencyRepository {
         int page = Math.max(effectivePaging.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
         int offset = page * size;
 
-        SortField<?> sortField = resolveSortField(effectivePaging.getSort(), effectivePaging.getDirection());
+        SortField<?> sortField = buildSortField(effectivePaging.getSort(), effectivePaging.getDirection());
 
         return dslContext.select(CURRENCY.NAME, USER_CURRENCY.AMOUNT).from(USER_CURRENCY)
                 .innerJoin(CURRENCY)
@@ -186,7 +186,7 @@ public class UserCurrencyRepository {
                 .fetchInto(UserCurrencyListResult.class);
     }
 
-    private SortField<?> resolveSortField(String sort, String direction) {
+    private SortField<?> buildSortField(String sort, String direction) {
         String sortKey = Optional.ofNullable(sort)
                 .orElse(ApiConstants.Pagination.DEFAULT_SORT_FIELD)
                 .toLowerCase(Locale.ROOT);
