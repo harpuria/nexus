@@ -191,6 +191,13 @@ Most tables follow a shared base concept:
 - `delete[DOMAIN_NAME]` methods MUST perform logical delete (`IS_DEL = ‘Y’`)
 - Physical delete queries are NOT allowed unless explicitly instructed
 - The return type should use the `Entity` class by default, but create and use a separate `Result` class if necessary.
+- Default filters such as `IS_DEL = 'N'` MUST be applied in the query implementation,
+  but MUST NOT be included in repository method names.
+  (e.g., use `findByGameId`, NOT `findByIsDelAndGameId`)
+- Repository method names MUST reflect only the caller-provided conditions.
+  Do NOT invent conditions such as `keyword`, `nameKeyword`, etc., unless they are explicitly required by the API/feature.
+- Repository naming follows our conventions above.
+  Do NOT assume Spring Data JPA derived query naming patterns.
 - Refer to `AdminRepository.java` for the default code style.
 
 ### 6.4 Request DTO Class
