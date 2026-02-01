@@ -85,8 +85,8 @@ public class GameService {
      * @param id
      * @return
      */
-    public Result<GameResponseDto> selectOneGame(Integer id){
-        Optional<GameEntity> selectRst = Optional.ofNullable(repository.selectOneGame(id));
+    public Result<GameResponseDto> getGame(Integer id){
+        Optional<GameEntity> selectRst = Optional.ofNullable(repository.findByGameId(id));
         if(selectRst.isPresent()){
             return Result.Success.of(GameResponseDto.from(selectRst.get()), "게임 정보 조회 완료.");
         }
@@ -101,12 +101,12 @@ public class GameService {
      * @param pagingDto
      * @return 페이징 메타데이터와 함께 게임 목록
      */
-    public Result<GameListResponseDto> selectGameList(PagingRequestDto pagingDto){
+    public Result<GameListResponseDto> listGames(PagingRequestDto pagingDto){
         PagingEntity pagingEntity = PagingUtil.getPagingEntity(pagingDto);
         int validatedSize = pagingEntity.getSize();
         int safePage = pagingEntity.getPage();
 
-        Optional<List<GameEntity>> selectRst = Optional.ofNullable(repository.selectGameList(pagingEntity));
+        Optional<List<GameEntity>> selectRst = Optional.ofNullable(repository.findAllByKeyword(pagingEntity));
 
         if(selectRst.isEmpty()){
             return Result.Failure.of("게임 목록이 존재하지 않음.", ErrorCode.INTERNAL_ERROR.getCode());

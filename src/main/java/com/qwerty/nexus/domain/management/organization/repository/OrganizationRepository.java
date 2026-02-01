@@ -26,7 +26,7 @@ public class OrganizationRepository {
      * @param entity
      * @return Organization
      */
-    public OrganizationEntity insert(OrganizationEntity entity){
+    public OrganizationEntity insertOrganization(OrganizationEntity entity){
         OrganizationRecord record = dslContext.newRecord(ORGANIZATION, entity);
         record.store();
 
@@ -40,7 +40,7 @@ public class OrganizationRepository {
      * @param entity
      * @return
      */
-    public OrganizationEntity update(OrganizationEntity entity){
+    public OrganizationEntity updateOrganization(OrganizationEntity entity){
         OrganizationRecord record = dslContext.newRecord(ORGANIZATION, entity);
         record.changed(ORGANIZATION.ORG_NM, entity.getOrgNm() != null);
         record.changed(ORGANIZATION.ORG_CD, entity.getOrgCd() != null);
@@ -56,7 +56,7 @@ public class OrganizationRepository {
      * @param orgId
      * @return
      */
-    public OrganizationEntity selectOne(Integer orgId){
+    public OrganizationEntity findByOrgId(Integer orgId){
         return dslContext.selectFrom(ORGANIZATION)
                 .where(ORGANIZATION.ORG_ID.eq(orgId))
                 .fetchOneInto(OrganizationEntity.class);

@@ -35,12 +35,12 @@ public class AdminController {
      */
     @PostMapping("/initialize")
     @Operation(summary = "초기 사용자 등록 (SUPER 관리자)")
-    public ResponseEntity<ApiResponse<Void>> initializeAdmin(
+    public ResponseEntity<ApiResponse<Void>> createInitialAdmin(
             @Parameter @RequestBody AdminInitCreateRequestDto dto){
         // 초기 사용자는 무조건 SUPER 관리자로 등록
         dto.setAdminRole(AdminRole.SUPER);
 
-        Result<Void> result = service.initializeAdmin(dto);
+        Result<Void> result = service.createInitialAdmin(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
@@ -101,7 +101,7 @@ public class AdminController {
     @GetMapping("/{adminId}")
     @Operation(summary = "한 건의 관리자 정보 조회")
     public ResponseEntity<ApiResponse<AdminResponseDto>> getAdmin(@PathVariable("adminId") Integer adminId){
-        Result<AdminResponseDto> result = service.findAdmin(adminId);
+        Result<AdminResponseDto> result = service.getAdmin(adminId);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }

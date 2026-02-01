@@ -63,8 +63,8 @@ public class GameController {
      */
     @GetMapping("/{gameId}")
     @Operation(summary = "한 건의 게임 정보 조회")
-    public ResponseEntity<ApiResponse<GameResponseDto>> selectOneGame(@PathVariable("gameId") Integer gameId){
-        Result<GameResponseDto> result = service.selectOneGame(gameId);
+    public ResponseEntity<ApiResponse<GameResponseDto>> getGame(@PathVariable("gameId") Integer gameId){
+        Result<GameResponseDto> result = service.getGame(gameId);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
@@ -80,7 +80,7 @@ public class GameController {
      */
     @GetMapping("/list")
     @Operation(summary = "게임 목록 조회")
-    public ResponseEntity<ApiResponse<GameListResponseDto>> selectGameList(
+    public ResponseEntity<ApiResponse<GameListResponseDto>> listGames(
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_SIZE) int size,
             @RequestParam(required = false) String sort,
@@ -94,7 +94,7 @@ public class GameController {
         pagingRequestDto.setDirection(direction);
         pagingRequestDto.setKeyword(keyword);
 
-        Result<GameListResponseDto> result = service.selectGameList(pagingRequestDto);
+        Result<GameListResponseDto> result = service.listGames(pagingRequestDto);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
