@@ -42,7 +42,7 @@ public class AdminService {
      * @return
      */
     @Transactional
-    public Result<Void> initializeAdmin(AdminInitCreateRequestDto dto) {
+    public Result<Void> createInitialAdmin(AdminInitCreateRequestDto dto) {
         // 비밀번호 암호화 인코더
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(dto.getLoginPw());
@@ -77,7 +77,7 @@ public class AdminService {
                 .updatedBy(dto.getLoginId())
                 .build();
 
-        organizationEntity = organizationRepository.insert(organizationEntity);
+        organizationEntity = organizationRepository.insertOrganization(organizationEntity);
 
         adminEntity = AdminEntity.builder()
                 .loginId(dto.getLoginId())
@@ -182,12 +182,12 @@ public class AdminService {
      * @param adminId
      * @return
      */
-    public Result<AdminResponseDto> findAdmin(int adminId) {
+    public Result<AdminResponseDto> getAdmin(int adminId) {
         AdminEntity admin = AdminEntity.builder()
                 .adminId(adminId)
                 .build();
 
-        Optional<AdminEntity> selectRst = Optional.ofNullable(repository.findByAdmin(admin));
+        Optional<AdminEntity> selectRst = Optional.ofNullable(repository.findByAdminId(admin.getAdminId()));
         if(selectRst.isPresent()) {
             return Result.Success.of(AdminResponseDto.from(selectRst.get()), "관리자 회원 정보 조회 완료.");
         }else{
@@ -205,7 +205,7 @@ public class AdminService {
         int validatedSize = pagingEntity.getSize();
         int safePage = pagingEntity.getPage();
 
-        Optional<List<AdminEntity>> selectRst = Optional.ofNullable(repository.findAllAdmins(pagingEntity));
+        Optional<List<AdminEntity>> selectRst = Optional.ofNullable(repository.findAllByKeyword(pagingEntity));
         if(selectRst.isEmpty()) {
             return Result.Failure.of("관리자 목록이 존재하지 않음.",  ErrorCode.INTERNAL_ERROR.getCode());
         }

@@ -22,7 +22,7 @@ public class OrganizationService {
      * 단체 정보 수정
      * @param dto
      */
-    public Result<Void> update(OrganizationUpdateRequestDto dto) {
+    public Result<Void> updateOrganization(OrganizationUpdateRequestDto dto) {
         // 업데이트를 하는 사람이 해당 조직의 소속된 사람인지, SUPER 권한을 가졌는지 확인
         // true 면 아래 update 진행
         //AdminResponseDTO admin = adminService.selectOneAdmin(organization.getAdmin().getAdminId());
@@ -34,7 +34,7 @@ public class OrganizationService {
                 .updatedBy(dto.getUpdatedBy())
                 .build();
 
-        Optional<OrganizationEntity> updateRst = Optional.ofNullable(repository.update(orgEntity));
+        Optional<OrganizationEntity> updateRst = Optional.ofNullable(repository.updateOrganization(orgEntity));
         if(updateRst.isPresent()){
             return Result.Success.of(null, "단체 정보 수정 성공.");
         }
@@ -48,8 +48,8 @@ public class OrganizationService {
      * @param orgId 단체 아이디 (PK)
      * @return
      */
-    public Result<OrganizationResponseDto> selectOne(int orgId) {
-        Optional<OrganizationEntity> selectRst = Optional.ofNullable(repository.selectOne(orgId));
+    public Result<OrganizationResponseDto> getOrganization(int orgId) {
+        Optional<OrganizationEntity> selectRst = Optional.ofNullable(repository.findByOrgId(orgId));
         if(selectRst.isPresent()){
             return Result.Success.of(OrganizationResponseDto.from(selectRst.get()), "단체 정보 조회 완료.");
         }

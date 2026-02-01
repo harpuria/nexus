@@ -90,7 +90,7 @@ public class AdminRepository {
      * @param admin
      * @return
      */
-    public Integer checkAdminPassword(AdminEntity admin){
+    public Integer existsByAdminIdAndLoginPw(AdminEntity admin){
         return dslContext.selectCount()
                 .from(ADMIN)
                 .where(ADMIN.ADMIN_ID.eq(admin.getAdminId())
@@ -103,17 +103,13 @@ public class AdminRepository {
      * @param admin
      * @return
      */
-    public AdminEntity findByAdmin(AdminEntity admin){
+    public AdminEntity findByAdminId(Integer adminId){
         // 조건 설정
         Condition condition = DSL.noCondition();
         condition = condition.and(ADMIN.IS_DEL.isNull().or(ADMIN.IS_DEL.eq("N")));
 
-        if(admin.getLoginId() != null && !admin.getLoginId().isEmpty()){
-            condition = condition.and(ADMIN.LOGIN_ID.eq(admin.getLoginId()));
-        }
-
-        if(admin.getAdminId() != null){
-            condition = condition.and(ADMIN.ADMIN_ID.eq(admin.getAdminId()));
+        if(adminId != null){
+            condition = condition.and(ADMIN.ADMIN_ID.eq(adminId));
         }
 
         return dslContext.selectFrom(ADMIN)
@@ -125,7 +121,7 @@ public class AdminRepository {
      * 관리자 목록 조회
      * @return
      */
-    public List<AdminEntity> findAllAdmins(PagingEntity pagingEntity){
+    public List<AdminEntity> findAllByKeyword(PagingEntity pagingEntity){
         // 조건 설정
         Condition condition = DSL.noCondition();
         condition = condition.and(ADMIN.IS_DEL.isNull().or(ADMIN.IS_DEL.eq("N")));
@@ -192,7 +188,7 @@ public class AdminRepository {
      * @param adminId
      * @return
      */
-    public String findByLoginId(int adminId){
+    public String findLoginIdByAdminId(int adminId){
         return dslContext.select(ADMIN.LOGIN_ID)
                 .from(ADMIN)
                 .where(ADMIN.ADMIN_ID.eq(adminId))

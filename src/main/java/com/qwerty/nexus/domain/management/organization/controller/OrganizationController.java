@@ -33,7 +33,7 @@ public class OrganizationController {
     @Operation(summary = "단체 정보 수정")
     public ResponseEntity<ApiResponse<Void>> updateOrganization(@PathVariable("orgId") int orgId, @Parameter @RequestBody OrganizationUpdateRequestDto dto){
         dto.setOrgId(orgId);
-        Result<Void> result = service.update(dto);
+        Result<Void> result = service.updateOrganization(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
@@ -45,8 +45,8 @@ public class OrganizationController {
      */
     @GetMapping("/{orgId}")
     @Operation(summary = "한 건의 단체 정보 가져오기")
-    public ResponseEntity<ApiResponse<OrganizationResponseDto>> selectOneOrganization(@PathVariable("orgId") int orgId){
-        Result<OrganizationResponseDto> result = service.selectOne(orgId);
+    public ResponseEntity<ApiResponse<OrganizationResponseDto>> getOrganization(@PathVariable("orgId") int orgId){
+        Result<OrganizationResponseDto> result = service.getOrganization(orgId);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }

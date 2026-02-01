@@ -62,7 +62,7 @@ public class GameRepository {
      * @param id
      * @return
      */
-    public GameEntity selectOneGame(Integer id){
+    public GameEntity findByGameId(Integer id){
         return dslContext.selectFrom(GAME)
                 .where(GAME.GAME_ID.eq(id))
                 .fetchOneInto(GameEntity.class);
@@ -72,7 +72,7 @@ public class GameRepository {
      * 게임 목록 조회 (페이징)
      *
      */
-    public List<GameEntity> selectGameList(PagingEntity pagingEntity){
+    public List<GameEntity> findAllByKeyword(PagingEntity pagingEntity){
         // 조건 설정
         Condition condition = DSL.noCondition();
 
