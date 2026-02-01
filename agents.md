@@ -4,82 +4,50 @@
 
 **Project Name:** NEXUS
 
-NEXUS is a backend-centric, multi-game operation platform  
+NEXUS is a backend-centric, multi-game operation platform
 designed for small to mid-scale casual and idle games.
 
-The goal of this project is to provide reusable backend
-capabilities such as authentication, economy, products,
-coupons, mail, and admin operations — without rebuilding
-server infrastructure per game.
+Its goal is to provide reusable backend capabilities
+(authentication, economy, products, coupons, mail, admin)
+without rebuilding server infrastructure per game.
 
 ---
 
 ## 2. Tech Stack
 
-### Backend
 - Java 21
-- Spring Boot 3.5.x
-- JOOQ 3.19.x
+- Spring Boot 3.5.0
+- JOOQ 3.19.23
 - PostgreSQL 17
 - Gradle
-
-### Frontend (MVP / Admin)
-- HTML5
-- Bootstrap 5
-- jQuery 3.7
-
-### API
-- RESTful API
-- OpenAPI 3.x (`api-docs.json` is the source of truth)
+- Lombok
+- OpenAPI 3.x (Swagger UI)
 - JWT-based authentication (User / Admin separated)
 
 ---
 
 ## 3. Core Design Principles
 
-### 3.1 Multi-Tenant & Multi-Game First
-- All domain data MUST be scoped by `ORG_ID` and/or `GAME_ID`
-- Never assume a single game or a single organization
-- Admin permissions may vary by scope (ORG / GAME)
+### 3.1 Backend-Centric Platform
+- All business logic MUST reside in the backend.
+- Game-specific logic MUST NOT be hardcoded unless explicitly required.
 
-### 3.2 Backend-Centric Platform
-- Business logic always lives in the backend
-- Frontend is a thin client (Admin UI)
-- No game-specific logic should be hardcoded unless explicitly required
+### 3.2 Multi-Tenant First
+- All domain data MUST be scoped by `ORG_ID` and/or `GAME_ID`.
+- Never assume a single organization or a single game context.
 
 ### 3.3 Safety Over Convenience
 When uncertain:
-- Prefer data integrity over performance shortcuts
-- Prefer explicit logic over implicit behavior
-- Prefer transactional safety over optimistic assumptions
+- Prefer data integrity over performance.
+- Prefer explicit logic over implicit behavior.
+- Prefer transactional safety over optimistic assumptions.
 
 ---
 
-## 4. Benchmark Services (Conceptual Reference Only)
+## 4. Database Conventions
 
-The following services are referenced **only to clarify
-the domain category and scope boundaries** of NEXUS.
-
-- **The Backend (뒤끝)**  
-  Lightweight backend platform for small to mid-scale games,
-  focused on authentication, currency, and live operations.
-
-- **Microsoft PlayFab**  
-  Managed game backend service providing player data,
-  economy, and live-ops features.
-
-⚠️ These services are **NOT feature parity targets**.  
-They are used only to define:
-- Product category
-- Expected abstraction level
-- MVP scope boundaries
-
----
-
-## 5. Database Conventions
-
-### 5.1 Common Columns
-Most tables follow a shared base concept:
+### 4.1 Common Columns
+Most tables share the following base columns:
 - `CREATED_AT`
 - `CREATED_BY`
 - `UPDATED_AT`
@@ -88,55 +56,43 @@ Most tables follow a shared base concept:
 
 ⚠️ Physical deletes are NOT allowed unless explicitly instructed.
 
-### 5.2 Logical Delete Rules
-- `IS_DEL = 'Y'` means inactive or removed
-- Queries MUST explicitly filter `IS_DEL = 'N'`
-  unless the use-case is audit or history
+### 4.2 Logical Delete Rules
+- `IS_DEL = 'Y'` indicates inactive or deleted data.
+- Queries MUST include `IS_DEL = 'N'` unless for audit/history use.
 
-### 5.3 Transaction Rules
-- All write operations MUST be transactional
-- Partial updates without rollback are NOT allowed
-
----
-
-## 6. API Design Rules
-
-### 6.1 API Is the Contract
-- `api-docs.json` is the canonical API reference
-- Do NOT invent endpoints, parameters, or response shapes
-- DTO naming must follow existing conventions:
-  - `CreateRequestDto`
-  - `UpdateRequestDto`
-  - `ResponseDto`
-
-### 6.2 Error Handling
-- Always return a unified `ApiResponse<T>`
-- Business errors must be:
-  - Explicit
-  - Predictable
-  - Free of internal stack traces
+### 4.3 Transaction Rules
+- All write operations MUST be transactional.
+- Partial updates without rollback are NOT allowed.
 
 ---
 
-## 7. Authentication & Authorization
+## 5. Naming Conventions
 
-### 7.1 User Authentication
-- Supported providers:
-  - GOOGLE
-  - APPLE
-  - KAKAO
-  - NAVER
-  - GUEST
-- Guest → Social upgrade MUST preserve user data
+### 5.1 Variables & Classes
+- Variables: `camelCase`
+- Classes: `PascalCase`
+- Constants: `UPPER_SNAKE_CASE`
 
-### 7.2 Admin Authorization
-- Admin roles:
-  - SUPER
-  - ADMIN
-  - OPERATOR
-  - NO_ROLE
-- SUPER admin can initialize organizations and admins
-- All admin actions MUST be role-checked
+### 5.2 Method Naming
+- Format: **action + domain name**
+- Domain names start with an uppercase letter.
+- Non-CRUD methods MUST clearly express business intent.
+
+(Controller / Service / Repository / DTO / Entity / Result rules
+are applied consistently as defined in this document.)
+
+---
+
+## 6. Code Style Guidelines
+- Maintain strict responsibility separation between layers.
+- Upper layers MUST NOT depend on lower-layer implementations.
+- Method names MUST express intent, not implementation.
+
+---
+
+## 7. Priority Rule
+- This document > existing code style > Codex general rules
+- Conflicting code MUST be updated to follow this document.
 
 ---
 
@@ -147,60 +103,20 @@ Do NOT add comments such as:
 - "Modified by Codex"
 - "Generated by AI"
 
-Code ownership and history are tracked via Git.
-
 ### 8.2 Intent-Based Comments
-Comments should explain:
+Comments SHOULD explain:
 - WHY the logic exists
-- What assumptions it relies on
-- What must NOT be changed casually
+- ASSUMPTIONS it relies on
+- What MUST NOT be changed casually
 
-### 8.3 Recommended Comment Keywords
-Use the following prefixes when appropriate:
+### 8.3 Recommended Keywords
 - `WHY:`
 - `DO NOT:`
 - `ASSUMPTION:`
 - `BOUNDARY:`
 
-These keywords help both humans and AI
-to preserve architectural intent.
-
 ---
 
-## 9. Coding Expectations for Codex Agents
-
-### 9.1 What Codex Agents SHOULD Do
-- Generate:
-  - Controllers
-  - DTOs
-  - Service skeletons
-  - JOOQ-based repository logic
-- Follow existing naming and layering
-- Respect transactional boundaries
-
-### 9.2 What Codex Agents MUST NOT Do
-- Guess or invent business rules
-- Bypass validation or authorization layers
-- Introduce new frameworks or libraries
-- Refactor architecture without explicit instruction
-
----
-
-## 10. When in Doubt
-
-If requirements are unclear:
-1. Assume platform-wide reuse
-2. Assume multi-game impact
-3. Ask for clarification instead of guessing
-
----
-
-## 11. Project Goal
-
-NEXUS aims to become a **practical, production-ready backend platform**
-for small-to-mid-scale game studios.
-
-This codebase prioritizes:
-- Maintainability
-- Predictability
-- Business extensibility
+## 9. Testing Instructions
+- Focus on Service-layer logic for unit and integration tests.
+- Test coverage is encouraged but not enforced at MVP stage.
