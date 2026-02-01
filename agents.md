@@ -4,12 +4,8 @@
 
 **Project Name:** NEXUS
 
-NEXUS is a backend-centric, multi-game operation platform
-designed for small to mid-scale casual and idle games.
-
-Its goal is to provide reusable backend capabilities
-(authentication, economy, products, coupons, mail, admin)
-without rebuilding server infrastructure per game.
+NEXUS is a backend-centric, multi-game operation platform designed for small to mid-scale casual and idle games.
+The goal of this project is to provide reusable backend capabilities such as authentication, economy, products, coupons, mail, and admin operations — without rebuilding server infrastructure per game.
 
 ---
 
@@ -27,27 +23,25 @@ without rebuilding server infrastructure per game.
 ---
 
 ## 3. Core Design Principles
-
 ### 3.1 Backend-Centric Platform
-- All business logic MUST reside in the backend.
-- Game-specific logic MUST NOT be hardcoded unless explicitly required.
+- Business logic always lives in the backend
+- No game-specific logic should be hardcoded unless explicitly required
 
 ### 3.2 Multi-Tenant First
-- All domain data MUST be scoped by `ORG_ID` and/or `GAME_ID`.
-- Never assume a single organization or a single game context.
+- All domain data MUST be scoped by ORG_ID and/or GAME_ID
+- Never assume a single organization or a single game context
 
 ### 3.3 Safety Over Convenience
 When uncertain:
-- Prefer data integrity over performance.
-- Prefer explicit logic over implicit behavior.
-- Prefer transactional safety over optimistic assumptions.
+- Prefer data integrity over performance shortcuts
+- Prefer explicit logic over implicit behavior
+- Prefer transactional safety over optimistic assumptions
 
 ---
 
 ## 4. Database Conventions
-
 ### 4.1 Common Columns
-Most tables share the following base columns:
+Most tables follow a shared base concept:
 - `CREATED_AT`
 - `CREATED_BY`
 - `UPDATED_AT`
@@ -57,66 +51,204 @@ Most tables share the following base columns:
 ⚠️ Physical deletes are NOT allowed unless explicitly instructed.
 
 ### 4.2 Logical Delete Rules
-- `IS_DEL = 'Y'` indicates inactive or deleted data.
-- Queries MUST include `IS_DEL = 'N'` unless for audit/history use.
+- `IS_DEL = 'Y'` means inactive or removed
+- Queries MUST explicitly filter `IS_DEL = 'N'`
+  unless the use-case is audit or history
 
 ### 4.3 Transaction Rules
-- All write operations MUST be transactional.
-- Partial updates without rollback are NOT allowed.
+- All write operations MUST be transactional
+- Partial updates without rollback are NOT allowed
+
 
 ---
 
-## 5. Naming Conventions
+## 5. Naming Convention
+### 5.1 Variable and Class Naming Rules
+- Use `camelCase` for variable names.
+- Use `PascalCase` for class names.
+- Use `UPPER_SNAKE_CASE` for constants.
 
-### 5.1 Variables & Classes
-- Variables: `camelCase`
-- Classes: `PascalCase`
-- Constants: `UPPER_SNAKE_CASE`
+### 5.2 Method Naming Rules
+- Method names should generally follow the **action + domain name** format.
+- The first letter of `[DOMAIN_NAME]` should be uppercase.  
+  (e.g., `Admin`, `Admins`, `User`, `Order`)
+- For methods beyond basic CRUD, use names that **clearly express the business intent**,
+  with detailed naming subject to Codex judgment.
 
-### 5.2 Method Naming
-- Format: **action + domain name**
-- Domain names start with an uppercase letter.
-- Non-CRUD methods MUST clearly express business intent.
+#### 5.2.1 Controller Class
+- Controller methods use **verbs from the HTTP/REST perspective**.
+- Do not use database-centric terms (`select`, `insert`, `update`, `delete`) in method names.
 
-(Controller / Service / Repository / DTO / Entity / Result rules
-are applied consistently as defined in this document.)
+**CRUD Method Naming Guide**
+- Create: `create[DOMAIN_NAME]`
+- Single Retrieval: `get[DOMAIN_NAME]`
+- List Retrieval: `list[DOMAIN_NAME]`
+- Update: `update[DOMAIN_NAME]`
+- Delete: `delete[DOMAIN_NAME]`
+
+#### 5.2.2 Service Class
+- Service methods must express **use cases and business actions**.
+- Even simple pass-through methods must follow the same naming rules as Controllers.
+
+**CRUD Method Naming Guide**
+- Create: `create[DOMAIN_NAME]`
+- Single Record Retrieval: `get[DOMAIN_NAME]`
+- List Retrieval: `list[DOMAIN_NAME]`
+- Update: `update[DOMAIN_NAME]`
+- Delete: `delete[DOMAIN_NAME]`
+
+**Additional Rules for Retrieval Methods**
+- `get[DOMAIN_NAME]`
+  - The target must exist.
+  - Throws an exception if it does not exist.
+- `find[DOMAIN_NAME]`
+  - The target may not exist.
+  - Allows returning `Optional` or `null`.
+
+#### 5.2.3 Repository Class
+- The Repository acts as the **persistence layer** and is solely responsible for database access.
+- Query conditions must be clearly reflected in the method name.
+
+**CRUD Method Naming Guide**
+- Create: `insert[DOMAIN_NAME]` (Repository only)
+- Single query: `findBy[CONDITION]`
+- List query: `findAllBy[CONDITION]`
+- Existence check: `existsBy[CONDITION]`
+- Update: `update[DOMAIN_NAME]` (Repository only)
+- Delete: `delete[DOMAIN_NAME]`
+
+**Examples**
+- `findById`
+- `findByEmail`
+- `findAllByStatus`
+- `existsByEmail`
+
+#### 5.2.4 Request DTO Class
+**Naming Rule**
+`[Action][Domain]RequestDto` or `[Domain][Action]RequestDto`
+
+**Examples**
+- `CreateAdminRequestDto`
+- `UpdateAdminRequestDto`
+- `SearchAdminRequestDto`
+
+#### 5.2.5 Response DTO Class
+**Naming Convention**
+- `[Domain]ResponseDto`
+
+**Examples**
+- `AdminResponseDto`
+- `AdminDetailResponseDto`
+
+#### 5.2.6 Entity Class
+- Field composition follows the same format as jOOQ Pojo in `org.jooq.generated.tables.pojos`.
+
+**Naming Convention**
+- `[Domain]Entity`
+
+**Example**
+- `AdminEntity`
+
+#### 5.2.7 Result Class
+**Naming Convention**
+- `[Domain]Result`
+
+**Example**
+- `AdminListResult`
+
+
+#### 5.2.8 Etc Class
+- Use names that clearly indicate the purpose for utility, helper, conversion, and similar classes.
+- Detailed naming rules are determined by the Codex.
 
 ---
 
 ## 6. Code Style Guidelines
-- Maintain strict responsibility separation between layers.
-- Upper layers MUST NOT depend on lower-layer implementations.
-- Method names MUST express intent, not implementation.
+- Maintain clear separation of responsibilities between Controller / Service / Repository.
+- Each layer must not expose the implementation details (e.g., DB, jOOQ, SQL) of lower layers.
+- Method names should express **intent and role, not implementation details**.
+- Details not specified in this document follow existing code style conventions.
+
+### 6.1 Controller Class
+- The path value in `@RequestMapping` uses constants defined in `ApiConstants.java`.
+- If a constant does not exist, define it newly in `ApiConstants.java`.
+- Use `ResponseEntity<ApiResponse<[TYPE]>>` as the return type.
+- Use `@PatchMapping` as the default for update APIs.
+- Avoid using `@PutMapping` unless replacing the entire resource.
+- Refer to `AdminController.java` for the default code style.
+- Use the `RequestDto` class for parameters passed when calling Services.
+
+### 6.2 Service Class
+- When paging is required,
+  use `PagingUtil.getPagingEntity()` to create a paging entity.
+- Transactions, validation, and permission checks are handled in the Service layer.
+- Use `Result<[TYPE]>` as the return type.
+- Use the `Entity` class for parameters passed to Service calls.
+- Refer to `AdminService.java` for the default code style.
+
+### 6.3 Repository Class
+- Queries MUST include the `IS_DEL = ‘N’` condition by default.
+- `delete[DOMAIN_NAME]` methods MUST perform logical delete (`IS_DEL = ‘Y’`)
+- Physical delete queries are NOT allowed unless explicitly instructed
+- The return type should use the `Entity` class by default, but create and use a separate `Result` class if necessary.
+- Refer to `AdminRepository.java` for the default code style.
+
+### 6.4 Request DTO Class
+- Use the Lombok annotations `@Getter`, `@Setter`, and `@NoArgsConstructor`.
+- Used to receive parameters in the Controller and pass them to the Service.
+  - This project does not use Command/Condition objects for easier maintenance.
+  - Used only up to the Service Layer; not used in subsequent layers.
+- Use `javax/jakarta validation` annotations for input validation first.
+
+### 6.5 Response DTO Class
+- Use `@Getter` and `@Builder` Lombok annotations.
+- Passes the Service's return result to the Controller, which ultimately returns it to the client.
+- Contains only externally exposed fields. (Exposure of internal identifiers/state values follows policy)
+- Date/time/number formatting follows project-wide conventions.
+
+### 6.6 Entity Class
+- Use `@Getter` and `@Builder` Lombok annotations.
+- Objects created by the Service and passed to the Repository for use.
+
+### 6.6 Result Class
+- Use `@Getter` Lombok annotation.
+- Object holding jOOQ query results.
+- Entity and Result classes SHOULD be immutable where possible
+- Avoid setters unless explicitly required
 
 ---
 
 ## 7. Priority Rule
-- This document > existing code style > Codex general rules
-- Conflicting code MUST be updated to follow this document.
+
+- Rules in this document > Existing code style > General Codex rules
+- If code conflicts with this document, modify it based on this document.
 
 ---
 
 ## 8. Code Comment Rules
-
 ### 8.1 No AI Attribution Comments
 Do NOT add comments such as:
-- "Modified by Codex"
-- "Generated by AI"
+- “Modified by Codex”
+- “Generated by AI”
+
+Code ownership and history are tracked via Git.
 
 ### 8.2 Intent-Based Comments
-Comments SHOULD explain:
+Comments should explain:
 - WHY the logic exists
-- ASSUMPTIONS it relies on
-- What MUST NOT be changed casually
+- What assumptions it relies on
+- What must NOT be changed casually
 
-### 8.3 Recommended Keywords
+### 8.3 Recommended Comment Keywords
+Use the following prefixes when appropriate:
 - `WHY:`
 - `DO NOT:`
 - `ASSUMPTION:`
 - `BOUNDARY:`
 
+These keywords help both humans and AI
+to preserve architectural intent.
+
 ---
 
-## 9. Testing Instructions
-- Focus on Service-layer logic for unit and integration tests.
-- Test coverage is encouraged but not enforced at MVP stage.
+## 9. Testing instructions
