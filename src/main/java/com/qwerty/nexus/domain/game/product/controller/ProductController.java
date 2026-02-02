@@ -1,6 +1,5 @@
 package com.qwerty.nexus.domain.game.product.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductBuyRequestDto;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductCreateRequestDto;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductUpdateRequestDto;
@@ -14,6 +13,7 @@ import com.qwerty.nexus.global.response.ResponseEntityUtils;
 import com.qwerty.nexus.global.response.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -26,32 +26,35 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @Tag(name = "상품", description = "상품 관련 API")
 public class ProductController {
-    private final ProductService service;
+    private final ProductService productService;
 
     /**
      * 상품 정보 생성
-     * @param dto
+     * @param requestDto
      * @return
      */
     @PostMapping
     @Operation(summary = "상품 정보 생성")
-    public ResponseEntity<ApiResponse<Void>> create(@RequestBody ProductCreateRequestDto dto){
-        Result<Void> rst = service.create(dto);
-        return ResponseEntityUtils.toResponseEntityVoid(rst, HttpStatus.CREATED);
+    public ResponseEntity<ApiResponse<Void>> createProduct(@Valid @RequestBody ProductCreateRequestDto requestDto){
+        Result<Void> result = productService.createProduct(requestDto);
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
     /**
      * 상품 정보 수정
-     * @param dto
+     * @param requestDto
      * @return
      */
     @PatchMapping("/{productId}")
     @Operation(summary = "상품 정보 수정")
-    public ResponseEntity<ApiResponse<Void>> update(@PathVariable int productId, @RequestBody ProductUpdateRequestDto dto){
-        dto.setProductId(productId);
+    public ResponseEntity<ApiResponse<Void>> updateProduct(
+            @PathVariable("productId") Integer productId,
+            @Valid @RequestBody ProductUpdateRequestDto requestDto
+    ){
+        requestDto.setProductId(productId);
 
-        Result<Void> rst = service.update(dto);
-        return ResponseEntityUtils.toResponseEntityVoid(rst, HttpStatus.OK);
+        Result<Void> result = productService.updateProduct(requestDto);
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
     /**
@@ -61,24 +64,21 @@ public class ProductController {
      */
     @DeleteMapping("/{productId}")
     @Operation(summary = "상품 정보 삭제")
-    public ResponseEntity<ApiResponse<Void>> delete(@PathVariable int productId){
-        ProductUpdateRequestDto dto = new ProductUpdateRequestDto();
-        dto.setIsDel("Y");
-
-        Result<Void> rst = service.update(dto);
-        return ResponseEntityUtils.toResponseEntityVoid(rst, HttpStatus.OK);
+    public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable("productId") Integer productId){
+        Result<Void> result = productService.deleteProduct(productId);
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
     /**
      * 상품 구매 및 지급
-     * @param dto
+     * @param requestDto
      * @return
      */
     @PostMapping("/buy")
     @Operation(summary = "상품 구매 및 지급")
-    public ResponseEntity<ApiResponse<Void>> buy(ProductBuyRequestDto dto) throws JsonProcessingException {
-        Result<Void> rst = service.buy(dto);
-        return ResponseEntityUtils.toResponseEntityVoid(rst, HttpStatus.OK);
+    public ResponseEntity<ApiResponse<Void>> buyProduct(@Valid @RequestBody ProductBuyRequestDto requestDto) {
+        Result<Void> result = productService.buyProduct(requestDto);
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
     /**
@@ -91,21 +91,25 @@ public class ProductController {
      */
     @GetMapping("/list/{gameId}")
     @Operation(summary = "상품 목록 조회")
-    public ResponseEntity<ApiResponse<ProductListResponseDto>> list(
-            @RequestParam int gameId,
+    public ResponseEntity<ApiResponse<ProductListResponseDto>> listProducts(
+            @PathVariable("gameId") int gameId,
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_SIZE) int size,
+            @RequestParam(required = false) String sort,
+            @RequestParam(defaultValue = ApiConstants.Pagination.DEFAULT_SORT_DIRECTION) String direction,
             @RequestParam(required = false) String keyword
     ) {
 
         PagingRequestDto pagingRequestDto = new PagingRequestDto();
         pagingRequestDto.setPage(page);
         pagingRequestDto.setSize(size);
+        pagingRequestDto.setSort(sort);
+        pagingRequestDto.setDirection(direction);
         pagingRequestDto.setKeyword(keyword);
 
-        Result<ProductListResponseDto> rst = service.list(pagingRequestDto, gameId);
+        Result<ProductListResponseDto> result = productService.listProducts(pagingRequestDto, gameId);
 
-        return ResponseEntityUtils.toResponseEntity(rst, HttpStatus.OK);
+        return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
     /**
@@ -115,8 +119,8 @@ public class ProductController {
      */
     @GetMapping("/{productId}")
     @Operation(summary = "하나의 상품 조회")
-    public ResponseEntity<ApiResponse<ProductDetailResponseDto>> selectOneProduct(@PathVariable("productId") int productId){
-        Result<ProductDetailResponseDto> rst = service.selectOneProduct(productId);
-        return ResponseEntityUtils.toResponseEntity(rst, HttpStatus.OK);
+    public ResponseEntity<ApiResponse<ProductDetailResponseDto>> getProduct(@PathVariable("productId") int productId){
+        Result<ProductDetailResponseDto> result = productService.getProduct(productId);
+        return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 }
