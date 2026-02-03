@@ -184,6 +184,12 @@ Most tables follow a shared base concept:
 - Transactions, validation, and permission checks are handled in the Service layer.
 - Use `Result<[TYPE]>` as the return type.
 - Use the `Entity` class for parameters passed to Service calls.
+- `@Transactional` MUST be applied only to Service methods that define a transaction boundary.
+- Do NOT apply `@Transactional` at the Service class level.
+- Write operations SHOULD be transactional.
+- Read-only operations SHOULD NOT be transactional unless consistency across multiple queries is required.
+- Use `@Transactional(readOnly = true)` for read-only transaction scopes when needed.
+
 - Refer to `AdminService.java` for the default code style.
 
 ### 6.3 Repository Class
