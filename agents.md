@@ -198,6 +198,10 @@ Most tables follow a shared base concept:
   Do NOT invent conditions such as `keyword`, `nameKeyword`, etc., unless they are explicitly required by the API/feature.
 - Repository naming follows our conventions above.
   Do NOT assume Spring Data JPA derived query naming patterns.
+- INSERT operations should return the primary key (PK) of the newly created row.
+- UPDATE and DELETE operations should return the number of affected rows (int).
+- An affected row count of 0 should be considered a failure at the Service layer.
+
 - Refer to `AdminRepository.java` for the default code style.
 
 ### 6.4 Request DTO Class
