@@ -210,6 +210,26 @@ Most tables follow a shared base concept:
 - The method prototype for setting the sort field when querying a list is `private SortField<?> resolveSortField(String sort, String direction)`.
 - Refer to `AdminRepository.java` for the default code style.
 
+#### 6.3.1 Insert / Update Using jOOQ Records
+
+- All **INSERT** and **UPDATE** operations in the Repository layer **MUST be implemented using jOOQ `TableRecord`**.
+- Writing INSERT/UPDATE logic by manually setting columns through the DSL API is **discouraged**.
+
+##### 1) Insert Rules
+- INSERT operations MUST:
+  - Create a `TableRecord` instance via `dsl.newRecord(TABLE)`
+  - Populate fields through record setters
+  - Persist data using `record.store()` or `record.insert()`
+- The method MUST return the **primary key (PK)** of the newly created row.
+
+##### 2) Update Rules
+- A new `TableRecord` MUST be created using `dsl.newRecord(TABLE)`
+- Incoming data from the Entity MUST be mapped onto the Record
+- Only fields that are:
+  - Explicitly set
+  - AND marked as changed via `record.changed()` are eligible for update
+- Fields with null values MUST NOT be updated unless explicitly intended
+
 ### 6.4 Request DTO Class
 - Use the Lombok annotations `@Getter`, `@Setter`, and `@NoArgsConstructor`.
 - Used to receive parameters in the Controller and pass them to the Service.
