@@ -6,6 +6,8 @@ import lombok.extern.log4j.Log4j2;
 import org.jooq.Condition;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
+import org.jooq.Field;
+import org.jooq.SortField;
 import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.daos.GameDao;
 import org.jooq.generated.tables.records.GameRecord;
@@ -32,10 +34,10 @@ public class GameRepository {
      * @param game
      * @return
      */
-    public GameEntity insertGame(GameEntity game) {
+    public Integer insertGame(GameEntity game) {
         GameRecord record = dslContext.newRecord(GAME, game);
         record.store();
-        return game;
+        return record.getGameId();
     }
 
     /**
@@ -43,7 +45,7 @@ public class GameRepository {
      * @param game
      * @return
      */
-    public GameEntity updateGame(GameEntity game) {
+    public int updateGame(GameEntity game) {
         GameRecord record = dslContext.newRecord(GAME, game);
         record.changed(GAME.ORG_ID, game.getOrgId() != null);
         record.changed(GAME.NAME, game.getName() != null);
@@ -53,8 +55,7 @@ public class GameRepository {
         record.changed(GAME.VERSION, game.getVersion() != null);
         record.changed(GAME.UPDATED_BY, game.getUpdatedBy() != null);
         record.changed(GAME.IS_DEL, game.getIsDel() != null);
-        record.update();
-        return game;
+        return record.update();
     }
 
     /**
@@ -63,8 +64,16 @@ public class GameRepository {
      * @return
      */
     public GameEntity findByGameId(Integer id){
+        if (id == null) {
+            return null;
+        }
+
+        Condition condition = DSL.noCondition();
+        condition = condition.and(GAME.IS_DEL.eq("N"));
+        condition = condition.and(GAME.GAME_ID.eq(id));
+
         return dslContext.selectFrom(GAME)
-                .where(GAME.GAME_ID.eq(id))
+                .where(condition)
                 .fetchOneInto(GameEntity.class);
     }
 
@@ -77,7 +86,7 @@ public class GameRepository {
         Condition condition = DSL.noCondition();
 
         // 삭제되지 않은 게임만 조회
-        condition = condition.and(GAME.IS_DEL.isNull().or(GAME.IS_DEL.eq("N")));
+        condition = condition.and(GAME.IS_DEL.eq("N"));
 
         // 키워드 검색 (이름검색 <추후 필요시 검색 조건 나눠서 검색하는 부분 만들것>)
         if (pagingEntity.getKeyword() != null && !pagingEntity.getKeyword().isBlank()) {
@@ -89,14 +98,13 @@ public class GameRepository {
 
         // 정렬 기준 설정
         String sortDirection = Optional.ofNullable(pagingEntity.getDirection()).orElse("DESC");
-        int size = pagingEntity.getSize() > 0 ? pagingEntity.getSize() : 10;
-        int page = Math.max(pagingEntity.getPage(), 0);
+        int size = pagingEntity.getSize();
+        int page = pagingEntity.getPage();
         int offset = page * size;
-        Condition finalCondition = condition;
 
         return dslContext.selectFrom(GAME)
-                .where(finalCondition)
-                .orderBy(GAME.CREATED_AT.desc())
+                .where(condition)
+                .orderBy(resolveSortField(pagingEntity.getSort(), sortDirection))
                 .limit(size)
                 .offset(offset)
                 .fetchInto(GameEntity.class);
@@ -114,5 +122,29 @@ public class GameRepository {
                 .fetchOneInto(Long.class);
 
         return count != null ? count : 0L;
+    }
+
+    /**
+     * 정렬 필드 설정
+     * @param sort
+     * @param direction
+     * @return
+     */
+    private SortField<?> resolveSortField(String sort, String direction) {
+        Field<?> sortField;
+        String sortKey = Optional.ofNullable(sort).orElse("createdAt").toLowerCase(java.util.Locale.ROOT);
+
+        sortField = switch (sortKey) {
+            case "gameid" -> GAME.GAME_ID;
+            case "orgid" -> GAME.ORG_ID;
+            case "name" -> GAME.NAME;
+            case "status" -> GAME.STATUS;
+            case "version" -> GAME.VERSION;
+            case "updatedat" -> GAME.UPDATED_AT;
+            default -> GAME.CREATED_AT;
+        };
+
+        boolean isAsc = "ASC".equalsIgnoreCase(direction);
+        return isAsc ? sortField.asc() : sortField.desc();
     }
 }

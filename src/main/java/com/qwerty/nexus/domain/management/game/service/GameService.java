@@ -7,7 +7,6 @@ import com.qwerty.nexus.domain.management.game.dto.response.GameListResponseDto;
 import com.qwerty.nexus.domain.management.game.dto.response.GameResponseDto;
 import com.qwerty.nexus.domain.management.game.entity.GameEntity;
 import com.qwerty.nexus.domain.management.game.repository.GameRepository;
-import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
@@ -16,6 +15,7 @@ import com.qwerty.nexus.global.util.PagingUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +33,7 @@ public class GameService {
      * @param dto
      * @return
      */
+    @Transactional
     public Result<Void> createGame(GameCreateRequestDto dto) {
         GameEntity gameEntity = GameEntity.builder()
                 .orgId(dto.getOrgId())
@@ -45,7 +46,7 @@ public class GameService {
                 .version(dto.getVersion())
                 .build();
 
-        Optional<GameEntity> insertRst = Optional.ofNullable(repository.insertGame(gameEntity));
+        Optional<Integer> insertRst = Optional.ofNullable(repository.insertGame(gameEntity));
 
         if(insertRst.isPresent()) {
             return Result.Success.of(null, "게임 생성 성공.");
@@ -60,6 +61,7 @@ public class GameService {
      * @param dto
      * @return
      */
+    @Transactional
     public Result<Void> updateGame(GameUpdateRequestDto dto){
         GameEntity gameEntity = GameEntity.builder()
                 .gameId(dto.getGameId())
@@ -70,9 +72,9 @@ public class GameService {
                 .updatedBy(dto.getUpdatedBy())
                 .build();
 
-        Optional<GameEntity> updateRst = Optional.ofNullable(repository.updateGame(gameEntity));
+        int updateRstCnt = repository.updateGame(gameEntity);
 
-        if(updateRst.isPresent()){
+        if(updateRstCnt > 0){
             return Result.Success.of(null, "게임 정보 수정 성공.");
         }
         else{
@@ -91,7 +93,7 @@ public class GameService {
             return Result.Success.of(GameResponseDto.from(selectRst.get()), "게임 정보 조회 완료.");
         }
         else{
-            return Result.Failure.of("게임 정보가 존재하지 않음.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("게임 정보가 존재하지 않음.", ErrorCode.NOT_FOUND.getCode());
         }
     }
 
