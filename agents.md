@@ -201,7 +201,7 @@ Most tables follow a shared base concept:
 - INSERT operations should return the primary key (PK) of the newly created row.
 - UPDATE and DELETE operations should return the number of affected rows (int).
 - An affected row count of 0 should be considered a failure at the Service layer.
-
+- The method prototype for setting the sort field when querying a list is `private SortField<?> resolveSortField(String sort, String direction)`.
 - Refer to `AdminRepository.java` for the default code style.
 
 ### 6.4 Request DTO Class

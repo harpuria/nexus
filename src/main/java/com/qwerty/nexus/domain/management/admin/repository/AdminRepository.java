@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 
 @Log4j2
@@ -28,24 +29,22 @@ public class AdminRepository {
 
     /**
      * 회원 등록
-     * @param admin
-     * @return admin
+     * @param admin 등록할 관리자 정보
+     * @return Long 관리자 아이디(PK)를 담은 객체 반환
      */
-    public AdminEntity insertAdmin(AdminEntity admin){
+    public Integer insertAdmin(AdminEntity admin){
         AdminRecord record = dslContext.newRecord(ADMIN, admin);
         record.store();
 
-        return AdminEntity.builder()
-                .adminId(record.getAdminId())
-                .build();
+        return record.getAdminId();
     }
 
     /**
      * 회원 정보 수정
-     * @param admin
-     * @return admin
+     * @param admin 수정할 관리자 정보
+     * @return int 수정된 row 개수
      */
-    public AdminEntity updateAdmin(AdminEntity admin){
+    public int updateAdmin(AdminEntity admin){
         AdminRecord record = dslContext.newRecord(ADMIN, admin);
         record.changed(ADMIN.LOGIN_ID, admin.getLoginId() != null);
         record.changed(ADMIN.LOGIN_PW, admin.getLoginPw() != null);
@@ -57,14 +56,13 @@ public class AdminRepository {
         record.changed(ADMIN.UPDATED_AT, admin.getUpdatedAt() != null);
         record.changed(ADMIN.UPDATED_BY, admin.getUpdatedBy() != null);
         record.changed(ADMIN.IS_DEL, admin.getIsDel() != null);
-        record.update();
-        return admin;
+        return record.update();
     }
 
     /**
      * 아이디 중복 체크
      * @param admin
-     * @return integer
+     * @return Integer
      */
     public Integer existsByLoginId(AdminEntity admin){
         return dslContext.selectCount()
@@ -100,7 +98,7 @@ public class AdminRepository {
 
     /**
      * 한 건의 회원 정보 조회
-     * @param admin
+     * @param adminId
      * @return
      */
     public AdminEntity findByAdminId(Integer adminId){
@@ -149,40 +147,6 @@ public class AdminRepository {
                 .fetchInto(AdminEntity.class);
     }
 
-    private SortField<?> resolveSortField(String sort, String direction) {
-        Field<?> sortField;
-        String sortKey = Optional.ofNullable(sort).orElse("createdAt").toLowerCase(Locale.ROOT);
-
-        switch (sortKey) {
-            case "adminid":
-                sortField = ADMIN.ADMIN_ID;
-                break;
-            case "loginid":
-                sortField = ADMIN.LOGIN_ID;
-                break;
-            case "adminnm":
-                sortField = ADMIN.ADMIN_NM;
-                break;
-            case "adminemail":
-                sortField = ADMIN.ADMIN_EMAIL;
-                break;
-            case "adminrole":
-                sortField = ADMIN.ADMIN_ROLE;
-                break;
-            case "updatedat":
-                sortField = ADMIN.UPDATED_AT;
-                break;
-            case "createdat":
-            default:
-                sortField = ADMIN.CREATED_AT;
-                break;
-        }
-
-        boolean isAsc = "ASC".equalsIgnoreCase(direction);
-        return isAsc ? sortField.asc() : sortField.desc();
-    }
-
-
     /**
      * admin_id(PK) 로 login_id 가져오기
      * @param adminId
@@ -208,7 +172,6 @@ public class AdminRepository {
 
     /**
      * 삭제되지 않은 전체 관리자 개수 조회
-     *
      * @return 전체 건수
      */
     public long countActiveAdmins() {
@@ -218,5 +181,29 @@ public class AdminRepository {
                 .fetchOneInto(Long.class);
 
         return count != null ? count : 0L;
+    }
+
+    /**
+     * 정렬 필드 설정
+     * @param sort
+     * @param direction
+     * @return
+     */
+    private SortField<?> resolveSortField(String sort, String direction) {
+        Field<?> sortField;
+        String sortKey = Optional.ofNullable(sort).orElse("createdAt").toLowerCase(Locale.ROOT);
+
+        sortField = switch (sortKey) {
+            case "adminid" -> ADMIN.ADMIN_ID;
+            case "loginid" -> ADMIN.LOGIN_ID;
+            case "adminnm" -> ADMIN.ADMIN_NM;
+            case "adminemail" -> ADMIN.ADMIN_EMAIL;
+            case "adminrole" -> ADMIN.ADMIN_ROLE;
+            case "updatedat" -> ADMIN.UPDATED_AT;
+            default -> ADMIN.CREATED_AT;
+        };
+
+        boolean isAsc = "ASC".equalsIgnoreCase(direction);
+        return isAsc ? sortField.asc() : sortField.desc();
     }
 }

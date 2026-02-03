@@ -91,7 +91,7 @@ public class AdminService {
                 .build();
 
         // 중복 확인이 끝났으면 회원 등록(INSERT) 수행
-        Optional<AdminEntity> insertRst = Optional.ofNullable(repository.insertAdmin(adminEntity));
+        Optional<Integer> insertRst = Optional.ofNullable(repository.insertAdmin(adminEntity));
         if(insertRst.isEmpty()) {
             return Result.Failure.of("회원가입 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
@@ -133,7 +133,7 @@ public class AdminService {
         }
 
         // 중복 확인이 끝났으면 회원 등록(INSERT) 수행
-        Optional<AdminEntity> insertRst = Optional.ofNullable(repository.insertAdmin(adminEntity));
+        Optional<Integer> insertRst = Optional.ofNullable(repository.insertAdmin(adminEntity));
         if(insertRst.isEmpty()) {
             return Result.Failure.of("회원가입 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
@@ -164,13 +164,13 @@ public class AdminService {
                 .updatedBy(dto.getUpdatedBy())
                 .build();
 
-        Optional<AdminEntity> updateRst = Optional.ofNullable(repository.updateAdmin(adminEntity));
+        int updateRstCnt = repository.updateAdmin(adminEntity);
 
         String type = "수정";
         if(dto.getIsDel() != null && dto.getIsDel().equalsIgnoreCase("Y"))
             type = "삭제";
 
-        if(updateRst.isEmpty()) {
+        if(updateRstCnt <= 0) {
             return Result.Failure.of(String.format("회원정보 %s 실패.", type), ErrorCode.INTERNAL_ERROR.getCode());
         }
 
@@ -258,6 +258,7 @@ public class AdminService {
             return Result.Failure.of("아이디 또는 비밀번호가 올바르지 않습니다.", ErrorCode.INVALID_CREDENTIALS.getCode());
         }
 
+        // Jwt token 생성
         JwtTokenGenerationData jwtData = JwtTokenGenerationData.builder()
                 .socialId(admin.getAdminId() + "9630")
                 .email(admin.getAdminEmail())
