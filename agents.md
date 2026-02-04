@@ -170,6 +170,7 @@ Most tables follow a shared base concept:
 - Each layer must not expose the implementation details (e.g., DB, jOOQ, SQL) of lower layers.
 - Method names should express **intent and role, not implementation details**.
 - Details not specified in this document follow existing code style conventions.
+- **Unless explicitly stated otherwise, creating new methods arbitrarily in Codex is prohibited.**
 
 ### 6.1 Controller Class
 - The path value in `@RequestMapping` uses constants defined in `ApiConstants.java`.
