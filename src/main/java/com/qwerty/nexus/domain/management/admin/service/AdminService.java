@@ -77,11 +77,14 @@ public class AdminService {
                 .updatedBy(dto.getLoginId())
                 .build();
 
-        organizationEntity = organizationRepository.insertOrganization(organizationEntity);
+        Integer orgId = organizationRepository.insertOrganization(organizationEntity);
+        if (orgId == null) {
+            return Result.Failure.of("단체 정보 생성 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+        }
 
         adminEntity = AdminEntity.builder()
                 .loginId(dto.getLoginId())
-                .orgId(organizationEntity.getOrgId())
+                .orgId(orgId)
                 .loginPw(encodedPassword)
                 .adminNm(dto.getAdminNm())
                 .adminEmail(dto.getAdminEmail())

@@ -26,13 +26,11 @@ public class OrganizationRepository {
      * @param entity
      * @return Organization
      */
-    public OrganizationEntity insertOrganization(OrganizationEntity entity){
+    public Integer insertOrganization(OrganizationEntity entity){
         OrganizationRecord record = dslContext.newRecord(ORGANIZATION, entity);
         record.store();
 
-        return OrganizationEntity.builder()
-                .orgId(record.getOrgId())
-                .build();
+        return record.getOrgId();
     }
 
     /**
@@ -40,15 +38,14 @@ public class OrganizationRepository {
      * @param entity
      * @return
      */
-    public OrganizationEntity updateOrganization(OrganizationEntity entity){
+    public int updateOrganization(OrganizationEntity entity){
         OrganizationRecord record = dslContext.newRecord(ORGANIZATION, entity);
         record.changed(ORGANIZATION.ORG_NM, entity.getOrgNm() != null);
         record.changed(ORGANIZATION.ORG_CD, entity.getOrgCd() != null);
-        record.changed(ORGANIZATION.CREATED_BY, entity.getCreatedBy() != null);
+        record.changed(ORGANIZATION.LOGO_PATH, entity.getLogoPath() != null);
         record.changed(ORGANIZATION.UPDATED_BY, entity.getUpdatedBy() != null);
         record.changed(ORGANIZATION.IS_DEL, entity.getIsDel() != null);
-        record.update();
-        return entity;
+        return record.update();
     }
 
     /**
@@ -58,7 +55,8 @@ public class OrganizationRepository {
      */
     public OrganizationEntity findByOrgId(Integer orgId){
         return dslContext.selectFrom(ORGANIZATION)
-                .where(ORGANIZATION.ORG_ID.eq(orgId))
+                .where(ORGANIZATION.ORG_ID.eq(orgId)
+                        .and(ORGANIZATION.IS_DEL.isNull().or(ORGANIZATION.IS_DEL.eq("N"))))
                 .fetchOneInto(OrganizationEntity.class);
     }
 }
