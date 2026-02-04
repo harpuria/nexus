@@ -33,9 +33,9 @@ The goal of this project is to provide reusable backend capabilities such as aut
 
 ### 3.3 Safety Over Convenience
 When uncertain:
-- Prefer data integrity over performance shortcuts
-- Prefer explicit logic over implicit behavior
-- Prefer transactional safety over optimistic assumptions
+  - Prefer data integrity over performance shortcuts
+  - Prefer explicit logic to implicit behavior
+  - Prefer transactional safety to optimistic assumptions
 
 ---
 
@@ -56,9 +56,8 @@ Most tables follow a shared base concept:
   unless the use-case is audit or history
 
 ### 4.3 Transaction Rules
-- All write operations MUST be transactional
-- Partial updates without rollback are NOT allowed
-
+- All write operations MUST be transactional.
+- Partial updates without rollback are NOT allowed.
 
 ---
 
@@ -108,6 +107,9 @@ Most tables follow a shared base concept:
 #### 5.2.3 Repository Class
 - The Repository acts as the **persistence layer** and is solely responsible for database access.
 - Query conditions must be clearly reflected in the method name.
+- Del condition is MUST NOT be included in repository method names.  (e.g., use `findByGameId`, NOT `findByIsDelAndGameId`)
+- Repository method names MUST reflect only the caller-provided conditions.
+  Do NOT invent conditions such as `keyword`, `nameKeyword`, etc., unless they are explicitly required by the API/feature.
 
 **CRUD Method Naming Guide**
 - Create: `insert[DOMAIN_NAME]` (Repository only)
@@ -175,21 +177,20 @@ Most tables follow a shared base concept:
 - Use `ResponseEntity<ApiResponse<[TYPE]>>` as the return type.
 - Use `@PatchMapping` as the default for update APIs.
 - Avoid using `@PutMapping` unless replacing the entire resource.
-- Refer to `AdminController.java` for the default code style.
 - Use the `RequestDto` class for parameters passed when calling Services.
+- Refer to `AdminController.java` for the default code style.
 
 ### 6.2 Service Class
 - When paging is required,
   use `PagingUtil.getPagingEntity()` to create a paging entity.
 - Transactions, validation, and permission checks are handled in the Service layer.
 - Use `Result<[TYPE]>` as the return type.
-- Use the `Entity` class for parameters passed to Service calls.
+- Parameters passed to repository calls use the `Entity` class or a single parameter (e.g., `int gameId`).
 - `@Transactional` MUST be applied only to Service methods that define a transaction boundary.
 - Do NOT apply `@Transactional` at the Service class level.
 - Write operations SHOULD be transactional.
 - Read-only operations SHOULD NOT be transactional unless consistency across multiple queries is required.
 - Use `@Transactional(readOnly = true)` for read-only transaction scopes when needed.
-
 - Refer to `AdminService.java` for the default code style.
 
 ### 6.3 Repository Class
@@ -197,38 +198,55 @@ Most tables follow a shared base concept:
 - `delete[DOMAIN_NAME]` methods MUST perform logical delete (`IS_DEL = ‘Y’`)
 - Physical delete queries are NOT allowed unless explicitly instructed
 - The return type should use the `Entity` class by default, but create and use a separate `Result` class if necessary.
-- Default filters such as `IS_DEL = 'N'` MUST be applied in the query implementation,
-  but MUST NOT be included in repository method names.
-  (e.g., use `findByGameId`, NOT `findByIsDelAndGameId`)
-- Repository method names MUST reflect only the caller-provided conditions.
-  Do NOT invent conditions such as `keyword`, `nameKeyword`, etc., unless they are explicitly required by the API/feature.
-- Repository naming follows our conventions above.
-  Do NOT assume Spring Data JPA derived query naming patterns.
-- INSERT operations should return the primary key (PK) of the newly created row.
-- UPDATE and DELETE operations should return the number of affected rows (int).
-- An affected row count of 0 should be considered a failure at the Service layer.
 - The method prototype for setting the sort field when querying a list is `private SortField<?> resolveSortField(String sort, String direction)`.
 - Refer to `AdminRepository.java` for the default code style.
 
-#### 6.3.1 Insert / Update Using jOOQ Records
-
+#### 6.3.1 Detailed Rules for Insert / Update Operations
+**Common**
 - All **INSERT** and **UPDATE** operations in the Repository layer **MUST be implemented using jOOQ `TableRecord`**.
 - Writing INSERT/UPDATE logic by manually setting columns through the DSL API is **discouraged**.
 
-##### 1) Insert Rules
-- INSERT operations MUST:
-  - Create a `TableRecord` instance via `dsl.newRecord(TABLE)`
-  - Populate fields through record setters
-  - Persist data using `record.store()` or `record.insert()`
+**Timestamp**
+- The `CREATED_AT` and `UPDATED_AT` columns are **automatically managed by a jOOQ Listener**.
+- Therefore:
+  - Repository layer **MUST NOT** set or modify `CREATED_AT` and `UPDATED_AT`
+  - Service and Controller layers **MUST NOT** handle timestamp fields
+- All timestamp values are considered **infrastructure concerns**, not business logic.
+
+**Insert**
+- Create a `TableRecord` instance via `dsl.newRecord(TABLE, entity)`
+- Persist data using `record.store()`
 - The method MUST return the **primary key (PK)** of the newly created row.
 
-##### 2) Update Rules
-- A new `TableRecord` MUST be created using `dsl.newRecord(TABLE)`
-- Incoming data from the Entity MUST be mapped onto the Record
-- Only fields that are:
-  - Explicitly set
-  - AND marked as changed via `record.changed()` are eligible for update
-- Fields with null values MUST NOT be updated unless explicitly intended
+```java
+// insert example (admin insert)
+AdminRecord record = dslContext.newRecord(ADMIN, admin);
+record.store();
+
+return record.getAdminId();
+```
+
+**Update**
+- Create a `TableRecord` instance via `dsl.newRecord(TABLE, entity)`
+- marked as changed via `record.changed()` are eligible for update
+- UPDATE operations should return the number of affected rows (int).
+- An affected row count of 0 should be considered a failure at the Service layer.
+
+```java
+// update example (admin update)
+AdminRecord record = dslContext.newRecord(ADMIN, admin);
+record.changed(ADMIN.LOGIN_ID, admin.getLoginId() != null);
+record.changed(ADMIN.LOGIN_PW, admin.getLoginPw() != null);
+record.changed(ADMIN.ADMIN_ROLE, admin.getAdminRole() != null);
+record.changed(ADMIN.ADMIN_NM, admin.getAdminNm() != null);
+record.changed(ADMIN.ADMIN_EMAIL, admin.getAdminEmail() != null);
+record.changed(ADMIN.ORG_ID, admin.getOrgId() != null);
+record.changed(ADMIN.GAME_ID, admin.getGameId() != null);
+record.changed(ADMIN.UPDATED_AT, admin.getUpdatedAt() != null);
+record.changed(ADMIN.UPDATED_BY, admin.getUpdatedBy() != null);
+record.changed(ADMIN.IS_DEL, admin.getIsDel() != null);
+return record.update();
+```
 
 ### 6.4 Request DTO Class
 - Use the Lombok annotations `@Getter`, `@Setter`, and `@NoArgsConstructor`.
