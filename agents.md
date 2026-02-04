@@ -200,6 +200,18 @@ Most tables follow a shared base concept:
 - The return type should use the `Entity` class by default, but create and use a separate `Result` class if necessary.
 - The method prototype for setting the sort field when querying a list is `private SortField<?> resolveSortField(String sort, String direction)`.
 - Refer to `AdminRepository.java` for the default code style.
+- The default fields in the Repository create `DSLContext`, `J[DOMAIN]`, and `[DOMAIN]Dao` objects. They are pre-configured even if the dao isn't used immediately.
+```java
+// basic field and constructor
+private final DSLContext dslContext;
+private final JAdmin ADMIN = JAdmin.ADMIN;
+private final AdminDao dao;
+
+public AdminRepository(Configuration configuration, DSLContext dslContext) {
+    this.dslContext = dslContext;
+    this.dao = new AdminDao(configuration);
+}
+```
 
 #### 6.3.1 Detailed Rules for Insert / Update Operations
 **Common**
@@ -242,9 +254,8 @@ record.changed(ADMIN.ADMIN_NM, admin.getAdminNm() != null);
 record.changed(ADMIN.ADMIN_EMAIL, admin.getAdminEmail() != null);
 record.changed(ADMIN.ORG_ID, admin.getOrgId() != null);
 record.changed(ADMIN.GAME_ID, admin.getGameId() != null);
-record.changed(ADMIN.UPDATED_AT, admin.getUpdatedAt() != null);
-record.changed(ADMIN.UPDATED_BY, admin.getUpdatedBy() != null);
-record.changed(ADMIN.IS_DEL, admin.getIsDel() != null);
+record.changed(ADMIN.UPDATED_BY, admin.getUpdatedBy() != null); // required 'updated_by' column
+record.changed(ADMIN.IS_DEL, admin.getIsDel() != null); // required 'is_del' column
 return record.update();
 ```
 
