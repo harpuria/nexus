@@ -9,6 +9,7 @@ import com.qwerty.nexus.global.response.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ public class OrganizationService {
      * 단체 정보 수정
      * @param dto
      */
+    @Transactional
     public Result<Void> updateOrganization(OrganizationUpdateRequestDto dto) {
         // 업데이트를 하는 사람이 해당 조직의 소속된 사람인지, SUPER 권한을 가졌는지 확인
         // true 면 아래 update 진행
@@ -34,8 +36,8 @@ public class OrganizationService {
                 .updatedBy(dto.getUpdatedBy())
                 .build();
 
-        Optional<OrganizationEntity> updateRst = Optional.ofNullable(repository.updateOrganization(orgEntity));
-        if(updateRst.isPresent()){
+        int updatedRows = repository.updateOrganization(orgEntity);
+        if(updatedRows > 0){
             return Result.Success.of(null, "단체 정보 수정 성공.");
         }
         else{
@@ -54,7 +56,7 @@ public class OrganizationService {
             return Result.Success.of(OrganizationResponseDto.from(selectRst.get()), "단체 정보 조회 완료.");
         }
         else{
-            return Result.Failure.of("단체 정보 존재하지 않음.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("단체 정보 존재하지 않음.", ErrorCode.NOT_FOUND.getCode());
         }
     }
 }
