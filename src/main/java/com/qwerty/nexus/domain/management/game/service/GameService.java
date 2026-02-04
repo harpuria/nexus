@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -46,14 +45,12 @@ public class GameService {
                 .version(dto.getVersion())
                 .build();
 
-        Optional<Integer> insertRst = Optional.ofNullable(repository.insertGame(gameEntity));
-
-        if(insertRst.isPresent()) {
-            return Result.Success.of(null, "게임 생성 성공.");
-        }
-        else{
+        Integer insertRst = repository.insertGame(gameEntity);
+        if (insertRst == null) {
             return Result.Failure.of("게임 생성 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
+
+        return Result.Success.of(null, "게임 생성 성공.");
     }
 
     /**
@@ -88,13 +85,12 @@ public class GameService {
      * @return
      */
     public Result<GameResponseDto> getGame(Integer id){
-        Optional<GameEntity> selectRst = Optional.ofNullable(repository.findByGameId(id));
-        if(selectRst.isPresent()){
-            return Result.Success.of(GameResponseDto.from(selectRst.get()), "게임 정보 조회 완료.");
-        }
-        else{
+        GameEntity selectRst = repository.findByGameId(id);
+        if (selectRst == null) {
             return Result.Failure.of("게임 정보가 존재하지 않음.", ErrorCode.NOT_FOUND.getCode());
         }
+
+        return Result.Success.of(GameResponseDto.from(selectRst), "게임 정보 조회 완료.");
     }
 
     /**
@@ -108,13 +104,12 @@ public class GameService {
         int validatedSize = pagingEntity.getSize();
         int safePage = pagingEntity.getPage();
 
-        Optional<List<GameEntity>> selectRst = Optional.ofNullable(repository.findAllByKeyword(pagingEntity));
-
-        if(selectRst.isEmpty()){
+        List<GameEntity> selectRst = repository.findAllByKeyword(pagingEntity);
+        if (selectRst == null) {
             return Result.Failure.of("게임 목록이 존재하지 않음.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        List<GameResponseDto> games = selectRst.get().stream()
+        List<GameResponseDto> games = selectRst.stream()
                 .map(GameResponseDto::from)
                 .collect(Collectors.toList());
 
