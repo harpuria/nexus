@@ -68,9 +68,8 @@ public class GameRepository {
             return null;
         }
 
-        Condition condition = DSL.noCondition();
-        condition = condition.and(GAME.IS_DEL.eq("N"));
-        condition = condition.and(GAME.GAME_ID.eq(id));
+        Condition condition = GAME.IS_DEL.eq("N")
+                .and(GAME.GAME_ID.eq(id));
 
         return dslContext.selectFrom(GAME)
                 .where(condition)
@@ -89,8 +88,9 @@ public class GameRepository {
         condition = condition.and(GAME.IS_DEL.eq("N"));
 
         // 키워드 검색 (이름검색 <추후 필요시 검색 조건 나눠서 검색하는 부분 만들것>)
-        if (pagingEntity.getKeyword() != null && !pagingEntity.getKeyword().isBlank()) {
-            String keyword = "%" + pagingEntity.getKeyword().trim() + "%";
+        String keywordInput = pagingEntity.getKeyword();
+        if (keywordInput != null && !keywordInput.isBlank()) {
+            String keyword = "%" + keywordInput.trim() + "%";
             condition = condition.and(
                     GAME.NAME.likeIgnoreCase(keyword)
             );
