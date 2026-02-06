@@ -318,4 +318,22 @@ to preserve architectural intent.
 
 ---
 
-## 9. Testing instructions
+## 9. Test Code Guidelines
+### 9.1. Java Version
+- All test code **MUST be written and executed based on Java 21**.
+- Do NOT use Java 22+ APIs, preview features, or newer language syntax.
+- The project targets Java 21 for **local, CI, and production environments**.
+- Build tools (Gradle/Maven) should enforce Java 21 via toolchain or compiler settings.
+
+### 9.2. Mocking Framework Rules
+- Use **`@MockitoBean`** for Spring Boot test mocking.
+- **`@MockBean` MUST NOT be used** as it is deprecated.
+- Prefer constructor injection + `@MockitoBean` over field injection where possible.
+
+### 9.3. Testing Strategy (Integration-first)
+- This project **prioritizes integration tests over unit tests**.
+- Tests are written to verify:
+  - Interaction between components
+  - Actual configuration, wiring, and behavior
+  - Real SQL execution and transaction behavior
+- Unit tests may be written selectively, but they are **not the primary testing strategy**.
