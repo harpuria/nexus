@@ -54,11 +54,11 @@ public class GameUserService {
                 .updatedBy(dto.getCreatedBy())
                 .build();
 
-        Optional<GameUserEntity> insertRst = Optional.ofNullable(repository.insertGameUser(entity));
+        Integer createdUserId = repository.insertGameUser(entity);
 
-        if(insertRst.isPresent()){
+        if(createdUserId != null){
             // 신규회원에게 USER_XXX 에블에 있는 모든 정보 INSERT 처리 (ex : USER_CURRENCY)
-            createUserData(dto.getGameId(), insertRst.get().getUserId(), entity.getSocialId());
+            createUserData(dto.getGameId(), createdUserId, entity.getSocialId());
 
             return Result.Success.of(null, "유저 생성 성공.");
         }else{
@@ -90,9 +90,9 @@ public class GameUserService {
                 .isDel(dto.getIsDel())
                 .build();
 
-        Optional<GameUserEntity> updateRst = Optional.ofNullable(repository.updateGameUser(entity));
+        int updatedRowCount = repository.updateGameUser(entity);
 
-        if(updateRst.isPresent()){
+        if(updatedRowCount > 0){
             return Result.Success.of(null, "유저 정보 수정 성공.");
         }else{
             return Result.Failure.of("유저 정보 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
@@ -113,9 +113,9 @@ public class GameUserService {
                 .updatedBy(dto.getUpdatedBy())
                 .build();
 
-        Optional<GameUserEntity> updateRst = Optional.ofNullable(repository.updateGameUser(entity));
+        int updatedRowCount = repository.updateGameUser(entity);
 
-        if(updateRst.isPresent()){
+        if(updatedRowCount > 0){
             return Result.Success.of(null, "유저 정지 성공.");
         }else{
             return Result.Failure.of("유저 정지 실패.", ErrorCode.INTERNAL_ERROR.getCode());
@@ -136,9 +136,9 @@ public class GameUserService {
                 .updatedBy(dto.getUpdatedBy())
                 .build();
 
-        Optional<GameUserEntity> updateRst = Optional.ofNullable(repository.updateGameUser(entity));
+        int updatedRowCount = repository.updateGameUser(entity);
 
-        if(updateRst.isPresent()){
+        if(updatedRowCount > 0){
             return Result.Success.of(null, "유저 탈퇴 성공.");
         }else{
             return Result.Failure.of("유저 탈퇴 실패.", ErrorCode.INTERNAL_ERROR.getCode());
