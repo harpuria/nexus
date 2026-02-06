@@ -37,7 +37,7 @@ public class GameUserRepository {
      * @param gameUser
      * @return
      */
-    public GameUserEntity createGameUser(GameUserEntity gameUser){
+    public GameUserEntity insertGameUser(GameUserEntity gameUser){
         GameUserRecord record = dslContext.newRecord(GAME_USER, gameUser);
         record.store();
         return GameUserEntity.builder()
@@ -77,11 +77,13 @@ public class GameUserRepository {
      * @param entity
      * @return
      */
-    public Integer isUserAlreadyRegistered(GameUserEntity entity) {
-        return dslContext.selectCount().from(GAME_USER)
+    public boolean existsByGameIdAndSocialId(GameUserEntity entity) {
+        Integer matchedCount = dslContext.selectCount().from(GAME_USER)
                 .where(GAME_USER.GAME_ID.eq(entity.getGameId())
                 .and(GAME_USER.SOCIAL_ID.eq(entity.getSocialId())))
                 .fetchOneInto(Integer.class);
+
+        return matchedCount != null && matchedCount > 0;
     }
 
     /**
@@ -89,13 +91,13 @@ public class GameUserRepository {
      * @param entity
      * @return
      */
-    public List<Integer> selectAllUserId(GameUserEntity entity){
+    public List<Integer> findAllUserIdsByGameId(GameUserEntity entity){
         return dslContext.select(GAME_USER.USER_ID).from(GAME_USER)
                 .where(GAME_USER.GAME_ID.eq((entity.getGameId())))
                 .fetch(GAME_USER.USER_ID); // 개별 컬럼을 가져올 때는 이런식으로 반환 처리
     }
 
-    public List<GameUserEntity> selectGameUsers(PagingEntity paging, int gameId) {
+    public List<GameUserEntity> findAllByGameId(PagingEntity paging, int gameId) {
         Condition condition = DSL.noCondition();
 
         condition = condition.and(GAME_USER.IS_DEL.isNull().or(GAME_USER.IS_DEL.eq("N")));
@@ -143,7 +145,7 @@ public class GameUserRepository {
      * 한 건의 게임 유저 조회
      * @param entity
      */
-    public Optional<GameUserEntity> selectOneGameUser(GameUserEntity entity) {
+    public Optional<GameUserEntity> findByGameIdAndUserId(GameUserEntity entity) {
         return Optional.ofNullable(dslContext.selectFrom(GAME_USER)
                 .where(GAME_USER.GAME_ID.eq(entity.getGameId())
                         .and(GAME_USER.USER_ID.eq(entity.getUserId())))

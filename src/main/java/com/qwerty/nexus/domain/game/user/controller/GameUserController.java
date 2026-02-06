@@ -108,8 +108,8 @@ public class GameUserController {
      */
     @GetMapping("/{gameId}/{userId}")
     @Operation(summary = "한 건의 게임 유저 조회")
-    public ResponseEntity<ApiResponse<GameUserResponseDto>> selectOneGameUser(@PathVariable("gameId") int gameId, @PathVariable("userId") int userId) {
-        Result<GameUserResponseDto> result = gameUserService.selectOneGameUser(gameId, userId);
+    public ResponseEntity<ApiResponse<GameUserResponseDto>> getGameUser(@PathVariable("gameId") int gameId, @PathVariable("userId") int userId) {
+        Result<GameUserResponseDto> result = gameUserService.getGameUser(gameId, userId);
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
