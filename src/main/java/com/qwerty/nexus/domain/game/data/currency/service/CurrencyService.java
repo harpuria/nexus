@@ -59,7 +59,7 @@ public class CurrencyService {
         // 2) 현재 존재하는 재화들 (삭제상태가 아닌 것)을 모두 해당 유저에게 생성하게 함
 
         if(createRst.isPresent()){
-            List<Integer> userIdList = gameUserRepository.selectAllUserId(GameUserEntity.builder().gameId(dto.getGameId()).build());
+            List<Integer> userIdList = gameUserRepository.findAllUserIdsByGameId(GameUserEntity.builder().gameId(dto.getGameId()).build());
             if(!userIdList.isEmpty()){
                 userIdList.forEach(userId -> {
                     log.info("===========================");

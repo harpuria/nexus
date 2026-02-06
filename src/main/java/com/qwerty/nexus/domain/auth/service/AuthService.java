@@ -57,10 +57,10 @@ public class AuthService {
                         .updatedBy(socialId)
                         .build();
 
-                boolean isUser = gameUserRepository.isUserAlreadyRegistered(gameUserEntity) > 0;
+                boolean isUser = gameUserRepository.existsByGameIdAndSocialId(gameUserEntity);
                 if(!isUser){
                     // 유저가 없으면 등록 처리 후 userId 가져오기
-                    Optional<GameUserEntity> rst = Optional.ofNullable(gameUserRepository.createGameUser(gameUserEntity));
+                    Optional<GameUserEntity> rst = Optional.ofNullable(gameUserRepository.insertGameUser(gameUserEntity));
                     int userId;
                     if(rst.isPresent()){
                         userId = rst.get().getUserId();

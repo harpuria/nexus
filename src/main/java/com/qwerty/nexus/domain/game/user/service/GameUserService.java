@@ -54,7 +54,7 @@ public class GameUserService {
                 .updatedBy(dto.getCreatedBy())
                 .build();
 
-        Optional<GameUserEntity> insertRst = Optional.ofNullable(repository.createGameUser(entity));
+        Optional<GameUserEntity> insertRst = Optional.ofNullable(repository.insertGameUser(entity));
 
         if(insertRst.isPresent()){
             // 신규회원에게 USER_XXX 에블에 있는 모든 정보 INSERT 처리 (ex : USER_CURRENCY)
@@ -155,7 +155,7 @@ public class GameUserService {
         int validatedSize = pagingEntity.getSize();
         int safePage = pagingEntity.getPage();
 
-        List<GameUserEntity> gameUsers = Optional.ofNullable(repository.selectGameUsers(pagingEntity, gameId))
+        List<GameUserEntity> gameUsers = Optional.ofNullable(repository.findAllByGameId(pagingEntity, gameId))
                 .orElseGet(Collections::emptyList);
 
         long totalCount = gameUsers.size();
@@ -213,13 +213,13 @@ public class GameUserService {
      * @param userId
      * @return
      */
-    public Result<GameUserResponseDto> selectOneGameUser(int gameId, int userId) {
+    public Result<GameUserResponseDto> getGameUser(int gameId, int userId) {
         GameUserEntity entity = GameUserEntity.builder()
                 .gameId(gameId)
                 .userId(userId)
                 .build();
 
-        Optional<GameUserEntity> result = repository.selectOneGameUser(entity);
+        Optional<GameUserEntity> result = repository.findByGameIdAndUserId(entity);
 
         if(result.isEmpty()){
             return Result.Failure.of("유저 정보가 존재하지 않음", ErrorCode.INTERNAL_ERROR.getCode());

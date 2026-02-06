@@ -172,7 +172,7 @@ public class CouponService {
             return Result.Failure.of("쿠폰 코드는 공백일 수 없습니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
-        Optional<GameUserEntity> gameUser = gameUserRepository.selectOneGameUser(
+        Optional<GameUserEntity> gameUser = gameUserRepository.findByGameIdAndUserId(
                 GameUserEntity.builder()
                         .gameId(dto.getGameId())
                         .userId(dto.getUserId())
