@@ -2,8 +2,8 @@ package com.qwerty.nexus.domain.game.data.currency.controller;
 
 import com.qwerty.nexus.domain.game.data.currency.dto.request.CurrencyCreateRequestDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.request.CurrencyUpdateRequestDto;
+import com.qwerty.nexus.domain.game.data.currency.dto.response.CurrencyListResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.dto.response.CurrencyResponseDto;
-import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyListResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.service.CurrencyService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
@@ -12,13 +12,12 @@ import com.qwerty.nexus.global.response.ResponseEntityUtils;
 import com.qwerty.nexus.global.response.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Log4j2
 @RequestMapping(ApiConstants.Path.CURRENCY_PATH)
 @RestController
 @RequiredArgsConstructor
@@ -33,7 +32,7 @@ public class CurrencyController {
      */
     @PostMapping
     @Operation(summary = "재화 정보 생성")
-    public ResponseEntity<ApiResponse<Void>> createCurrency(@RequestBody CurrencyCreateRequestDto dto){
+    public ResponseEntity<ApiResponse<Void>> createCurrency(@Valid @RequestBody CurrencyCreateRequestDto dto){
         Result<Void> result = service.createCurrency(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
@@ -46,7 +45,10 @@ public class CurrencyController {
      */
     @PatchMapping("/{currencyId}")
     @Operation(summary = "재화 정보 수정")
-    public ResponseEntity<ApiResponse<Void>> updateCurrency(@PathVariable("currencyId") int currencyId, @RequestBody CurrencyUpdateRequestDto dto){
+    public ResponseEntity<ApiResponse<Void>> updateCurrency(
+            @PathVariable("currencyId") int currencyId,
+            @Valid @RequestBody CurrencyUpdateRequestDto dto
+    ){
         dto.setCurrencyId(currencyId);
 
         Result<Void> result = service.updateCurrency(dto);

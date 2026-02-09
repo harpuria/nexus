@@ -13,8 +13,6 @@ public class UserCurrencyResponseDto extends BaseResponseDto {
     private Integer currencyId;
     private Integer userId;
     private Long amount;
-
-    // 이름이 없으므로 currency table join 결과 반환용 필드 추가
     private String name;
 
     public static UserCurrencyResponseDto from(UserCurrencyEntity entity){

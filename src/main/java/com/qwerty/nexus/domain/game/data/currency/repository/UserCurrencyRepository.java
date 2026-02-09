@@ -4,7 +4,6 @@ import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.result.UserCurrencyListResult;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
-import lombok.extern.log4j.Log4j2;
 import org.jooq.Condition;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
@@ -21,19 +20,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-@Log4j2
 @Repository
 public class UserCurrencyRepository {
     private final DSLContext dslContext;
     private final JUserCurrency USER_CURRENCY = JUserCurrency.USER_CURRENCY;
     private final JCurrency CURRENCY = JCurrency.CURRENCY;
     private final UserCurrencyDao dao;
-    private final Configuration configuration;
 
     public UserCurrencyRepository(Configuration configuration, DSLContext dslContext) {
         this.dslContext = dslContext;
         this.dao = new UserCurrencyDao(configuration);
-        this.configuration = configuration;
     }
 
     /**
@@ -41,12 +37,11 @@ public class UserCurrencyRepository {
      * @param entity
      * @return
      */
-    public UserCurrencyEntity insertUserCurrency(UserCurrencyEntity entity) {
+    public Integer insertUserCurrency(UserCurrencyEntity entity) {
         UserCurrencyRecord record = dslContext.newRecord(USER_CURRENCY, entity);
         record.store();
-        return UserCurrencyEntity.builder()
-                .userCurrencyId(record.getUserCurrencyId())
-                .build();
+
+        return record.getUserCurrencyId();
     }
 
     /**
@@ -54,34 +49,14 @@ public class UserCurrencyRepository {
      * @param entity
      * @return
      */
-    public UserCurrencyEntity updateUserCurrency(UserCurrencyEntity entity) {
+    public int updateUserCurrency(UserCurrencyEntity entity) {
         UserCurrencyRecord record = dslContext.newRecord(USER_CURRENCY, entity);
         record.changed(USER_CURRENCY.AMOUNT, entity.getAmount() != null);
         record.changed(USER_CURRENCY.UPDATED_BY, entity.getUpdatedBy() != null);
         record.changed(USER_CURRENCY.IS_DEL, entity.getIsDel() != null);
-        record.update();
 
-        return entity;
+        return record.update();
     }
-
-    /*
-    동등 비교
-        eq(T value) - equals (=)
-        equal(T value) - eq와 동일
-        ne(T value) - not equals (!=, <>)
-        notEqual(T value) - ne와 동일
-
-        크기 비교
-
-        gt(T value) - greater than (>)
-        greaterThan(T value) - gt와 동일
-        ge(T value) - greater or equal (>=)
-        greaterOrEqual(T value) - ge와 동일
-        lt(T value) - less than (<)
-        lessThan(T value) - lt와 동일
-        le(T value) - less or equal (<=)
-        lessOrEqual(T value) - le와 동일
-     */
 
     /**
      * 유저 재화 차감
@@ -94,7 +69,9 @@ public class UserCurrencyRepository {
                 .set(USER_CURRENCY.AMOUNT, USER_CURRENCY.AMOUNT.subtract(price))
                 .where(USER_CURRENCY.USER_ID.eq(entity.getUserId())
                         .and(USER_CURRENCY.CURRENCY_ID.eq(entity.getCurrencyId()))
-                        .and(USER_CURRENCY.AMOUNT.minus(price).gt(0L))).execute();
+                        .and(USER_CURRENCY.IS_DEL.eq("N"))
+                        .and(USER_CURRENCY.AMOUNT.minus(price).ge(0L)))
+                .execute();
     }
 
     /**
@@ -108,7 +85,9 @@ public class UserCurrencyRepository {
         return dslContext.update(USER_CURRENCY)
                 .set(USER_CURRENCY.AMOUNT, USER_CURRENCY.AMOUNT.add(amount))
                 .where(USER_CURRENCY.USER_ID.eq(entity.getUserId())
-                        .and(USER_CURRENCY.CURRENCY_ID.eq(currencyId))).execute();
+                        .and(USER_CURRENCY.CURRENCY_ID.eq(currencyId))
+                        .and(USER_CURRENCY.IS_DEL.eq("N")))
+                .execute();
     }
 
     /**
@@ -119,7 +98,8 @@ public class UserCurrencyRepository {
     public Optional<UserCurrencyEntity> findByUserIdAndCurrencyId(UserCurrencyEntity userCurrencyEntity) {
         return Optional.ofNullable(dslContext.selectFrom(USER_CURRENCY)
                 .where(USER_CURRENCY.USER_ID.eq(userCurrencyEntity.getUserId())
-                        .and(USER_CURRENCY.CURRENCY_ID.eq(userCurrencyEntity.getCurrencyId())))
+                        .and(USER_CURRENCY.CURRENCY_ID.eq(userCurrencyEntity.getCurrencyId()))
+                        .and(USER_CURRENCY.IS_DEL.eq("N")))
                 .fetchOneInto(UserCurrencyEntity.class));
     }
 
@@ -147,7 +127,8 @@ public class UserCurrencyRepository {
                 : paging;
 
         Condition condition = DSL.noCondition();
-        condition = condition.and(USER_CURRENCY.IS_DEL.isNull().or(USER_CURRENCY.IS_DEL.eq("N")));
+        condition = condition.and(USER_CURRENCY.IS_DEL.eq("N"));
+        condition = condition.and(CURRENCY.IS_DEL.eq("N"));
 
         if (userId != null) {
             condition = condition.and(USER_CURRENCY.USER_ID.eq(userId));
@@ -158,14 +139,7 @@ public class UserCurrencyRepository {
         }
 
         if (gameId != null) {
-            JCurrency currency = JCurrency.CURRENCY;
-            condition = condition.andExists(
-                    DSL.selectOne()
-                            .from(currency)
-                            .where(currency.CURRENCY_ID.eq(USER_CURRENCY.CURRENCY_ID)
-                                    .and(currency.GAME_ID.eq(gameId))
-                                    .and(currency.IS_DEL.isNull().or(currency.IS_DEL.eq("N"))))
-            );
+            condition = condition.and(CURRENCY.GAME_ID.eq(gameId));
         }
 
         int size = effectivePaging.getSize() > 0
@@ -174,9 +148,10 @@ public class UserCurrencyRepository {
         int page = Math.max(effectivePaging.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
         int offset = page * size;
 
-        SortField<?> sortField = buildSortField(effectivePaging.getSort(), effectivePaging.getDirection());
+        SortField<?> sortField = resolveSortField(effectivePaging.getSort(), effectivePaging.getDirection());
 
-        return dslContext.select(CURRENCY.NAME, USER_CURRENCY.AMOUNT).from(USER_CURRENCY)
+        return dslContext.select(CURRENCY.NAME, USER_CURRENCY.AMOUNT)
+                .from(USER_CURRENCY)
                 .innerJoin(CURRENCY)
                 .on(USER_CURRENCY.CURRENCY_ID.eq(CURRENCY.CURRENCY_ID))
                 .where(condition)
@@ -186,12 +161,40 @@ public class UserCurrencyRepository {
                 .fetchInto(UserCurrencyListResult.class);
     }
 
-    private SortField<?> buildSortField(String sort, String direction) {
+    public long countByUserIdAndGameIdAndCurrencyId(Integer userId, Integer gameId, Integer currencyId) {
+        Condition condition = DSL.noCondition();
+        condition = condition.and(USER_CURRENCY.IS_DEL.eq("N"));
+        condition = condition.and(CURRENCY.IS_DEL.eq("N"));
+
+        if (userId != null) {
+            condition = condition.and(USER_CURRENCY.USER_ID.eq(userId));
+        }
+
+        if (currencyId != null) {
+            condition = condition.and(USER_CURRENCY.CURRENCY_ID.eq(currencyId));
+        }
+
+        if (gameId != null) {
+            condition = condition.and(CURRENCY.GAME_ID.eq(gameId));
+        }
+
+        Long totalCount = dslContext.selectCount()
+                .from(USER_CURRENCY)
+                .innerJoin(CURRENCY)
+                .on(USER_CURRENCY.CURRENCY_ID.eq(CURRENCY.CURRENCY_ID))
+                .where(condition)
+                .fetchOne(0, Long.class);
+
+        return totalCount != null ? totalCount : 0L;
+    }
+
+    private SortField<?> resolveSortField(String sort, String direction) {
         String sortKey = Optional.ofNullable(sort)
                 .orElse(ApiConstants.Pagination.DEFAULT_SORT_FIELD)
                 .toLowerCase(Locale.ROOT);
 
         Field<?> sortField = switch (sortKey) {
+            case "name" -> CURRENCY.NAME;
             case "amount" -> USER_CURRENCY.AMOUNT;
             case "userid", "user_id" -> USER_CURRENCY.USER_ID;
             case "currencyid", "currency_id" -> USER_CURRENCY.CURRENCY_ID;

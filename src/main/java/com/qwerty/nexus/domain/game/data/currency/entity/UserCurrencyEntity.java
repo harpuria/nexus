@@ -17,7 +17,5 @@ public class UserCurrencyEntity {
     private OffsetDateTime updatedAt;
     private String updatedBy;
     private String isDel;
-
-    // 이름이 없으므로 currency table join 결과 반환용 필드 추가
     private String name;
 }

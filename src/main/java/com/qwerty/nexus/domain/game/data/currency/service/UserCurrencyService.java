@@ -15,14 +15,12 @@ import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
 import com.qwerty.nexus.global.util.PagingUtil;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
-@Log4j2
 @Service
 @RequiredArgsConstructor
 public class UserCurrencyService {
@@ -33,12 +31,21 @@ public class UserCurrencyService {
      * @param dto
      * @return
      */
+    @Transactional
     public Result<Void> createUserCurrency(UserCurrencyCreateRequestDto dto) {
-        UserCurrencyEntity entity = UserCurrencyEntity.builder().build();
+        UserCurrencyEntity entity = UserCurrencyEntity.builder()
+                .currencyId(dto.getCurrencyId())
+                .userId(dto.getUserId())
+                .createdBy(dto.getCreatedBy())
+                .updatedBy(dto.getCreatedBy())
+                .build();
 
-        UserCurrencyEntity createRst = repository.insertUserCurrency(entity);
+        Integer createdUserCurrencyId = repository.insertUserCurrency(entity);
+        if (createdUserCurrencyId == null) {
+            return Result.Failure.of("유저 재화 생성 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+        }
 
-        return Result.Success.of(null, "성공");
+        return Result.Success.of(null, ApiConstants.Messages.Success.CREATED);
     }
 
     /**
@@ -46,19 +53,28 @@ public class UserCurrencyService {
      * @param dto
      * @return
      */
+    @Transactional
     public Result<Void> updateUserCurrency(UserCurrencyUpdateRequestDto dto) {
         UserCurrencyEntity entity = UserCurrencyEntity.builder()
                 .userCurrencyId(dto.getUserCurrencyId())
+                .currencyId(dto.getCurrencyId())
+                .userId(dto.getUserId())
                 .amount(dto.getAmount())
                 .updatedBy(dto.getUpdatedBy())
+                .isDel(dto.getIsDel())
                 .build();
 
-        Optional<UserCurrencyEntity> updateRst = Optional.ofNullable(repository.updateUserCurrency(entity));
-        if(updateRst.isPresent()){
-            return Result.Success.of(null, "유저 데이터 수정 성공");
-        }else{
-            return Result.Failure.of("유저 데이터 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+        String type = "수정";
+        if (dto.getIsDel() != null && dto.getIsDel().equalsIgnoreCase("Y")) {
+            type = "삭제";
         }
+
+        int updateRstCnt = repository.updateUserCurrency(entity);
+        if(updateRstCnt > 0){
+            return Result.Success.of(null, String.format("유저 재화 %s 완료.", type));
+        }
+
+        return Result.Failure.of(String.format("유저 재화 %s 실패.", type), ErrorCode.INTERNAL_ERROR.getCode());
     }
 
     /**
@@ -66,26 +82,65 @@ public class UserCurrencyService {
      * @param dto
      * @return
      */
+    @Transactional
     public Result<UserCurrencyResponseDto> operateUserCurrency(UserCurrencyOperateRequestDto dto) {
-        UserCurrencyEntity entity = UserCurrencyEntity.builder().build();
+        UserCurrencyEntity condition = UserCurrencyEntity.builder()
+                .userId(dto.getUserId())
+                .currencyId(dto.getCurrencyId())
+                .build();
 
-        // 이거는 클라이언트를 믿어야하는 API 이기 때문에 어느정도 보안 누수는 감안해야함.
-        // 최대한 막는 방법을 강구해야할듯. 클라쪽에서도, 서버쪽에서도.
-
-        // 현재 재화 상태(갯수 등) 가져오기 (어디에 연산해야할지 알아야 하니께)
-
-        // 여기서 연산처리 한다음에
-        switch(dto.getOperation()) {
-            case "+" -> {}
-            case "-" -> {}
-            case "*" -> {}
-            case "/" -> {}
+        Optional<UserCurrencyEntity> currentUserCurrency = repository.findByUserIdAndCurrencyId(condition);
+        if (currentUserCurrency.isEmpty()) {
+            return Result.Failure.of("유저 재화 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }
 
-        // update 처리
-        UserCurrencyEntity updateRst = repository.updateUserCurrency(entity);
+        UserCurrencyEntity current = currentUserCurrency.get();
+        if (dto.getUserCurrencyId() != null && !dto.getUserCurrencyId().equals(current.getUserCurrencyId())) {
+            return Result.Failure.of("요청한 유저 재화 정보가 일치하지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
+        }
 
-        return Result.Success.of(null, "성공");
+        long currentAmount = Optional.ofNullable(current.getAmount()).orElse(0L);
+        long calculatedAmount;
+        switch (dto.getOperation()) {
+            case "+" -> calculatedAmount = currentAmount + dto.getOperateAmount();
+            case "-" -> calculatedAmount = currentAmount - dto.getOperateAmount();
+            case "*" -> calculatedAmount = currentAmount * dto.getOperateAmount();
+            case "/" -> {
+                if (dto.getOperateAmount() == 0) {
+                    return Result.Failure.of("0으로 나눌 수 없습니다.", ErrorCode.INVALID_REQUEST.getCode());
+                }
+                calculatedAmount = currentAmount / dto.getOperateAmount();
+            }
+            default -> {
+                return Result.Failure.of("지원하지 않는 연산자입니다.", ErrorCode.INVALID_REQUEST.getCode());
+            }
+        }
+
+        if (calculatedAmount < 0) {
+            return Result.Failure.of("재화 수량은 0 미만이 될 수 없습니다.", ErrorCode.CONFLICT.getCode());
+        }
+
+        UserCurrencyEntity updateEntity = UserCurrencyEntity.builder()
+                .userCurrencyId(current.getUserCurrencyId())
+                .amount(calculatedAmount)
+                .updatedBy(dto.getUpdatedBy())
+                .build();
+
+        int updateRstCnt = repository.updateUserCurrency(updateEntity);
+        if (updateRstCnt <= 0) {
+            return Result.Failure.of("유저 재화 연산 반영에 실패했습니다.", ErrorCode.INTERNAL_ERROR.getCode());
+        }
+
+        UserCurrencyResponseDto responseDto = UserCurrencyResponseDto.from(
+                UserCurrencyEntity.builder()
+                        .userCurrencyId(current.getUserCurrencyId())
+                        .currencyId(current.getCurrencyId())
+                        .userId(current.getUserId())
+                        .amount(calculatedAmount)
+                        .build()
+        );
+
+        return Result.Success.of(responseDto, ApiConstants.Messages.Success.PROCESSED);
     }
 
     public Result<UserCurrencyListResponseDto> listUserCurrencies(
@@ -94,29 +149,13 @@ public class UserCurrencyService {
             Integer gameId,
             Integer currencyId
     ) {
+        PagingEntity pagingEntity = PagingUtil.getPagingEntity(dto);
+        if (pagingEntity == null) {
+            return Result.Failure.of("페이징 정보가 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
+        }
 
-        PagingRequestDto safeRequestDto = new PagingRequestDto();
-        safeRequestDto.setPage(ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
-        safeRequestDto.setSize(ApiConstants.Pagination.DEFAULT_PAGE_SIZE);
-        safeRequestDto.setSort(ApiConstants.Pagination.DEFAULT_SORT_FIELD);
-        safeRequestDto.setDirection(ApiConstants.Pagination.DEFAULT_SORT_DIRECTION);
-
-        int validatedSize = PagingUtil.validatePageSize(safeRequestDto.getSize());
-        int safePage = Math.max(safeRequestDto.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
-        String sort = StringUtils.hasText(safeRequestDto.getSort())
-                ? safeRequestDto.getSort()
-                : ApiConstants.Pagination.DEFAULT_SORT_FIELD;
-        String direction = StringUtils.hasText(safeRequestDto.getDirection())
-                ? safeRequestDto.getDirection()
-                : ApiConstants.Pagination.DEFAULT_SORT_DIRECTION;
-
-        PagingEntity pagingEntity = PagingEntity.builder()
-                .page(safePage)
-                .size(validatedSize)
-                .sort(sort)
-                .direction(direction)
-                .keyword(safeRequestDto.getKeyword())
-                .build();
+        int validatedSize = pagingEntity.getSize();
+        int safePage = pagingEntity.getPage();
 
         List<UserCurrencyListResult> userCurrencies = repository.findAllByUserIdAndGameIdAndCurrencyId(
                 pagingEntity,
@@ -125,15 +164,11 @@ public class UserCurrencyService {
                 currencyId
         );
 
-        if (userCurrencies == null || userCurrencies.isEmpty()) {
-            return Result.Failure.of(ErrorCode.NOT_FOUND.getMessage(), ErrorCode.NOT_FOUND.getCode());
-        }
-
         List<UserCurrencyResponseDto> currencyResponses = userCurrencies.stream()
                 .map(UserCurrencyResponseDto::from)
                 .toList();
 
-        long totalCount = currencyResponses.size();
+        long totalCount = repository.countByUserIdAndGameIdAndCurrencyId(userId, gameId, currencyId);
         int totalPages = validatedSize == 0 ? 0 : (int) Math.ceil((double) totalCount / validatedSize);
         boolean hasNext = safePage + 1 < totalPages;
         boolean hasPrevious = safePage > 0 && totalPages > 0;

@@ -1,6 +1,5 @@
 package com.qwerty.nexus.domain.game.data.currency.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 
 import java.util.List;
