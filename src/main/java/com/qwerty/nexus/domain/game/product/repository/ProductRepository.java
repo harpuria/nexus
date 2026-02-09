@@ -3,12 +3,13 @@ package com.qwerty.nexus.domain.game.product.repository;
 import com.qwerty.nexus.domain.game.product.entity.ProductEntity;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
-import lombok.extern.log4j.Log4j2;
 import org.jooq.Condition;
+import org.jooq.Configuration;
 import org.jooq.DSLContext;
 import org.jooq.Field;
 import org.jooq.SortField;
 import org.jooq.generated.tables.JProduct;
+import org.jooq.generated.tables.daos.ProductDao;
 import org.jooq.generated.tables.records.ProductRecord;
 import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
@@ -20,14 +21,15 @@ import java.util.Optional;
 
 import static org.jooq.impl.DSL.lower;
 
-@Log4j2
 @Repository
 public class ProductRepository {
     private final DSLContext dslContext;
     private final JProduct PRODUCT = JProduct.PRODUCT;
+    private final ProductDao dao;
 
-    public ProductRepository(DSLContext dslContext) {
+    public ProductRepository(Configuration configuration, DSLContext dslContext) {
         this.dslContext = dslContext;
+        this.dao = new ProductDao(configuration);
     }
 
     /**
@@ -35,13 +37,11 @@ public class ProductRepository {
      * @param entity
      * @return
      */
-    public ProductEntity insertProduct(ProductEntity entity) {
+    public Integer insertProduct(ProductEntity entity) {
         ProductRecord record = dslContext.newRecord(PRODUCT, entity);
         record.store();
 
-        return ProductEntity.builder()
-                .productId(record.getProductId())
-                .build();
+        return record.getProductId();
     }
 
     /**
@@ -49,7 +49,7 @@ public class ProductRepository {
      * @param entity
      * @return
      */
-    public ProductEntity updateProduct(ProductEntity entity) {
+    public int updateProduct(ProductEntity entity) {
         ProductRecord record = dslContext.newRecord(PRODUCT, entity);
         record.changed(PRODUCT.GAME_ID, entity.getGameId() != null);
         record.changed(PRODUCT.NAME, entity.getName() != null);
@@ -63,36 +63,22 @@ public class ProductRepository {
         record.changed(PRODUCT.AVAILABLE_END, entity.getAvailableEnd() != null);
         record.changed(PRODUCT.UPDATED_BY, entity.getUpdatedBy() != null);
         record.changed(PRODUCT.IS_DEL, entity.getIsDel() != null);
-        int updatedCount = record.update();
-        if (updatedCount <= 0) {
-            return null;
-        }
 
-        return ProductEntity.builder()
-                .productId(record.getProductId())
-                .build();
+        return record.update();
     }
 
     /**
      * 상품 논리 삭제
-     * @param productId
+     * @param entity
      * @return
      */
-    public ProductEntity deleteProduct(Integer productId) {
-        int updatedCount = dslContext.update(PRODUCT)
-                .set(PRODUCT.IS_DEL, "Y")
-                .where(PRODUCT.PRODUCT_ID.eq(productId))
-                .and(PRODUCT.IS_DEL.eq("N"))
-                .execute();
+    public int deleteProduct(ProductEntity entity) {
+        ProductRecord record = dslContext.newRecord(PRODUCT, entity);
+        record.setIsDel("Y");
+        record.changed(PRODUCT.IS_DEL, true);
+        record.changed(PRODUCT.UPDATED_BY, entity.getUpdatedBy() != null);
 
-        if (updatedCount <= 0) {
-            return null;
-        }
-
-        return ProductEntity.builder()
-                .productId(productId)
-                .isDel("Y")
-                .build();
+        return record.update();
     }
 
     /**
@@ -130,7 +116,7 @@ public class ProductRepository {
         int size = paging.getSize() > 0 ? paging.getSize() : ApiConstants.Pagination.DEFAULT_PAGE_SIZE;
         int page = Math.max(paging.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
         int offset = page * size;
-        SortField<?> sortField = buildSortField(paging.getSort(), paging.getDirection());
+        SortField<?> sortField = resolveSortField(paging.getSort(), paging.getDirection());
 
         return dslContext.selectFrom(PRODUCT)
                 .where(condition)
@@ -162,7 +148,7 @@ public class ProductRepository {
         return totalCount != null ? totalCount : 0L;
     }
 
-    private SortField<?> buildSortField(String sort, String direction) {
+    private SortField<?> resolveSortField(String sort, String direction) {
         String sortKey = Optional.ofNullable(sort)
                 .orElse(ApiConstants.Pagination.DEFAULT_SORT_FIELD)
                 .toLowerCase(Locale.ROOT);

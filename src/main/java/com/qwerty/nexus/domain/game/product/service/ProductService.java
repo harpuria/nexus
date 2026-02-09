@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -63,13 +64,12 @@ public class ProductService {
                 .updatedBy(dto.getUpdatedBy())
                 .build();
 
-        Optional<ProductEntity> createRst = Optional.ofNullable(productRepository.insertProduct(entity));
-
-        if(createRst.isPresent()){
-            return Result.Success.of(null, "상품 생성 완료");
-        }else{
+        Integer createdProductId = productRepository.insertProduct(entity);
+        if (createdProductId == null) {
             return Result.Failure.of("상품 생성 실패", ErrorCode.INTERNAL_ERROR.getCode());
         }
+
+        return Result.Success.of(null, ApiConstants.Messages.Success.CREATED);
     }
 
     /**
@@ -87,6 +87,18 @@ public class ProductService {
         if (product.isEmpty()) {
             return Result.Failure.of("상품 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }
+        ProductEntity existingProduct = product.get();
+
+        PurchaseType mergedPurchaseType = dto.getPurchaseType() != null
+                ? dto.getPurchaseType()
+                : existingProduct.getPurchaseType();
+        Integer mergedCurrencyId = dto.getCurrencyId() != null
+                ? dto.getCurrencyId()
+                : existingProduct.getCurrencyId();
+
+        if (PurchaseType.CURRENCY.equals(mergedPurchaseType) && (mergedCurrencyId == null || mergedCurrencyId <= 0)) {
+            return Result.Failure.of("purchaseType이 CURRENCY인 경우 currencyId는 필수입니다.", ErrorCode.INVALID_REQUEST.getCode());
+        }
 
         ProductEntity entity = ProductEntity.builder()
                 .productId(dto.getProductId())
@@ -100,18 +112,21 @@ public class ProductService {
                 .isDel(dto.getIsDel())
                 .build();
 
-        Optional<ProductEntity> updateRst = Optional.ofNullable(productRepository.updateProduct(entity));
-
+        int updateCount = productRepository.updateProduct(entity);
         String type = "수정";
-        if(dto.getIsDel() != null && dto.getIsDel().equalsIgnoreCase("Y"))
+        if (dto.getIsDel() != null && dto.getIsDel().equalsIgnoreCase("Y")) {
             type = "삭제";
-
-        if(updateRst.isPresent()){
-            return Result.Success.of(null, String.format("상품 %s 성공", type));
         }
-        else{
+
+        if (updateCount <= 0) {
             return Result.Failure.of(String.format("상품 %s 실패", type), ErrorCode.INTERNAL_ERROR.getCode());
         }
+
+        if ("삭제".equals(type)) {
+            return Result.Success.of(null, ApiConstants.Messages.Success.DELETED);
+        }
+
+        return Result.Success.of(null, ApiConstants.Messages.Success.UPDATED);
     }
 
     /**
@@ -152,6 +167,11 @@ public class ProductService {
         return Result.Success.of(response, ApiConstants.Messages.Success.RETRIEVED);
     }
 
+    /**
+     * 하나의 상품 정보 가져오기
+     * @param productId
+     * @return
+     */
     @Transactional(readOnly = true)
     public Result<ProductDetailResponseDto> getProduct(int productId) {
         Optional<ProductEntity> product = productRepository.findByProductId(productId);
@@ -182,6 +202,7 @@ public class ProductService {
 
         ProductEntity productEntity = buyProductInfo.get();
         if (PurchaseType.CASH.equals(productEntity.getPurchaseType())) {
+            // TODO : 캐시의 경우 추후 영수증 검증 할 때 작업 할 것
             return Result.Failure.of("캐시 상품 구매 검증 로직이 준비되지 않았습니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
@@ -192,6 +213,11 @@ public class ProductService {
         return Result.Failure.of("지원하지 않는 구매 타입입니다.", ErrorCode.INVALID_REQUEST.getCode());
     }
 
+    /**
+     * 상품 정보 삭제
+     * @param productId
+     * @return
+     */
     @Transactional
     public Result<Void> deleteProduct(Integer productId) {
         if (productId == null || productId <= 0) {
@@ -203,17 +229,37 @@ public class ProductService {
             return Result.Failure.of("상품 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }
 
-        Optional<ProductEntity> deleteRst = Optional.ofNullable(productRepository.deleteProduct(productId));
-        if (deleteRst.isEmpty()) {
+        int deleteCount = productRepository.deleteProduct(
+                ProductEntity.builder()
+                        .productId(productId)
+                        .isDel("Y")
+                        .build()
+        );
+
+        if (deleteCount <= 0) {
             return Result.Failure.of("상품 삭제 실패", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(null, "상품 삭제 성공");
+        return Result.Success.of(null, ApiConstants.Messages.Success.DELETED);
     }
 
+    /**
+     * 상품 구매 (재화)
+     * @param productEntity
+     * @param userId
+     * @return
+     */
     private Result<Void> buyCurrencyProduct(ProductEntity productEntity, Integer userId) {
         if (productEntity.getCurrencyId() == null || productEntity.getPrice() == null) {
             return Result.Failure.of("상품 구매 설정이 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
+        }
+        if (productEntity.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
+            return Result.Failure.of("상품 가격 정보가 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
+        }
+
+        List<ProductInfo> rewardList = parseRewardList(productEntity);
+        if (rewardList == null || rewardList.isEmpty()) {
+            return Result.Failure.of("상품 지급 정보 파싱에 실패했습니다.", ErrorCode.INVALID_FORMAT.getCode());
         }
 
         UserCurrencyEntity consumeCurrency = UserCurrencyEntity.builder()
@@ -231,17 +277,11 @@ public class ProductService {
             return Result.Failure.of("구매 재화가 부족합니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
-        int subtractCount = userCurrencyRepository.updateUserCurrencyAmountSubtractByUserIdAndCurrencyId(
-                consumeCurrency,
-                productEntity.getPrice().longValue()
-        );
-        if (subtractCount <= 0) {
-            return Result.Failure.of("재화 차감 처리에 실패했습니다.", ErrorCode.CONFLICT.getCode());
-        }
-
-        List<ProductInfo> rewardList = parseRewardList(productEntity);
-        if (rewardList == null) {
-            return Result.Failure.of("상품 지급 정보 파싱에 실패했습니다.", ErrorCode.INVALID_FORMAT.getCode());
+        long consumeAmount;
+        try {
+            consumeAmount = productEntity.getPrice().longValueExact();
+        } catch (ArithmeticException e) {
+            return Result.Failure.of("상품 가격 단위가 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
         for (ProductInfo reward : rewardList) {
@@ -269,9 +309,24 @@ public class ProductService {
             }
 
             long calculatedAmount = currentRewardCurrency.get().getAmount() + reward.getAmount();
-            if (currencyInfo.get().getMaxAmount() < calculatedAmount) {
+            if (currencyInfo.get().getMaxAmount() != null && currencyInfo.get().getMaxAmount() < calculatedAmount) {
                 return Result.Failure.of("보유 가능한 최대 재화를 초과했습니다.", ErrorCode.INVALID_REQUEST.getCode());
             }
+        }
+
+        int subtractCount = userCurrencyRepository.updateUserCurrencyAmountSubtractByUserIdAndCurrencyId(
+                consumeCurrency,
+                consumeAmount
+        );
+        if (subtractCount <= 0) {
+            return Result.Failure.of("재화 차감 처리에 실패했습니다.", ErrorCode.CONFLICT.getCode());
+        }
+
+        for (ProductInfo reward : rewardList) {
+            UserCurrencyEntity rewardCurrency = UserCurrencyEntity.builder()
+                    .userId(userId)
+                    .currencyId(reward.getCurrencyId())
+                    .build();
 
             int addCount = userCurrencyRepository.updateUserCurrencyAmountAddByUserIdAndCurrencyId(
                     rewardCurrency,
@@ -279,20 +334,26 @@ public class ProductService {
                     reward.getCurrencyId()
             );
             if (addCount <= 0) {
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                 return Result.Failure.of("재화 지급 처리에 실패했습니다.", ErrorCode.CONFLICT.getCode());
             }
         }
 
-        return Result.Success.of(null, "상품 구매 및 지급 성공");
+        return Result.Success.of(null, ApiConstants.Messages.Success.PROCESSED);
     }
 
+    /**
+     * 상품 정보 파싱
+     * @param productEntity
+     * @return
+     */
     private List<ProductInfo> parseRewardList(ProductEntity productEntity) {
         if (productEntity.getRewards() == null || productEntity.getRewards().data() == null) {
             return null;
         }
 
         try {
-            return objectMapper.readValue(productEntity.getRewards().data(), new TypeReference<>() {});
+            return objectMapper.readValue(productEntity.getRewards().data(), new TypeReference<List<ProductInfo>>() {});
         } catch (JsonProcessingException e) {
             log.error("상품 지급 정보 파싱 실패. productId={}", productEntity.getProductId(), e);
             return null;
