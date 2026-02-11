@@ -293,6 +293,8 @@ return record.update();
 ---
 
 ## 8. Code Comment Rules
+**Never delete existing comments unless the related code is also deleted.**
+
 ### 8.1 No AI Attribution Comments
 Do NOT add comments such as:
 - “Modified by Codex”
