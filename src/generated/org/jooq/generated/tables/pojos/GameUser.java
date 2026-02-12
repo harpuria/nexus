@@ -182,14 +182,16 @@ public class GameUser implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.GAME_USER.SOCIAL_ID</code>. 소셜 로그인 아이디
+     * Getter for <code>nexus.GAME_USER.SOCIAL_ID</code>. 소셜 로그인 아이디 (소셜 로그인이 아닌
+     * 경우 USER_L_ID 와 동일하게 설정)
      */
     public String getSocialId() {
         return this.socialId;
     }
 
     /**
-     * Setter for <code>nexus.GAME_USER.SOCIAL_ID</code>. 소셜 로그인 아이디
+     * Setter for <code>nexus.GAME_USER.SOCIAL_ID</code>. 소셜 로그인 아이디 (소셜 로그인이 아닌
+     * 경우 USER_L_ID 와 동일하게 설정)
      */
     public GameUser setSocialId(String socialId) {
         this.socialId = socialId;
@@ -212,14 +214,14 @@ public class GameUser implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.GAME_USER.DEVICE</code>. 접속 기기
+     * Getter for <code>nexus.GAME_USER.DEVICE</code>. 접속 기기 모델명
      */
     public String getDevice() {
         return this.device;
     }
 
     /**
-     * Setter for <code>nexus.GAME_USER.DEVICE</code>. 접속 기기
+     * Setter for <code>nexus.GAME_USER.DEVICE</code>. 접속 기기 모델명
      */
     public GameUser setDevice(String device) {
         this.device = device;

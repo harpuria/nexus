@@ -41,11 +41,6 @@ public class Sequences {
     public static final Sequence<Integer> GAME_GAME_ID_SEQ = Internal.createSequence("GAME_GAME_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 
     /**
-     * The sequence <code>nexus.GAME_TABLE_TABLE_ID_seq</code>
-     */
-    public static final Sequence<Integer> GAME_TABLE_TABLE_ID_SEQ = Internal.createSequence("GAME_TABLE_TABLE_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
-
-    /**
      * The sequence <code>nexus.GAME_USER_USER_ID_seq</code>
      */
     public static final Sequence<Integer> GAME_USER_USER_ID_SEQ = Internal.createSequence("GAME_USER_USER_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
@@ -64,16 +59,6 @@ public class Sequences {
      * The sequence <code>nexus.PRODUCT_PRODUCT_ID_seq</code>
      */
     public static final Sequence<Integer> PRODUCT_PRODUCT_ID_SEQ = Internal.createSequence("PRODUCT_PRODUCT_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
-
-    /**
-     * The sequence <code>nexus.TABLE_COLUMN_COLUMN_ID_seq</code>
-     */
-    public static final Sequence<Integer> TABLE_COLUMN_COLUMN_ID_SEQ = Internal.createSequence("TABLE_COLUMN_COLUMN_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
-
-    /**
-     * The sequence <code>nexus.USER_COLUMN_DATA_USER_COLUMN_ID_seq</code>
-     */
-    public static final Sequence<Integer> USER_COLUMN_DATA_USER_COLUMN_ID_SEQ = Internal.createSequence("USER_COLUMN_DATA_USER_COLUMN_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 
     /**
      * The sequence <code>nexus.USER_CURRENCY_USER_CURRENCY_ID_seq</code>

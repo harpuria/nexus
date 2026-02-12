@@ -5,18 +5,14 @@ package org.jooq.generated;
 
 
 import org.jooq.generated.tables.JAdmin;
-import org.jooq.generated.tables.JBase;
 import org.jooq.generated.tables.JCoupon;
 import org.jooq.generated.tables.JCouponUseLog;
 import org.jooq.generated.tables.JCurrency;
 import org.jooq.generated.tables.JGame;
-import org.jooq.generated.tables.JGameTable;
 import org.jooq.generated.tables.JGameUser;
 import org.jooq.generated.tables.JMail;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JProduct;
-import org.jooq.generated.tables.JTableColumn;
-import org.jooq.generated.tables.JUserColumnData;
 import org.jooq.generated.tables.JUserCurrency;
 import org.jooq.generated.tables.JUserMail;
 
@@ -31,11 +27,6 @@ public class Tables {
      * The table <code>nexus.ADMIN</code>.
      */
     public static final JAdmin ADMIN = JAdmin.ADMIN;
-
-    /**
-     * The table <code>nexus.BASE</code>.
-     */
-    public static final JBase BASE = JBase.BASE;
 
     /**
      * The table <code>nexus.COUPON</code>.
@@ -58,11 +49,6 @@ public class Tables {
     public static final JGame GAME = JGame.GAME;
 
     /**
-     * The table <code>nexus.GAME_TABLE</code>.
-     */
-    public static final JGameTable GAME_TABLE = JGameTable.GAME_TABLE;
-
-    /**
      * The table <code>nexus.GAME_USER</code>.
      */
     public static final JGameUser GAME_USER = JGameUser.GAME_USER;
@@ -81,16 +67,6 @@ public class Tables {
      * The table <code>nexus.PRODUCT</code>.
      */
     public static final JProduct PRODUCT = JProduct.PRODUCT;
-
-    /**
-     * The table <code>nexus.TABLE_COLUMN</code>.
-     */
-    public static final JTableColumn TABLE_COLUMN = JTableColumn.TABLE_COLUMN;
-
-    /**
-     * The table <code>nexus.USER_COLUMN_DATA</code>.
-     */
-    public static final JUserColumnData USER_COLUMN_DATA = JUserColumnData.USER_COLUMN_DATA;
 
     /**
      * The table <code>nexus.USER_CURRENCY</code>.

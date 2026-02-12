@@ -100,7 +100,8 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
     }
 
     /**
-     * Setter for <code>nexus.GAME_USER.SOCIAL_ID</code>. 소셜 로그인 아이디
+     * Setter for <code>nexus.GAME_USER.SOCIAL_ID</code>. 소셜 로그인 아이디 (소셜 로그인이 아닌
+     * 경우 USER_L_ID 와 동일하게 설정)
      */
     public GameUserRecord setSocialId(String value) {
         set(5, value);
@@ -108,7 +109,8 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
     }
 
     /**
-     * Getter for <code>nexus.GAME_USER.SOCIAL_ID</code>. 소셜 로그인 아이디
+     * Getter for <code>nexus.GAME_USER.SOCIAL_ID</code>. 소셜 로그인 아이디 (소셜 로그인이 아닌
+     * 경우 USER_L_ID 와 동일하게 설정)
      */
     public String getSocialId() {
         return (String) get(5);
@@ -130,7 +132,7 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
     }
 
     /**
-     * Setter for <code>nexus.GAME_USER.DEVICE</code>. 접속 기기
+     * Setter for <code>nexus.GAME_USER.DEVICE</code>. 접속 기기 모델명
      */
     public GameUserRecord setDevice(String value) {
         set(7, value);
@@ -138,7 +140,7 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
     }
 
     /**
-     * Getter for <code>nexus.GAME_USER.DEVICE</code>. 접속 기기
+     * Getter for <code>nexus.GAME_USER.DEVICE</code>. 접속 기기 모델명
      */
     public String getDevice() {
         return (String) get(7);

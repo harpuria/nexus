@@ -33,7 +33,6 @@ import org.jooq.generated.Keys;
 import org.jooq.generated.tables.JAdmin.AdminPath;
 import org.jooq.generated.tables.JCoupon.CouponPath;
 import org.jooq.generated.tables.JCurrency.CurrencyPath;
-import org.jooq.generated.tables.JGameTable.GameTablePath;
 import org.jooq.generated.tables.JGameUser.GameUserPath;
 import org.jooq.generated.tables.JMail.MailPath;
 import org.jooq.generated.tables.JOrganization.OrganizationPath;
@@ -69,7 +68,7 @@ public class JGame extends TableImpl<GameRecord> {
     /**
      * The column <code>nexus.GAME.GAME_ID</code>. GAME 테이블 기본키 (PK)
      */
-    public final TableField<GameRecord, Integer> GAME_ID = createField(DSL.name("GAME_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"GAME_GAME_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME 테이블 기본키 (PK)");
+    public final TableField<GameRecord, Integer> GAME_ID = createField(DSL.name("GAME_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"GAME_GAME_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME 테이블 기본키 (PK)");
 
     /**
      * The column <code>nexus.GAME.ORG_ID</code>. 게임 소속 (FK)
@@ -110,12 +109,12 @@ public class JGame extends TableImpl<GameRecord> {
     /**
      * The column <code>nexus.GAME.VERSION</code>. 현재 게임 버전
      */
-    public final TableField<GameRecord, String> VERSION = createField(DSL.name("VERSION"), SQLDataType.VARCHAR(255).nullable(false), this, "현재 게임 버전");
+    public final TableField<GameRecord, String> VERSION = createField(DSL.name("VERSION"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'0.01'::character varying"), SQLDataType.VARCHAR)), this, "현재 게임 버전");
 
     /**
      * The column <code>nexus.GAME.CREATED_AT</code>. 데이터 생성 날짜
      */
-    public final TableField<GameRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 생성 날짜");
+    public final TableField<GameRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 생성 날짜");
 
     /**
      * The column <code>nexus.GAME.CREATED_BY</code>. 데이터 생성자 ID
@@ -125,7 +124,7 @@ public class JGame extends TableImpl<GameRecord> {
     /**
      * The column <code>nexus.GAME.UPDATED_AT</code>. 데이터 수정 날짜
      */
-    public final TableField<GameRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 수정 날짜");
+    public final TableField<GameRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 수정 날짜");
 
     /**
      * The column <code>nexus.GAME.UPDATED_BY</code>. 데이터 수정자 ID
@@ -263,19 +262,6 @@ public class JGame extends TableImpl<GameRecord> {
         return _currency;
     }
 
-    private transient GameTablePath _gameTable;
-
-    /**
-     * Get the implicit to-many join path to the <code>nexus.GAME_TABLE</code>
-     * table
-     */
-    public GameTablePath gameTable() {
-        if (_gameTable == null)
-            _gameTable = new GameTablePath(this, null, Keys.GAME_TABLE__GAME_TABLE_GAME_ID_FOREIGN.getInverseKey());
-
-        return _gameTable;
-    }
-
     private transient GameUserPath _gameUser;
 
     /**
@@ -317,6 +303,7 @@ public class JGame extends TableImpl<GameRecord> {
     @Override
     public List<Check<GameRecord>> getChecks() {
         return Arrays.asList(
+            Internal.createCheck(this, DSL.name("GAME_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
             Internal.createCheck(this, DSL.name("GAME_STATUS_check"), "(((\"STATUS\")::text = ANY ((ARRAY['OPERATING'::character varying, 'STOPPED'::character varying, 'MAINTENANCE'::character varying])::text[])))", true)
         );
     }

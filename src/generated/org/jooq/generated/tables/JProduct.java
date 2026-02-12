@@ -63,7 +63,7 @@ public class JProduct extends TableImpl<ProductRecord> {
     /**
      * The column <code>nexus.PRODUCT.PRODUCT_ID</code>. 상품 아이디 (PK)
      */
-    public final TableField<ProductRecord, Integer> PRODUCT_ID = createField(DSL.name("PRODUCT_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"PRODUCT_PRODUCT_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "상품 아이디 (PK)");
+    public final TableField<ProductRecord, Integer> PRODUCT_ID = createField(DSL.name("PRODUCT_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"PRODUCT_PRODUCT_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "상품 아이디 (PK)");
 
     /**
      * The column <code>nexus.PRODUCT.GAME_ID</code>. 상품이 적용될 게임 아이디 (FK)
@@ -109,22 +109,22 @@ public class JProduct extends TableImpl<ProductRecord> {
     /**
      * The column <code>nexus.PRODUCT.AVAILABLE_START</code>. 상품 판매 시작 날짜
      */
-    public final TableField<ProductRecord, OffsetDateTime> AVAILABLE_START = createField(DSL.name("AVAILABLE_START"), SQLDataType.TIMESTAMPWITHTIMEZONE, this, "상품 판매 시작 날짜");
+    public final TableField<ProductRecord, OffsetDateTime> AVAILABLE_START = createField(DSL.name("AVAILABLE_START"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "상품 판매 시작 날짜");
 
     /**
      * The column <code>nexus.PRODUCT.AVAILABLE_END</code>. 상품 판매 종료 날짜
      */
-    public final TableField<ProductRecord, OffsetDateTime> AVAILABLE_END = createField(DSL.name("AVAILABLE_END"), SQLDataType.TIMESTAMPWITHTIMEZONE, this, "상품 판매 종료 날짜");
+    public final TableField<ProductRecord, OffsetDateTime> AVAILABLE_END = createField(DSL.name("AVAILABLE_END"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "상품 판매 종료 날짜");
 
     /**
      * The column <code>nexus.PRODUCT.CREATED_AT</code>. 데이터 생성 날짜
      */
-    public final TableField<ProductRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 생성 날짜");
+    public final TableField<ProductRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 생성 날짜");
 
     /**
      * The column <code>nexus.PRODUCT.UPDATED_AT</code>. 데이터 수정 날짜
      */
-    public final TableField<ProductRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 수정 날짜");
+    public final TableField<ProductRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 수정 날짜");
 
     /**
      * The column <code>nexus.PRODUCT.CREATED_BY</code>. 데이터 생성자 ID
@@ -233,6 +233,7 @@ public class JProduct extends TableImpl<ProductRecord> {
     @Override
     public List<Check<ProductRecord>> getChecks() {
         return Arrays.asList(
+            Internal.createCheck(this, DSL.name("PRODUCT_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
             Internal.createCheck(this, DSL.name("PRODUCT_LIMIT_TYPE_check"), "(((\"LIMIT_TYPE\")::text = ANY ((ARRAY['NONE'::character varying, 'ONCE'::character varying, 'DAILY'::character varying, 'WEEKLY'::character varying, 'MONTHLY'::character varying])::text[])))", true),
             Internal.createCheck(this, DSL.name("PRODUCT_PURCHASE_TYPE_check"), "(((\"PURCHASE_TYPE\")::text = ANY ((ARRAY['CASH'::character varying, 'CURRENCY'::character varying])::text[])))", true)
         );

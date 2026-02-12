@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.jooq.Check;
 import org.jooq.Condition;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
@@ -32,6 +33,7 @@ import org.jooq.generated.tables.JCurrency.CurrencyPath;
 import org.jooq.generated.tables.JGameUser.GameUserPath;
 import org.jooq.generated.tables.records.UserCurrencyRecord;
 import org.jooq.impl.DSL;
+import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
@@ -59,8 +61,9 @@ public class JUserCurrency extends TableImpl<UserCurrencyRecord> {
 
     /**
      * The column <code>nexus.USER_CURRENCY.USER_CURRENCY_ID</code>.
+     * USER_CURRENCY 테이블 아이디 (PK)
      */
-    public final TableField<UserCurrencyRecord, Integer> USER_CURRENCY_ID = createField(DSL.name("USER_CURRENCY_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"USER_CURRENCY_USER_CURRENCY_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "");
+    public final TableField<UserCurrencyRecord, Integer> USER_CURRENCY_ID = createField(DSL.name("USER_CURRENCY_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"USER_CURRENCY_USER_CURRENCY_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "USER_CURRENCY 테이블 아이디 (PK)");
 
     /**
      * The column <code>nexus.USER_CURRENCY.CURRENCY_ID</code>. CURRENCY 테이블 아이디
@@ -81,7 +84,7 @@ public class JUserCurrency extends TableImpl<UserCurrencyRecord> {
     /**
      * The column <code>nexus.USER_CURRENCY.CREATED_AT</code>. 데이터 생성 날짜
      */
-    public final TableField<UserCurrencyRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 생성 날짜");
+    public final TableField<UserCurrencyRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 생성 날짜");
 
     /**
      * The column <code>nexus.USER_CURRENCY.CREATED_BY</code>. 데이터 생성자 ID
@@ -91,7 +94,7 @@ public class JUserCurrency extends TableImpl<UserCurrencyRecord> {
     /**
      * The column <code>nexus.USER_CURRENCY.UPDATED_AT</code>. 데이터 수정 날짜
      */
-    public final TableField<UserCurrencyRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 수정 날짜");
+    public final TableField<UserCurrencyRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 수정 날짜");
 
     /**
      * The column <code>nexus.USER_CURRENCY.UPDATED_BY</code>. 데이터 수정자 ID
@@ -202,6 +205,13 @@ public class JUserCurrency extends TableImpl<UserCurrencyRecord> {
             _gameUser = new GameUserPath(this, Keys.USER_CURRENCY__USER_CURRENCY_USER_ID_FOREIGN, null);
 
         return _gameUser;
+    }
+
+    @Override
+    public List<Check<UserCurrencyRecord>> getChecks() {
+        return Arrays.asList(
+            Internal.createCheck(this, DSL.name("USER_CURRENCY_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true)
+        );
     }
 
     @Override

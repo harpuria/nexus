@@ -11,18 +11,14 @@ import org.jooq.Catalog;
 import org.jooq.Sequence;
 import org.jooq.Table;
 import org.jooq.generated.tables.JAdmin;
-import org.jooq.generated.tables.JBase;
 import org.jooq.generated.tables.JCoupon;
 import org.jooq.generated.tables.JCouponUseLog;
 import org.jooq.generated.tables.JCurrency;
 import org.jooq.generated.tables.JGame;
-import org.jooq.generated.tables.JGameTable;
 import org.jooq.generated.tables.JGameUser;
 import org.jooq.generated.tables.JMail;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JProduct;
-import org.jooq.generated.tables.JTableColumn;
-import org.jooq.generated.tables.JUserColumnData;
 import org.jooq.generated.tables.JUserCurrency;
 import org.jooq.generated.tables.JUserMail;
 import org.jooq.impl.SchemaImpl;
@@ -47,11 +43,6 @@ public class JNexus extends SchemaImpl {
     public final JAdmin ADMIN = JAdmin.ADMIN;
 
     /**
-     * The table <code>nexus.BASE</code>.
-     */
-    public final JBase BASE = JBase.BASE;
-
-    /**
      * The table <code>nexus.COUPON</code>.
      */
     public final JCoupon COUPON = JCoupon.COUPON;
@@ -72,11 +63,6 @@ public class JNexus extends SchemaImpl {
     public final JGame GAME = JGame.GAME;
 
     /**
-     * The table <code>nexus.GAME_TABLE</code>.
-     */
-    public final JGameTable GAME_TABLE = JGameTable.GAME_TABLE;
-
-    /**
      * The table <code>nexus.GAME_USER</code>.
      */
     public final JGameUser GAME_USER = JGameUser.GAME_USER;
@@ -95,16 +81,6 @@ public class JNexus extends SchemaImpl {
      * The table <code>nexus.PRODUCT</code>.
      */
     public final JProduct PRODUCT = JProduct.PRODUCT;
-
-    /**
-     * The table <code>nexus.TABLE_COLUMN</code>.
-     */
-    public final JTableColumn TABLE_COLUMN = JTableColumn.TABLE_COLUMN;
-
-    /**
-     * The table <code>nexus.USER_COLUMN_DATA</code>.
-     */
-    public final JUserColumnData USER_COLUMN_DATA = JUserColumnData.USER_COLUMN_DATA;
 
     /**
      * The table <code>nexus.USER_CURRENCY</code>.
@@ -137,13 +113,10 @@ public class JNexus extends SchemaImpl {
             Sequences.COUPON_USE_LOG_LOG_ID_SEQ,
             Sequences.CURRENCY_CURRENCY_ID_SEQ,
             Sequences.GAME_GAME_ID_SEQ,
-            Sequences.GAME_TABLE_TABLE_ID_SEQ,
             Sequences.GAME_USER_USER_ID_SEQ,
             Sequences.MAIL_MAIL_ID_SEQ,
             Sequences.ORGANIZATION_ORG_ID_SEQ,
             Sequences.PRODUCT_PRODUCT_ID_SEQ,
-            Sequences.TABLE_COLUMN_COLUMN_ID_SEQ,
-            Sequences.USER_COLUMN_DATA_USER_COLUMN_ID_SEQ,
             Sequences.USER_CURRENCY_USER_CURRENCY_ID_SEQ,
             Sequences.USER_MAIL_USER_MAIL_ID_SEQ
         );
@@ -153,18 +126,14 @@ public class JNexus extends SchemaImpl {
     public final List<Table<?>> getTables() {
         return Arrays.asList(
             JAdmin.ADMIN,
-            JBase.BASE,
             JCoupon.COUPON,
             JCouponUseLog.COUPON_USE_LOG,
             JCurrency.CURRENCY,
             JGame.GAME,
-            JGameTable.GAME_TABLE,
             JGameUser.GAME_USER,
             JMail.MAIL,
             JOrganization.ORGANIZATION,
             JProduct.PRODUCT,
-            JTableColumn.TABLE_COLUMN,
-            JUserColumnData.USER_COLUMN_DATA,
             JUserCurrency.USER_CURRENCY,
             JUserMail.USER_MAIL
         );

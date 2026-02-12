@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.jooq.Check;
 import org.jooq.Condition;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
@@ -32,6 +33,7 @@ import org.jooq.generated.tables.JGame.GamePath;
 import org.jooq.generated.tables.JUserCurrency.UserCurrencyPath;
 import org.jooq.generated.tables.records.CurrencyRecord;
 import org.jooq.impl.DSL;
+import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
@@ -60,7 +62,7 @@ public class JCurrency extends TableImpl<CurrencyRecord> {
     /**
      * The column <code>nexus.CURRENCY.CURRENCY_ID</code>. CURRENCY 테이블 아이디 (PK)
      */
-    public final TableField<CurrencyRecord, Integer> CURRENCY_ID = createField(DSL.name("CURRENCY_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"CURRENCY_CURRENCY_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "CURRENCY 테이블 아이디 (PK)");
+    public final TableField<CurrencyRecord, Integer> CURRENCY_ID = createField(DSL.name("CURRENCY_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"CURRENCY_CURRENCY_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "CURRENCY 테이블 아이디 (PK)");
 
     /**
      * The column <code>nexus.CURRENCY.GAME_ID</code>.
@@ -78,14 +80,19 @@ public class JCurrency extends TableImpl<CurrencyRecord> {
     public final TableField<CurrencyRecord, String> DESC = createField(DSL.name("DESC"), SQLDataType.VARCHAR(255), this, "재화 설명");
 
     /**
-     * The column <code>nexus.CURRENCY.MAX_AMOUNT</code>. 최대수량 (미지정시 bigint 만큼)
+     * The column <code>nexus.CURRENCY.MAX_AMOUNT</code>. 최대수량 (미지정시 최대값)
      */
-    public final TableField<CurrencyRecord, Long> MAX_AMOUNT = createField(DSL.name("MAX_AMOUNT"), SQLDataType.BIGINT, this, "최대수량 (미지정시 bigint 만큼)");
+    public final TableField<CurrencyRecord, Long> MAX_AMOUNT = createField(DSL.name("MAX_AMOUNT"), SQLDataType.BIGINT.defaultValue(DSL.field(DSL.raw("'9223372036854775807'::bigint"), SQLDataType.BIGINT)), this, "최대수량 (미지정시 최대값)");
+
+    /**
+     * The column <code>nexus.CURRENCY.DEFAULT_AMOUNT</code>. 기본수량 (미지정시 0)
+     */
+    public final TableField<CurrencyRecord, Long> DEFAULT_AMOUNT = createField(DSL.name("DEFAULT_AMOUNT"), SQLDataType.BIGINT.defaultValue(DSL.field(DSL.raw("'0'::bigint"), SQLDataType.BIGINT)), this, "기본수량 (미지정시 0)");
 
     /**
      * The column <code>nexus.CURRENCY.CREATED_AT</code>. 데이터 생성 날짜
      */
-    public final TableField<CurrencyRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 생성 날짜");
+    public final TableField<CurrencyRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 생성 날짜");
 
     /**
      * The column <code>nexus.CURRENCY.CREATED_BY</code>. 데이터 생성자 ID
@@ -95,7 +102,7 @@ public class JCurrency extends TableImpl<CurrencyRecord> {
     /**
      * The column <code>nexus.CURRENCY.UPDATED_AT</code>. 데이터 수정 날짜
      */
-    public final TableField<CurrencyRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 수정 날짜");
+    public final TableField<CurrencyRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 수정 날짜");
 
     /**
      * The column <code>nexus.CURRENCY.UPDATED_BY</code>. 데이터 수정자 ID
@@ -207,6 +214,13 @@ public class JCurrency extends TableImpl<CurrencyRecord> {
             _userCurrency = new UserCurrencyPath(this, null, Keys.USER_CURRENCY__USER_CURRENCY_CURRENCY_ID_FOREIGN.getInverseKey());
 
         return _userCurrency;
+    }
+
+    @Override
+    public List<Check<CurrencyRecord>> getChecks() {
+        return Arrays.asList(
+            Internal.createCheck(this, DSL.name("CURRENCY_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true)
+        );
     }
 
     @Override

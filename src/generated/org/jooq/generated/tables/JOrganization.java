@@ -5,8 +5,11 @@ package org.jooq.generated.tables;
 
 
 import java.time.OffsetDateTime;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
+import org.jooq.Check;
 import org.jooq.Condition;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
@@ -30,6 +33,7 @@ import org.jooq.generated.tables.JAdmin.AdminPath;
 import org.jooq.generated.tables.JGame.GamePath;
 import org.jooq.generated.tables.records.OrganizationRecord;
 import org.jooq.impl.DSL;
+import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
@@ -59,7 +63,7 @@ public class JOrganization extends TableImpl<OrganizationRecord> {
      * The column <code>nexus.ORGANIZATION.ORG_ID</code>. ORGANIZATION 테이블 기본키
      * (PK)
      */
-    public final TableField<OrganizationRecord, Integer> ORG_ID = createField(DSL.name("ORG_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"ORGANIZATION_ORG_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "ORGANIZATION 테이블 기본키 (PK)");
+    public final TableField<OrganizationRecord, Integer> ORG_ID = createField(DSL.name("ORG_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"ORGANIZATION_ORG_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "ORGANIZATION 테이블 기본키 (PK)");
 
     /**
      * The column <code>nexus.ORGANIZATION.ORG_NM</code>. 단체명
@@ -79,7 +83,7 @@ public class JOrganization extends TableImpl<OrganizationRecord> {
     /**
      * The column <code>nexus.ORGANIZATION.CREATED_AT</code>. 데이터 생성 날짜
      */
-    public final TableField<OrganizationRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 생성 날짜");
+    public final TableField<OrganizationRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 생성 날짜");
 
     /**
      * The column <code>nexus.ORGANIZATION.CREATED_BY</code>. 데이터 생성자 ID
@@ -89,7 +93,7 @@ public class JOrganization extends TableImpl<OrganizationRecord> {
     /**
      * The column <code>nexus.ORGANIZATION.UPDATED_AT</code>. 데이터 수정 날짜
      */
-    public final TableField<OrganizationRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 수정 날짜");
+    public final TableField<OrganizationRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 수정 날짜");
 
     /**
      * The column <code>nexus.ORGANIZATION.UPDATED_BY</code>. 데이터 수정자 ID
@@ -195,6 +199,13 @@ public class JOrganization extends TableImpl<OrganizationRecord> {
             _game = new GamePath(this, null, Keys.GAME__GAME_ORG_ID_FOREIGN.getInverseKey());
 
         return _game;
+    }
+
+    @Override
+    public List<Check<OrganizationRecord>> getChecks() {
+        return Arrays.asList(
+            Internal.createCheck(this, DSL.name("ORGANIZATION_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true)
+        );
     }
 
     @Override

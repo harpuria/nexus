@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.jooq.Check;
 import org.jooq.Condition;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
@@ -33,6 +34,7 @@ import org.jooq.generated.tables.JCouponUseLog.CouponUseLogPath;
 import org.jooq.generated.tables.JGame.GamePath;
 import org.jooq.generated.tables.records.CouponRecord;
 import org.jooq.impl.DSL;
+import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
@@ -61,7 +63,7 @@ public class JCoupon extends TableImpl<CouponRecord> {
     /**
      * The column <code>nexus.COUPON.COUPON_ID</code>. 쿠폰 아이디 (PK)
      */
-    public final TableField<CouponRecord, Integer> COUPON_ID = createField(DSL.name("COUPON_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"COUPON_COUPON_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "쿠폰 아이디 (PK)");
+    public final TableField<CouponRecord, Integer> COUPON_ID = createField(DSL.name("COUPON_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"COUPON_COUPON_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "쿠폰 아이디 (PK)");
 
     /**
      * The column <code>nexus.COUPON.GAME_ID</code>. 게임 아이디 (FK)
@@ -76,7 +78,7 @@ public class JCoupon extends TableImpl<CouponRecord> {
     /**
      * The column <code>nexus.COUPON.DESC</code>. 쿠폰 상세 설명
      */
-    public final TableField<CouponRecord, Long> DESC = createField(DSL.name("DESC"), SQLDataType.BIGINT.nullable(false), this, "쿠폰 상세 설명");
+    public final TableField<CouponRecord, String> DESC = createField(DSL.name("DESC"), SQLDataType.VARCHAR(255).nullable(false), this, "쿠폰 상세 설명");
 
     /**
      * The column <code>nexus.COUPON.CODE</code>. 쿠폰 코드
@@ -89,14 +91,21 @@ public class JCoupon extends TableImpl<CouponRecord> {
     public final TableField<CouponRecord, JSONB> REWARDS = createField(DSL.name("REWARDS"), SQLDataType.JSONB.nullable(false), this, "쿠폰 지급 재화");
 
     /**
-     * The column <code>nexus.COUPON.START_DATE</code>. 쿠폰 등록 시작 날짜
+     * The column <code>nexus.COUPON.TIME_LIMIT_TYPE</code>. 쿠폰 사용 시간 제한 여부
      */
-    public final TableField<CouponRecord, OffsetDateTime> START_DATE = createField(DSL.name("START_DATE"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "쿠폰 등록 시작 날짜");
+    public final TableField<CouponRecord, String> TIME_LIMIT_TYPE = createField(DSL.name("TIME_LIMIT_TYPE"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'LIMITED'::character varying"), SQLDataType.VARCHAR)), this, "쿠폰 사용 시간 제한 여부");
 
     /**
-     * The column <code>nexus.COUPON.END_DATE</code>. 쿠폰 등록 종료 날짜
+     * The column <code>nexus.COUPON.USE_START_DATE</code>. 쿠폰 사용 시작 날짜 (LIMITED
+     * 인 경우)
      */
-    public final TableField<CouponRecord, OffsetDateTime> END_DATE = createField(DSL.name("END_DATE"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "쿠폰 등록 종료 날짜");
+    public final TableField<CouponRecord, OffsetDateTime> USE_START_DATE = createField(DSL.name("USE_START_DATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "쿠폰 사용 시작 날짜 (LIMITED 인 경우)");
+
+    /**
+     * The column <code>nexus.COUPON.USE_END_DATE</code>. 쿠폰 사용 종료 날짜 (LIMITED 인
+     * 경우)
+     */
+    public final TableField<CouponRecord, OffsetDateTime> USE_END_DATE = createField(DSL.name("USE_END_DATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "쿠폰 사용 종료 날짜 (LIMITED 인 경우)");
 
     /**
      * The column <code>nexus.COUPON.MAX_ISSUE_COUNT</code>. 쿠폰 발행량 (0 이면 무제한)
@@ -112,7 +121,7 @@ public class JCoupon extends TableImpl<CouponRecord> {
     /**
      * The column <code>nexus.COUPON.CREATED_AT</code>. 데이터 생성 날짜
      */
-    public final TableField<CouponRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 생성 날짜");
+    public final TableField<CouponRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 생성 날짜");
 
     /**
      * The column <code>nexus.COUPON.CREATED_BY</code>. 데이터 생성자 ID
@@ -122,7 +131,7 @@ public class JCoupon extends TableImpl<CouponRecord> {
     /**
      * The column <code>nexus.COUPON.UPDATED_AT</code>. 데이터 수정 날짜
      */
-    public final TableField<CouponRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 수정 날짜");
+    public final TableField<CouponRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 수정 날짜");
 
     /**
      * The column <code>nexus.COUPON.UPDATED_BY</code>. 데이터 수정자 ID
@@ -234,6 +243,14 @@ public class JCoupon extends TableImpl<CouponRecord> {
             _couponUseLog = new CouponUseLogPath(this, null, Keys.COUPON_USE_LOG__COUPON_USE_LOG_COUPON_ID_FOREIGN.getInverseKey());
 
         return _couponUseLog;
+    }
+
+    @Override
+    public List<Check<CouponRecord>> getChecks() {
+        return Arrays.asList(
+            Internal.createCheck(this, DSL.name("COUPON_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
+            Internal.createCheck(this, DSL.name("COUPON_TIME_LIMIT_TYPE_check"), "(((\"TIME_LIMIT_TYPE\")::text = ANY ((ARRAY['LIMITED'::character varying, 'UNLIMITED'::character varying])::text[])))", true)
+        );
     }
 
     @Override

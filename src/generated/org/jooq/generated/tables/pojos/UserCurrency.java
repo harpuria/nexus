@@ -64,6 +64,7 @@ public class UserCurrency implements Serializable {
 
     /**
      * Getter for <code>nexus.USER_CURRENCY.USER_CURRENCY_ID</code>.
+     * USER_CURRENCY 테이블 아이디 (PK)
      */
     public Integer getUserCurrencyId() {
         return this.userCurrencyId;
@@ -71,6 +72,7 @@ public class UserCurrency implements Serializable {
 
     /**
      * Setter for <code>nexus.USER_CURRENCY.USER_CURRENCY_ID</code>.
+     * USER_CURRENCY 테이블 아이디 (PK)
      */
     public UserCurrency setUserCurrencyId(Integer userCurrencyId) {
         this.userCurrencyId = userCurrencyId;

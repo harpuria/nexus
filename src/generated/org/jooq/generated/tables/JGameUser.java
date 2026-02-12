@@ -31,7 +31,6 @@ import org.jooq.generated.JNexus;
 import org.jooq.generated.Keys;
 import org.jooq.generated.tables.JCouponUseLog.CouponUseLogPath;
 import org.jooq.generated.tables.JGame.GamePath;
-import org.jooq.generated.tables.JUserColumnData.UserColumnDataPath;
 import org.jooq.generated.tables.JUserCurrency.UserCurrencyPath;
 import org.jooq.generated.tables.JUserMail.UserMailPath;
 import org.jooq.generated.tables.records.GameUserRecord;
@@ -65,7 +64,7 @@ public class JGameUser extends TableImpl<GameUserRecord> {
     /**
      * The column <code>nexus.GAME_USER.USER_ID</code>. GAME_USER 테이블 기본키(PK)
      */
-    public final TableField<GameUserRecord, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"GAME_USER_USER_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME_USER 테이블 기본키(PK)");
+    public final TableField<GameUserRecord, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"GAME_USER_USER_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME_USER 테이블 기본키(PK)");
 
     /**
      * The column <code>nexus.GAME_USER.GAME_ID</code>. 해당 유저가 속한 게임 ID (FK)
@@ -90,9 +89,10 @@ public class JGameUser extends TableImpl<GameUserRecord> {
     public final TableField<GameUserRecord, String> PROVIDER = createField(DSL.name("PROVIDER"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'ETC'::character varying"), SQLDataType.VARCHAR)), this, "소셜 로그인 타입");
 
     /**
-     * The column <code>nexus.GAME_USER.SOCIAL_ID</code>. 소셜 로그인 아이디
+     * The column <code>nexus.GAME_USER.SOCIAL_ID</code>. 소셜 로그인 아이디 (소셜 로그인이 아닌
+     * 경우 USER_L_ID 와 동일하게 설정)
      */
-    public final TableField<GameUserRecord, String> SOCIAL_ID = createField(DSL.name("SOCIAL_ID"), SQLDataType.VARCHAR(255).nullable(false), this, "소셜 로그인 아이디");
+    public final TableField<GameUserRecord, String> SOCIAL_ID = createField(DSL.name("SOCIAL_ID"), SQLDataType.VARCHAR(255).nullable(false), this, "소셜 로그인 아이디 (소셜 로그인이 아닌 경우 USER_L_ID 와 동일하게 설정)");
 
     /**
      * The column <code>nexus.GAME_USER.NICKNAME</code>. 게임에서 사용되는 닉네임
@@ -100,19 +100,19 @@ public class JGameUser extends TableImpl<GameUserRecord> {
     public final TableField<GameUserRecord, String> NICKNAME = createField(DSL.name("NICKNAME"), SQLDataType.VARCHAR(255).nullable(false), this, "게임에서 사용되는 닉네임");
 
     /**
-     * The column <code>nexus.GAME_USER.DEVICE</code>. 접속 기기
+     * The column <code>nexus.GAME_USER.DEVICE</code>. 접속 기기 모델명
      */
-    public final TableField<GameUserRecord, String> DEVICE = createField(DSL.name("DEVICE"), SQLDataType.VARCHAR(255), this, "접속 기기");
+    public final TableField<GameUserRecord, String> DEVICE = createField(DSL.name("DEVICE"), SQLDataType.VARCHAR(255), this, "접속 기기 모델명");
 
     /**
      * The column <code>nexus.GAME_USER.BLOCK_START_DATE</code>. 계정 정지 시작일
      */
-    public final TableField<GameUserRecord, OffsetDateTime> BLOCK_START_DATE = createField(DSL.name("BLOCK_START_DATE"), SQLDataType.TIMESTAMPWITHTIMEZONE, this, "계정 정지 시작일");
+    public final TableField<GameUserRecord, OffsetDateTime> BLOCK_START_DATE = createField(DSL.name("BLOCK_START_DATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "계정 정지 시작일");
 
     /**
      * The column <code>nexus.GAME_USER.BLOCK_END_DATE</code>. 계정 정지 종료일
      */
-    public final TableField<GameUserRecord, OffsetDateTime> BLOCK_END_DATE = createField(DSL.name("BLOCK_END_DATE"), SQLDataType.TIMESTAMPWITHTIMEZONE, this, "계정 정지 종료일");
+    public final TableField<GameUserRecord, OffsetDateTime> BLOCK_END_DATE = createField(DSL.name("BLOCK_END_DATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "계정 정지 종료일");
 
     /**
      * The column <code>nexus.GAME_USER.BLOCK_REASON</code>. 계정 정지 사유
@@ -127,7 +127,7 @@ public class JGameUser extends TableImpl<GameUserRecord> {
     /**
      * The column <code>nexus.GAME_USER.WITHDRAWAL_DATE</code>. 게임탈퇴날짜
      */
-    public final TableField<GameUserRecord, OffsetDateTime> WITHDRAWAL_DATE = createField(DSL.name("WITHDRAWAL_DATE"), SQLDataType.TIMESTAMPWITHTIMEZONE, this, "게임탈퇴날짜");
+    public final TableField<GameUserRecord, OffsetDateTime> WITHDRAWAL_DATE = createField(DSL.name("WITHDRAWAL_DATE"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "게임탈퇴날짜");
 
     /**
      * The column <code>nexus.GAME_USER.WITHDRAWAL_REASON</code>. 게임탈퇴사유
@@ -137,7 +137,7 @@ public class JGameUser extends TableImpl<GameUserRecord> {
     /**
      * The column <code>nexus.GAME_USER.CREATED_AT</code>. 데이터 생성 날짜
      */
-    public final TableField<GameUserRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 생성 날짜");
+    public final TableField<GameUserRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 생성 날짜");
 
     /**
      * The column <code>nexus.GAME_USER.CREATED_BY</code>. 데이터 생성자 ID
@@ -147,7 +147,7 @@ public class JGameUser extends TableImpl<GameUserRecord> {
     /**
      * The column <code>nexus.GAME_USER.UPDATED_AT</code>. 데이터 수정 날짜
      */
-    public final TableField<GameUserRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 수정 날짜");
+    public final TableField<GameUserRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 수정 날짜");
 
     /**
      * The column <code>nexus.GAME_USER.UPDATED_BY</code>. 데이터 수정자 ID
@@ -261,19 +261,6 @@ public class JGameUser extends TableImpl<GameUserRecord> {
         return _couponUseLog;
     }
 
-    private transient UserColumnDataPath _userColumnData;
-
-    /**
-     * Get the implicit to-many join path to the
-     * <code>nexus.USER_COLUMN_DATA</code> table
-     */
-    public UserColumnDataPath userColumnData() {
-        if (_userColumnData == null)
-            _userColumnData = new UserColumnDataPath(this, null, Keys.USER_COLUMN_DATA__USER_COLUMN_DATA_USER_ID_FOREIGN.getInverseKey());
-
-        return _userColumnData;
-    }
-
     private transient UserCurrencyPath _userCurrency;
 
     /**
@@ -303,6 +290,8 @@ public class JGameUser extends TableImpl<GameUserRecord> {
     @Override
     public List<Check<GameUserRecord>> getChecks() {
         return Arrays.asList(
+            Internal.createCheck(this, DSL.name("GAME_USER_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
+            Internal.createCheck(this, DSL.name("GAME_USER_IS_DEL_check1"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
             Internal.createCheck(this, DSL.name("GAME_USER_PROVIDER_check"), "(((\"PROVIDER\")::text = ANY ((ARRAY['GOOGLE'::character varying, 'FACEBOOK'::character varying, 'APPLE'::character varying, 'X'::character varying, 'KAKAO'::character varying, 'NAVER'::character varying, 'GUEST'::character varying, 'ETC'::character varying])::text[])))", true)
         );
     }

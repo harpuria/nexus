@@ -21,11 +21,12 @@ public class Coupon implements Serializable {
     private Integer couponId;
     private Integer gameId;
     private String name;
-    private Long desc;
+    private String desc;
     private String code;
     private JSONB rewards;
-    private OffsetDateTime startDate;
-    private OffsetDateTime endDate;
+    private String timeLimitType;
+    private OffsetDateTime useStartDate;
+    private OffsetDateTime useEndDate;
     private Long maxIssueCount;
     private Integer useLimitPerUser;
     private OffsetDateTime createdAt;
@@ -43,8 +44,9 @@ public class Coupon implements Serializable {
         this.desc = value.desc;
         this.code = value.code;
         this.rewards = value.rewards;
-        this.startDate = value.startDate;
-        this.endDate = value.endDate;
+        this.timeLimitType = value.timeLimitType;
+        this.useStartDate = value.useStartDate;
+        this.useEndDate = value.useEndDate;
         this.maxIssueCount = value.maxIssueCount;
         this.useLimitPerUser = value.useLimitPerUser;
         this.createdAt = value.createdAt;
@@ -58,11 +60,12 @@ public class Coupon implements Serializable {
         Integer couponId,
         Integer gameId,
         String name,
-        Long desc,
+        String desc,
         String code,
         JSONB rewards,
-        OffsetDateTime startDate,
-        OffsetDateTime endDate,
+        String timeLimitType,
+        OffsetDateTime useStartDate,
+        OffsetDateTime useEndDate,
         Long maxIssueCount,
         Integer useLimitPerUser,
         OffsetDateTime createdAt,
@@ -77,8 +80,9 @@ public class Coupon implements Serializable {
         this.desc = desc;
         this.code = code;
         this.rewards = rewards;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.timeLimitType = timeLimitType;
+        this.useStartDate = useStartDate;
+        this.useEndDate = useEndDate;
         this.maxIssueCount = maxIssueCount;
         this.useLimitPerUser = useLimitPerUser;
         this.createdAt = createdAt;
@@ -136,14 +140,14 @@ public class Coupon implements Serializable {
     /**
      * Getter for <code>nexus.COUPON.DESC</code>. 쿠폰 상세 설명
      */
-    public Long getDesc() {
+    public String getDesc() {
         return this.desc;
     }
 
     /**
      * Setter for <code>nexus.COUPON.DESC</code>. 쿠폰 상세 설명
      */
-    public Coupon setDesc(Long desc) {
+    public Coupon setDesc(String desc) {
         this.desc = desc;
         return this;
     }
@@ -179,32 +183,51 @@ public class Coupon implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.COUPON.START_DATE</code>. 쿠폰 등록 시작 날짜
+     * Getter for <code>nexus.COUPON.TIME_LIMIT_TYPE</code>. 쿠폰 사용 시간 제한 여부
      */
-    public OffsetDateTime getStartDate() {
-        return this.startDate;
+    public String getTimeLimitType() {
+        return this.timeLimitType;
     }
 
     /**
-     * Setter for <code>nexus.COUPON.START_DATE</code>. 쿠폰 등록 시작 날짜
+     * Setter for <code>nexus.COUPON.TIME_LIMIT_TYPE</code>. 쿠폰 사용 시간 제한 여부
      */
-    public Coupon setStartDate(OffsetDateTime startDate) {
-        this.startDate = startDate;
+    public Coupon setTimeLimitType(String timeLimitType) {
+        this.timeLimitType = timeLimitType;
         return this;
     }
 
     /**
-     * Getter for <code>nexus.COUPON.END_DATE</code>. 쿠폰 등록 종료 날짜
+     * Getter for <code>nexus.COUPON.USE_START_DATE</code>. 쿠폰 사용 시작 날짜 (LIMITED
+     * 인 경우)
      */
-    public OffsetDateTime getEndDate() {
-        return this.endDate;
+    public OffsetDateTime getUseStartDate() {
+        return this.useStartDate;
     }
 
     /**
-     * Setter for <code>nexus.COUPON.END_DATE</code>. 쿠폰 등록 종료 날짜
+     * Setter for <code>nexus.COUPON.USE_START_DATE</code>. 쿠폰 사용 시작 날짜 (LIMITED
+     * 인 경우)
      */
-    public Coupon setEndDate(OffsetDateTime endDate) {
-        this.endDate = endDate;
+    public Coupon setUseStartDate(OffsetDateTime useStartDate) {
+        this.useStartDate = useStartDate;
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.COUPON.USE_END_DATE</code>. 쿠폰 사용 종료 날짜 (LIMITED 인
+     * 경우)
+     */
+    public OffsetDateTime getUseEndDate() {
+        return this.useEndDate;
+    }
+
+    /**
+     * Setter for <code>nexus.COUPON.USE_END_DATE</code>. 쿠폰 사용 종료 날짜 (LIMITED 인
+     * 경우)
+     */
+    public Coupon setUseEndDate(OffsetDateTime useEndDate) {
+        this.useEndDate = useEndDate;
         return this;
     }
 
@@ -360,17 +383,23 @@ public class Coupon implements Serializable {
         }
         else if (!this.rewards.equals(other.rewards))
             return false;
-        if (this.startDate == null) {
-            if (other.startDate != null)
+        if (this.timeLimitType == null) {
+            if (other.timeLimitType != null)
                 return false;
         }
-        else if (!this.startDate.equals(other.startDate))
+        else if (!this.timeLimitType.equals(other.timeLimitType))
             return false;
-        if (this.endDate == null) {
-            if (other.endDate != null)
+        if (this.useStartDate == null) {
+            if (other.useStartDate != null)
                 return false;
         }
-        else if (!this.endDate.equals(other.endDate))
+        else if (!this.useStartDate.equals(other.useStartDate))
+            return false;
+        if (this.useEndDate == null) {
+            if (other.useEndDate != null)
+                return false;
+        }
+        else if (!this.useEndDate.equals(other.useEndDate))
             return false;
         if (this.maxIssueCount == null) {
             if (other.maxIssueCount != null)
@@ -427,8 +456,9 @@ public class Coupon implements Serializable {
         result = prime * result + ((this.desc == null) ? 0 : this.desc.hashCode());
         result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
         result = prime * result + ((this.rewards == null) ? 0 : this.rewards.hashCode());
-        result = prime * result + ((this.startDate == null) ? 0 : this.startDate.hashCode());
-        result = prime * result + ((this.endDate == null) ? 0 : this.endDate.hashCode());
+        result = prime * result + ((this.timeLimitType == null) ? 0 : this.timeLimitType.hashCode());
+        result = prime * result + ((this.useStartDate == null) ? 0 : this.useStartDate.hashCode());
+        result = prime * result + ((this.useEndDate == null) ? 0 : this.useEndDate.hashCode());
         result = prime * result + ((this.maxIssueCount == null) ? 0 : this.maxIssueCount.hashCode());
         result = prime * result + ((this.useLimitPerUser == null) ? 0 : this.useLimitPerUser.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
@@ -449,8 +479,9 @@ public class Coupon implements Serializable {
         sb.append(", ").append(desc);
         sb.append(", ").append(code);
         sb.append(", ").append(rewards);
-        sb.append(", ").append(startDate);
-        sb.append(", ").append(endDate);
+        sb.append(", ").append(timeLimitType);
+        sb.append(", ").append(useStartDate);
+        sb.append(", ").append(useEndDate);
         sb.append(", ").append(maxIssueCount);
         sb.append(", ").append(useLimitPerUser);
         sb.append(", ").append(createdAt);

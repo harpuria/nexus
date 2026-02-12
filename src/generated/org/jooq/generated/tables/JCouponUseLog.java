@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.jooq.Check;
 import org.jooq.Condition;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
@@ -32,6 +33,7 @@ import org.jooq.generated.tables.JCoupon.CouponPath;
 import org.jooq.generated.tables.JGameUser.GameUserPath;
 import org.jooq.generated.tables.records.CouponUseLogRecord;
 import org.jooq.impl.DSL;
+import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
 
@@ -60,7 +62,7 @@ public class JCouponUseLog extends TableImpl<CouponUseLogRecord> {
     /**
      * The column <code>nexus.COUPON_USE_LOG.LOG_ID</code>. 쿠폰 사용 로그 아이디 (PK)
      */
-    public final TableField<CouponUseLogRecord, Integer> LOG_ID = createField(DSL.name("LOG_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"COUPON_USE_LOG_LOG_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "쿠폰 사용 로그 아이디 (PK)");
+    public final TableField<CouponUseLogRecord, Integer> LOG_ID = createField(DSL.name("LOG_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"COUPON_USE_LOG_LOG_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "쿠폰 사용 로그 아이디 (PK)");
 
     /**
      * The column <code>nexus.COUPON_USE_LOG.COUPON_ID</code>. 쿠폰 아이디 (FK)
@@ -75,12 +77,12 @@ public class JCouponUseLog extends TableImpl<CouponUseLogRecord> {
     /**
      * The column <code>nexus.COUPON_USE_LOG.USED_AT</code>. 쿠폰 사용 날짜
      */
-    public final TableField<CouponUseLogRecord, OffsetDateTime> USED_AT = createField(DSL.name("USED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "쿠폰 사용 날짜");
+    public final TableField<CouponUseLogRecord, OffsetDateTime> USED_AT = createField(DSL.name("USED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "쿠폰 사용 날짜");
 
     /**
      * The column <code>nexus.COUPON_USE_LOG.CREATED_AT</code>. 데이터 생성 날짜
      */
-    public final TableField<CouponUseLogRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 생성 날짜");
+    public final TableField<CouponUseLogRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 생성 날짜");
 
     /**
      * The column <code>nexus.COUPON_USE_LOG.CREATED_BY</code>. 데이터 생성자 ID
@@ -90,7 +92,7 @@ public class JCouponUseLog extends TableImpl<CouponUseLogRecord> {
     /**
      * The column <code>nexus.COUPON_USE_LOG.UPDATED_AT</code>. 데이터 수정 날짜
      */
-    public final TableField<CouponUseLogRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 수정 날짜");
+    public final TableField<CouponUseLogRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 수정 날짜");
 
     /**
      * The column <code>nexus.COUPON_USE_LOG.UPDATED_BY</code>. 데이터 수정자 ID
@@ -201,6 +203,13 @@ public class JCouponUseLog extends TableImpl<CouponUseLogRecord> {
             _gameUser = new GameUserPath(this, Keys.COUPON_USE_LOG__COUPON_USE_LOG_USER_ID_FOREIGN, null);
 
         return _gameUser;
+    }
+
+    @Override
+    public List<Check<CouponUseLogRecord>> getChecks() {
+        return Arrays.asList(
+            Internal.createCheck(this, DSL.name("COUPON_USE_LOG_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true)
+        );
     }
 
     @Override

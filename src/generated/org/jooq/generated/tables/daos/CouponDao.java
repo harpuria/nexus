@@ -104,14 +104,14 @@ public class CouponDao extends DAOImpl<CouponRecord, Coupon, Integer> {
      * Fetch records that have <code>DESC BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<Coupon> fetchRangeOfJDesc(Long lowerInclusive, Long upperInclusive) {
+    public List<Coupon> fetchRangeOfJDesc(String lowerInclusive, String upperInclusive) {
         return fetchRange(JCoupon.COUPON.DESC, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>DESC IN (values)</code>
      */
-    public List<Coupon> fetchByJDesc(Long... values) {
+    public List<Coupon> fetchByJDesc(String... values) {
         return fetch(JCoupon.COUPON.DESC, values);
     }
 
@@ -146,33 +146,48 @@ public class CouponDao extends DAOImpl<CouponRecord, Coupon, Integer> {
     }
 
     /**
-     * Fetch records that have <code>START_DATE BETWEEN lowerInclusive AND
+     * Fetch records that have <code>TIME_LIMIT_TYPE BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<Coupon> fetchRangeOfJStartDate(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
-        return fetchRange(JCoupon.COUPON.START_DATE, lowerInclusive, upperInclusive);
+    public List<Coupon> fetchRangeOfJTimeLimitType(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JCoupon.COUPON.TIME_LIMIT_TYPE, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>START_DATE IN (values)</code>
+     * Fetch records that have <code>TIME_LIMIT_TYPE IN (values)</code>
      */
-    public List<Coupon> fetchByJStartDate(OffsetDateTime... values) {
-        return fetch(JCoupon.COUPON.START_DATE, values);
+    public List<Coupon> fetchByJTimeLimitType(String... values) {
+        return fetch(JCoupon.COUPON.TIME_LIMIT_TYPE, values);
     }
 
     /**
-     * Fetch records that have <code>END_DATE BETWEEN lowerInclusive AND
+     * Fetch records that have <code>USE_START_DATE BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<Coupon> fetchRangeOfJEndDate(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
-        return fetchRange(JCoupon.COUPON.END_DATE, lowerInclusive, upperInclusive);
+    public List<Coupon> fetchRangeOfJUseStartDate(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
+        return fetchRange(JCoupon.COUPON.USE_START_DATE, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>END_DATE IN (values)</code>
+     * Fetch records that have <code>USE_START_DATE IN (values)</code>
      */
-    public List<Coupon> fetchByJEndDate(OffsetDateTime... values) {
-        return fetch(JCoupon.COUPON.END_DATE, values);
+    public List<Coupon> fetchByJUseStartDate(OffsetDateTime... values) {
+        return fetch(JCoupon.COUPON.USE_START_DATE, values);
+    }
+
+    /**
+     * Fetch records that have <code>USE_END_DATE BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<Coupon> fetchRangeOfJUseEndDate(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
+        return fetchRange(JCoupon.COUPON.USE_END_DATE, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>USE_END_DATE IN (values)</code>
+     */
+    public List<Coupon> fetchByJUseEndDate(OffsetDateTime... values) {
+        return fetch(JCoupon.COUPON.USE_END_DATE, values);
     }
 
     /**

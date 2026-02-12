@@ -130,6 +130,21 @@ public class CurrencyDao extends DAOImpl<CurrencyRecord, Currency, Integer> {
     }
 
     /**
+     * Fetch records that have <code>DEFAULT_AMOUNT BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<Currency> fetchRangeOfJDefaultAmount(Long lowerInclusive, Long upperInclusive) {
+        return fetchRange(JCurrency.CURRENCY.DEFAULT_AMOUNT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>DEFAULT_AMOUNT IN (values)</code>
+     */
+    public List<Currency> fetchByJDefaultAmount(Long... values) {
+        return fetch(JCurrency.CURRENCY.DEFAULT_AMOUNT, values);
+    }
+
+    /**
      * Fetch records that have <code>CREATED_AT BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */

@@ -69,7 +69,7 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
     /**
      * Setter for <code>nexus.COUPON.DESC</code>. 쿠폰 상세 설명
      */
-    public CouponRecord setDesc(Long value) {
+    public CouponRecord setDesc(String value) {
         set(3, value);
         return this;
     }
@@ -77,8 +77,8 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
     /**
      * Getter for <code>nexus.COUPON.DESC</code>. 쿠폰 상세 설명
      */
-    public Long getDesc() {
-        return (Long) get(3);
+    public String getDesc() {
+        return (String) get(3);
     }
 
     /**
@@ -112,40 +112,59 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
     }
 
     /**
-     * Setter for <code>nexus.COUPON.START_DATE</code>. 쿠폰 등록 시작 날짜
+     * Setter for <code>nexus.COUPON.TIME_LIMIT_TYPE</code>. 쿠폰 사용 시간 제한 여부
      */
-    public CouponRecord setStartDate(OffsetDateTime value) {
+    public CouponRecord setTimeLimitType(String value) {
         set(6, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.COUPON.START_DATE</code>. 쿠폰 등록 시작 날짜
+     * Getter for <code>nexus.COUPON.TIME_LIMIT_TYPE</code>. 쿠폰 사용 시간 제한 여부
      */
-    public OffsetDateTime getStartDate() {
-        return (OffsetDateTime) get(6);
+    public String getTimeLimitType() {
+        return (String) get(6);
     }
 
     /**
-     * Setter for <code>nexus.COUPON.END_DATE</code>. 쿠폰 등록 종료 날짜
+     * Setter for <code>nexus.COUPON.USE_START_DATE</code>. 쿠폰 사용 시작 날짜 (LIMITED
+     * 인 경우)
      */
-    public CouponRecord setEndDate(OffsetDateTime value) {
+    public CouponRecord setUseStartDate(OffsetDateTime value) {
         set(7, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.COUPON.END_DATE</code>. 쿠폰 등록 종료 날짜
+     * Getter for <code>nexus.COUPON.USE_START_DATE</code>. 쿠폰 사용 시작 날짜 (LIMITED
+     * 인 경우)
      */
-    public OffsetDateTime getEndDate() {
+    public OffsetDateTime getUseStartDate() {
         return (OffsetDateTime) get(7);
+    }
+
+    /**
+     * Setter for <code>nexus.COUPON.USE_END_DATE</code>. 쿠폰 사용 종료 날짜 (LIMITED 인
+     * 경우)
+     */
+    public CouponRecord setUseEndDate(OffsetDateTime value) {
+        set(8, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.COUPON.USE_END_DATE</code>. 쿠폰 사용 종료 날짜 (LIMITED 인
+     * 경우)
+     */
+    public OffsetDateTime getUseEndDate() {
+        return (OffsetDateTime) get(8);
     }
 
     /**
      * Setter for <code>nexus.COUPON.MAX_ISSUE_COUNT</code>. 쿠폰 발행량 (0 이면 무제한)
      */
     public CouponRecord setMaxIssueCount(Long value) {
-        set(8, value);
+        set(9, value);
         return this;
     }
 
@@ -153,7 +172,7 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
      * Getter for <code>nexus.COUPON.MAX_ISSUE_COUNT</code>. 쿠폰 발행량 (0 이면 무제한)
      */
     public Long getMaxIssueCount() {
-        return (Long) get(8);
+        return (Long) get(9);
     }
 
     /**
@@ -161,7 +180,7 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
      * 있는 쿠폰 개수
      */
     public CouponRecord setUseLimitPerUser(Integer value) {
-        set(9, value);
+        set(10, value);
         return this;
     }
 
@@ -170,14 +189,14 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
      * 있는 쿠폰 개수
      */
     public Integer getUseLimitPerUser() {
-        return (Integer) get(9);
+        return (Integer) get(10);
     }
 
     /**
      * Setter for <code>nexus.COUPON.CREATED_AT</code>. 데이터 생성 날짜
      */
     public CouponRecord setCreatedAt(OffsetDateTime value) {
-        set(10, value);
+        set(11, value);
         return this;
     }
 
@@ -185,14 +204,14 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
      * Getter for <code>nexus.COUPON.CREATED_AT</code>. 데이터 생성 날짜
      */
     public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(10);
+        return (OffsetDateTime) get(11);
     }
 
     /**
      * Setter for <code>nexus.COUPON.CREATED_BY</code>. 데이터 생성자 ID
      */
     public CouponRecord setCreatedBy(String value) {
-        set(11, value);
+        set(12, value);
         return this;
     }
 
@@ -200,14 +219,14 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
      * Getter for <code>nexus.COUPON.CREATED_BY</code>. 데이터 생성자 ID
      */
     public String getCreatedBy() {
-        return (String) get(11);
+        return (String) get(12);
     }
 
     /**
      * Setter for <code>nexus.COUPON.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public CouponRecord setUpdatedAt(OffsetDateTime value) {
-        set(12, value);
+        set(13, value);
         return this;
     }
 
@@ -215,14 +234,14 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
      * Getter for <code>nexus.COUPON.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(12);
+        return (OffsetDateTime) get(13);
     }
 
     /**
      * Setter for <code>nexus.COUPON.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public CouponRecord setUpdatedBy(String value) {
-        set(13, value);
+        set(14, value);
         return this;
     }
 
@@ -230,14 +249,14 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
      * Getter for <code>nexus.COUPON.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public String getUpdatedBy() {
-        return (String) get(13);
+        return (String) get(14);
     }
 
     /**
      * Setter for <code>nexus.COUPON.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public CouponRecord setIsDel(String value) {
-        set(14, value);
+        set(15, value);
         return this;
     }
 
@@ -245,7 +264,7 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
      * Getter for <code>nexus.COUPON.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public String getIsDel() {
-        return (String) get(14);
+        return (String) get(15);
     }
 
     // -------------------------------------------------------------------------
@@ -271,7 +290,7 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
     /**
      * Create a detached, initialised CouponRecord
      */
-    public CouponRecord(Integer couponId, Integer gameId, String name, Long desc, String code, JSONB rewards, OffsetDateTime startDate, OffsetDateTime endDate, Long maxIssueCount, Integer useLimitPerUser, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public CouponRecord(Integer couponId, Integer gameId, String name, String desc, String code, JSONB rewards, String timeLimitType, OffsetDateTime useStartDate, OffsetDateTime useEndDate, Long maxIssueCount, Integer useLimitPerUser, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JCoupon.COUPON);
 
         setCouponId(couponId);
@@ -280,8 +299,9 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
         setDesc(desc);
         setCode(code);
         setRewards(rewards);
-        setStartDate(startDate);
-        setEndDate(endDate);
+        setTimeLimitType(timeLimitType);
+        setUseStartDate(useStartDate);
+        setUseEndDate(useEndDate);
         setMaxIssueCount(maxIssueCount);
         setUseLimitPerUser(useLimitPerUser);
         setCreatedAt(createdAt);
@@ -305,8 +325,9 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
             setDesc(value.getDesc());
             setCode(value.getCode());
             setRewards(value.getRewards());
-            setStartDate(value.getStartDate());
-            setEndDate(value.getEndDate());
+            setTimeLimitType(value.getTimeLimitType());
+            setUseStartDate(value.getUseStartDate());
+            setUseEndDate(value.getUseEndDate());
             setMaxIssueCount(value.getMaxIssueCount());
             setUseLimitPerUser(value.getUseLimitPerUser());
             setCreatedAt(value.getCreatedAt());

@@ -63,7 +63,7 @@ public class JMail extends TableImpl<MailRecord> {
     /**
      * The column <code>nexus.MAIL.MAIL_ID</code>. 우편 아이디 (PK)
      */
-    public final TableField<MailRecord, Integer> MAIL_ID = createField(DSL.name("MAIL_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"MAIL_MAIL_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "우편 아이디 (PK)");
+    public final TableField<MailRecord, Integer> MAIL_ID = createField(DSL.name("MAIL_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"MAIL_MAIL_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "우편 아이디 (PK)");
 
     /**
      * The column <code>nexus.MAIL.GAME_ID</code>. 게임 아이디 (FK)
@@ -98,7 +98,7 @@ public class JMail extends TableImpl<MailRecord> {
     /**
      * The column <code>nexus.MAIL.CREATED_AT</code>. 데이터 생성 날짜
      */
-    public final TableField<MailRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 생성 날짜");
+    public final TableField<MailRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 생성 날짜");
 
     /**
      * The column <code>nexus.MAIL.CREATED_BY</code>. 데이터 생성자 ID
@@ -108,7 +108,7 @@ public class JMail extends TableImpl<MailRecord> {
     /**
      * The column <code>nexus.MAIL.UPDATED_AT</code>. 데이터 수정 날짜
      */
-    public final TableField<MailRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 수정 날짜");
+    public final TableField<MailRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 수정 날짜");
 
     /**
      * The column <code>nexus.MAIL.UPDATED_BY</code>. 데이터 수정자 ID
@@ -225,6 +225,7 @@ public class JMail extends TableImpl<MailRecord> {
     @Override
     public List<Check<MailRecord>> getChecks() {
         return Arrays.asList(
+            Internal.createCheck(this, DSL.name("MAIL_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
             Internal.createCheck(this, DSL.name("MAIL_SEND_TYPE_check"), "(((\"SEND_TYPE\")::text = ANY ((ARRAY['SYSTEM'::character varying, 'ADMIN'::character varying, 'EVENT'::character varying])::text[])))", true)
         );
     }

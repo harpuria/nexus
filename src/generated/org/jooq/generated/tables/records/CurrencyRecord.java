@@ -81,7 +81,7 @@ public class CurrencyRecord extends UpdatableRecordImpl<CurrencyRecord> {
     }
 
     /**
-     * Setter for <code>nexus.CURRENCY.MAX_AMOUNT</code>. 최대수량 (미지정시 bigint 만큼)
+     * Setter for <code>nexus.CURRENCY.MAX_AMOUNT</code>. 최대수량 (미지정시 최대값)
      */
     public CurrencyRecord setMaxAmount(Long value) {
         set(4, value);
@@ -89,17 +89,32 @@ public class CurrencyRecord extends UpdatableRecordImpl<CurrencyRecord> {
     }
 
     /**
-     * Getter for <code>nexus.CURRENCY.MAX_AMOUNT</code>. 최대수량 (미지정시 bigint 만큼)
+     * Getter for <code>nexus.CURRENCY.MAX_AMOUNT</code>. 최대수량 (미지정시 최대값)
      */
     public Long getMaxAmount() {
         return (Long) get(4);
     }
 
     /**
+     * Setter for <code>nexus.CURRENCY.DEFAULT_AMOUNT</code>. 기본수량 (미지정시 0)
+     */
+    public CurrencyRecord setDefaultAmount(Long value) {
+        set(5, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.CURRENCY.DEFAULT_AMOUNT</code>. 기본수량 (미지정시 0)
+     */
+    public Long getDefaultAmount() {
+        return (Long) get(5);
+    }
+
+    /**
      * Setter for <code>nexus.CURRENCY.CREATED_AT</code>. 데이터 생성 날짜
      */
     public CurrencyRecord setCreatedAt(OffsetDateTime value) {
-        set(5, value);
+        set(6, value);
         return this;
     }
 
@@ -107,14 +122,14 @@ public class CurrencyRecord extends UpdatableRecordImpl<CurrencyRecord> {
      * Getter for <code>nexus.CURRENCY.CREATED_AT</code>. 데이터 생성 날짜
      */
     public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(5);
+        return (OffsetDateTime) get(6);
     }
 
     /**
      * Setter for <code>nexus.CURRENCY.CREATED_BY</code>. 데이터 생성자 ID
      */
     public CurrencyRecord setCreatedBy(String value) {
-        set(6, value);
+        set(7, value);
         return this;
     }
 
@@ -122,14 +137,14 @@ public class CurrencyRecord extends UpdatableRecordImpl<CurrencyRecord> {
      * Getter for <code>nexus.CURRENCY.CREATED_BY</code>. 데이터 생성자 ID
      */
     public String getCreatedBy() {
-        return (String) get(6);
+        return (String) get(7);
     }
 
     /**
      * Setter for <code>nexus.CURRENCY.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public CurrencyRecord setUpdatedAt(OffsetDateTime value) {
-        set(7, value);
+        set(8, value);
         return this;
     }
 
@@ -137,14 +152,14 @@ public class CurrencyRecord extends UpdatableRecordImpl<CurrencyRecord> {
      * Getter for <code>nexus.CURRENCY.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(7);
+        return (OffsetDateTime) get(8);
     }
 
     /**
      * Setter for <code>nexus.CURRENCY.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public CurrencyRecord setUpdatedBy(String value) {
-        set(8, value);
+        set(9, value);
         return this;
     }
 
@@ -152,14 +167,14 @@ public class CurrencyRecord extends UpdatableRecordImpl<CurrencyRecord> {
      * Getter for <code>nexus.CURRENCY.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public String getUpdatedBy() {
-        return (String) get(8);
+        return (String) get(9);
     }
 
     /**
      * Setter for <code>nexus.CURRENCY.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public CurrencyRecord setIsDel(String value) {
-        set(9, value);
+        set(10, value);
         return this;
     }
 
@@ -167,7 +182,7 @@ public class CurrencyRecord extends UpdatableRecordImpl<CurrencyRecord> {
      * Getter for <code>nexus.CURRENCY.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public String getIsDel() {
-        return (String) get(9);
+        return (String) get(10);
     }
 
     // -------------------------------------------------------------------------
@@ -193,7 +208,7 @@ public class CurrencyRecord extends UpdatableRecordImpl<CurrencyRecord> {
     /**
      * Create a detached, initialised CurrencyRecord
      */
-    public CurrencyRecord(Integer currencyId, Integer gameId, String name, String desc, Long maxAmount, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public CurrencyRecord(Integer currencyId, Integer gameId, String name, String desc, Long maxAmount, Long defaultAmount, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JCurrency.CURRENCY);
 
         setCurrencyId(currencyId);
@@ -201,6 +216,7 @@ public class CurrencyRecord extends UpdatableRecordImpl<CurrencyRecord> {
         setName(name);
         setDesc(desc);
         setMaxAmount(maxAmount);
+        setDefaultAmount(defaultAmount);
         setCreatedAt(createdAt);
         setCreatedBy(createdBy);
         setUpdatedAt(updatedAt);
@@ -221,6 +237,7 @@ public class CurrencyRecord extends UpdatableRecordImpl<CurrencyRecord> {
             setName(value.getName());
             setDesc(value.getDesc());
             setMaxAmount(value.getMaxAmount());
+            setDefaultAmount(value.getDefaultAmount());
             setCreatedAt(value.getCreatedAt());
             setCreatedBy(value.getCreatedBy());
             setUpdatedAt(value.getUpdatedAt());

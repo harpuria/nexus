@@ -22,6 +22,7 @@ public class UserCurrencyRecord extends UpdatableRecordImpl<UserCurrencyRecord> 
 
     /**
      * Setter for <code>nexus.USER_CURRENCY.USER_CURRENCY_ID</code>.
+     * USER_CURRENCY 테이블 아이디 (PK)
      */
     public UserCurrencyRecord setUserCurrencyId(Integer value) {
         set(0, value);
@@ -30,6 +31,7 @@ public class UserCurrencyRecord extends UpdatableRecordImpl<UserCurrencyRecord> 
 
     /**
      * Getter for <code>nexus.USER_CURRENCY.USER_CURRENCY_ID</code>.
+     * USER_CURRENCY 테이블 아이디 (PK)
      */
     public Integer getUserCurrencyId() {
         return (Integer) get(0);

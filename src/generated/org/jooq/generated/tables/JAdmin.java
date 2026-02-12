@@ -65,7 +65,7 @@ public class JAdmin extends TableImpl<AdminRecord> {
     /**
      * The column <code>nexus.ADMIN.ADMIN_ID</code>. ADMIN 테이블 기본키 (PK)
      */
-    public final TableField<AdminRecord, Integer> ADMIN_ID = createField(DSL.name("ADMIN_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"ADMIN_ADMIN_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "ADMIN 테이블 기본키 (PK)");
+    public final TableField<AdminRecord, Integer> ADMIN_ID = createField(DSL.name("ADMIN_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"ADMIN_ADMIN_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "ADMIN 테이블 기본키 (PK)");
 
     /**
      * The column <code>nexus.ADMIN.ORG_ID</code>. 관리자 소속 (FK)
@@ -105,7 +105,7 @@ public class JAdmin extends TableImpl<AdminRecord> {
     /**
      * The column <code>nexus.ADMIN.CREATED_AT</code>. 데이터 생성 날짜
      */
-    public final TableField<AdminRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 생성 날짜");
+    public final TableField<AdminRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 생성 날짜");
 
     /**
      * The column <code>nexus.ADMIN.CREATED_BY</code>. 데이터 생성자 ID
@@ -115,7 +115,7 @@ public class JAdmin extends TableImpl<AdminRecord> {
     /**
      * The column <code>nexus.ADMIN.UPDATED_AT</code>. 데이터 수정 날짜
      */
-    public final TableField<AdminRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "데이터 수정 날짜");
+    public final TableField<AdminRecord, OffsetDateTime> UPDATED_AT = createField(DSL.name("UPDATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 수정 날짜");
 
     /**
      * The column <code>nexus.ADMIN.UPDATED_BY</code>. 데이터 수정자 ID
@@ -201,7 +201,7 @@ public class JAdmin extends TableImpl<AdminRecord> {
 
     @Override
     public List<UniqueKey<AdminRecord>> getUniqueKeys() {
-        return Arrays.asList(Keys.ADMIN_ADMIN_EMAIL_UNIQUE, Keys.ADMIN_LOGIN_ID_UNIQUE);
+        return Arrays.asList(Keys.ADMIN_ADMIN_EMAIL_KEY, Keys.ADMIN_LOGIN_ID_KEY);
     }
 
     @Override
@@ -236,7 +236,8 @@ public class JAdmin extends TableImpl<AdminRecord> {
     @Override
     public List<Check<AdminRecord>> getChecks() {
         return Arrays.asList(
-            Internal.createCheck(this, DSL.name("ADMIN_ADMIN_ROLE_check"), "(((\"ADMIN_ROLE\")::text = ANY ((ARRAY['NEXUS'::character varying, 'SUPER'::character varying, 'ADMIN'::character varying, 'OPERATOR'::character varying, 'NO_ROLE'::character varying])::text[])))", true)
+            Internal.createCheck(this, DSL.name("ADMIN_ADMIN_ROLE_check"), "(((\"ADMIN_ROLE\")::text = ANY ((ARRAY['NEXUS'::character varying, 'SUPER'::character varying, 'ADMIN'::character varying, 'OPERATOR'::character varying, 'NO_ROLE'::character varying])::text[])))", true),
+            Internal.createCheck(this, DSL.name("ADMIN_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true)
         );
     }
 

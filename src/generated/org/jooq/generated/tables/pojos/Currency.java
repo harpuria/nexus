@@ -21,6 +21,7 @@ public class Currency implements Serializable {
     private String name;
     private String desc;
     private Long maxAmount;
+    private Long defaultAmount;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;
@@ -35,6 +36,7 @@ public class Currency implements Serializable {
         this.name = value.name;
         this.desc = value.desc;
         this.maxAmount = value.maxAmount;
+        this.defaultAmount = value.defaultAmount;
         this.createdAt = value.createdAt;
         this.createdBy = value.createdBy;
         this.updatedAt = value.updatedAt;
@@ -48,6 +50,7 @@ public class Currency implements Serializable {
         String name,
         String desc,
         Long maxAmount,
+        Long defaultAmount,
         OffsetDateTime createdAt,
         String createdBy,
         OffsetDateTime updatedAt,
@@ -59,6 +62,7 @@ public class Currency implements Serializable {
         this.name = name;
         this.desc = desc;
         this.maxAmount = maxAmount;
+        this.defaultAmount = defaultAmount;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.updatedAt = updatedAt;
@@ -127,17 +131,32 @@ public class Currency implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.CURRENCY.MAX_AMOUNT</code>. 최대수량 (미지정시 bigint 만큼)
+     * Getter for <code>nexus.CURRENCY.MAX_AMOUNT</code>. 최대수량 (미지정시 최대값)
      */
     public Long getMaxAmount() {
         return this.maxAmount;
     }
 
     /**
-     * Setter for <code>nexus.CURRENCY.MAX_AMOUNT</code>. 최대수량 (미지정시 bigint 만큼)
+     * Setter for <code>nexus.CURRENCY.MAX_AMOUNT</code>. 최대수량 (미지정시 최대값)
      */
     public Currency setMaxAmount(Long maxAmount) {
         this.maxAmount = maxAmount;
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.CURRENCY.DEFAULT_AMOUNT</code>. 기본수량 (미지정시 0)
+     */
+    public Long getDefaultAmount() {
+        return this.defaultAmount;
+    }
+
+    /**
+     * Setter for <code>nexus.CURRENCY.DEFAULT_AMOUNT</code>. 기본수량 (미지정시 0)
+     */
+    public Currency setDefaultAmount(Long defaultAmount) {
+        this.defaultAmount = defaultAmount;
         return this;
     }
 
@@ -255,6 +274,12 @@ public class Currency implements Serializable {
         }
         else if (!this.maxAmount.equals(other.maxAmount))
             return false;
+        if (this.defaultAmount == null) {
+            if (other.defaultAmount != null)
+                return false;
+        }
+        else if (!this.defaultAmount.equals(other.defaultAmount))
+            return false;
         if (this.createdAt == null) {
             if (other.createdAt != null)
                 return false;
@@ -297,6 +322,7 @@ public class Currency implements Serializable {
         result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
         result = prime * result + ((this.desc == null) ? 0 : this.desc.hashCode());
         result = prime * result + ((this.maxAmount == null) ? 0 : this.maxAmount.hashCode());
+        result = prime * result + ((this.defaultAmount == null) ? 0 : this.defaultAmount.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
@@ -314,6 +340,7 @@ public class Currency implements Serializable {
         sb.append(", ").append(name);
         sb.append(", ").append(desc);
         sb.append(", ").append(maxAmount);
+        sb.append(", ").append(defaultAmount);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(createdBy);
         sb.append(", ").append(updatedAt);
