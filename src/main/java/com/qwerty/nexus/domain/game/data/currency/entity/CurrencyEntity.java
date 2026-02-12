@@ -13,6 +13,7 @@ public class CurrencyEntity {
     private String name;
     private String desc;
     private Long maxAmount;
+    private Long defaultAmount;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;

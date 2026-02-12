@@ -29,6 +29,10 @@ public class CurrencyCreateRequestDto {
     private String desc;
 
     @Schema(example = "1000000000")
+    @PositiveOrZero(message = "기본 수량은 0 이상이어야 합니다.")
+    private Long defaultAmount;
+
+    @Schema(example = "1000000000")
     @NotNull(message = "최대 수량은 필수입니다.")
     @PositiveOrZero(message = "최대 수량은 0 이상이어야 합니다.")
     private Long maxAmount;

@@ -43,6 +43,7 @@ public class CurrencyService {
                 .desc(dto.getDesc())
                 .createdBy(dto.getCreatedBy())
                 .updatedBy(dto.getCreatedBy())
+                .defaultAmount(dto.getDefaultAmount())
                 .maxAmount(dto.getMaxAmount())
                 .build();
 
@@ -59,10 +60,12 @@ public class CurrencyService {
         for (Integer userId : userIdList) {
             UserCurrencyEntity userCurrencyEntity = UserCurrencyEntity.builder()
                     .userId(userId)
+                    .amount(dto.getDefaultAmount()) // 기본 재화 수량 설정
                     .currencyId(createdCurrencyId)
                     .createdBy(dto.getCreatedBy())
                     .updatedBy(dto.getCreatedBy())
                     .build();
+
             userCurrencyRepository.insertUserCurrency(userCurrencyEntity);
         }
 
