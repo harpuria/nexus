@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.records;
 
 
+import com.qwerty.nexus.domain.auth.Provider;
+
 import java.time.OffsetDateTime;
 
 import org.jooq.Record1;
@@ -87,7 +89,7 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
     /**
      * Setter for <code>nexus.GAME_USER.PROVIDER</code>. 소셜 로그인 타입
      */
-    public GameUserRecord setProvider(String value) {
+    public GameUserRecord setProvider(Provider value) {
         set(4, value);
         return this;
     }
@@ -95,8 +97,8 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
     /**
      * Getter for <code>nexus.GAME_USER.PROVIDER</code>. 소셜 로그인 타입
      */
-    public String getProvider() {
-        return (String) get(4);
+    public Provider getProvider() {
+        return (Provider) get(4);
     }
 
     /**
@@ -334,7 +336,7 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
     /**
      * Create a detached, initialised GameUserRecord
      */
-    public GameUserRecord(Integer userId, Integer gameId, String userLId, String userLPw, String provider, String socialId, String nickname, String device, OffsetDateTime blockStartDate, OffsetDateTime blockEndDate, String blockReason, String isWithdrawal, OffsetDateTime withdrawalDate, String withdrawalReason, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public GameUserRecord(Integer userId, Integer gameId, String userLId, String userLPw, Provider provider, String socialId, String nickname, String device, OffsetDateTime blockStartDate, OffsetDateTime blockEndDate, String blockReason, String isWithdrawal, OffsetDateTime withdrawalDate, String withdrawalReason, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JGameUser.GAME_USER);
 
         setUserId(userId);

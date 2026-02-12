@@ -4,6 +4,9 @@
 package org.jooq.generated.tables.records;
 
 
+import com.qwerty.nexus.domain.game.product.LimitType;
+import com.qwerty.nexus.domain.game.product.PurchaseType;
+
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
@@ -55,7 +58,7 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
     /**
      * Setter for <code>nexus.PRODUCT.PURCHASE_TYPE</code>. 구매재화 타입 (캐시, 내부재화)
      */
-    public ProductRecord setPurchaseType(String value) {
+    public ProductRecord setPurchaseType(PurchaseType value) {
         set(2, value);
         return this;
     }
@@ -63,8 +66,8 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
     /**
      * Getter for <code>nexus.PRODUCT.PURCHASE_TYPE</code>. 구매재화 타입 (캐시, 내부재화)
      */
-    public String getPurchaseType() {
-        return (String) get(2);
+    public PurchaseType getPurchaseType() {
+        return (PurchaseType) get(2);
     }
 
     /**
@@ -147,7 +150,7 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
     /**
      * Setter for <code>nexus.PRODUCT.LIMIT_TYPE</code>. 상품 구매 제한 타입
      */
-    public ProductRecord setLimitType(String value) {
+    public ProductRecord setLimitType(LimitType value) {
         set(8, value);
         return this;
     }
@@ -155,8 +158,8 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
     /**
      * Getter for <code>nexus.PRODUCT.LIMIT_TYPE</code>. 상품 구매 제한 타입
      */
-    public String getLimitType() {
-        return (String) get(8);
+    public LimitType getLimitType() {
+        return (LimitType) get(8);
     }
 
     /**
@@ -287,7 +290,7 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
     /**
      * Create a detached, initialised ProductRecord
      */
-    public ProductRecord(Integer productId, Integer gameId, String purchaseType, Integer currencyId, String name, String desc, BigDecimal price, JSONB rewards, String limitType, OffsetDateTime availableStart, OffsetDateTime availableEnd, OffsetDateTime createdAt, OffsetDateTime updatedAt, String createdBy, String updatedBy, String isDel) {
+    public ProductRecord(Integer productId, Integer gameId, PurchaseType purchaseType, Integer currencyId, String name, String desc, BigDecimal price, JSONB rewards, LimitType limitType, OffsetDateTime availableStart, OffsetDateTime availableEnd, OffsetDateTime createdAt, OffsetDateTime updatedAt, String createdBy, String updatedBy, String isDel) {
         super(JProduct.PRODUCT);
 
         setProductId(productId);

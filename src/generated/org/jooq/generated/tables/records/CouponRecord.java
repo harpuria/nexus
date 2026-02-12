@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.records;
 
 
+import com.qwerty.nexus.domain.game.data.coupon.TimeLimitType;
+
 import java.time.OffsetDateTime;
 
 import org.jooq.JSONB;
@@ -114,7 +116,7 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
     /**
      * Setter for <code>nexus.COUPON.TIME_LIMIT_TYPE</code>. 쿠폰 사용 시간 제한 여부
      */
-    public CouponRecord setTimeLimitType(String value) {
+    public CouponRecord setTimeLimitType(TimeLimitType value) {
         set(6, value);
         return this;
     }
@@ -122,8 +124,8 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
     /**
      * Getter for <code>nexus.COUPON.TIME_LIMIT_TYPE</code>. 쿠폰 사용 시간 제한 여부
      */
-    public String getTimeLimitType() {
-        return (String) get(6);
+    public TimeLimitType getTimeLimitType() {
+        return (TimeLimitType) get(6);
     }
 
     /**
@@ -290,7 +292,7 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
     /**
      * Create a detached, initialised CouponRecord
      */
-    public CouponRecord(Integer couponId, Integer gameId, String name, String desc, String code, JSONB rewards, String timeLimitType, OffsetDateTime useStartDate, OffsetDateTime useEndDate, Long maxIssueCount, Integer useLimitPerUser, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public CouponRecord(Integer couponId, Integer gameId, String name, String desc, String code, JSONB rewards, TimeLimitType timeLimitType, OffsetDateTime useStartDate, OffsetDateTime useEndDate, Long maxIssueCount, Integer useLimitPerUser, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JCoupon.COUPON);
 
         setCouponId(couponId);

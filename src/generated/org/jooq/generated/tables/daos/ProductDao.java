@@ -4,6 +4,9 @@
 package org.jooq.generated.tables.daos;
 
 
+import com.qwerty.nexus.domain.game.product.LimitType;
+import com.qwerty.nexus.domain.game.product.PurchaseType;
+
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -15,6 +18,7 @@ import org.jooq.generated.tables.JProduct;
 import org.jooq.generated.tables.pojos.Product;
 import org.jooq.generated.tables.records.ProductRecord;
 import org.jooq.impl.DAOImpl;
+import org.jooq.impl.EnumConverter;
 
 
 /**
@@ -90,14 +94,14 @@ public class ProductDao extends DAOImpl<ProductRecord, Product, Integer> {
      * Fetch records that have <code>PURCHASE_TYPE BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<Product> fetchRangeOfJPurchaseType(String lowerInclusive, String upperInclusive) {
+    public List<Product> fetchRangeOfJPurchaseType(PurchaseType lowerInclusive, PurchaseType upperInclusive) {
         return fetchRange(JProduct.PRODUCT.PURCHASE_TYPE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>PURCHASE_TYPE IN (values)</code>
      */
-    public List<Product> fetchByJPurchaseType(String... values) {
+    public List<Product> fetchByJPurchaseType(PurchaseType... values) {
         return fetch(JProduct.PRODUCT.PURCHASE_TYPE, values);
     }
 
@@ -180,14 +184,14 @@ public class ProductDao extends DAOImpl<ProductRecord, Product, Integer> {
      * Fetch records that have <code>LIMIT_TYPE BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<Product> fetchRangeOfJLimitType(String lowerInclusive, String upperInclusive) {
+    public List<Product> fetchRangeOfJLimitType(LimitType lowerInclusive, LimitType upperInclusive) {
         return fetchRange(JProduct.PRODUCT.LIMIT_TYPE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>LIMIT_TYPE IN (values)</code>
      */
-    public List<Product> fetchByJLimitType(String... values) {
+    public List<Product> fetchByJLimitType(LimitType... values) {
         return fetch(JProduct.PRODUCT.LIMIT_TYPE, values);
     }
 

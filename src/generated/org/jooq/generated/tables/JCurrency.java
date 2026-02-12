@@ -62,7 +62,7 @@ public class JCurrency extends TableImpl<CurrencyRecord> {
     /**
      * The column <code>nexus.CURRENCY.CURRENCY_ID</code>. CURRENCY 테이블 아이디 (PK)
      */
-    public final TableField<CurrencyRecord, Integer> CURRENCY_ID = createField(DSL.name("CURRENCY_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"CURRENCY_CURRENCY_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "CURRENCY 테이블 아이디 (PK)");
+    public final TableField<CurrencyRecord, Integer> CURRENCY_ID = createField(DSL.name("CURRENCY_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"CURRENCY_CURRENCY_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "CURRENCY 테이블 아이디 (PK)");
 
     /**
      * The column <code>nexus.CURRENCY.GAME_ID</code>.

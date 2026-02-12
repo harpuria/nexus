@@ -4,6 +4,9 @@
 package org.jooq.generated.tables.pojos;
 
 
+import com.qwerty.nexus.domain.game.product.LimitType;
+import com.qwerty.nexus.domain.game.product.PurchaseType;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -21,13 +24,13 @@ public class Product implements Serializable {
 
     private Integer productId;
     private Integer gameId;
-    private String purchaseType;
+    private PurchaseType purchaseType;
     private Integer currencyId;
     private String name;
     private String desc;
     private BigDecimal price;
     private JSONB rewards;
-    private String limitType;
+    private LimitType limitType;
     private OffsetDateTime availableStart;
     private OffsetDateTime availableEnd;
     private OffsetDateTime createdAt;
@@ -60,13 +63,13 @@ public class Product implements Serializable {
     public Product(
         Integer productId,
         Integer gameId,
-        String purchaseType,
+        PurchaseType purchaseType,
         Integer currencyId,
         String name,
         String desc,
         BigDecimal price,
         JSONB rewards,
-        String limitType,
+        LimitType limitType,
         OffsetDateTime availableStart,
         OffsetDateTime availableEnd,
         OffsetDateTime createdAt,
@@ -126,14 +129,14 @@ public class Product implements Serializable {
     /**
      * Getter for <code>nexus.PRODUCT.PURCHASE_TYPE</code>. 구매재화 타입 (캐시, 내부재화)
      */
-    public String getPurchaseType() {
+    public PurchaseType getPurchaseType() {
         return this.purchaseType;
     }
 
     /**
      * Setter for <code>nexus.PRODUCT.PURCHASE_TYPE</code>. 구매재화 타입 (캐시, 내부재화)
      */
-    public Product setPurchaseType(String purchaseType) {
+    public Product setPurchaseType(PurchaseType purchaseType) {
         this.purchaseType = purchaseType;
         return this;
     }
@@ -218,14 +221,14 @@ public class Product implements Serializable {
     /**
      * Getter for <code>nexus.PRODUCT.LIMIT_TYPE</code>. 상품 구매 제한 타입
      */
-    public String getLimitType() {
+    public LimitType getLimitType() {
         return this.limitType;
     }
 
     /**
      * Setter for <code>nexus.PRODUCT.LIMIT_TYPE</code>. 상품 구매 제한 타입
      */
-    public Product setLimitType(String limitType) {
+    public Product setLimitType(LimitType limitType) {
         this.limitType = limitType;
         return this;
     }

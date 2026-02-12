@@ -12,11 +12,12 @@ public class CouponEntity {
     private Integer couponId;
     private Integer gameId;
     private String name;
-    private Long desc;
+    private String desc;
     private String code;
     private JSONB rewards;
-    private OffsetDateTime startDate;
-    private OffsetDateTime endDate;
+    private String timeLimitType;
+    private OffsetDateTime useStartDate;
+    private OffsetDateTime useEndDate;
     private Long maxIssueCount;
     private Integer useLimitPerUser;
     private OffsetDateTime createdAt;

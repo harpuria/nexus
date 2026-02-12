@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.records;
 
 
+import com.qwerty.nexus.domain.management.game.GameStatus;
+
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -131,7 +133,7 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
     /**
      * Setter for <code>nexus.GAME.STATUS</code>. 게임 상태 값
      */
-    public GameRecord setStatus(String value) {
+    public GameRecord setStatus(GameStatus value) {
         set(7, value);
         return this;
     }
@@ -139,8 +141,8 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
     /**
      * Getter for <code>nexus.GAME.STATUS</code>. 게임 상태 값
      */
-    public String getStatus() {
-        return (String) get(7);
+    public GameStatus getStatus() {
+        return (GameStatus) get(7);
     }
 
     /**
@@ -256,7 +258,7 @@ public class GameRecord extends UpdatableRecordImpl<GameRecord> {
     /**
      * Create a detached, initialised GameRecord
      */
-    public GameRecord(Integer gameId, Integer orgId, String name, UUID clientAppId, UUID signatureKey, String googleClientId, String googleClientSecret, String status, String version, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public GameRecord(Integer gameId, Integer orgId, String name, UUID clientAppId, UUID signatureKey, String googleClientId, String googleClientSecret, GameStatus status, String version, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JGame.GAME);
 
         setGameId(gameId);

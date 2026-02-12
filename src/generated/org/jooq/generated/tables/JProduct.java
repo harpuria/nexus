@@ -4,6 +4,9 @@
 package org.jooq.generated.tables;
 
 
+import com.qwerty.nexus.domain.game.product.LimitType;
+import com.qwerty.nexus.domain.game.product.PurchaseType;
+
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
@@ -34,6 +37,7 @@ import org.jooq.generated.Keys;
 import org.jooq.generated.tables.JGame.GamePath;
 import org.jooq.generated.tables.records.ProductRecord;
 import org.jooq.impl.DSL;
+import org.jooq.impl.EnumConverter;
 import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
@@ -63,7 +67,7 @@ public class JProduct extends TableImpl<ProductRecord> {
     /**
      * The column <code>nexus.PRODUCT.PRODUCT_ID</code>. 상품 아이디 (PK)
      */
-    public final TableField<ProductRecord, Integer> PRODUCT_ID = createField(DSL.name("PRODUCT_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"PRODUCT_PRODUCT_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "상품 아이디 (PK)");
+    public final TableField<ProductRecord, Integer> PRODUCT_ID = createField(DSL.name("PRODUCT_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"PRODUCT_PRODUCT_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "상품 아이디 (PK)");
 
     /**
      * The column <code>nexus.PRODUCT.GAME_ID</code>. 상품이 적용될 게임 아이디 (FK)
@@ -73,7 +77,7 @@ public class JProduct extends TableImpl<ProductRecord> {
     /**
      * The column <code>nexus.PRODUCT.PURCHASE_TYPE</code>. 구매재화 타입 (캐시, 내부재화)
      */
-    public final TableField<ProductRecord, String> PURCHASE_TYPE = createField(DSL.name("PURCHASE_TYPE"), SQLDataType.VARCHAR(255).nullable(false), this, "구매재화 타입 (캐시, 내부재화)");
+    public final TableField<ProductRecord, PurchaseType> PURCHASE_TYPE = createField(DSL.name("PURCHASE_TYPE"), SQLDataType.VARCHAR(255).nullable(false), this, "구매재화 타입 (캐시, 내부재화)", new EnumConverter<String, PurchaseType>(String.class, PurchaseType.class));
 
     /**
      * The column <code>nexus.PRODUCT.CURRENCY_ID</code>. 상품 타입이 CURRENCY 인 경우,
@@ -104,7 +108,7 @@ public class JProduct extends TableImpl<ProductRecord> {
     /**
      * The column <code>nexus.PRODUCT.LIMIT_TYPE</code>. 상품 구매 제한 타입
      */
-    public final TableField<ProductRecord, String> LIMIT_TYPE = createField(DSL.name("LIMIT_TYPE"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'NONE'::character varying"), SQLDataType.VARCHAR)), this, "상품 구매 제한 타입");
+    public final TableField<ProductRecord, LimitType> LIMIT_TYPE = createField(DSL.name("LIMIT_TYPE"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'NONE'::character varying"), SQLDataType.VARCHAR)), this, "상품 구매 제한 타입", new EnumConverter<String, LimitType>(String.class, LimitType.class));
 
     /**
      * The column <code>nexus.PRODUCT.AVAILABLE_START</code>. 상품 판매 시작 날짜

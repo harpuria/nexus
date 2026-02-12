@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.daos;
 
 
+import com.qwerty.nexus.domain.management.game.GameStatus;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,7 @@ import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.pojos.Game;
 import org.jooq.generated.tables.records.GameRecord;
 import org.jooq.impl.DAOImpl;
+import org.jooq.impl.EnumConverter;
 
 
 /**
@@ -164,14 +167,14 @@ public class GameDao extends DAOImpl<GameRecord, Game, Integer> {
      * Fetch records that have <code>STATUS BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<Game> fetchRangeOfJStatus(String lowerInclusive, String upperInclusive) {
+    public List<Game> fetchRangeOfJStatus(GameStatus lowerInclusive, GameStatus upperInclusive) {
         return fetchRange(JGame.GAME.STATUS, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>STATUS IN (values)</code>
      */
-    public List<Game> fetchByJStatus(String... values) {
+    public List<Game> fetchByJStatus(GameStatus... values) {
         return fetch(JGame.GAME.STATUS, values);
     }
 

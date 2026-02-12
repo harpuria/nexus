@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.daos;
 
 
+import com.qwerty.nexus.domain.game.data.coupon.TimeLimitType;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,7 @@ import org.jooq.generated.tables.JCoupon;
 import org.jooq.generated.tables.pojos.Coupon;
 import org.jooq.generated.tables.records.CouponRecord;
 import org.jooq.impl.DAOImpl;
+import org.jooq.impl.EnumConverter;
 
 
 /**
@@ -149,14 +152,14 @@ public class CouponDao extends DAOImpl<CouponRecord, Coupon, Integer> {
      * Fetch records that have <code>TIME_LIMIT_TYPE BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<Coupon> fetchRangeOfJTimeLimitType(String lowerInclusive, String upperInclusive) {
+    public List<Coupon> fetchRangeOfJTimeLimitType(TimeLimitType lowerInclusive, TimeLimitType upperInclusive) {
         return fetchRange(JCoupon.COUPON.TIME_LIMIT_TYPE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>TIME_LIMIT_TYPE IN (values)</code>
      */
-    public List<Coupon> fetchByJTimeLimitType(String... values) {
+    public List<Coupon> fetchByJTimeLimitType(TimeLimitType... values) {
         return fetch(JCoupon.COUPON.TIME_LIMIT_TYPE, values);
     }
 

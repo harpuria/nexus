@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.daos;
 
 
+import com.qwerty.nexus.domain.auth.Provider;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +15,7 @@ import org.jooq.generated.tables.JGameUser;
 import org.jooq.generated.tables.pojos.GameUser;
 import org.jooq.generated.tables.records.GameUserRecord;
 import org.jooq.impl.DAOImpl;
+import org.jooq.impl.EnumConverter;
 
 
 /**
@@ -118,14 +121,14 @@ public class GameUserDao extends DAOImpl<GameUserRecord, GameUser, Integer> {
      * Fetch records that have <code>PROVIDER BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<GameUser> fetchRangeOfJProvider(String lowerInclusive, String upperInclusive) {
+    public List<GameUser> fetchRangeOfJProvider(Provider lowerInclusive, Provider upperInclusive) {
         return fetchRange(JGameUser.GAME_USER.PROVIDER, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>PROVIDER IN (values)</code>
      */
-    public List<GameUser> fetchByJProvider(String... values) {
+    public List<GameUser> fetchByJProvider(Provider... values) {
         return fetch(JGameUser.GAME_USER.PROVIDER, values);
     }
 

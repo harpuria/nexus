@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.pojos;
 
 
+import com.qwerty.nexus.domain.management.game.GameStatus;
+
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -24,7 +26,7 @@ public class Game implements Serializable {
     private UUID signatureKey;
     private String googleClientId;
     private String googleClientSecret;
-    private String status;
+    private GameStatus status;
     private String version;
     private OffsetDateTime createdAt;
     private String createdBy;
@@ -59,7 +61,7 @@ public class Game implements Serializable {
         UUID signatureKey,
         String googleClientId,
         String googleClientSecret,
-        String status,
+        GameStatus status,
         String version,
         OffsetDateTime createdAt,
         String createdBy,
@@ -193,14 +195,14 @@ public class Game implements Serializable {
     /**
      * Getter for <code>nexus.GAME.STATUS</code>. 게임 상태 값
      */
-    public String getStatus() {
+    public GameStatus getStatus() {
         return this.status;
     }
 
     /**
      * Setter for <code>nexus.GAME.STATUS</code>. 게임 상태 값
      */
-    public Game setStatus(String status) {
+    public Game setStatus(GameStatus status) {
         this.status = status;
         return this;
     }

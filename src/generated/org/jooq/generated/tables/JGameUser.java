@@ -4,6 +4,8 @@
 package org.jooq.generated.tables;
 
 
+import com.qwerty.nexus.domain.auth.Provider;
+
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collection;
@@ -35,6 +37,7 @@ import org.jooq.generated.tables.JUserCurrency.UserCurrencyPath;
 import org.jooq.generated.tables.JUserMail.UserMailPath;
 import org.jooq.generated.tables.records.GameUserRecord;
 import org.jooq.impl.DSL;
+import org.jooq.impl.EnumConverter;
 import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
@@ -64,7 +67,7 @@ public class JGameUser extends TableImpl<GameUserRecord> {
     /**
      * The column <code>nexus.GAME_USER.USER_ID</code>. GAME_USER 테이블 기본키(PK)
      */
-    public final TableField<GameUserRecord, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"GAME_USER_USER_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME_USER 테이블 기본키(PK)");
+    public final TableField<GameUserRecord, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"GAME_USER_USER_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME_USER 테이블 기본키(PK)");
 
     /**
      * The column <code>nexus.GAME_USER.GAME_ID</code>. 해당 유저가 속한 게임 ID (FK)
@@ -86,7 +89,7 @@ public class JGameUser extends TableImpl<GameUserRecord> {
     /**
      * The column <code>nexus.GAME_USER.PROVIDER</code>. 소셜 로그인 타입
      */
-    public final TableField<GameUserRecord, String> PROVIDER = createField(DSL.name("PROVIDER"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'ETC'::character varying"), SQLDataType.VARCHAR)), this, "소셜 로그인 타입");
+    public final TableField<GameUserRecord, Provider> PROVIDER = createField(DSL.name("PROVIDER"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'ETC'::character varying"), SQLDataType.VARCHAR)), this, "소셜 로그인 타입", new EnumConverter<String, Provider>(String.class, Provider.class));
 
     /**
      * The column <code>nexus.GAME_USER.SOCIAL_ID</code>. 소셜 로그인 아이디 (소셜 로그인이 아닌

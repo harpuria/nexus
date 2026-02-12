@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.pojos;
 
 
+import com.qwerty.nexus.domain.game.data.coupon.TimeLimitType;
+
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 
@@ -24,7 +26,7 @@ public class Coupon implements Serializable {
     private String desc;
     private String code;
     private JSONB rewards;
-    private String timeLimitType;
+    private TimeLimitType timeLimitType;
     private OffsetDateTime useStartDate;
     private OffsetDateTime useEndDate;
     private Long maxIssueCount;
@@ -63,7 +65,7 @@ public class Coupon implements Serializable {
         String desc,
         String code,
         JSONB rewards,
-        String timeLimitType,
+        TimeLimitType timeLimitType,
         OffsetDateTime useStartDate,
         OffsetDateTime useEndDate,
         Long maxIssueCount,
@@ -185,14 +187,14 @@ public class Coupon implements Serializable {
     /**
      * Getter for <code>nexus.COUPON.TIME_LIMIT_TYPE</code>. 쿠폰 사용 시간 제한 여부
      */
-    public String getTimeLimitType() {
+    public TimeLimitType getTimeLimitType() {
         return this.timeLimitType;
     }
 
     /**
      * Setter for <code>nexus.COUPON.TIME_LIMIT_TYPE</code>. 쿠폰 사용 시간 제한 여부
      */
-    public Coupon setTimeLimitType(String timeLimitType) {
+    public Coupon setTimeLimitType(TimeLimitType timeLimitType) {
         this.timeLimitType = timeLimitType;
         return this;
     }

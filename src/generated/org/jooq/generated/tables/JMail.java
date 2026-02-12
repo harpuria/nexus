@@ -63,7 +63,7 @@ public class JMail extends TableImpl<MailRecord> {
     /**
      * The column <code>nexus.MAIL.MAIL_ID</code>. 우편 아이디 (PK)
      */
-    public final TableField<MailRecord, Integer> MAIL_ID = createField(DSL.name("MAIL_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"MAIL_MAIL_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "우편 아이디 (PK)");
+    public final TableField<MailRecord, Integer> MAIL_ID = createField(DSL.name("MAIL_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"MAIL_MAIL_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "우편 아이디 (PK)");
 
     /**
      * The column <code>nexus.MAIL.GAME_ID</code>. 게임 아이디 (FK)

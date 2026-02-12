@@ -91,6 +91,31 @@ jooq {
                         enumConverter = true
                         includeExpression = "ADMIN\\.ADMIN_ROLE" // 어떤 컬럼에 적용할 것인가
                     }
+					forcedType {
+						userType = "com.qwerty.nexus.domain.management.game.GameStatus"
+						enumConverter = true
+						includeExpression = "GAME\\.STATUS" // 어떤 컬럼에 적용할 것인가
+					}
+					forcedType {
+						userType = "com.qwerty.nexus.domain.auth.Provider"
+						enumConverter = true
+						includeExpression = "GAME_USER\\.PROVIDER" // 어떤 컬럼에 적용할 것인가
+					}
+					forcedType {
+						userType = "com.qwerty.nexus.domain.game.product.LimitType"
+						enumConverter = true
+						includeExpression = "PRODUCT\\.LIMIT_TYPE" // 어떤 컬럼에 적용할 것인가
+					}
+					forcedType {
+						userType = "com.qwerty.nexus.domain.game.product.PurchaseType"
+						enumConverter = true
+						includeExpression = "PRODUCT\\.PURCHASE_TYPE" // 어떤 컬럼에 적용할 것인가
+					}
+					forcedType {
+						userType = "com.qwerty.nexus.domain.game.data.coupon.TimeLimitType"
+						enumConverter = true
+						includeExpression = "COUPON\\.TIME_LIMIT_TYPE" // 어떤 컬럼에 적용할 것인가
+					}
                 }
 			}
 			generate {

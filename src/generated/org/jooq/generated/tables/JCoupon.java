@@ -4,6 +4,8 @@
 package org.jooq.generated.tables;
 
 
+import com.qwerty.nexus.domain.game.data.coupon.TimeLimitType;
+
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,6 +36,7 @@ import org.jooq.generated.tables.JCouponUseLog.CouponUseLogPath;
 import org.jooq.generated.tables.JGame.GamePath;
 import org.jooq.generated.tables.records.CouponRecord;
 import org.jooq.impl.DSL;
+import org.jooq.impl.EnumConverter;
 import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
@@ -63,7 +66,7 @@ public class JCoupon extends TableImpl<CouponRecord> {
     /**
      * The column <code>nexus.COUPON.COUPON_ID</code>. 쿠폰 아이디 (PK)
      */
-    public final TableField<CouponRecord, Integer> COUPON_ID = createField(DSL.name("COUPON_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"COUPON_COUPON_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "쿠폰 아이디 (PK)");
+    public final TableField<CouponRecord, Integer> COUPON_ID = createField(DSL.name("COUPON_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"COUPON_COUPON_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "쿠폰 아이디 (PK)");
 
     /**
      * The column <code>nexus.COUPON.GAME_ID</code>. 게임 아이디 (FK)
@@ -93,7 +96,7 @@ public class JCoupon extends TableImpl<CouponRecord> {
     /**
      * The column <code>nexus.COUPON.TIME_LIMIT_TYPE</code>. 쿠폰 사용 시간 제한 여부
      */
-    public final TableField<CouponRecord, String> TIME_LIMIT_TYPE = createField(DSL.name("TIME_LIMIT_TYPE"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'LIMITED'::character varying"), SQLDataType.VARCHAR)), this, "쿠폰 사용 시간 제한 여부");
+    public final TableField<CouponRecord, TimeLimitType> TIME_LIMIT_TYPE = createField(DSL.name("TIME_LIMIT_TYPE"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'LIMITED'::character varying"), SQLDataType.VARCHAR)), this, "쿠폰 사용 시간 제한 여부", new EnumConverter<String, TimeLimitType>(String.class, TimeLimitType.class));
 
     /**
      * The column <code>nexus.COUPON.USE_START_DATE</code>. 쿠폰 사용 시작 날짜 (LIMITED

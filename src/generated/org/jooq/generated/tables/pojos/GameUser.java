@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.pojos;
 
 
+import com.qwerty.nexus.domain.auth.Provider;
+
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 
@@ -20,7 +22,7 @@ public class GameUser implements Serializable {
     private Integer gameId;
     private String userLId;
     private String userLPw;
-    private String provider;
+    private Provider provider;
     private String socialId;
     private String nickname;
     private String device;
@@ -65,7 +67,7 @@ public class GameUser implements Serializable {
         Integer gameId,
         String userLId,
         String userLPw,
-        String provider,
+        Provider provider,
         String socialId,
         String nickname,
         String device,
@@ -169,14 +171,14 @@ public class GameUser implements Serializable {
     /**
      * Getter for <code>nexus.GAME_USER.PROVIDER</code>. 소셜 로그인 타입
      */
-    public String getProvider() {
+    public Provider getProvider() {
         return this.provider;
     }
 
     /**
      * Setter for <code>nexus.GAME_USER.PROVIDER</code>. 소셜 로그인 타입
      */
-    public GameUser setProvider(String provider) {
+    public GameUser setProvider(Provider provider) {
         this.provider = provider;
         return this;
     }
