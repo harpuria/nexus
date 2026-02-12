@@ -1,6 +1,8 @@
 package com.qwerty.nexus.domain.game.data.coupon.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.qwerty.nexus.domain.game.data.coupon.TimeLimitType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
@@ -38,6 +40,9 @@ public class CouponUpdateRequestDto {
 
     @Positive(message = "유저당 사용 가능 개수는 1 이상이어야 합니다.")
     private Integer useLimitPerUser;
+
+    @Schema(example = "LIMITED")
+    private TimeLimitType timeLimitType;
 
     @Size(max = 64, message = "updatedBy는 64자 이하여야 합니다.")
     private String updatedBy;

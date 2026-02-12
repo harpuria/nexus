@@ -3,6 +3,7 @@ package com.qwerty.nexus.domain.game.data.coupon.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.qwerty.nexus.domain.game.data.coupon.TimeLimitType;
 import com.qwerty.nexus.domain.game.data.coupon.dto.CouponRewardInfo;
 import com.qwerty.nexus.domain.game.data.coupon.dto.request.CouponCreateRequestDto;
 import com.qwerty.nexus.domain.game.data.coupon.dto.request.CouponUpdateRequestDto;
@@ -23,6 +24,7 @@ import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
+import com.qwerty.nexus.global.util.CommonUtil;
 import com.qwerty.nexus.global.util.PagingUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -44,15 +46,22 @@ public class CouponService {
     private final UserCurrencyRepository userCurrencyRepository;
     private final ObjectMapper objectMapper;
 
+    /**
+     * 쿠폰 생성
+     * @param dto
+     * @return
+     */
     @Transactional
     public Result<Void> createCoupon(CouponCreateRequestDto dto) {
-        String normalizedCode = normalizeCode(dto.getCode());
+        String normalizedCode = CommonUtil.normalizeText(dto.getCode());
         if (normalizedCode == null) {
             return Result.Failure.of("쿠폰 코드는 공백일 수 없습니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
-        if (!isValidDateRange(dto.getUseStartDate(), dto.getUseEndDate())) {
-            return Result.Failure.of("쿠폰 기간이 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
+        if(dto.getTimeLimitType().equals(TimeLimitType.LIMITED)){
+            if (!isValidDateRange(dto.getUseStartDate(), dto.getUseEndDate())) {
+                return Result.Failure.of("쿠폰 기간이 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
+            }
         }
 
         if (!isValidIssuePolicy(dto.getMaxIssueCount(), dto.getUseLimitPerUser(), 0L, 0)) {
@@ -85,6 +94,11 @@ public class CouponService {
         return Result.Failure.of("쿠폰 생성 실패", ErrorCode.INTERNAL_ERROR.getCode());
     }
 
+    /**
+     * 쿠폰 수정
+     * @param dto
+     * @return
+     */
     @Transactional
     public Result<Void> updateCoupon(CouponUpdateRequestDto dto) {
         if (dto.getCouponId() == null || dto.getCouponId() <= 0) {
@@ -98,7 +112,7 @@ public class CouponService {
         CouponEntity coupon = couponOptional.get();
 
         Integer mergedGameId = dto.getGameId() != null ? dto.getGameId() : coupon.getGameId();
-        String mergedCode = dto.getCode() != null ? normalizeCode(dto.getCode()) : coupon.getCode();
+        String mergedCode = dto.getCode() != null ? CommonUtil.normalizeText(dto.getCode()) : coupon.getCode();
         OffsetDateTime mergedStartDate = dto.getUseStartDate() != null ? dto.getUseStartDate() : coupon.getUseStartDate();
         OffsetDateTime mergedEndDate = dto.getUseEndDate() != null ? dto.getUseEndDate() : coupon.getUseEndDate();
         Long mergedMaxIssueCount = dto.getMaxIssueCount() != null ? dto.getMaxIssueCount() : coupon.getMaxIssueCount();
@@ -108,8 +122,10 @@ public class CouponService {
             return Result.Failure.of("쿠폰 코드는 공백일 수 없습니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
-        if (!isValidDateRange(mergedStartDate, mergedEndDate)) {
-            return Result.Failure.of("쿠폰 기간이 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
+        if(dto.getTimeLimitType().equals(TimeLimitType.LIMITED)){
+            if (!isValidDateRange(mergedStartDate, mergedEndDate)) {
+                return Result.Failure.of("쿠폰 기간이 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
+            }
         }
 
         if (couponRepository.existsByGameIdAndCodeAndCouponIdNot(mergedGameId, mergedCode, dto.getCouponId())) {
@@ -146,6 +162,11 @@ public class CouponService {
         return Result.Success.of(null, ApiConstants.Messages.Success.UPDATED);
     }
 
+    /**
+     * 쿠폰 삭제 (논리)
+     * @param couponId
+     * @return
+     */
     @Transactional
     public Result<Void> deleteCoupon(Integer couponId) {
         if (couponId == null || couponId <= 0) {
@@ -165,9 +186,14 @@ public class CouponService {
         return Result.Success.of(null, ApiConstants.Messages.Success.DELETED);
     }
 
+    /**
+     * 쿠폰 사용
+     * @param dto
+     * @return
+     */
     @Transactional
     public Result<Void> useCoupon(UseCouponRequestDto dto) {
-        String normalizedCode = normalizeCode(dto.getCouponCode());
+        String normalizedCode = CommonUtil.normalizeText(dto.getCouponCode());
         if (normalizedCode == null) {
             return Result.Failure.of("쿠폰 코드는 공백일 수 없습니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
@@ -277,6 +303,11 @@ public class CouponService {
         return Result.Success.of(null, "쿠폰 사용이 완료되었습니다.");
     }
 
+    /**
+     * 쿠폰 한건 가져오기
+     * @param couponId
+     * @return
+     */
     @Transactional(readOnly = true)
     public Result<CouponResponseDto> getCoupon(Integer couponId) {
         if (couponId == null || couponId <= 0) {
@@ -291,6 +322,12 @@ public class CouponService {
         return Result.Success.of(CouponResponseDto.from(coupon.get()), ApiConstants.Messages.Success.RETRIEVED);
     }
 
+    /**
+     * 쿠폰 목록 가져오기
+     * @param dto
+     * @param gameId
+     * @return
+     */
     @Transactional(readOnly = true)
     public Result<CouponListResponseDto> listCoupons(PagingRequestDto dto, Integer gameId) {
         if (gameId == null || gameId <= 0) {
@@ -329,19 +366,6 @@ public class CouponService {
 
     private boolean isValidDateRange(OffsetDateTime startDate, OffsetDateTime endDate) {
         return startDate != null && endDate != null && !endDate.isBefore(startDate);
-    }
-
-    private String normalizeCode(String code) {
-        if (code == null) {
-            return null;
-        }
-
-        String normalized = code.trim();
-        if (normalized.isEmpty()) {
-            return null;
-        }
-
-        return normalized;
     }
 
     private boolean isValidIssuePolicy(Long maxIssueCount, Integer useLimitPerUser, long usedCount, int maxUseCountPerUser) {

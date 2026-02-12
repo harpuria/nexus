@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.data.coupon.entity;
 
+import com.qwerty.nexus.domain.game.data.coupon.TimeLimitType;
 import lombok.Builder;
 import lombok.Getter;
 import org.jooq.JSONB;
@@ -15,7 +16,7 @@ public class CouponEntity {
     private String desc;
     private String code;
     private JSONB rewards;
-    private String timeLimitType;
+    private TimeLimitType timeLimitType;
     private OffsetDateTime useStartDate;
     private OffsetDateTime useEndDate;
     private Long maxIssueCount;

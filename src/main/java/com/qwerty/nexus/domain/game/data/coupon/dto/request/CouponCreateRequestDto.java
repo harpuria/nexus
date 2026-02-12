@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.data.coupon.dto.request;
 
+import com.qwerty.nexus.domain.game.data.coupon.TimeLimitType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.AssertTrue;
 import jakarta.validation.constraints.NotBlank;
@@ -41,6 +42,9 @@ public class CouponCreateRequestDto {
     @Schema(example = "[{\"currencyId\":1, \"amount\": 1000}]")
     @NotNull(message = "쿠폰 보상 정보는 필수입니다.")
     private JSONB rewards;
+
+    @Schema(example = "LIMITED")
+    private TimeLimitType timeLimitType;
 
     @NotNull(message = "쿠폰 시작일은 필수입니다.")
     private OffsetDateTime useStartDate;

@@ -28,6 +28,11 @@ import org.springframework.web.bind.annotation.*;
 public class CouponController {
     private final CouponService couponService;
 
+    /**
+     * 쿠폰 생성
+     * @param requestDto
+     * @return
+     */
     @PostMapping
     @Operation(summary = "쿠폰 생성")
     public ResponseEntity<ApiResponse<Void>> createCoupon(@Valid @RequestBody CouponCreateRequestDto requestDto) {
@@ -35,6 +40,12 @@ public class CouponController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
+    /**
+     * 쿠폰 수정
+     * @param couponId
+     * @param requestDto
+     * @return
+     */
     @PatchMapping("/{couponId}")
     @Operation(summary = "쿠폰 수정")
     public ResponseEntity<ApiResponse<Void>> updateCoupon(
@@ -46,6 +57,11 @@ public class CouponController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
+    /**
+     * 쿠폰 삭제
+     * @param couponId
+     * @return
+     */
     @DeleteMapping("/{couponId}")
     @Operation(summary = "쿠폰 삭제")
     public ResponseEntity<ApiResponse<Void>> deleteCoupon(@PathVariable("couponId") Integer couponId) {
@@ -53,6 +69,11 @@ public class CouponController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
+    /**
+     * 쿠폰 사용
+     * @param requestDto
+     * @return
+     */
     @PostMapping("/use")
     @Operation(summary = "쿠폰 사용")
     public ResponseEntity<ApiResponse<Void>> useCoupon(@Valid @RequestBody UseCouponRequestDto requestDto) {
@@ -60,6 +81,11 @@ public class CouponController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
+    /**
+     * 쿠폰 단건 조회
+     * @param couponId
+     * @return
+     */
     @GetMapping("/{couponId}")
     @Operation(summary = "쿠폰 단건 조회")
     public ResponseEntity<ApiResponse<CouponResponseDto>> getCoupon(@PathVariable("couponId") Integer couponId) {
@@ -67,6 +93,16 @@ public class CouponController {
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
+    /**
+     * 쿠폰 목록 조회
+     * @param gameId
+     * @param page
+     * @param size
+     * @param sort
+     * @param direction
+     * @param keyword
+     * @return
+     */
     @GetMapping("/list/{gameId}")
     @Operation(summary = "쿠폰 목록 조회")
     public ResponseEntity<ApiResponse<CouponListResponseDto>> listCoupons(
