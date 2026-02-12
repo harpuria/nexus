@@ -89,11 +89,22 @@ public class GameUserRepository {
      * @return
      */
     public List<Integer> findAllUserIdsByGameId(GameUserEntity entity){
+        Condition condition = DSL.noCondition();
+
+        condition = condition.and(GAME_USER.IS_DEL.isNull().or(GAME_USER.IS_DEL.eq("N")));
+        condition = condition.and(GAME_USER.GAME_ID.eq(entity.getGameId()));
+
         return dslContext.select(GAME_USER.USER_ID).from(GAME_USER)
-                .where(GAME_USER.GAME_ID.eq((entity.getGameId())))
+                .where(condition)
                 .fetch(GAME_USER.USER_ID); // 개별 컬럼을 가져올 때는 이런식으로 반환 처리
     }
 
+    /**
+     * 게임 유저 목록 가져오기
+     * @param paging
+     * @param gameId
+     * @return
+     */
     public List<GameUserEntity> findAllByGameId(PagingEntity paging, int gameId) {
         Condition condition = DSL.noCondition();
 
@@ -120,6 +131,23 @@ public class GameUserRepository {
                 .fetchInto(GameUserEntity.class);
     }
 
+    /**
+     * 한 건의 게임 유저 조회
+     * @param entity
+     */
+    public Optional<GameUserEntity> findByGameIdAndUserId(GameUserEntity entity) {
+        return Optional.ofNullable(dslContext.selectFrom(GAME_USER)
+                .where(GAME_USER.GAME_ID.eq(entity.getGameId())
+                        .and(GAME_USER.USER_ID.eq(entity.getUserId())))
+                .fetchOneInto(GameUserEntity.class));
+    }
+
+    /**
+     * 정렬 필드 설정
+     * @param sort
+     * @param direction
+     * @return
+     */
     private SortField<?> resolveSortField(String sort, String direction) {
         String sortKey = Optional.ofNullable(sort)
                 .orElse(ApiConstants.Pagination.DEFAULT_SORT_FIELD)
@@ -136,16 +164,5 @@ public class GameUserRepository {
 
         boolean isAsc = ApiConstants.Pagination.SORT_ASC.equalsIgnoreCase(direction);
         return isAsc ? sortField.asc() : sortField.desc();
-    }
-
-    /**
-     * 한 건의 게임 유저 조회
-     * @param entity
-     */
-    public Optional<GameUserEntity> findByGameIdAndUserId(GameUserEntity entity) {
-        return Optional.ofNullable(dslContext.selectFrom(GAME_USER)
-                .where(GAME_USER.GAME_ID.eq(entity.getGameId())
-                        .and(GAME_USER.USER_ID.eq(entity.getUserId())))
-                .fetchOneInto(GameUserEntity.class));
     }
 }

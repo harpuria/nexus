@@ -51,6 +51,7 @@ public class CurrencyService {
             return Result.Failure.of("재화 생성 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
+        // 재화 생성 후, 게임에 유저가 있을경우 각 유저들에게 유저재화 데이터 추가
         List<Integer> userIdList = gameUserRepository.findAllUserIdsByGameId(
                 GameUserEntity.builder().gameId(dto.getGameId()).build()
         );
