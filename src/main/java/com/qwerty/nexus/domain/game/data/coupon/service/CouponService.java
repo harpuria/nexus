@@ -51,7 +51,7 @@ public class CouponService {
             return Result.Failure.of("쿠폰 코드는 공백일 수 없습니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
-        if (!isValidDateRange(dto.getStartDate(), dto.getEndDate())) {
+        if (!isValidDateRange(dto.getUseStartDate(), dto.getUseEndDate())) {
             return Result.Failure.of("쿠폰 기간이 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
@@ -69,8 +69,8 @@ public class CouponService {
                 .desc(dto.getDesc())
                 .code(normalizedCode)
                 .rewards(dto.getRewards())
-                .startDate(dto.getStartDate())
-                .endDate(dto.getEndDate())
+                .useStartDate(dto.getUseStartDate())
+                .useEndDate(dto.getUseEndDate())
                 .maxIssueCount(dto.getMaxIssueCount())
                 .useLimitPerUser(dto.getUseLimitPerUser())
                 .createdBy(dto.getCreatedBy())
@@ -99,8 +99,8 @@ public class CouponService {
 
         Integer mergedGameId = dto.getGameId() != null ? dto.getGameId() : coupon.getGameId();
         String mergedCode = dto.getCode() != null ? normalizeCode(dto.getCode()) : coupon.getCode();
-        OffsetDateTime mergedStartDate = dto.getStartDate() != null ? dto.getStartDate() : coupon.getStartDate();
-        OffsetDateTime mergedEndDate = dto.getEndDate() != null ? dto.getEndDate() : coupon.getEndDate();
+        OffsetDateTime mergedStartDate = dto.getUseStartDate() != null ? dto.getUseStartDate() : coupon.getUseStartDate();
+        OffsetDateTime mergedEndDate = dto.getUseEndDate() != null ? dto.getUseEndDate() : coupon.getUseEndDate();
         Long mergedMaxIssueCount = dto.getMaxIssueCount() != null ? dto.getMaxIssueCount() : coupon.getMaxIssueCount();
         Integer mergedUseLimitPerUser = dto.getUseLimitPerUser() != null ? dto.getUseLimitPerUser() : coupon.getUseLimitPerUser();
 
@@ -130,8 +130,8 @@ public class CouponService {
                 .desc(dto.getDesc())
                 .code(dto.getCode() != null ? mergedCode : null)
                 .rewards(dto.getRewards())
-                .startDate(dto.getStartDate())
-                .endDate(dto.getEndDate())
+                .useStartDate(dto.getUseStartDate())
+                .useEndDate(dto.getUseEndDate())
                 .maxIssueCount(dto.getMaxIssueCount())
                 .useLimitPerUser(dto.getUseLimitPerUser())
                 .updatedBy(dto.getUpdatedBy())

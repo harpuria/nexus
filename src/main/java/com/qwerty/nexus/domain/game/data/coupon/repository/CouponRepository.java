@@ -50,8 +50,8 @@ public class CouponRepository {
         record.changed(COUPON.DESC, entity.getDesc() != null);
         record.changed(COUPON.CODE, entity.getCode() != null);
         record.changed(COUPON.REWARDS, entity.getRewards() != null);
-        record.changed(COUPON.START_DATE, entity.getStartDate() != null);
-        record.changed(COUPON.END_DATE, entity.getEndDate() != null);
+        record.changed(COUPON.USE_START_DATE, entity.getUseStartDate() != null);
+        record.changed(COUPON.USE_END_DATE, entity.getUseEndDate() != null);
         record.changed(COUPON.MAX_ISSUE_COUNT, entity.getMaxIssueCount() != null);
         record.changed(COUPON.USE_LIMIT_PER_USER, entity.getUseLimitPerUser() != null);
         record.changed(COUPON.UPDATED_BY, entity.getUpdatedBy() != null);
@@ -96,8 +96,8 @@ public class CouponRepository {
                 .where(COUPON.GAME_ID.eq(gameId))
                 .and(lower(COUPON.CODE).eq(code.toLowerCase(Locale.ROOT)))
                 .and(COUPON.IS_DEL.eq("N"))
-                .and(COUPON.START_DATE.le(DSL.currentOffsetDateTime()))
-                .and(COUPON.END_DATE.ge(DSL.currentOffsetDateTime()))
+                .and(COUPON.USE_START_DATE.le(DSL.currentOffsetDateTime()))
+                .and(COUPON.USE_END_DATE.ge(DSL.currentOffsetDateTime()))
                 .fetchOneInto(CouponEntity.class));
     }
 
@@ -223,8 +223,8 @@ public class CouponRepository {
             case "couponid", "coupon_id" -> COUPON.COUPON_ID;
             case "name" -> COUPON.NAME;
             case "code" -> COUPON.CODE;
-            case "startdate", "start_date" -> COUPON.START_DATE;
-            case "enddate", "end_date" -> COUPON.END_DATE;
+            case "usestartdate", "use_start_date" -> COUPON.USE_START_DATE;
+            case "useenddate", "use_end_date" -> COUPON.USE_END_DATE;
             case "updatedat", "updated_at" -> COUPON.UPDATED_AT;
             case "createdat", "created_at" -> COUPON.CREATED_AT;
             default -> COUPON.CREATED_AT;

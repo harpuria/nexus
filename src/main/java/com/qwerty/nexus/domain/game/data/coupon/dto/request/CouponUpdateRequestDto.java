@@ -23,15 +23,15 @@ public class CouponUpdateRequestDto {
     @Size(max = 255, message = "쿠폰 이름은 255자 이하여야 합니다.")
     private String name;
 
-    @PositiveOrZero(message = "쿠폰 상세 설명은 0 이상이어야 합니다.")
-    private Long desc;
+    @Size(max = 255, message = "쿠폰 상세설명은 255자 이하여야 합니다.")
+    private String desc;
 
     @Size(max = 255, message = "쿠폰 코드는 255자 이하여야 합니다.")
     private String code;
 
     private JSONB rewards;
-    private OffsetDateTime startDate;
-    private OffsetDateTime endDate;
+    private OffsetDateTime useStartDate;
+    private OffsetDateTime useEndDate;
 
     @PositiveOrZero(message = "쿠폰 발행량은 0 이상이어야 합니다.")
     private Long maxIssueCount;
@@ -50,9 +50,9 @@ public class CouponUpdateRequestDto {
 
     @AssertTrue(message = "쿠폰 종료일은 시작일보다 같거나 이후여야 합니다.")
     public boolean isValidDateRange() {
-        if (startDate == null || endDate == null) {
+        if (useStartDate == null || useEndDate == null) {
             return true;
         }
-        return !endDate.isBefore(startDate);
+        return !useEndDate.isBefore(useStartDate);
     }
 }

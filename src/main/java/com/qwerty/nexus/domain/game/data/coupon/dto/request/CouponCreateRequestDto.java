@@ -28,10 +28,10 @@ public class CouponCreateRequestDto {
     @Size(max = 255, message = "쿠폰 이름은 255자 이하여야 합니다.")
     private String name;
 
-    @Schema(example = "1000")
+    @Schema(example = "오픈 기념 쿠폰입니다. 많이 받아가세요")
     @NotNull(message = "쿠폰 상세 설명은 필수입니다.")
-    @PositiveOrZero(message = "쿠폰 상세 설명은 0 이상이어야 합니다.")
-    private Long desc;
+    @Size(max = 255, message = "쿠폰 상세 설명은 255자 이하여야 합니다.")
+    private String desc;
 
     @Schema(example = "WELCOME2026")
     @NotBlank(message = "쿠폰 코드는 필수입니다.")
@@ -43,10 +43,10 @@ public class CouponCreateRequestDto {
     private JSONB rewards;
 
     @NotNull(message = "쿠폰 시작일은 필수입니다.")
-    private OffsetDateTime startDate;
+    private OffsetDateTime useStartDate;
 
     @NotNull(message = "쿠폰 종료일은 필수입니다.")
-    private OffsetDateTime endDate;
+    private OffsetDateTime useEndDate;
 
     @NotNull(message = "쿠폰 발행량은 필수입니다.")
     @PositiveOrZero(message = "쿠폰 발행량은 0 이상이어야 합니다.")
@@ -66,9 +66,9 @@ public class CouponCreateRequestDto {
 
     @AssertTrue(message = "쿠폰 종료일은 시작일보다 같거나 이후여야 합니다.")
     public boolean isValidDateRange() {
-        if (startDate == null || endDate == null) {
+        if (useStartDate == null || useEndDate == null) {
             return true;
         }
-        return !endDate.isBefore(startDate);
+        return !useEndDate.isBefore(useStartDate);
     }
 }
