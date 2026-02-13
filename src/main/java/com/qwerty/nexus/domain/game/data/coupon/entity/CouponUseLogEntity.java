@@ -2,10 +2,12 @@ package com.qwerty.nexus.domain.game.data.coupon.entity;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.OffsetDateTime;
 
 @Getter
+@ToString
 @Builder
 public class CouponUseLogEntity {
     private Integer logId;

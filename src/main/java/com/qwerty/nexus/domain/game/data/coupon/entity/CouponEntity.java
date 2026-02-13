@@ -3,11 +3,13 @@ package com.qwerty.nexus.domain.game.data.coupon.entity;
 import com.qwerty.nexus.domain.game.data.coupon.TimeLimitType;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 import org.jooq.JSONB;
 
 import java.time.OffsetDateTime;
 
 @Getter
+@ToString
 @Builder
 public class CouponEntity {
     private Integer couponId;

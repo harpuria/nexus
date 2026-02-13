@@ -113,14 +113,20 @@ public class CouponController {
             @RequestParam(defaultValue = ApiConstants.Pagination.DEFAULT_SORT_DIRECTION) String direction,
             @RequestParam(required = false) String keyword
     ) {
+        Result<CouponListResponseDto> result = couponService.listCoupons(
+                buildPagingRequest(page, size, sort, direction, keyword),
+                gameId
+        );
+        return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
+    }
+
+    private PagingRequestDto buildPagingRequest(int page, int size, String sort, String direction, String keyword) {
         PagingRequestDto pagingRequestDto = new PagingRequestDto();
         pagingRequestDto.setPage(page);
         pagingRequestDto.setSize(size);
         pagingRequestDto.setSort(sort);
         pagingRequestDto.setDirection(direction);
         pagingRequestDto.setKeyword(keyword);
-
-        Result<CouponListResponseDto> result = couponService.listCoupons(pagingRequestDto, gameId);
-        return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
+        return pagingRequestDto;
     }
 }
