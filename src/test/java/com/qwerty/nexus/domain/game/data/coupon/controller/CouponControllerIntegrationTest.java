@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -44,24 +44,24 @@ class CouponControllerIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @MockBean
+    @MockitoBean
     private CouponRepository couponRepository;
 
-    @MockBean
+    @MockitoBean
     private GameUserRepository gameUserRepository;
 
-    @MockBean
+    @MockitoBean
     private CurrencyRepository currencyRepository;
 
-    @MockBean
+    @MockitoBean
     private UserCurrencyRepository userCurrencyRepository;
 
-    @MockBean
+    @MockitoBean
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
     void useCoupon_success() throws Exception {
-        given(gameUserRepository.selectOneGameUser(any()))
+        given(gameUserRepository.findByGameIdAndUserId(any()))
                 .willReturn(Optional.of(GameUserEntity.builder()
                         .gameId(1)
                         .userId(100)
@@ -117,7 +117,7 @@ class CouponControllerIntegrationTest {
 
     @Test
     void useCoupon_periodExpired() throws Exception {
-        given(gameUserRepository.selectOneGameUser(any()))
+        given(gameUserRepository.findByGameIdAndUserId(any()))
                 .willReturn(Optional.of(GameUserEntity.builder()
                         .gameId(1)
                         .userId(100)
@@ -144,7 +144,7 @@ class CouponControllerIntegrationTest {
 
     @Test
     void useCoupon_userLimitExceeded() throws Exception {
-        given(gameUserRepository.selectOneGameUser(any()))
+        given(gameUserRepository.findByGameIdAndUserId(any()))
                 .willReturn(Optional.of(GameUserEntity.builder()
                         .gameId(1)
                         .userId(100)
@@ -181,7 +181,7 @@ class CouponControllerIntegrationTest {
 
     @Test
     void useCoupon_currencyLimitExceeded() throws Exception {
-        given(gameUserRepository.selectOneGameUser(any()))
+        given(gameUserRepository.findByGameIdAndUserId(any()))
                 .willReturn(Optional.of(GameUserEntity.builder()
                         .gameId(1)
                         .userId(100)
