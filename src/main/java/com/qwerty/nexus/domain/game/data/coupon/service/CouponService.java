@@ -77,6 +77,7 @@ public class CouponService {
                 .desc(dto.getDesc())
                 .code(normalizedCode)
                 .rewards(dto.getRewards())
+                .timeLimitType(dto.getTimeLimitType())
                 .useStartDate(dto.getUseStartDate())
                 .useEndDate(dto.getUseEndDate())
                 .maxIssueCount(dto.getMaxIssueCount())
@@ -85,8 +86,8 @@ public class CouponService {
                 .updatedBy(dto.getUpdatedBy())
                 .build();
 
-        Optional<CouponEntity> createRst = Optional.ofNullable(couponRepository.insertCoupon(entity));
-        if (createRst.isPresent()) {
+        Integer createdCouponId = couponRepository.insertCoupon(entity);
+        if (createdCouponId != null) {
             return Result.Success.of(null, ApiConstants.Messages.Success.CREATED);
         }
 
@@ -144,6 +145,7 @@ public class CouponService {
                 .desc(dto.getDesc())
                 .code(dto.getCode() != null ? mergedCode : null)
                 .rewards(dto.getRewards())
+                .timeLimitType(dto.getTimeLimitType())
                 .useStartDate(dto.getUseStartDate())
                 .useEndDate(dto.getUseEndDate())
                 .maxIssueCount(dto.getMaxIssueCount())
@@ -152,8 +154,8 @@ public class CouponService {
                 .isDel(dto.getIsDel())
                 .build();
 
-        Optional<CouponEntity> updateRst = Optional.ofNullable(couponRepository.updateCoupon(entity));
-        if (updateRst.isEmpty()) {
+        int updateCount = couponRepository.updateCoupon(entity);
+        if (updateCount <= 0) {
             return Result.Failure.of("쿠폰 수정 실패", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
@@ -176,8 +178,8 @@ public class CouponService {
             return Result.Failure.of("쿠폰 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }
 
-        Optional<CouponEntity> deleteRst = Optional.ofNullable(couponRepository.deleteCoupon(couponId));
-        if (deleteRst.isEmpty()) {
+        int deleteCount = couponRepository.deleteCoupon(couponId);
+        if (deleteCount <= 0) {
             return Result.Failure.of("쿠폰 삭제 실패", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
@@ -191,7 +193,7 @@ public class CouponService {
      */
     @Transactional
     public Result<Void> useCoupon(UseCouponRequestDto dto) {
-        String normalizedCode = CommonUtil.normalizeText(dto.getCouponCode());
+        String normalizedCode = CommonUtil.normalizeText(dto.getTrimmedCouponCode());
         if (normalizedCode == null) {
             return Result.Failure.of("쿠폰 코드는 공백일 수 없습니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
@@ -297,8 +299,8 @@ public class CouponService {
                 .updatedBy(actor)
                 .build();
 
-        Optional<CouponUseLogEntity> useLogInsertRst = Optional.ofNullable(couponRepository.insertCouponUseLog(couponUseLogEntity));
-        if (useLogInsertRst.isEmpty()) {
+        Integer couponUseLogId = couponRepository.insertCouponUseLog(couponUseLogEntity);
+        if (couponUseLogId == null) {
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return Result.Failure.of("쿠폰 사용 로그 저장에 실패했습니다.", ErrorCode.INTERNAL_ERROR.getCode());
         }
@@ -372,7 +374,7 @@ public class CouponService {
     }
 
     private Result<Void> validateCouponSchedule(TimeLimitType timeLimitType, OffsetDateTime startDate, OffsetDateTime endDate) {
-        if (!TimeLimitType.LIMITED.equals(timeLimitType)) {
+        if (timeLimitType == null || !timeLimitType.isLimited()) {
             return null;
         }
 

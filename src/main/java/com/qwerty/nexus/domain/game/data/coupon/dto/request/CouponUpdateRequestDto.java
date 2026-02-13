@@ -55,9 +55,6 @@ public class CouponUpdateRequestDto {
 
     @AssertTrue(message = "쿠폰 종료일은 시작일보다 같거나 이후여야 합니다.")
     public boolean isValidDateRange() {
-        if (useStartDate == null || useEndDate == null) {
-            return true;
-        }
-        return !useEndDate.isBefore(useStartDate);
+        return useStartDate == null || useEndDate == null || !useEndDate.isBefore(useStartDate);
     }
 }

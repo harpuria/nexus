@@ -39,13 +39,11 @@ public class CouponRepository {
      * @param entity
      * @return
      */
-    public CouponEntity insertCoupon(CouponEntity entity) {
+    public Integer insertCoupon(CouponEntity entity) {
         CouponRecord record = dslContext.newRecord(COUPON, entity);
         record.store();
 
-        return CouponEntity.builder()
-                .couponId(record.getCouponId())
-                .build();
+        return record.getCouponId();
     }
 
     /**
@@ -53,13 +51,14 @@ public class CouponRepository {
      * @param entity
      * @return
      */
-    public CouponEntity updateCoupon(CouponEntity entity) {
+    public int updateCoupon(CouponEntity entity) {
         CouponRecord record = dslContext.newRecord(COUPON, entity);
         record.changed(COUPON.GAME_ID, entity.getGameId() != null);
         record.changed(COUPON.NAME, entity.getName() != null);
         record.changed(COUPON.DESC, entity.getDesc() != null);
         record.changed(COUPON.CODE, entity.getCode() != null);
         record.changed(COUPON.REWARDS, entity.getRewards() != null);
+        record.changed(COUPON.TIME_LIMIT_TYPE, entity.getTimeLimitType() != null);
         record.changed(COUPON.USE_START_DATE, entity.getUseStartDate() != null);
         record.changed(COUPON.USE_END_DATE, entity.getUseEndDate() != null);
         record.changed(COUPON.MAX_ISSUE_COUNT, entity.getMaxIssueCount() != null);
@@ -67,14 +66,7 @@ public class CouponRepository {
         record.changed(COUPON.UPDATED_BY, entity.getUpdatedBy() != null);
         record.changed(COUPON.IS_DEL, entity.getIsDel() != null);
 
-        int updatedCount = record.update();
-        if (updatedCount <= 0) {
-            return null;
-        }
-
-        return CouponEntity.builder()
-                .couponId(record.getCouponId())
-                .build();
+        return record.update();
     }
 
     /**
@@ -82,7 +74,7 @@ public class CouponRepository {
      * @param couponId
      * @return
      */
-    public CouponEntity deleteCoupon(Integer couponId) {
+    public int deleteCoupon(Integer couponId) {
         CouponEntity entity = CouponEntity.builder()
                 .couponId(couponId)
                 .isDel("Y")
@@ -90,16 +82,7 @@ public class CouponRepository {
 
         CouponRecord record = dslContext.newRecord(COUPON, entity);
         record.changed(COUPON.IS_DEL, true);
-        int updatedCount = record.update();
-
-        if (updatedCount <= 0) {
-            return null;
-        }
-
-        return CouponEntity.builder()
-                .couponId(couponId)
-                .isDel("Y")
-                .build();
+        return record.update();
     }
 
     /**
@@ -181,27 +164,15 @@ public class CouponRepository {
         return maxUseCount != null ? maxUseCount : 0;
     }
 
-    public CouponUseLogEntity insertCouponUseLog(CouponUseLogEntity entity) {
+    public Integer insertCouponUseLog(CouponUseLogEntity entity) {
         CouponUseLogRecord record = dslContext.newRecord(COUPON_USE_LOG, entity);
         record.store();
 
-        return CouponUseLogEntity.builder()
-                .logId(record.getLogId())
-                .build();
+        return record.getLogId();
     }
 
     public List<CouponEntity> findAllByGameIdAndKeyword(PagingEntity pagingEntity, Integer gameId) {
-        Condition condition = DSL.noCondition();
-        condition = condition.and(COUPON.IS_DEL.eq("N"));
-        condition = condition.and(COUPON.GAME_ID.eq(gameId));
-
-        if (StringUtils.hasText(pagingEntity.getKeyword())) {
-            String keyword = "%" + pagingEntity.getKeyword().toLowerCase() + "%";
-            condition = condition.and(
-                    lower(COUPON.NAME).like(keyword)
-                            .or(lower(COUPON.CODE).like(keyword))
-            );
-        }
+        Condition condition = buildCouponSearchCondition(pagingEntity, gameId);
 
         int size = pagingEntity.getSize() > 0 ? pagingEntity.getSize() : ApiConstants.Pagination.DEFAULT_PAGE_SIZE;
         int page = Math.max(pagingEntity.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
@@ -217,24 +188,28 @@ public class CouponRepository {
     }
 
     public long countByGameIdAndKeyword(PagingEntity pagingEntity, Integer gameId) {
-        Condition condition = DSL.noCondition();
-        condition = condition.and(COUPON.IS_DEL.eq("N"));
-        condition = condition.and(COUPON.GAME_ID.eq(gameId));
-
-        if (StringUtils.hasText(pagingEntity.getKeyword())) {
-            String keyword = "%" + pagingEntity.getKeyword().toLowerCase() + "%";
-            condition = condition.and(
-                    lower(COUPON.NAME).like(keyword)
-                            .or(lower(COUPON.CODE).like(keyword))
-            );
-        }
-
         Long totalCount = dslContext.selectCount()
                 .from(COUPON)
-                .where(condition)
+                .where(buildCouponSearchCondition(pagingEntity, gameId))
                 .fetchOne(0, Long.class);
 
         return totalCount != null ? totalCount : 0L;
+    }
+
+    private Condition buildCouponSearchCondition(PagingEntity pagingEntity, Integer gameId) {
+        Condition condition = DSL.noCondition()
+                .and(COUPON.IS_DEL.eq("N"))
+                .and(COUPON.GAME_ID.eq(gameId));
+
+        if (!StringUtils.hasText(pagingEntity.getKeyword())) {
+            return condition;
+        }
+
+        String keyword = "%" + pagingEntity.getKeyword().toLowerCase() + "%";
+        return condition.and(
+                lower(COUPON.NAME).like(keyword)
+                        .or(lower(COUPON.CODE).like(keyword))
+        );
     }
 
     private SortField<?> resolveSortField(String sort, String direction) {

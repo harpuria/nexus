@@ -7,6 +7,7 @@ import lombok.experimental.SuperBuilder;
 import org.jooq.JSONB;
 
 import java.time.OffsetDateTime;
+import java.util.Objects;
 
 @Getter
 @SuperBuilder
@@ -23,6 +24,8 @@ public class CouponResponseDto extends BaseResponseDto {
     private Integer useLimitPerUser;
 
     public static CouponResponseDto from(CouponEntity entity) {
+        Objects.requireNonNull(entity, "entity must not be null");
+
         return CouponResponseDto.builder()
                 .couponId(entity.getCouponId())
                 .gameId(entity.getGameId())

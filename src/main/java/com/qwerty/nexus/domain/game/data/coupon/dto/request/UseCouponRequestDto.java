@@ -23,4 +23,9 @@ public class UseCouponRequestDto {
     @NotBlank(message = "couponCode는 필수입니다.")
     @Size(max = 255, message = "couponCode는 255자 이하여야 합니다.")
     private String couponCode;
+
+    public String getTrimmedCouponCode() {
+        return couponCode == null ? null : couponCode.trim();
+    }
 }
+
