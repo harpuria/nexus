@@ -88,7 +88,7 @@ public class AdminController {
         dto.setAdminId(adminId);
         dto.setIsDel("Y");
 
-        Result<Void> result = service.updateAdmin(dto);
+        Result<Void> result = service.deleteAdmin(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }

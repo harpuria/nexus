@@ -17,6 +17,11 @@ public class OrganizationResponseDto extends BaseResponseDto {
                 .orgId(entity.getOrgId())
                 .orgNm(entity.getOrgNm())
                 .orgCd(entity.getOrgCd())
+                .createdAt(entity.getCreatedAt())
+                .createdBy(entity.getCreatedBy())
+                .updatedAt(entity.getUpdatedAt())
+                .updatedBy(entity.getUpdatedBy())
+                .isDel(entity.getIsDel())
                 .build();
     }
 }

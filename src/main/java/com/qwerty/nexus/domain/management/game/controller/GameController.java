@@ -57,6 +57,23 @@ public class GameController {
     }
 
     /**
+     * 게임 정보 삭제 (논리적 삭제)
+     * @param gameId 게임 아이디 (PK)
+     * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
+     */
+    @DeleteMapping("/{gameId}")
+    @Operation(summary = "게임 정보 삭제 (논리적 삭제)")
+    public ResponseEntity<ApiResponse<Void>> updateGame(@PathVariable("gameId") int gameId){
+        GameUpdateRequestDto dto = new GameUpdateRequestDto();
+        dto.setGameId(gameId);
+        dto.setIsDel("Y");
+
+        Result<Void> result = service.deleteGame(dto);
+
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
+    }
+
+    /**
      * 한 건의 게임 정보 가져오기
      * @param gameId 게임 아이디 (PK)
      * @return 한 건의 게임 정보를 담은 객체 (DTO)

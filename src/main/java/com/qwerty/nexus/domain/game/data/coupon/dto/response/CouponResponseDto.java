@@ -14,11 +14,11 @@ public class CouponResponseDto extends BaseResponseDto {
     private Integer couponId;
     private Integer gameId;
     private String name;
-    private Long desc;
+    private String desc;
     private String code;
     private JSONB rewards;
-    private OffsetDateTime startDate;
-    private OffsetDateTime endDate;
+    private OffsetDateTime useStartDate;
+    private OffsetDateTime useEndDate;
     private Long maxIssueCount;
     private Integer useLimitPerUser;
 
@@ -30,8 +30,8 @@ public class CouponResponseDto extends BaseResponseDto {
                 .desc(entity.getDesc())
                 .code(entity.getCode())
                 .rewards(entity.getRewards())
-                .startDate(entity.getStartDate())
-                .endDate(entity.getEndDate())
+                .useStartDate(entity.getUseStartDate())
+                .useEndDate(entity.getUseEndDate())
                 .maxIssueCount(entity.getMaxIssueCount())
                 .useLimitPerUser(entity.getUseLimitPerUser())
                 .createdAt(entity.getCreatedAt())

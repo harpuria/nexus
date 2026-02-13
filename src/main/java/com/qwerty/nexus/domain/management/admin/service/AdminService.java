@@ -163,22 +163,39 @@ public class AdminService {
                 .loginPw(modifiedPw)
                 .adminEmail(dto.getAdminEmail())
                 .adminRole(dto.getAdminRole())
+                .updatedBy(dto.getUpdatedBy())
+                .build();
+
+        int updateRstCnt = repository.updateAdmin(adminEntity);
+
+        if(updateRstCnt <= 0) {
+            return Result.Failure.of("회원정보 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+        }
+
+        return Result.Success.of(null, "회원정보 수정 성공.");
+    }
+
+    /**
+     * 관리자 정보 삭제 (논리적 삭제)
+     * @param dto
+     * @return
+     */
+    public Result<Void> deleteAdmin(AdminUpdateRequestDto dto) {
+        AdminEntity adminEntity = AdminEntity.builder()
+                .adminId(dto.getAdminId())
                 .isDel(dto.getIsDel())
                 .updatedBy(dto.getUpdatedBy())
                 .build();
 
         int updateRstCnt = repository.updateAdmin(adminEntity);
 
-        String type = "수정";
-        if(dto.getIsDel() != null && dto.getIsDel().equalsIgnoreCase("Y"))
-            type = "삭제";
-
         if(updateRstCnt <= 0) {
-            return Result.Failure.of(String.format("회원정보 %s 실패.", type), ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("회원정보 삭제 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(null, String.format("회원정보 %s 성공.", type));
+        return Result.Success.of(null, "회원정보 삭제 성공.");
     }
+
 
     /**
      * 하나의 관리자 정보 조회

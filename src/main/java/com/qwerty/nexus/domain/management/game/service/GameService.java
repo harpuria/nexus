@@ -64,7 +64,6 @@ public class GameService {
                 .gameId(dto.getGameId())
                 .name(dto.getName())
                 .status(dto.getStatus())
-                .isDel(dto.getIsDel())
                 .version(dto.getVersion())
                 .updatedBy(dto.getUpdatedBy())
                 .build();
@@ -77,6 +76,27 @@ public class GameService {
         else{
             return Result.Failure.of("게임 정보 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
+    }
+
+    /**
+     * 게임 정보 삭제 (논리적 삭제)
+     * @param dto
+     * @return
+     */
+    public Result<Void> deleteGame(GameUpdateRequestDto dto) {
+        GameEntity gameEntity = GameEntity.builder()
+                .gameId(dto.getGameId())
+                .isDel(dto.getIsDel())
+                .updatedBy(dto.getUpdatedBy())
+                .build();
+
+        int deleteRstCnt = repository.updateGame(gameEntity);
+
+        if(deleteRstCnt <= 0){
+            return Result.Failure.of("게임 정보 삭제 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+        }
+
+        return Result.Success.of(null, "게임 정보 삭제 성공.");
     }
 
     /**
