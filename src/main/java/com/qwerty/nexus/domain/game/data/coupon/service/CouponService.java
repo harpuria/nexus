@@ -58,10 +58,9 @@ public class CouponService {
             return Result.Failure.of("쿠폰 코드는 공백일 수 없습니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
-        if(dto.getTimeLimitType().equals(TimeLimitType.LIMITED)){
-            if (!isValidDateRange(dto.getUseStartDate(), dto.getUseEndDate())) {
-                return Result.Failure.of("쿠폰 기간이 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
-            }
+        Result<Void> scheduleValidationResult = validateCouponSchedule(dto.getTimeLimitType(), dto.getUseStartDate(), dto.getUseEndDate());
+        if (scheduleValidationResult != null) {
+            return scheduleValidationResult;
         }
 
         if (!isValidIssuePolicy(dto.getMaxIssueCount(), dto.getUseLimitPerUser(), 0L, 0)) {
@@ -122,10 +121,9 @@ public class CouponService {
             return Result.Failure.of("쿠폰 코드는 공백일 수 없습니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
-        if(dto.getTimeLimitType().equals(TimeLimitType.LIMITED)){
-            if (!isValidDateRange(mergedStartDate, mergedEndDate)) {
-                return Result.Failure.of("쿠폰 기간이 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
-            }
+        Result<Void> scheduleValidationResult = validateCouponSchedule(dto.getTimeLimitType(), mergedStartDate, mergedEndDate);
+        if (scheduleValidationResult != null) {
+            return scheduleValidationResult;
         }
 
         if (couponRepository.existsByGameIdAndCodeAndCouponIdNot(mergedGameId, mergedCode, dto.getCouponId())) {
@@ -366,6 +364,18 @@ public class CouponService {
 
     private boolean isValidDateRange(OffsetDateTime startDate, OffsetDateTime endDate) {
         return startDate != null && endDate != null && !endDate.isBefore(startDate);
+    }
+
+    private Result<Void> validateCouponSchedule(TimeLimitType timeLimitType, OffsetDateTime startDate, OffsetDateTime endDate) {
+        if (!TimeLimitType.LIMITED.equals(timeLimitType)) {
+            return null;
+        }
+
+        if (!isValidDateRange(startDate, endDate)) {
+            return Result.Failure.of("쿠폰 기간이 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
+        }
+
+        return null;
     }
 
     private boolean isValidIssuePolicy(Long maxIssueCount, Integer useLimitPerUser, long usedCount, int maxUseCountPerUser) {

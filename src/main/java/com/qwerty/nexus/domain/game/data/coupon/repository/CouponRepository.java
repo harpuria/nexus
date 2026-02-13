@@ -68,11 +68,14 @@ public class CouponRepository {
     }
 
     public CouponEntity deleteCoupon(Integer couponId) {
-        int updatedCount = dslContext.update(COUPON)
-                .set(COUPON.IS_DEL, "Y")
-                .where(COUPON.COUPON_ID.eq(couponId))
-                .and(COUPON.IS_DEL.eq("N"))
-                .execute();
+        CouponEntity entity = CouponEntity.builder()
+                .couponId(couponId)
+                .isDel("Y")
+                .build();
+
+        CouponRecord record = dslContext.newRecord(COUPON, entity);
+        record.changed(COUPON.IS_DEL, true);
+        int updatedCount = record.update();
 
         if (updatedCount <= 0) {
             return null;
@@ -183,7 +186,7 @@ public class CouponRepository {
         int size = pagingEntity.getSize() > 0 ? pagingEntity.getSize() : ApiConstants.Pagination.DEFAULT_PAGE_SIZE;
         int page = Math.max(pagingEntity.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
         int offset = page * size;
-        SortField<?> sortField = buildSortField(pagingEntity.getSort(), pagingEntity.getDirection());
+        SortField<?> sortField = resolveSortField(pagingEntity.getSort(), pagingEntity.getDirection());
 
         return dslContext.selectFrom(COUPON)
                 .where(condition)
@@ -214,7 +217,7 @@ public class CouponRepository {
         return totalCount != null ? totalCount : 0L;
     }
 
-    private SortField<?> buildSortField(String sort, String direction) {
+    private SortField<?> resolveSortField(String sort, String direction) {
         String sortKey = Optional.ofNullable(sort)
                 .orElse(ApiConstants.Pagination.DEFAULT_SORT_FIELD)
                 .toLowerCase(Locale.ROOT);
