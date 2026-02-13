@@ -146,6 +146,27 @@ public class GameUserService {
     }
 
     /**
+     * 게임 유저 삭제 (논리적 삭제)
+     * @param dto
+     * @return
+     */
+    public Result<Void> deleteGameUser(GameUserUpdateRequestDto dto) {
+        GameUserEntity entity = GameUserEntity.builder()
+                .userId(dto.getUserId())
+                .isDel(dto.getIsDel())
+                .updatedBy(dto.getUpdatedBy())
+                .build();
+
+        int updatedRowCount = repository.updateGameUser(entity);
+
+        if(updatedRowCount > 0){
+            return Result.Success.of(null, "유저 삭제 성공.");
+        }else{
+            return Result.Failure.of("유저 삭제 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+        }
+    }
+
+    /**
      * 게임 유저 목록 조회
      * @param pagingRequestDto
      * @return

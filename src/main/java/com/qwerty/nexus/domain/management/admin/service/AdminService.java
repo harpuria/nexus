@@ -168,11 +168,11 @@ public class AdminService {
 
         int updateRstCnt = repository.updateAdmin(adminEntity);
 
-        if(updateRstCnt <= 0) {
+        if(updateRstCnt > 0) {
+            return Result.Success.of(null, "회원정보 수정 성공.");
+        }else{
             return Result.Failure.of("회원정보 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
-
-        return Result.Success.of(null, "회원정보 수정 성공.");
     }
 
     /**
@@ -189,11 +189,11 @@ public class AdminService {
 
         int updateRstCnt = repository.updateAdmin(adminEntity);
 
-        if(updateRstCnt <= 0) {
+        if(updateRstCnt > 0) {
+            return Result.Success.of(null, "회원정보 삭제 성공.");
+        }else{
             return Result.Failure.of("회원정보 삭제 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
-
-        return Result.Success.of(null, "회원정보 삭제 성공.");
     }
 
 

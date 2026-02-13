@@ -57,7 +57,7 @@ public class CurrencyController {
     }
 
     /**
-     * 재화 정보 삭제
+     * 재화 정보 삭제 (논리적 삭제)
      * @param currencyId 삭제할 재화의 아이디 (PK)
      * @return
      */
@@ -68,7 +68,7 @@ public class CurrencyController {
         dto.setCurrencyId(currencyId);
         dto.setIsDel("Y");
 
-        Result<Void> result = service.updateCurrency(dto);
+        Result<Void> result = service.deleteCurrency(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }

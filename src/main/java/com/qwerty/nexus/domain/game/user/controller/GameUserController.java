@@ -90,12 +90,29 @@ public class GameUserController {
      */
     @PatchMapping("/withdrawal/{userId}")
     @Operation(summary = "유저 탈퇴 처리")
-    public ResponseEntity<ApiResponse<Void>>  withdrawalGameUser(@PathVariable("userId") int userId, @RequestBody GameUserWithdrawalRequestDto dto) {
+    public ResponseEntity<ApiResponse<Void>> withdrawalGameUser(@PathVariable("userId") int userId, @RequestBody GameUserWithdrawalRequestDto dto) {
         dto.setUserId(userId);
         dto.setIsWithdrawal("Y");
         dto.setWithdrawalDate(OffsetDateTime.now());
 
         Result<Void> result = gameUserService.withdrawalGameUser(dto);
+
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
+    }
+
+    /**
+     * 유저 삭제 처리 (논리적 삭제, 삭제의 경우 부득이한 상황이 아니면 할 일은 없을듯)
+     * @param userId
+     * @return
+     */
+    @DeleteMapping("/{userId}")
+    @Operation(summary = "유저 삭제 처리")
+    public ResponseEntity<ApiResponse<Void>> deleteGameUser(@PathVariable("userId") int userId) {
+        GameUserUpdateRequestDto dto = new GameUserUpdateRequestDto();
+        dto.setUserId(userId);
+        dto.setIsDel("Y");
+
+        Result<Void> result = gameUserService.deleteGameUser(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }

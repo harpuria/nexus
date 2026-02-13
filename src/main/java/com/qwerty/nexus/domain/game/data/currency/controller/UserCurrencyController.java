@@ -56,7 +56,7 @@ public class UserCurrencyController {
     }
 
     /**
-     * 유저 재화 삭제 (논리적 삭제)
+     * 유저 재화 삭제 (논리적 삭제, 직접 삭제할일은 거의 없을듯)
      * @param userCurrencyId
      * @return
      */

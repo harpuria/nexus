@@ -53,6 +53,7 @@ public class CurrencyRepository {
         record.changed(CURRENCY.DESC, entity.getDesc() != null);
         record.changed(CURRENCY.UPDATED_BY, entity.getUpdatedBy() != null);
         record.changed(CURRENCY.MAX_AMOUNT, entity.getMaxAmount() != null);
+        record.changed(CURRENCY.DEFAULT_AMOUNT, entity.getDefaultAmount() != null);
         record.changed(CURRENCY.IS_DEL, entity.getIsDel() != null);
 
         return record.update();

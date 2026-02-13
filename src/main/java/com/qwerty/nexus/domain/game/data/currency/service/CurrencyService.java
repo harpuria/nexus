@@ -84,20 +84,37 @@ public class CurrencyService {
                 .name(dto.getName())
                 .desc(dto.getDesc())
                 .updatedBy(dto.getUpdatedBy())
-                .isDel(dto.getIsDel())
                 .maxAmount(dto.getMaxAmount())
+                .defaultAmount(dto.getDefaultAmount())
                 .build();
-
-        String type = "수정";
-        if(dto.getIsDel() != null && dto.getIsDel().equalsIgnoreCase("Y"))
-            type = "삭제";
 
         int updateRstCnt = repository.updateCurrency(entity);
         if(updateRstCnt > 0) {
-            return Result.Success.of(null, String.format("재화 %s 완료.", type));
+            return Result.Success.of(null, "재화 수정 완료.");
         }
 
-        return Result.Failure.of(String.format("재화 %s 실패.", type), ErrorCode.INTERNAL_ERROR.getCode());
+        return Result.Failure.of("재화 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+    }
+
+    /**
+     * 재화 정보 삭제 (논리적 삭제)
+     * @param dto
+     * @return
+     */
+    @Transactional
+    public Result<Void> deleteCurrency(CurrencyUpdateRequestDto dto){
+        CurrencyEntity entity = CurrencyEntity.builder()
+                .currencyId(dto.getCurrencyId())
+                .updatedBy(dto.getUpdatedBy())
+                .isDel(dto.getIsDel())
+                .build();
+
+        int updateRstCnt = repository.updateCurrency(entity);
+        if(updateRstCnt > 0) {
+            return Result.Success.of(null, "재화 삭제 완료.");
+        }
+
+        return Result.Failure.of("재화 삭제 실패.", ErrorCode.INTERNAL_ERROR.getCode());
     }
 
     /**

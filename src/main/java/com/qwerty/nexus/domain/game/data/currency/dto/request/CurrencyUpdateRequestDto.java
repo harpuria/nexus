@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.data.currency.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
@@ -20,6 +21,10 @@ public class CurrencyUpdateRequestDto {
 
     @PositiveOrZero(message = "최대 수량은 0 이상이어야 합니다.")
     private Long maxAmount;
+
+    @Schema(example = "1000000000")
+    @PositiveOrZero(message = "기본 수량은 0 이상이어야 합니다.")
+    private Long defaultAmount;
 
     @Size(max = 64, message = "updatedBy는 64자 이하여야 합니다.")
     private String updatedBy;
