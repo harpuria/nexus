@@ -34,6 +34,11 @@ public class CouponRepository {
         this.dslContext = dslContext;
     }
 
+    /**
+     * 쿠폰 생성
+     * @param entity
+     * @return
+     */
     public CouponEntity insertCoupon(CouponEntity entity) {
         CouponRecord record = dslContext.newRecord(COUPON, entity);
         record.store();
@@ -43,6 +48,11 @@ public class CouponRepository {
                 .build();
     }
 
+    /**
+     * 쿠폰 수정
+     * @param entity
+     * @return
+     */
     public CouponEntity updateCoupon(CouponEntity entity) {
         CouponRecord record = dslContext.newRecord(COUPON, entity);
         record.changed(COUPON.GAME_ID, entity.getGameId() != null);
@@ -67,6 +77,11 @@ public class CouponRepository {
                 .build();
     }
 
+    /**
+     * 쿠폰 삭제 (논리적 삭제)
+     * @param couponId
+     * @return
+     */
     public CouponEntity deleteCoupon(Integer couponId) {
         CouponEntity entity = CouponEntity.builder()
                 .couponId(couponId)
@@ -87,6 +102,11 @@ public class CouponRepository {
                 .build();
     }
 
+    /**
+     * 쿠폰아이디(PK)로 조회
+     * @param couponId
+     * @return
+     */
     public Optional<CouponEntity> findByCouponId(Integer couponId) {
         return Optional.ofNullable(dslContext.selectFrom(COUPON)
                 .where(COUPON.COUPON_ID.eq(couponId))

@@ -202,9 +202,11 @@ public class CouponService {
                         .userId(dto.getUserId())
                         .build()
         );
+
         if (gameUser.isEmpty()) {
             return Result.Failure.of("게임 유저 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }
+
         if ("Y".equalsIgnoreCase(gameUser.get().getIsDel()) || "Y".equalsIgnoreCase(gameUser.get().getIsWithdrawal())) {
             return Result.Failure.of("비활성화된 유저는 쿠폰을 사용할 수 없습니다.", ErrorCode.ACCOUNT_DISABLED.getCode());
         }
@@ -213,6 +215,7 @@ public class CouponService {
         if (couponOptional.isEmpty()) {
             return Result.Failure.of("사용 가능한 쿠폰을 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }
+
         CouponEntity coupon = couponOptional.get();
         if (coupon.getMaxIssueCount() == null || coupon.getUseLimitPerUser() == null) {
             return Result.Failure.of("쿠폰 사용 정책 정보가 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
@@ -250,10 +253,12 @@ public class CouponService {
                     .userId(dto.getUserId())
                     .currencyId(rewardInfo.getCurrencyId())
                     .build();
+
             Optional<UserCurrencyEntity> userCurrency = userCurrencyRepository.findByUserIdAndCurrencyId(userCurrencyCondition);
             if (userCurrency.isEmpty()) {
                 return Result.Failure.of("유저 재화 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
             }
+
             if ("Y".equalsIgnoreCase(userCurrency.get().getIsDel())) {
                 return Result.Failure.of("비활성화된 유저 재화 정보입니다.", ErrorCode.CONFLICT.getCode());
             }
