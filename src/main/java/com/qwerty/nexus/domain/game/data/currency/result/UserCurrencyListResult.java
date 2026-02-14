@@ -10,6 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserCurrencyListResult {
+    private Integer userCurrencyId;
     private String name;
     private Long amount;
 }

@@ -150,7 +150,7 @@ public class UserCurrencyRepository {
 
         SortField<?> sortField = resolveSortField(effectivePaging.getSort(), effectivePaging.getDirection());
 
-        return dslContext.select(CURRENCY.NAME, USER_CURRENCY.AMOUNT)
+        return dslContext.select(USER_CURRENCY.USER_CURRENCY_ID, CURRENCY.NAME, USER_CURRENCY.AMOUNT)
                 .from(USER_CURRENCY)
                 .innerJoin(CURRENCY)
                 .on(USER_CURRENCY.CURRENCY_ID.eq(CURRENCY.CURRENCY_ID))

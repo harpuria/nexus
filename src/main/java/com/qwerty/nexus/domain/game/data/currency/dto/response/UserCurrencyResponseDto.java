@@ -27,6 +27,7 @@ public class UserCurrencyResponseDto extends BaseResponseDto {
 
     public static UserCurrencyResponseDto from(UserCurrencyListResult result){
         return UserCurrencyResponseDto.builder()
+                .userCurrencyId(result.getUserCurrencyId())
                 .amount(result.getAmount())
                 .name(result.getName())
                 .build();
