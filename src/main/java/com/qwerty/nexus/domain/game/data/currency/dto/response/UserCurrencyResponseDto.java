@@ -21,7 +21,6 @@ public class UserCurrencyResponseDto extends BaseResponseDto {
                 .currencyId(entity.getCurrencyId())
                 .userId(entity.getUserId())
                 .amount(entity.getAmount())
-                .name(entity.getName())
                 .build();
     }
 

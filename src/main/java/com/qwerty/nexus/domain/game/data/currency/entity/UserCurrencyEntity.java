@@ -17,5 +17,4 @@ public class UserCurrencyEntity {
     private OffsetDateTime updatedAt;
     private String updatedBy;
     private String isDel;
-    private String name;
 }

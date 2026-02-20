@@ -11,6 +11,7 @@ import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
 import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
+import com.qwerty.nexus.global.util.CommonUtil;
 import com.qwerty.nexus.global.util.PagingUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -149,5 +150,16 @@ public class GameService {
                 .build();
 
         return Result.Success.of(response, "게임 목록 조회 완료.");
+    }
+
+    public boolean getCountClientId(String clientId){
+        String normalizedClientId = CommonUtil.normalizeText(clientId);
+
+        int countRst = repository.findByGameClientId(normalizedClientId);
+        if(countRst <= 0){
+            return false;
+        }
+
+        return true;
     }
 }

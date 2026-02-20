@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Log4j2
 @Repository
@@ -146,5 +147,14 @@ public class GameRepository {
 
         boolean isAsc = "ASC".equalsIgnoreCase(direction);
         return isAsc ? sortField.asc() : sortField.desc();
+    }
+
+    public int findByGameClientId(String clientId) {
+       /* return dslContext.selectCount().from(GAME)
+                .where(GAME.IS_DEL.eq("N"))
+                .and(GAME.CLIENT_APP_ID.eq(UUID.fromString(clientId)))
+                작업중
+        */
+        return 0;
     }
 }

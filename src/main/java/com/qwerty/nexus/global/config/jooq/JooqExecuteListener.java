@@ -14,7 +14,7 @@ import java.time.ZoneOffset;
 @Log4j2
 public class JooqExecuteListener implements ExecuteListener {
     @Override
-    public void executeStart(ExecuteContext ctx) {
+    public void renderStart(ExecuteContext ctx) {
         Query query = ctx.query();
         if(query == null) return;
 
@@ -22,12 +22,12 @@ public class JooqExecuteListener implements ExecuteListener {
             log.info("===== INSERT START (DSL) =====");
             log.info(insertQuery.getParams().toString());
 
-            insertQuery.addValue(DSL.field("CREATED_AT"), OffsetDateTime.now(ZoneOffset.UTC));
-            insertQuery.addValue(DSL.field("UPDATED_AT"), OffsetDateTime.now(ZoneOffset.UTC));
+            insertQuery.addValue(DSL.field(DSL.name("CREATED_AT")), OffsetDateTime.now(ZoneOffset.UTC));
+            insertQuery.addValue(DSL.field(DSL.name("UPDATED_AT")), OffsetDateTime.now(ZoneOffset.UTC));
         }
         else if(query instanceof UpdateQuery<?> updateQuery){
             log.info("===== UPDATE START (DSL) =====");
-            updateQuery.addValue(DSL.field("UPDATED_AT"), OffsetDateTime.now(ZoneOffset.UTC));
+            updateQuery.addValue(DSL.field(DSL.name("UPDATED_AT")), OffsetDateTime.now(ZoneOffset.UTC));
         }
     }
 }
