@@ -30,6 +30,7 @@ public class GameClientInterceptor implements HandlerInterceptor {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write("{\"success\":false,\"message\":\"일치하지 않는 클라이언트 아이디.\"}");
+            return false;
         }
 
         return true;

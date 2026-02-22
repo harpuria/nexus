@@ -155,9 +155,14 @@ public class GameRepository {
      * @return
      */
     public Integer findByGameClientId(String clientId) {
-        return dslContext.selectCount().from(GAME)
-                .where(GAME.IS_DEL.eq("N")) // TODO : 추후에는 운영중인지 등 상태도 체크하는게 필요할듯
-                .and(GAME.CLIENT_APP_ID.eq(UUID.fromString(clientId)))
-                .fetchOne(0, Integer.class);
+        try{
+            return dslContext.selectCount().from(GAME)
+                    .where(GAME.IS_DEL.eq("N")) // TODO : 추후에는 운영중인지 등 상태도 체크하는게 필요할듯
+                    .and(GAME.CLIENT_APP_ID.eq(UUID.fromString(clientId)))
+                    .fetchOne(0, Integer.class);
+        }catch (Exception e){
+            // 형식에 맞지 않는 UUID 의 경우 null 반환
+            return null;
+        }
     }
 }
