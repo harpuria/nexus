@@ -152,14 +152,10 @@ public class GameService {
         return Result.Success.of(response, "게임 목록 조회 완료.");
     }
 
-    public boolean getCountClientId(String clientId){
+    public boolean checkExistsClientId(String clientId){
         String normalizedClientId = CommonUtil.normalizeText(clientId);
 
-        int countRst = repository.findByGameClientId(normalizedClientId);
-        if(countRst <= 0){
-            return false;
-        }
-
-        return true;
+        Integer countRst = repository.findByGameClientId(normalizedClientId);
+        return countRst != null && countRst > 0;
     }
 }

@@ -149,12 +149,15 @@ public class GameRepository {
         return isAsc ? sortField.asc() : sortField.desc();
     }
 
-    public int findByGameClientId(String clientId) {
-       /* return dslContext.selectCount().from(GAME)
-                .where(GAME.IS_DEL.eq("N"))
+    /**
+     * 게임클라이언트 아이디로 게임 정보 존재하는지 확인
+     * @param clientId
+     * @return
+     */
+    public Integer findByGameClientId(String clientId) {
+        return dslContext.selectCount().from(GAME)
+                .where(GAME.IS_DEL.eq("N")) // TODO : 추후에는 운영중인지 등 상태도 체크하는게 필요할듯
                 .and(GAME.CLIENT_APP_ID.eq(UUID.fromString(clientId)))
-                작업중
-        */
-        return 0;
+                .fetchOne(0, Integer.class);
     }
 }

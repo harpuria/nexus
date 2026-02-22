@@ -22,18 +22,27 @@ public class SwaggerConfig {
     @Bean
     public OpenAPI customOpenAPI() {
         // JWT 를 header 에서 사용하기 위한 설정
-        SecurityScheme securityScheme = new SecurityScheme()
+        SecurityScheme jwtSecurityScheme = new SecurityScheme()
                 .type(SecurityScheme.Type.HTTP)
                 .scheme("bearer")
                 .bearerFormat("JWT")
                 .in(SecurityScheme.In.HEADER)
                 .name("Authorization");
 
+        // 게잌 클라이언트 아이디를 header 에서 사용하기 위한 설정
+        SecurityScheme xClientIdSecurityScheme = new SecurityScheme()
+                .type(SecurityScheme.Type.APIKEY)
+                .in(SecurityScheme.In.HEADER)
+                .name("X-CLIENT-ID");
+
         SecurityRequirement securityRequirement = new SecurityRequirement()
-                .addList("bearerAuth");
+                .addList("bearerAuth")
+                .addList("X-CLIENT-ID");
 
         return new OpenAPI()
-                .components(new Components().addSecuritySchemes("bearerAuth", securityScheme))
+                .components(new Components()
+                        .addSecuritySchemes("bearerAuth", jwtSecurityScheme)
+                        .addSecuritySchemes("X-CLIENT-ID", xClientIdSecurityScheme))
                 .addSecurityItem(securityRequirement)
                 .info(new Info()
                         .title("Nexus API")
