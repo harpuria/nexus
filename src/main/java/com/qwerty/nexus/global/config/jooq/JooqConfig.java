@@ -18,10 +18,10 @@ public class JooqConfig {
              *  [jOOQ 설정 목록 - 새로운 설정이 추가되면 주석에도 기재할 것]
              *  1. DELETE 할 때 WHERE 문 없으면 실행하지 않음.
              *  2. UPDATE 할 때 WHERE 문 없으면 실행하지 않음.
-             *  3. JooqRecordListener 등록
+             *  3. JooqRecordListener 등록 (주석처리)
              *  4. JooqExecuteListener 등록
              */
-            c.set(new JooqRecordListener());
+            //c.set(new JooqRecordListener());
             c.set(new JooqExecuteListener());
             c.settings()
                 .withExecuteDeleteWithoutWhere(ExecuteWithoutWhere.THROW)
