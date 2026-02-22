@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CouponRewardInfo {
+public class CouponRewardsInfo {
     private int currencyId;
     private Long amount;
 }

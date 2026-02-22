@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RewardsInfo {
+public class ProductRewardsInfo {
     private Long amount;
     private Long currencyId;
 }

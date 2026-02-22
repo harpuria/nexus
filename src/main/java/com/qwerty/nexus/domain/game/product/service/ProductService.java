@@ -8,7 +8,6 @@ import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.repository.CurrencyRepository;
 import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
 import com.qwerty.nexus.domain.game.product.PurchaseType;
-import com.qwerty.nexus.domain.game.product.RewardsMapper;
 import com.qwerty.nexus.domain.game.product.dto.ProductInfo;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductBuyRequestDto;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductCreateRequestDto;

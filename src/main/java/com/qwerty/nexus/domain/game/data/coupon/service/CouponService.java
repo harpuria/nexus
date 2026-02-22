@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qwerty.nexus.domain.game.data.coupon.TimeLimitType;
-import com.qwerty.nexus.domain.game.data.coupon.dto.CouponRewardInfo;
+import com.qwerty.nexus.domain.game.data.coupon.dto.CouponRewardsInfo;
 import com.qwerty.nexus.domain.game.data.coupon.dto.request.CouponCreateRequestDto;
 import com.qwerty.nexus.domain.game.data.coupon.dto.request.CouponUpdateRequestDto;
 import com.qwerty.nexus.domain.game.data.coupon.dto.request.UseCouponRequestDto;
@@ -233,12 +233,12 @@ public class CouponService {
             return Result.Failure.of("쿠폰 사용 가능 횟수를 초과했습니다.", ErrorCode.CONFLICT.getCode());
         }
 
-        List<CouponRewardInfo> rewardInfos = parseRewardList(coupon);
+        List<CouponRewardsInfo> rewardInfos = parseRewardList(coupon);
         if (rewardInfos == null || rewardInfos.isEmpty()) {
             return Result.Failure.of("쿠폰 보상 정보가 올바르지 않습니다.", ErrorCode.INVALID_FORMAT.getCode());
         }
 
-        for (CouponRewardInfo rewardInfo : rewardInfos) {
+        for (CouponRewardsInfo rewardInfo : rewardInfos) {
             if (rewardInfo.getCurrencyId() <= 0 || rewardInfo.getAmount() == null || rewardInfo.getAmount() <= 0) {
                 return Result.Failure.of("쿠폰 보상 정보가 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
             }
@@ -273,7 +273,7 @@ public class CouponService {
             }
         }
 
-        for (CouponRewardInfo rewardInfo : rewardInfos) {
+        for (CouponRewardsInfo rewardInfo : rewardInfos) {
             UserCurrencyEntity updateCondition = UserCurrencyEntity.builder()
                     .userId(dto.getUserId())
                     .currencyId(rewardInfo.getCurrencyId())
@@ -405,7 +405,7 @@ public class CouponService {
         return maxUseCountPerUser <= useLimitPerUser;
     }
 
-    private List<CouponRewardInfo> parseRewardList(CouponEntity couponEntity) {
+    private List<CouponRewardsInfo> parseRewardList(CouponEntity couponEntity) {
         if (couponEntity.getRewards() == null || couponEntity.getRewards().data() == null) {
             return null;
         }

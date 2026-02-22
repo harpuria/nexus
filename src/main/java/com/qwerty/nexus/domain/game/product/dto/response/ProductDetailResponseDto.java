@@ -2,13 +2,12 @@ package com.qwerty.nexus.domain.game.product.dto.response;
 
 import com.qwerty.nexus.domain.game.product.LimitType;
 import com.qwerty.nexus.domain.game.product.PurchaseType;
-import com.qwerty.nexus.domain.game.product.RewardsMapper;
-import com.qwerty.nexus.domain.game.product.dto.RewardsInfo;
+import com.qwerty.nexus.domain.game.product.ProductRewardsMapper;
+import com.qwerty.nexus.domain.game.product.dto.ProductRewardsInfo;
 import com.qwerty.nexus.domain.game.product.entity.ProductEntity;
 import com.qwerty.nexus.global.paging.dto.BaseResponseDto;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.jooq.JSONB;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -24,7 +23,7 @@ public class ProductDetailResponseDto extends BaseResponseDto {
     private String name;
     private String desc;
     private BigDecimal price;
-    private List<RewardsInfo> rewards;
+    private List<ProductRewardsInfo> rewards;
     private LimitType limitType;
     private OffsetDateTime availableStart;
     private OffsetDateTime availableEnd;
@@ -38,7 +37,7 @@ public class ProductDetailResponseDto extends BaseResponseDto {
                 .name(entity.getName())
                 .desc(entity.getDesc())
                 .price(entity.getPrice())
-                .rewards(RewardsMapper.toDto(entity.getRewards()))
+                .rewards(ProductRewardsMapper.toDto(entity.getRewards()))
                 .limitType(entity.getLimitType())
                 .availableStart(entity.getAvailableStart())
                 .availableEnd(entity.getAvailableEnd())

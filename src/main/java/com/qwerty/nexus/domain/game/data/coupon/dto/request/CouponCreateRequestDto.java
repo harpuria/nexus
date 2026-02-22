@@ -46,10 +46,7 @@ public class CouponCreateRequestDto {
     @Schema(example = "LIMITED")
     private TimeLimitType timeLimitType;
 
-    @NotNull(message = "쿠폰 시작일은 필수입니다.")
     private OffsetDateTime useStartDate;
-
-    @NotNull(message = "쿠폰 종료일은 필수입니다.")
     private OffsetDateTime useEndDate;
 
     @NotNull(message = "쿠폰 발행량은 필수입니다.")
