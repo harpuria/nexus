@@ -1,12 +1,11 @@
 package com.qwerty.nexus.domain.game.data.coupon.dto.response;
 
-import com.qwerty.nexus.domain.game.data.coupon.CouponRewardsMapper;
 import com.qwerty.nexus.domain.game.data.coupon.dto.CouponRewardsInfo;
 import com.qwerty.nexus.domain.game.data.coupon.entity.CouponEntity;
 import com.qwerty.nexus.global.paging.dto.BaseResponseDto;
+import com.qwerty.nexus.global.util.CommonUtil;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import org.jooq.JSONB;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -35,7 +34,7 @@ public class CouponResponseDto extends BaseResponseDto {
                 .name(entity.getName())
                 .desc(entity.getDesc())
                 .code(entity.getCode())
-                .rewards(CouponRewardsMapper.toDto(entity.getRewards()))
+                .rewards(CommonUtil.jsonbToDto(entity.getRewards(), CouponRewardsInfo.class))
                 .useStartDate(entity.getUseStartDate())
                 .useEndDate(entity.getUseEndDate())
                 .maxIssueCount(entity.getMaxIssueCount())
