@@ -4,6 +4,9 @@
 package org.jooq.generated.tables.pojos;
 
 
+import com.qwerty.nexus.domain.game.data.mail.MailRecipientsType;
+import com.qwerty.nexus.domain.game.data.mail.MailSendType;
+
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 
@@ -23,8 +26,9 @@ public class Mail implements Serializable {
     private String title;
     private String content;
     private JSONB rewards;
-    private String sendType;
-    private Long expireAt;
+    private MailSendType sendType;
+    private MailRecipientsType recipientsType;
+    private OffsetDateTime expireAt;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;
@@ -40,6 +44,7 @@ public class Mail implements Serializable {
         this.content = value.content;
         this.rewards = value.rewards;
         this.sendType = value.sendType;
+        this.recipientsType = value.recipientsType;
         this.expireAt = value.expireAt;
         this.createdAt = value.createdAt;
         this.createdBy = value.createdBy;
@@ -54,8 +59,9 @@ public class Mail implements Serializable {
         String title,
         String content,
         JSONB rewards,
-        String sendType,
-        Long expireAt,
+        MailSendType sendType,
+        MailRecipientsType recipientsType,
+        OffsetDateTime expireAt,
         OffsetDateTime createdAt,
         String createdBy,
         OffsetDateTime updatedAt,
@@ -68,6 +74,7 @@ public class Mail implements Serializable {
         this.content = content;
         this.rewards = rewards;
         this.sendType = sendType;
+        this.recipientsType = recipientsType;
         this.expireAt = expireAt;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
@@ -154,29 +161,44 @@ public class Mail implements Serializable {
     /**
      * Getter for <code>nexus.MAIL.SEND_TYPE</code>. 발송 타입
      */
-    public String getSendType() {
+    public MailSendType getSendType() {
         return this.sendType;
     }
 
     /**
      * Setter for <code>nexus.MAIL.SEND_TYPE</code>. 발송 타입
      */
-    public Mail setSendType(String sendType) {
+    public Mail setSendType(MailSendType sendType) {
         this.sendType = sendType;
         return this;
     }
 
     /**
-     * Getter for <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간 (보상)
+     * Getter for <code>nexus.MAIL.RECIPIENTS_TYPE</code>. 발송 대상 타입
      */
-    public Long getExpireAt() {
+    public MailRecipientsType getRecipientsType() {
+        return this.recipientsType;
+    }
+
+    /**
+     * Setter for <code>nexus.MAIL.RECIPIENTS_TYPE</code>. 발송 대상 타입
+     */
+    public Mail setRecipientsType(MailRecipientsType recipientsType) {
+        this.recipientsType = recipientsType;
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간
+     */
+    public OffsetDateTime getExpireAt() {
         return this.expireAt;
     }
 
     /**
-     * Setter for <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간 (보상)
+     * Setter for <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간
      */
-    public Mail setExpireAt(Long expireAt) {
+    public Mail setExpireAt(OffsetDateTime expireAt) {
         this.expireAt = expireAt;
         return this;
     }
@@ -301,6 +323,12 @@ public class Mail implements Serializable {
         }
         else if (!this.sendType.equals(other.sendType))
             return false;
+        if (this.recipientsType == null) {
+            if (other.recipientsType != null)
+                return false;
+        }
+        else if (!this.recipientsType.equals(other.recipientsType))
+            return false;
         if (this.expireAt == null) {
             if (other.expireAt != null)
                 return false;
@@ -350,6 +378,7 @@ public class Mail implements Serializable {
         result = prime * result + ((this.content == null) ? 0 : this.content.hashCode());
         result = prime * result + ((this.rewards == null) ? 0 : this.rewards.hashCode());
         result = prime * result + ((this.sendType == null) ? 0 : this.sendType.hashCode());
+        result = prime * result + ((this.recipientsType == null) ? 0 : this.recipientsType.hashCode());
         result = prime * result + ((this.expireAt == null) ? 0 : this.expireAt.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
@@ -369,6 +398,7 @@ public class Mail implements Serializable {
         sb.append(", ").append(content);
         sb.append(", ").append(rewards);
         sb.append(", ").append(sendType);
+        sb.append(", ").append(recipientsType);
         sb.append(", ").append(expireAt);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(createdBy);

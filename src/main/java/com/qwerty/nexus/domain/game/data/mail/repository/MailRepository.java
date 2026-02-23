@@ -43,6 +43,7 @@ public class MailRepository {
         record.changed(MAIL.CONTENT, entity.getContent() != null);
         record.changed(MAIL.REWARDS, entity.getRewards() != null);
         record.changed(MAIL.SEND_TYPE, entity.getSendType() != null);
+        record.changed(MAIL.RECIPIENTS_TYPE, entity.getRecipientsType() != null);
         record.changed(MAIL.EXPIRE_AT, entity.getExpireAt() != null);
         record.changed(MAIL.UPDATED_BY, entity.getUpdatedBy() != null);
         record.changed(MAIL.IS_DEL, entity.getIsDel() != null);

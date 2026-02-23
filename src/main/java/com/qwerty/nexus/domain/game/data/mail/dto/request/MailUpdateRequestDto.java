@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.data.mail.dto.request;
 
+import com.qwerty.nexus.domain.game.data.mail.MailRecipientsType;
 import com.qwerty.nexus.domain.game.data.mail.MailSendType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jooq.JSONB;
+
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -31,7 +34,9 @@ public class MailUpdateRequestDto {
 
     private MailSendType sendType;
 
-    private Long expireAt;
+    private MailRecipientsType recipientsType;
+
+    private OffsetDateTime expireAt;
 
     @NotBlank(message = "updatedBy는 필수입니다.")
     @Size(max = 64, message = "updatedBy는 64자 이하여야 합니다.")

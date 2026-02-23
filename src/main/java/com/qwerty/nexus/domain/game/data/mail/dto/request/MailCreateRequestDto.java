@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.data.mail.dto.request;
 
+import com.qwerty.nexus.domain.game.data.mail.MailRecipientsType;
 import com.qwerty.nexus.domain.game.data.mail.MailSendType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -10,6 +11,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.jooq.JSONB;
+
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -37,9 +40,12 @@ public class MailCreateRequestDto {
     @NotNull(message = "sendType은 필수입니다.")
     private MailSendType sendType;
 
-    @Schema(example = "1735689599")
+    @NotNull(message = "recipientsType is required")
+    private MailRecipientsType recipientsType;
+
+    @Schema(example = "2026-12-31T23:59:59Z")
     @NotNull(message = "expireAt은 필수입니다.")
-    private Long expireAt;
+    private OffsetDateTime expireAt;
 
     @NotBlank(message = "createdBy는 필수입니다.")
     @Size(max = 64, message = "createdBy는 64자 이하여야 합니다.")

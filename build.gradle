@@ -116,6 +116,16 @@ jooq {
 						enumConverter = true
 						includeExpression = "COUPON\\.TIME_LIMIT_TYPE" // 어떤 컬럼에 적용할 것인가
 					}
+					forcedType {
+						userType = "com.qwerty.nexus.domain.game.data.mail.MailRecipientsType"
+						enumConverter = true
+						includeExpression = "MAIL\\.RECIPIENTS_TYPE" // 어떤 컬럼에 적용할 것인가
+					}
+					forcedType {
+						userType = "com.qwerty.nexus.domain.game.data.mail.MailSendType"
+						enumConverter = true
+						includeExpression = "MAIL\\.SEND_TYPE" // 어떤 컬럼에 적용할 것인가
+					}
                 }
 			}
 			generate {

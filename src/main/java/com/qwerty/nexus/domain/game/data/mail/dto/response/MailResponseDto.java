@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 import org.jooq.JSONB;
 
+import java.time.OffsetDateTime;
 import java.util.Objects;
 
 @Getter
@@ -17,7 +18,8 @@ public class MailResponseDto extends BaseResponseDto {
     private String content;
     private JSONB rewards;
     private String sendType;
-    private Long expireAt;
+    private String recipientsType;
+    private OffsetDateTime expireAt;
 
     public static MailResponseDto from(MailEntity entity) {
         Objects.requireNonNull(entity, "entity must not be null");
@@ -29,6 +31,7 @@ public class MailResponseDto extends BaseResponseDto {
                 .content(entity.getContent())
                 .rewards(entity.getRewards())
                 .sendType(entity.getSendType())
+                .recipientsType(entity.getRecipientsType())
                 .expireAt(entity.getExpireAt())
                 .createdAt(entity.getCreatedAt())
                 .createdBy(entity.getCreatedBy())

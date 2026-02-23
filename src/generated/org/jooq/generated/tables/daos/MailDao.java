@@ -4,6 +4,9 @@
 package org.jooq.generated.tables.daos;
 
 
+import com.qwerty.nexus.domain.game.data.mail.MailRecipientsType;
+import com.qwerty.nexus.domain.game.data.mail.MailSendType;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +17,7 @@ import org.jooq.generated.tables.JMail;
 import org.jooq.generated.tables.pojos.Mail;
 import org.jooq.generated.tables.records.MailRecord;
 import org.jooq.impl.DAOImpl;
+import org.jooq.impl.EnumConverter;
 
 
 /**
@@ -134,29 +138,44 @@ public class MailDao extends DAOImpl<MailRecord, Mail, Integer> {
      * Fetch records that have <code>SEND_TYPE BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<Mail> fetchRangeOfJSendType(String lowerInclusive, String upperInclusive) {
+    public List<Mail> fetchRangeOfJSendType(MailSendType lowerInclusive, MailSendType upperInclusive) {
         return fetchRange(JMail.MAIL.SEND_TYPE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>SEND_TYPE IN (values)</code>
      */
-    public List<Mail> fetchByJSendType(String... values) {
+    public List<Mail> fetchByJSendType(MailSendType... values) {
         return fetch(JMail.MAIL.SEND_TYPE, values);
+    }
+
+    /**
+     * Fetch records that have <code>RECIPIENTS_TYPE BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<Mail> fetchRangeOfJRecipientsType(MailRecipientsType lowerInclusive, MailRecipientsType upperInclusive) {
+        return fetchRange(JMail.MAIL.RECIPIENTS_TYPE, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>RECIPIENTS_TYPE IN (values)</code>
+     */
+    public List<Mail> fetchByJRecipientsType(MailRecipientsType... values) {
+        return fetch(JMail.MAIL.RECIPIENTS_TYPE, values);
     }
 
     /**
      * Fetch records that have <code>EXPIRE_AT BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<Mail> fetchRangeOfJExpireAt(Long lowerInclusive, Long upperInclusive) {
+    public List<Mail> fetchRangeOfJExpireAt(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
         return fetchRange(JMail.MAIL.EXPIRE_AT, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>EXPIRE_AT IN (values)</code>
      */
-    public List<Mail> fetchByJExpireAt(Long... values) {
+    public List<Mail> fetchByJExpireAt(OffsetDateTime... values) {
         return fetch(JMail.MAIL.EXPIRE_AT, values);
     }
 

@@ -214,8 +214,8 @@ public class JUserMail extends TableImpl<UserMailRecord> {
     public List<Check<UserMailRecord>> getChecks() {
         return Arrays.asList(
             Internal.createCheck(this, DSL.name("USER_MAIL_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
-            Internal.createCheck(this, DSL.name("USER_MAIL_IS_DEL_check1"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
-            Internal.createCheck(this, DSL.name("USER_MAIL_IS_DEL_check2"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true)
+            Internal.createCheck(this, DSL.name("USER_MAIL_IS_READ_check"), "((\"IS_READ\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
+            Internal.createCheck(this, DSL.name("USER_MAIL_IS_RECEIVED_check"), "((\"IS_RECEIVED\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true)
         );
     }
 

@@ -17,7 +17,8 @@ public class MailEntity {
     private String content;
     private JSONB rewards;
     private String sendType;
-    private Long expireAt;
+    private String recipientsType;
+    private OffsetDateTime expireAt;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;

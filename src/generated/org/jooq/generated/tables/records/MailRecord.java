@@ -4,6 +4,9 @@
 package org.jooq.generated.tables.records;
 
 
+import com.qwerty.nexus.domain.game.data.mail.MailRecipientsType;
+import com.qwerty.nexus.domain.game.data.mail.MailSendType;
+
 import java.time.OffsetDateTime;
 
 import org.jooq.JSONB;
@@ -99,7 +102,7 @@ public class MailRecord extends UpdatableRecordImpl<MailRecord> {
     /**
      * Setter for <code>nexus.MAIL.SEND_TYPE</code>. 발송 타입
      */
-    public MailRecord setSendType(String value) {
+    public MailRecord setSendType(MailSendType value) {
         set(5, value);
         return this;
     }
@@ -107,30 +110,45 @@ public class MailRecord extends UpdatableRecordImpl<MailRecord> {
     /**
      * Getter for <code>nexus.MAIL.SEND_TYPE</code>. 발송 타입
      */
-    public String getSendType() {
-        return (String) get(5);
+    public MailSendType getSendType() {
+        return (MailSendType) get(5);
     }
 
     /**
-     * Setter for <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간 (보상)
+     * Setter for <code>nexus.MAIL.RECIPIENTS_TYPE</code>. 발송 대상 타입
      */
-    public MailRecord setExpireAt(Long value) {
+    public MailRecord setRecipientsType(MailRecipientsType value) {
         set(6, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간 (보상)
+     * Getter for <code>nexus.MAIL.RECIPIENTS_TYPE</code>. 발송 대상 타입
      */
-    public Long getExpireAt() {
-        return (Long) get(6);
+    public MailRecipientsType getRecipientsType() {
+        return (MailRecipientsType) get(6);
+    }
+
+    /**
+     * Setter for <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간
+     */
+    public MailRecord setExpireAt(OffsetDateTime value) {
+        set(7, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간
+     */
+    public OffsetDateTime getExpireAt() {
+        return (OffsetDateTime) get(7);
     }
 
     /**
      * Setter for <code>nexus.MAIL.CREATED_AT</code>. 데이터 생성 날짜
      */
     public MailRecord setCreatedAt(OffsetDateTime value) {
-        set(7, value);
+        set(8, value);
         return this;
     }
 
@@ -138,14 +156,14 @@ public class MailRecord extends UpdatableRecordImpl<MailRecord> {
      * Getter for <code>nexus.MAIL.CREATED_AT</code>. 데이터 생성 날짜
      */
     public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(7);
+        return (OffsetDateTime) get(8);
     }
 
     /**
      * Setter for <code>nexus.MAIL.CREATED_BY</code>. 데이터 생성자 ID
      */
     public MailRecord setCreatedBy(String value) {
-        set(8, value);
+        set(9, value);
         return this;
     }
 
@@ -153,14 +171,14 @@ public class MailRecord extends UpdatableRecordImpl<MailRecord> {
      * Getter for <code>nexus.MAIL.CREATED_BY</code>. 데이터 생성자 ID
      */
     public String getCreatedBy() {
-        return (String) get(8);
+        return (String) get(9);
     }
 
     /**
      * Setter for <code>nexus.MAIL.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public MailRecord setUpdatedAt(OffsetDateTime value) {
-        set(9, value);
+        set(10, value);
         return this;
     }
 
@@ -168,14 +186,14 @@ public class MailRecord extends UpdatableRecordImpl<MailRecord> {
      * Getter for <code>nexus.MAIL.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(9);
+        return (OffsetDateTime) get(10);
     }
 
     /**
      * Setter for <code>nexus.MAIL.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public MailRecord setUpdatedBy(String value) {
-        set(10, value);
+        set(11, value);
         return this;
     }
 
@@ -183,14 +201,14 @@ public class MailRecord extends UpdatableRecordImpl<MailRecord> {
      * Getter for <code>nexus.MAIL.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public String getUpdatedBy() {
-        return (String) get(10);
+        return (String) get(11);
     }
 
     /**
      * Setter for <code>nexus.MAIL.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public MailRecord setIsDel(String value) {
-        set(11, value);
+        set(12, value);
         return this;
     }
 
@@ -198,7 +216,7 @@ public class MailRecord extends UpdatableRecordImpl<MailRecord> {
      * Getter for <code>nexus.MAIL.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public String getIsDel() {
-        return (String) get(11);
+        return (String) get(12);
     }
 
     // -------------------------------------------------------------------------
@@ -224,7 +242,7 @@ public class MailRecord extends UpdatableRecordImpl<MailRecord> {
     /**
      * Create a detached, initialised MailRecord
      */
-    public MailRecord(Integer mailId, Integer gameId, String title, String content, JSONB rewards, String sendType, Long expireAt, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public MailRecord(Integer mailId, Integer gameId, String title, String content, JSONB rewards, MailSendType sendType, MailRecipientsType recipientsType, OffsetDateTime expireAt, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JMail.MAIL);
 
         setMailId(mailId);
@@ -233,6 +251,7 @@ public class MailRecord extends UpdatableRecordImpl<MailRecord> {
         setContent(content);
         setRewards(rewards);
         setSendType(sendType);
+        setRecipientsType(recipientsType);
         setExpireAt(expireAt);
         setCreatedAt(createdAt);
         setCreatedBy(createdBy);
@@ -255,6 +274,7 @@ public class MailRecord extends UpdatableRecordImpl<MailRecord> {
             setContent(value.getContent());
             setRewards(value.getRewards());
             setSendType(value.getSendType());
+            setRecipientsType(value.getRecipientsType());
             setExpireAt(value.getExpireAt());
             setCreatedAt(value.getCreatedAt());
             setCreatedBy(value.getCreatedBy());

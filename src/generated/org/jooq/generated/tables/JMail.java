@@ -4,6 +4,9 @@
 package org.jooq.generated.tables;
 
 
+import com.qwerty.nexus.domain.game.data.mail.MailRecipientsType;
+import com.qwerty.nexus.domain.game.data.mail.MailSendType;
+
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,6 +37,7 @@ import org.jooq.generated.tables.JGame.GamePath;
 import org.jooq.generated.tables.JUserMail.UserMailPath;
 import org.jooq.generated.tables.records.MailRecord;
 import org.jooq.impl.DSL;
+import org.jooq.impl.EnumConverter;
 import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
@@ -88,12 +92,17 @@ public class JMail extends TableImpl<MailRecord> {
     /**
      * The column <code>nexus.MAIL.SEND_TYPE</code>. 발송 타입
      */
-    public final TableField<MailRecord, String> SEND_TYPE = createField(DSL.name("SEND_TYPE"), SQLDataType.VARCHAR(255).nullable(false), this, "발송 타입");
+    public final TableField<MailRecord, MailSendType> SEND_TYPE = createField(DSL.name("SEND_TYPE"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'IMMEDIATE'::character varying"), SQLDataType.VARCHAR)), this, "발송 타입", new EnumConverter<String, MailSendType>(String.class, MailSendType.class));
 
     /**
-     * The column <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간 (보상)
+     * The column <code>nexus.MAIL.RECIPIENTS_TYPE</code>. 발송 대상 타입
      */
-    public final TableField<MailRecord, Long> EXPIRE_AT = createField(DSL.name("EXPIRE_AT"), SQLDataType.BIGINT, this, "우편 유효 기간 (보상)");
+    public final TableField<MailRecord, MailRecipientsType> RECIPIENTS_TYPE = createField(DSL.name("RECIPIENTS_TYPE"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'USER'::character varying"), SQLDataType.VARCHAR)), this, "발송 대상 타입", new EnumConverter<String, MailRecipientsType>(String.class, MailRecipientsType.class));
+
+    /**
+     * The column <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간
+     */
+    public final TableField<MailRecord, OffsetDateTime> EXPIRE_AT = createField(DSL.name("EXPIRE_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "우편 유효 기간");
 
     /**
      * The column <code>nexus.MAIL.CREATED_AT</code>. 데이터 생성 날짜
@@ -226,7 +235,8 @@ public class JMail extends TableImpl<MailRecord> {
     public List<Check<MailRecord>> getChecks() {
         return Arrays.asList(
             Internal.createCheck(this, DSL.name("MAIL_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
-            Internal.createCheck(this, DSL.name("MAIL_SEND_TYPE_check"), "(((\"SEND_TYPE\")::text = ANY ((ARRAY['SYSTEM'::character varying, 'ADMIN'::character varying, 'EVENT'::character varying])::text[])))", true)
+            Internal.createCheck(this, DSL.name("MAIL_RECIPIENTS_TYPE_check"), "(((\"RECIPIENTS_TYPE\")::text = ANY ((ARRAY['ALL'::character varying, 'USER'::character varying])::text[])))", true),
+            Internal.createCheck(this, DSL.name("MAIL_SEND_TYPE_check"), "(((\"SEND_TYPE\")::text = ANY ((ARRAY['SCHEDULED'::character varying, 'IMMEDIATE'::character varying])::text[])))", true)
         );
     }
 
