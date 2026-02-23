@@ -97,13 +97,33 @@ public class CouponRepository {
                 .fetchOneInto(CouponEntity.class));
     }
 
+    /**
+     * 게임 아이디(FK)와 쿠폰 코드로 조회
+     * @param gameId
+     * @param code
+     * @return
+     */
     public Optional<CouponEntity> findByGameIdAndCode(Integer gameId, String code) {
+        String limitType = dslContext.select(COUPON.TIME_LIMIT_TYPE)
+                                    .from(COUPON)
+                                    .where(COUPON.GAME_ID.eq(gameId))
+                                    .and(lower(COUPON.CODE).eq(code.toLowerCase(Locale.ROOT)))
+                                    .and(COUPON.IS_DEL.eq("N"))
+                                    .fetchOneInto(String.class);
+
+        Condition condition = DSL.noCondition();
+        if(limitType != null){
+            if(limitType.equals("LIMITED")){
+                condition = condition.and(COUPON.USE_START_DATE.le(DSL.currentOffsetDateTime()))
+                                    .and(COUPON.USE_END_DATE.ge(DSL.currentOffsetDateTime()));
+            }
+        }
+
         return Optional.ofNullable(dslContext.selectFrom(COUPON)
                 .where(COUPON.GAME_ID.eq(gameId))
                 .and(lower(COUPON.CODE).eq(code.toLowerCase(Locale.ROOT)))
                 .and(COUPON.IS_DEL.eq("N"))
-                .and(COUPON.USE_START_DATE.le(DSL.currentOffsetDateTime()))
-                .and(COUPON.USE_END_DATE.ge(DSL.currentOffsetDateTime()))
+                .and(condition)
                 .fetchOneInto(CouponEntity.class));
     }
 
