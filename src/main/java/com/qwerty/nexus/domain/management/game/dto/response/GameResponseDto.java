@@ -32,7 +32,9 @@ public class GameResponseDto extends BaseResponseDto {
                 .googleClientSecret(entity.getGoogleClientSecret())
                 .status(entity.getStatus())
                 .version(entity.getVersion())
+                .createdAt(entity.getCreatedAt())
                 .createdBy(entity.getCreatedBy())
+                .updatedAt(entity.getUpdatedAt())
                 .updatedBy(entity.getUpdatedBy())
                 .isDel(entity.getIsDel())
                 .build();
