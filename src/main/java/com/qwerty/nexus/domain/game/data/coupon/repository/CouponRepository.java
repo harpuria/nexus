@@ -127,6 +127,12 @@ public class CouponRepository {
                 .fetchOneInto(CouponEntity.class));
     }
 
+    /**
+     * 중복된 쿠폰 코드가 있는지 확인
+     * @param gameId
+     * @param code
+     * @return
+     */
     public boolean existsByGameIdAndCode(Integer gameId, String code) {
         Integer count = dslContext.selectCount()
                 .from(COUPON)
@@ -138,6 +144,13 @@ public class CouponRepository {
         return count != null && count > 0;
     }
 
+    /**
+     * 현재 사용중인 쿠폰코드인지 확인
+     * @param gameId
+     * @param code
+     * @param couponId
+     * @return
+     */
     public boolean existsByGameIdAndCodeAndCouponIdNot(Integer gameId, String code, Integer couponId) {
         Integer count = dslContext.selectCount()
                 .from(COUPON)
@@ -150,6 +163,11 @@ public class CouponRepository {
         return count != null && count > 0;
     }
 
+    /**
+     * 사용된 쿠폰 수량 카운트 (발행량과 사용량 체크하는 용도)
+     * @param couponId
+     * @return
+     */
     public long countByCouponId(Integer couponId) {
         Long count = dslContext.selectCount()
                 .from(COUPON_USE_LOG)
@@ -160,6 +178,12 @@ public class CouponRepository {
         return count != null ? count : 0L;
     }
 
+    /**
+     *
+     * @param couponId
+     * @param userId
+     * @return
+     */
     public long countByCouponIdAndUserId(Integer couponId, Integer userId) {
         Long count = dslContext.selectCount()
                 .from(COUPON_USE_LOG)
@@ -171,6 +195,11 @@ public class CouponRepository {
         return count != null ? count : 0L;
     }
 
+    /**
+     *
+     * @param couponId
+     * @return
+     */
     public int findMaxUseCountPerUserByCouponId(Integer couponId) {
         Integer maxUseCount = dslContext.select(DSL.count())
                 .from(COUPON_USE_LOG)
@@ -184,6 +213,11 @@ public class CouponRepository {
         return maxUseCount != null ? maxUseCount : 0;
     }
 
+    /**
+     *
+     * @param entity
+     * @return
+     */
     public Integer insertCouponUseLog(CouponUseLogEntity entity) {
         CouponUseLogRecord record = dslContext.newRecord(COUPON_USE_LOG, entity);
         record.store();
@@ -191,6 +225,12 @@ public class CouponRepository {
         return record.getLogId();
     }
 
+    /**
+     *
+     * @param pagingEntity
+     * @param gameId
+     * @return
+     */
     public List<CouponEntity> findAllByGameIdAndKeyword(PagingEntity pagingEntity, Integer gameId) {
         Condition condition = buildCouponSearchCondition(pagingEntity, gameId);
 
@@ -207,6 +247,12 @@ public class CouponRepository {
                 .fetchInto(CouponEntity.class);
     }
 
+    /**
+     *
+     * @param pagingEntity
+     * @param gameId
+     * @return
+     */
     public long countByGameIdAndKeyword(PagingEntity pagingEntity, Integer gameId) {
         Long totalCount = dslContext.selectCount()
                 .from(COUPON)
@@ -216,6 +262,12 @@ public class CouponRepository {
         return totalCount != null ? totalCount : 0L;
     }
 
+    /**
+     *
+     * @param pagingEntity
+     * @param gameId
+     * @return
+     */
     private Condition buildCouponSearchCondition(PagingEntity pagingEntity, Integer gameId) {
         Condition condition = DSL.noCondition()
                 .and(COUPON.IS_DEL.eq("N"))
@@ -232,6 +284,12 @@ public class CouponRepository {
         );
     }
 
+    /**
+     * 정렬 필드 설정
+     * @param sort
+     * @param direction
+     * @return
+     */
     private SortField<?> resolveSortField(String sort, String direction) {
         String sortKey = Optional.ofNullable(sort)
                 .orElse(ApiConstants.Pagination.DEFAULT_SORT_FIELD)
