@@ -196,7 +196,7 @@ public class CouponRepository {
     }
 
     /**
-     *
+     * 최대사용량 체크
      * @param couponId
      * @return
      */
@@ -214,7 +214,7 @@ public class CouponRepository {
     }
 
     /**
-     *
+     * 쿠폰 사용로그 추가
      * @param entity
      * @return
      */
@@ -226,7 +226,7 @@ public class CouponRepository {
     }
 
     /**
-     *
+     * 쿠폰 목록 조회
      * @param pagingEntity
      * @param gameId
      * @return
@@ -248,7 +248,7 @@ public class CouponRepository {
     }
 
     /**
-     *
+     * 쿠폰 카운트
      * @param pagingEntity
      * @param gameId
      * @return
@@ -263,7 +263,7 @@ public class CouponRepository {
     }
 
     /**
-     *
+     * 쿠폰 검색 조건 설정
      * @param pagingEntity
      * @param gameId
      * @return

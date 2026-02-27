@@ -24,6 +24,11 @@ import java.util.Optional;
 public class MailService {
     private final MailRepository mailRepository;
 
+    /**
+     * 우편 생성
+     * @param requestDto
+     * @return
+     */
     @Transactional
     public Result<Void> createMail(MailCreateRequestDto requestDto) {
         MailEntity entity = MailEntity.builder()
@@ -47,6 +52,11 @@ public class MailService {
         return Result.Success.of(null, ApiConstants.Messages.Success.CREATED);
     }
 
+    /**
+     * 우편 수정
+     * @param requestDto
+     * @return
+     */
     @Transactional
     public Result<Void> updateMail(MailUpdateRequestDto requestDto) {
         MailEntity entity = MailEntity.builder()
@@ -69,6 +79,12 @@ public class MailService {
         return Result.Failure.of("우편 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
     }
 
+    /**
+     * 우편 삭제
+     * @param mailId
+     * @param updatedBy
+     * @return
+     */
     @Transactional
     public Result<Void> deleteMail(Integer mailId, String updatedBy) {
         MailEntity entity = MailEntity.builder()
@@ -85,6 +101,11 @@ public class MailService {
         return Result.Failure.of("우편 삭제 실패.", ErrorCode.INTERNAL_ERROR.getCode());
     }
 
+    /**
+     * 우편 단건 조회
+     * @param mailId
+     * @return
+     */
     public Result<MailResponseDto> getMail(Integer mailId) {
         Optional<MailEntity> mailEntity = mailRepository.findByMailId(mailId);
         if (mailEntity.isEmpty()) {
@@ -94,6 +115,12 @@ public class MailService {
         return Result.Success.of(MailResponseDto.from(mailEntity.get()), ApiConstants.Messages.Success.RETRIEVED);
     }
 
+    /**
+     * 우편 목록 조회
+     * @param pagingRequestDto
+     * @param gameId
+     * @return
+     */
     public Result<MailListResponseDto> listMails(PagingRequestDto pagingRequestDto, Integer gameId) {
         PagingEntity pagingEntity = PagingUtil.getPagingEntity(pagingRequestDto);
         if (pagingEntity == null) {
