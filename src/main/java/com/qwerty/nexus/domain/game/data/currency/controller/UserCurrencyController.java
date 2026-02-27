@@ -7,7 +7,7 @@ import com.qwerty.nexus.domain.game.data.currency.dto.response.UserCurrencyListR
 import com.qwerty.nexus.domain.game.data.currency.dto.response.UserCurrencyResponseDto;
 import com.qwerty.nexus.domain.game.data.currency.service.UserCurrencyService;
 import com.qwerty.nexus.global.constant.ApiConstants;
-import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
+import com.qwerty.nexus.global.paging.PagingRequestDto;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.ResponseEntityUtils;
 import com.qwerty.nexus.global.response.Result;

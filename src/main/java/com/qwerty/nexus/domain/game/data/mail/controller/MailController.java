@@ -6,7 +6,7 @@ import com.qwerty.nexus.domain.game.data.mail.dto.response.MailListResponseDto;
 import com.qwerty.nexus.domain.game.data.mail.dto.response.MailResponseDto;
 import com.qwerty.nexus.domain.game.data.mail.service.MailService;
 import com.qwerty.nexus.global.constant.ApiConstants;
-import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
+import com.qwerty.nexus.global.paging.PagingRequestDto;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.ResponseEntityUtils;
 import com.qwerty.nexus.global.response.Result;

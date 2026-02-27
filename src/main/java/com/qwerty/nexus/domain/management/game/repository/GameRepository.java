@@ -1,7 +1,7 @@
 package com.qwerty.nexus.domain.management.game.repository;
 
 import com.qwerty.nexus.domain.management.game.entity.GameEntity;
-import com.qwerty.nexus.global.paging.entity.PagingEntity;
+import com.qwerty.nexus.global.paging.PagingEntity;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Condition;
 import org.jooq.Configuration;

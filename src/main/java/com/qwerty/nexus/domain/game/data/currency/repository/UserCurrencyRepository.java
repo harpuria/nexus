@@ -3,7 +3,7 @@ package com.qwerty.nexus.domain.game.data.currency.repository;
 import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.result.UserCurrencyListResult;
 import com.qwerty.nexus.global.constant.ApiConstants;
-import com.qwerty.nexus.global.paging.entity.PagingEntity;
+import com.qwerty.nexus.global.paging.PagingEntity;
 import org.jooq.Condition;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;

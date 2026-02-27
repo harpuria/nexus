@@ -7,7 +7,7 @@ import com.qwerty.nexus.domain.management.admin.service.AdminService;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminLoginResponseDto;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminResponseDto;
 import com.qwerty.nexus.global.constant.ApiConstants;
-import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
+import com.qwerty.nexus.global.paging.PagingRequestDto;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.ResponseEntityUtils;
 import com.qwerty.nexus.global.response.Result;

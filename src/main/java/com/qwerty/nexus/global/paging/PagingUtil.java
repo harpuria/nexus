@@ -1,7 +1,6 @@
-package com.qwerty.nexus.global.util;
+package com.qwerty.nexus.global.paging;
 
 import com.qwerty.nexus.global.constant.ApiConstants;
-import com.qwerty.nexus.global.paging.entity.PagingEntity;
 import lombok.extern.log4j.Log4j2;
 
 /**

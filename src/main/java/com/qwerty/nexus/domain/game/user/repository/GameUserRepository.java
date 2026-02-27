@@ -14,7 +14,7 @@ import org.jooq.SortField;
 import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
 
-import com.qwerty.nexus.global.paging.entity.PagingEntity;
+import com.qwerty.nexus.global.paging.PagingEntity;
 
 import java.util.List;
 import java.util.Locale;

@@ -11,13 +11,12 @@ import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.response.Result;
-import com.qwerty.nexus.global.util.jwt.JwtTokenGenerationData;
-import com.qwerty.nexus.global.util.jwt.JwtUtil;
+import com.qwerty.nexus.global.jwt.JwtTokenGenerationData;
+import com.qwerty.nexus.global.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Log4j2

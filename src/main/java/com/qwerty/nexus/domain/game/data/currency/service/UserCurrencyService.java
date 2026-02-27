@@ -10,10 +10,10 @@ import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyReposit
 import com.qwerty.nexus.domain.game.data.currency.result.UserCurrencyListResult;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
-import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
-import com.qwerty.nexus.global.paging.entity.PagingEntity;
+import com.qwerty.nexus.global.paging.PagingRequestDto;
+import com.qwerty.nexus.global.paging.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
-import com.qwerty.nexus.global.util.PagingUtil;
+import com.qwerty.nexus.global.paging.PagingUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

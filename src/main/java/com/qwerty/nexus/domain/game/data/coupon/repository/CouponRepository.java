@@ -3,7 +3,7 @@ package com.qwerty.nexus.domain.game.data.coupon.repository;
 import com.qwerty.nexus.domain.game.data.coupon.entity.CouponEntity;
 import com.qwerty.nexus.domain.game.data.coupon.entity.CouponUseLogEntity;
 import com.qwerty.nexus.global.constant.ApiConstants;
-import com.qwerty.nexus.global.paging.entity.PagingEntity;
+import com.qwerty.nexus.global.paging.PagingEntity;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.Condition;
 import org.jooq.DSLContext;

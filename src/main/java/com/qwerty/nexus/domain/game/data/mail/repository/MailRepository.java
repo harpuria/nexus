@@ -2,7 +2,7 @@ package com.qwerty.nexus.domain.game.data.mail.repository;
 
 import com.qwerty.nexus.domain.game.data.mail.entity.MailEntity;
 import com.qwerty.nexus.global.constant.ApiConstants;
-import com.qwerty.nexus.global.paging.entity.PagingEntity;
+import com.qwerty.nexus.global.paging.PagingEntity;
 import org.jooq.Condition;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;

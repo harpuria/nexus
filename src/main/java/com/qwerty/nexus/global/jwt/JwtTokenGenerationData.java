@@ -1,4 +1,4 @@
-package com.qwerty.nexus.global.util.jwt;
+package com.qwerty.nexus.global.jwt;
 
 import lombok.Builder;
 import lombok.Getter;

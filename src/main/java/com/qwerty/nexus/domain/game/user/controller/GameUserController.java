@@ -8,7 +8,7 @@ import com.qwerty.nexus.domain.game.user.dto.response.GameUserListResponseDto;
 import com.qwerty.nexus.domain.game.user.dto.response.GameUserResponseDto;
 import com.qwerty.nexus.domain.game.user.service.GameUserService;
 import com.qwerty.nexus.global.constant.ApiConstants;
-import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
+import com.qwerty.nexus.global.paging.PagingRequestDto;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.ResponseEntityUtils;
 import com.qwerty.nexus.global.response.Result;

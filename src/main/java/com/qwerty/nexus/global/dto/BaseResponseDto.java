@@ -1,4 +1,4 @@
-package com.qwerty.nexus.global.paging.dto;
+package com.qwerty.nexus.global.dto;
 
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;

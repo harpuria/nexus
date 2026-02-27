@@ -9,7 +9,7 @@ import com.qwerty.nexus.domain.management.admin.service.AdminTokenBlacklist;
 import com.qwerty.nexus.domain.management.organization.repository.OrganizationRepository;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.filter.JwtAuthenticationFilter;
-import com.qwerty.nexus.global.util.jwt.JwtUtil;
+import com.qwerty.nexus.global.jwt.JwtUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

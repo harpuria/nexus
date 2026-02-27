@@ -2,7 +2,7 @@ package com.qwerty.nexus.domain.management.game.dto.response;
 
 import com.qwerty.nexus.domain.management.game.GameStatus;
 import com.qwerty.nexus.domain.management.game.entity.GameEntity;
-import com.qwerty.nexus.global.paging.dto.BaseResponseDto;
+import com.qwerty.nexus.global.dto.BaseResponseDto;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 

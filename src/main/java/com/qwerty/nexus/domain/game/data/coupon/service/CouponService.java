@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qwerty.nexus.domain.game.data.coupon.TimeLimitType;
-import com.qwerty.nexus.domain.game.data.coupon.dto.CouponRewardsInfo;
 import com.qwerty.nexus.domain.game.data.coupon.dto.request.CouponCreateRequestDto;
 import com.qwerty.nexus.domain.game.data.coupon.dto.request.CouponUpdateRequestDto;
 import com.qwerty.nexus.domain.game.data.coupon.dto.request.UseCouponRequestDto;
@@ -19,13 +18,14 @@ import com.qwerty.nexus.domain.game.data.currency.repository.CurrencyRepository;
 import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
+import com.qwerty.nexus.global.dto.RewardsDto;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
-import com.qwerty.nexus.global.paging.dto.PagingRequestDto;
-import com.qwerty.nexus.global.paging.entity.PagingEntity;
+import com.qwerty.nexus.global.paging.PagingRequestDto;
+import com.qwerty.nexus.global.paging.PagingEntity;
 import com.qwerty.nexus.global.response.Result;
 import com.qwerty.nexus.global.util.CommonUtil;
-import com.qwerty.nexus.global.util.PagingUtil;
+import com.qwerty.nexus.global.paging.PagingUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -233,12 +233,12 @@ public class CouponService {
             return Result.Failure.of("쿠폰 사용 가능 횟수를 초과했습니다.", ErrorCode.CONFLICT.getCode());
         }
 
-        List<CouponRewardsInfo> rewardInfos = parseRewardList(coupon);
+        List<RewardsDto> rewardInfos = parseRewardList(coupon);
         if (rewardInfos == null || rewardInfos.isEmpty()) {
             return Result.Failure.of("쿠폰 보상 정보가 올바르지 않습니다.", ErrorCode.INVALID_FORMAT.getCode());
         }
 
-        for (CouponRewardsInfo rewardInfo : rewardInfos) {
+        for (RewardsDto rewardInfo : rewardInfos) {
             if (rewardInfo.getCurrencyId() <= 0 || rewardInfo.getAmount() == null || rewardInfo.getAmount() <= 0) {
                 return Result.Failure.of("쿠폰 보상 정보가 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
             }
@@ -273,7 +273,7 @@ public class CouponService {
             }
         }
 
-        for (CouponRewardsInfo rewardInfo : rewardInfos) {
+        for (RewardsDto rewardInfo : rewardInfos) {
             UserCurrencyEntity updateCondition = UserCurrencyEntity.builder()
                     .userId(dto.getUserId())
                     .currencyId(rewardInfo.getCurrencyId())
@@ -405,7 +405,7 @@ public class CouponService {
         return maxUseCountPerUser <= useLimitPerUser;
     }
 
-    private List<CouponRewardsInfo> parseRewardList(CouponEntity couponEntity) {
+    private List<RewardsDto> parseRewardList(CouponEntity couponEntity) {
         if (couponEntity.getRewards() == null || couponEntity.getRewards().data() == null) {
             return null;
         }

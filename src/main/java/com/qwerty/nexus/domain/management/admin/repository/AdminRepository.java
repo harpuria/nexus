@@ -1,7 +1,7 @@
 package com.qwerty.nexus.domain.management.admin.repository;
 
 import com.qwerty.nexus.domain.management.admin.entity.AdminEntity;
-import com.qwerty.nexus.global.paging.entity.PagingEntity;
+import com.qwerty.nexus.global.paging.PagingEntity;
 import lombok.extern.log4j.Log4j2;
 import org.jooq.*;
 import org.jooq.generated.tables.JAdmin;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.Optional;
 
 @Log4j2
