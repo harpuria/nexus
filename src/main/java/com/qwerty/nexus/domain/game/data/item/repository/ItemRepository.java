@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.data.item.repository;
 
+import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyEntity;
 import com.qwerty.nexus.domain.game.data.item.entity.ItemEntity;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.PagingEntity;
@@ -26,12 +27,22 @@ public class ItemRepository {
         this.dao = new ItemMasterDao(configuration);
     }
 
+    /**
+     * 아이템 정보 생성
+     * @param entity
+     * @return
+     */
     public Integer insertItem(ItemEntity entity) {
         ItemMasterRecord record = dslContext.newRecord(ITEM, entity);
         record.store();
         return record.getItemId();
     }
 
+    /**
+     * 아이템 정보 수정
+     * @param entity
+     * @return
+     */
     public int updateItem(ItemEntity entity) {
         ItemMasterRecord record = dslContext.newRecord(ITEM, entity);
         record.changed(ITEM.NAME, entity.getName() != null);
@@ -47,6 +58,11 @@ public class ItemRepository {
         return record.update();
     }
 
+    /**
+     * 아이템 아이디(PK)로 아이템 정보 찾기 (단건)
+     * @param entity
+     * @return
+     */
     public Optional<ItemEntity> findByItemId(ItemEntity entity) {
         return Optional.ofNullable(dslContext.selectFrom(ITEM)
                 .where(ITEM.ITEM_ID.eq(entity.getItemId()))
@@ -54,6 +70,12 @@ public class ItemRepository {
                 .fetchOneInto(ItemEntity.class));
     }
 
+    /**
+     * 게임 아이디(FK)로 아이템 정보 찾기 (목록)
+     * @param pagingEntity
+     * @param gameId
+     * @return
+     */
     public List<ItemEntity> findAllByGameId(PagingEntity pagingEntity, Integer gameId) {
         Condition condition = DSL.noCondition().and(ITEM.IS_DEL.eq("N"));
         if (gameId != null) {
@@ -75,6 +97,12 @@ public class ItemRepository {
                 .fetchInto(ItemEntity.class);
     }
 
+    /**
+     * 페이징 처리를 위한 아이템 카운트 가져오기
+     * @param pagingEntity
+     * @param gameId
+     * @return
+     */
     public long countByGameIdAndKeyword(PagingEntity pagingEntity, Integer gameId) {
         Condition condition = DSL.noCondition().and(ITEM.IS_DEL.eq("N"));
         if (gameId != null) {
@@ -89,6 +117,25 @@ public class ItemRepository {
         return totalCount != null ? totalCount : 0L;
     }
 
+    /**
+     * 현재 게임의 아이템 ID 전체 가져오기
+     * @param entity
+     * @return
+     */
+    public List<Integer> findAllItemIdsByGameId(ItemEntity entity){
+        return dslContext.select(ITEM.ITEM_ID)
+                .from(ITEM)
+                .where(ITEM.GAME_ID.eq(entity.getGameId()))
+                .and(ITEM.IS_DEL.eq("N"))
+                .fetchInto(Integer.class);
+    }
+
+    /**
+     * 정렬 필드 설정
+     * @param sort
+     * @param direction
+     * @return
+     */
     private SortField<?> resolveSortField(String sort, String direction) {
         String sortKey = Optional.ofNullable(sort).orElse(ApiConstants.Pagination.DEFAULT_SORT_FIELD).toLowerCase(Locale.ROOT);
         Field<?> sortField = switch (sortKey) {

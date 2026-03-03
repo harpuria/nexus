@@ -4,6 +4,10 @@ import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
 import com.qwerty.nexus.domain.game.data.currency.repository.CurrencyRepository;
 import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
+import com.qwerty.nexus.domain.game.data.item.entity.ItemEntity;
+import com.qwerty.nexus.domain.game.data.item.entity.UserItemStackEntity;
+import com.qwerty.nexus.domain.game.data.item.repository.ItemRepository;
+import com.qwerty.nexus.domain.game.data.item.repository.UserItemStackRepository;
 import com.qwerty.nexus.domain.game.user.dto.request.GameUserBlockRequestDto;
 import com.qwerty.nexus.domain.game.user.dto.request.GameUserCreateRequestDto;
 import com.qwerty.nexus.domain.game.user.dto.request.GameUserUpdateRequestDto;
@@ -34,6 +38,9 @@ public class GameUserService {
 
     private final CurrencyRepository currencyRepository;
     private final UserCurrencyRepository userCurrencyRepository;
+
+    private final ItemRepository itemRepository;
+    private final UserItemStackRepository userItemStackRepository;
 
     /**
      * 게임 유저 생성
@@ -209,7 +216,7 @@ public class GameUserService {
         // 먼저 현재 있는건 유저재화니까 이거부터 정리 해봄
         // 1) 현재 이 게임의 재화 목록을 모두 가져오기 (currencyId)
 
-        // 유저 재화
+        // 유저 재화 TODO : 곧 삭제될 예정
         List<Integer> currencyIdList = currencyRepository.findAllCurrencyIdsByGameId(CurrencyEntity.builder().gameId(gameId).build());
         if(!currencyIdList.isEmpty()){
             currencyIdList.forEach(currencyId -> {
@@ -224,7 +231,22 @@ public class GameUserService {
             });
         }
 
-        // 유저 데이터 추가될 때 마다 아래에 추가
+        // 유저 아이템
+        List<Integer> itemIdList = itemRepository.findAllItemIdsByGameId(ItemEntity.builder().gameId(gameId).build());
+        if(!itemIdList.isEmpty()){
+            itemIdList.forEach(itemId -> {
+                // 스택형 아이템 추가
+                // ** 인스턴스형은 고정된 아이템이 아니기 때문에 여기에서 추가하지 않음 **
+                UserItemStackEntity userItemStackEntity = UserItemStackEntity.builder()
+                        .itemId(itemId)
+                        .userId(userId)
+                        .createdBy(socialId)
+                        .createdBy(socialId)
+                        .build();
+
+                userItemStackRepository.insertUserItemStack(userItemStackEntity);
+            });
+        }
     }
 
     /**

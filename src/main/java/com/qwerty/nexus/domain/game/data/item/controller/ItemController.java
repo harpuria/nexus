@@ -25,6 +25,11 @@ import org.springframework.web.bind.annotation.*;
 public class ItemController {
     private final ItemService service;
 
+    /**
+     * 아이템 정보 생성
+     * @param dto
+     * @return
+     */
     @PostMapping
     @Operation(summary = "아이템 정보 생성")
     public ResponseEntity<ApiResponse<Void>> createItem(@Valid @RequestBody ItemCreateRequestDto dto) {
@@ -32,6 +37,12 @@ public class ItemController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
+    /**
+     * 아이템 정보 수정
+     * @param itemId
+     * @param dto
+     * @return
+     */
     @PatchMapping("/{itemId}")
     @Operation(summary = "아이템 정보 수정")
     public ResponseEntity<ApiResponse<Void>> updateItem(@PathVariable("itemId") int itemId, @Valid @RequestBody ItemUpdateRequestDto dto) {
@@ -40,6 +51,11 @@ public class ItemController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
+    /**
+     * 아이템 정보 삭제 (논리적 삭제)
+     * @param itemId
+     * @return
+     */
     @DeleteMapping("/{itemId}")
     @Operation(summary = "아이템 정보 삭제")
     public ResponseEntity<ApiResponse<Void>> deleteItem(@PathVariable("itemId") int itemId) {
@@ -50,6 +66,11 @@ public class ItemController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
+    /**
+     * 아이템 단건 조회
+     * @param itemId
+     * @return
+     */
     @GetMapping("/{itemId}")
     @Operation(summary = "아이템 단건 조회")
     public ResponseEntity<ApiResponse<ItemResponseDto>> getItem(@PathVariable("itemId") int itemId) {
@@ -57,6 +78,16 @@ public class ItemController {
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
+    /**
+     * 아이템 목록 조회
+     * @param gameId
+     * @param page
+     * @param size
+     * @param sort
+     * @param keyword
+     * @param direction
+     * @return
+     */
     @GetMapping("/list/{gameId}")
     @Operation(summary = "아이템 목록 조회")
     public ResponseEntity<ApiResponse<ItemListResponseDto>> listItems(

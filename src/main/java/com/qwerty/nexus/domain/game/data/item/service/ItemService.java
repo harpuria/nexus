@@ -5,7 +5,11 @@ import com.qwerty.nexus.domain.game.data.item.dto.request.ItemUpdateRequestDto;
 import com.qwerty.nexus.domain.game.data.item.dto.response.ItemListResponseDto;
 import com.qwerty.nexus.domain.game.data.item.dto.response.ItemResponseDto;
 import com.qwerty.nexus.domain.game.data.item.entity.ItemEntity;
+import com.qwerty.nexus.domain.game.data.item.entity.UserItemStackEntity;
 import com.qwerty.nexus.domain.game.data.item.repository.ItemRepository;
+import com.qwerty.nexus.domain.game.data.item.repository.UserItemStackRepository;
+import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
+import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.PagingEntity;
@@ -23,7 +27,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ItemService {
     private final ItemRepository repository;
+    private final GameUserRepository gameUserRepository;
+    private final UserItemStackRepository userItemStackRepository;
 
+    /**
+     * 아이템 정보 생성
+     * @param dto
+     * @return
+     */
     @Transactional
     public Result<Void> createItem(ItemCreateRequestDto dto) {
         ItemEntity entity = ItemEntity.builder()
@@ -46,9 +57,31 @@ public class ItemService {
             return Result.Failure.of("아이템 생성 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
+        // 재화 생성 후, 게임에 유저가 있을경우 각 유저들에게 유저재화 데이터 추가
+        List<Integer> userIdList = gameUserRepository.findAllUserIdsByGameId(
+                GameUserEntity.builder().gameId(dto.getGameId()).build()
+        );
+
+        for (Integer userId : userIdList) {
+            UserItemStackEntity userItemStackEntity = UserItemStackEntity.builder()
+                    .userId(userId)
+                    .amount(0L) // 기본 재화 수량 설정 (테이블에 설정 안했넹)
+                    .itemId(createdId)
+                    .createdBy(dto.getCreatedBy())
+                    .updatedBy(dto.getCreatedBy())
+                    .build();
+
+            userItemStackRepository.insertUserItemStack(userItemStackEntity);
+        }
+
         return Result.Success.of(null, ApiConstants.Messages.Success.CREATED);
     }
 
+    /**
+     * 아이템 정보 수정
+     * @param dto
+     * @return
+     */
     @Transactional
     public Result<Void> updateItem(ItemUpdateRequestDto dto) {
         ItemEntity entity = ItemEntity.builder()
@@ -72,6 +105,11 @@ public class ItemService {
         return Result.Failure.of("아이템 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
     }
 
+    /**
+     * 아이템 정보 삭제 (논리적 삭제)
+     * @param dto
+     * @return
+     */
     @Transactional
     public Result<Void> deleteItem(ItemUpdateRequestDto dto) {
         ItemEntity entity = ItemEntity.builder()
@@ -88,6 +126,11 @@ public class ItemService {
         return Result.Failure.of("아이템 삭제 실패.", ErrorCode.INTERNAL_ERROR.getCode());
     }
 
+    /**
+     * 아이템 단건 조회
+     * @param itemId
+     * @return
+     */
     public Result<ItemResponseDto> getItem(Integer itemId) {
         Optional<ItemEntity> item = repository.findByItemId(ItemEntity.builder().itemId(itemId).build());
         if (item.isPresent()) {
@@ -97,6 +140,12 @@ public class ItemService {
         return Result.Failure.of("아이템 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
     }
 
+    /**
+     * 아이템 목록 조회
+     * @param dto
+     * @param gameId
+     * @return
+     */
     public Result<ItemListResponseDto> listItems(PagingRequestDto dto, Integer gameId) {
         PagingEntity pagingEntity = PagingUtil.getPagingEntity(dto);
         if (pagingEntity == null) {
