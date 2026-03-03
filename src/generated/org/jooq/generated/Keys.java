@@ -13,10 +13,13 @@ import org.jooq.generated.tables.JCouponUseLog;
 import org.jooq.generated.tables.JCurrency;
 import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.JGameUser;
+import org.jooq.generated.tables.JItemMaster;
 import org.jooq.generated.tables.JMail;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JProduct;
 import org.jooq.generated.tables.JUserCurrency;
+import org.jooq.generated.tables.JUserItemInstance;
+import org.jooq.generated.tables.JUserItemStack;
 import org.jooq.generated.tables.JUserMail;
 import org.jooq.generated.tables.records.AdminRecord;
 import org.jooq.generated.tables.records.CouponRecord;
@@ -24,10 +27,13 @@ import org.jooq.generated.tables.records.CouponUseLogRecord;
 import org.jooq.generated.tables.records.CurrencyRecord;
 import org.jooq.generated.tables.records.GameRecord;
 import org.jooq.generated.tables.records.GameUserRecord;
+import org.jooq.generated.tables.records.ItemMasterRecord;
 import org.jooq.generated.tables.records.MailRecord;
 import org.jooq.generated.tables.records.OrganizationRecord;
 import org.jooq.generated.tables.records.ProductRecord;
 import org.jooq.generated.tables.records.UserCurrencyRecord;
+import org.jooq.generated.tables.records.UserItemInstanceRecord;
+import org.jooq.generated.tables.records.UserItemStackRecord;
 import org.jooq.generated.tables.records.UserMailRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
@@ -52,10 +58,13 @@ public class Keys {
     public static final UniqueKey<CurrencyRecord> CURRENCY_PKEY = Internal.createUniqueKey(JCurrency.CURRENCY, DSL.name("CURRENCY_pkey"), new TableField[] { JCurrency.CURRENCY.CURRENCY_ID }, true);
     public static final UniqueKey<GameRecord> GAME_PKEY = Internal.createUniqueKey(JGame.GAME, DSL.name("GAME_pkey"), new TableField[] { JGame.GAME.GAME_ID }, true);
     public static final UniqueKey<GameUserRecord> GAME_USER_PKEY = Internal.createUniqueKey(JGameUser.GAME_USER, DSL.name("GAME_USER_pkey"), new TableField[] { JGameUser.GAME_USER.USER_ID }, true);
+    public static final UniqueKey<ItemMasterRecord> ITEM_MASTER_PKEY = Internal.createUniqueKey(JItemMaster.ITEM_MASTER, DSL.name("ITEM_MASTER_pkey"), new TableField[] { JItemMaster.ITEM_MASTER.ITEM_ID }, true);
     public static final UniqueKey<MailRecord> MAIL_PKEY = Internal.createUniqueKey(JMail.MAIL, DSL.name("MAIL_pkey"), new TableField[] { JMail.MAIL.MAIL_ID }, true);
     public static final UniqueKey<OrganizationRecord> ORGANIZATION_PKEY = Internal.createUniqueKey(JOrganization.ORGANIZATION, DSL.name("ORGANIZATION_pkey"), new TableField[] { JOrganization.ORGANIZATION.ORG_ID }, true);
     public static final UniqueKey<ProductRecord> PRODUCT_PKEY = Internal.createUniqueKey(JProduct.PRODUCT, DSL.name("PRODUCT_pkey"), new TableField[] { JProduct.PRODUCT.PRODUCT_ID }, true);
     public static final UniqueKey<UserCurrencyRecord> USER_CURRENCY_PKEY = Internal.createUniqueKey(JUserCurrency.USER_CURRENCY, DSL.name("USER_CURRENCY_pkey"), new TableField[] { JUserCurrency.USER_CURRENCY.USER_CURRENCY_ID }, true);
+    public static final UniqueKey<UserItemInstanceRecord> USER_ITEM_INSTANCE_PKEY = Internal.createUniqueKey(JUserItemInstance.USER_ITEM_INSTANCE, DSL.name("USER_ITEM_INSTANCE_pkey"), new TableField[] { JUserItemInstance.USER_ITEM_INSTANCE.USER_ITEM_ID }, true);
+    public static final UniqueKey<UserItemStackRecord> USER_ITEM_STACK_PKEY = Internal.createUniqueKey(JUserItemStack.USER_ITEM_STACK, DSL.name("USER_ITEM_STACK_pkey"), new TableField[] { JUserItemStack.USER_ITEM_STACK.USER_ITEM_STACK_ID }, true);
     public static final UniqueKey<UserMailRecord> USER_MAIL_PKEY = Internal.createUniqueKey(JUserMail.USER_MAIL, DSL.name("USER_MAIL_pkey"), new TableField[] { JUserMail.USER_MAIL.USER_MAIL_ID }, true);
 
     // -------------------------------------------------------------------------
@@ -70,10 +79,15 @@ public class Keys {
     public static final ForeignKey<CurrencyRecord, GameRecord> CURRENCY__CURRENCY_GAME_ID_FOREIGN = Internal.createForeignKey(JCurrency.CURRENCY, DSL.name("currency_game_id_foreign"), new TableField[] { JCurrency.CURRENCY.GAME_ID }, Keys.GAME_PKEY, new TableField[] { JGame.GAME.GAME_ID }, true);
     public static final ForeignKey<GameRecord, OrganizationRecord> GAME__GAME_ORG_ID_FOREIGN = Internal.createForeignKey(JGame.GAME, DSL.name("game_org_id_foreign"), new TableField[] { JGame.GAME.ORG_ID }, Keys.ORGANIZATION_PKEY, new TableField[] { JOrganization.ORGANIZATION.ORG_ID }, true);
     public static final ForeignKey<GameUserRecord, GameRecord> GAME_USER__GAME_USER_GAME_ID_FOREIGN = Internal.createForeignKey(JGameUser.GAME_USER, DSL.name("game_user_game_id_foreign"), new TableField[] { JGameUser.GAME_USER.GAME_ID }, Keys.GAME_PKEY, new TableField[] { JGame.GAME.GAME_ID }, true);
+    public static final ForeignKey<ItemMasterRecord, GameRecord> ITEM_MASTER__ITEM_MASTER_GAME_ID_FKEY = Internal.createForeignKey(JItemMaster.ITEM_MASTER, DSL.name("ITEM_MASTER_GAME_ID_fkey"), new TableField[] { JItemMaster.ITEM_MASTER.GAME_ID }, Keys.GAME_PKEY, new TableField[] { JGame.GAME.GAME_ID }, true);
     public static final ForeignKey<MailRecord, GameRecord> MAIL__MAIL_GAME_ID_FOREIGN = Internal.createForeignKey(JMail.MAIL, DSL.name("mail_game_id_foreign"), new TableField[] { JMail.MAIL.GAME_ID }, Keys.GAME_PKEY, new TableField[] { JGame.GAME.GAME_ID }, true);
     public static final ForeignKey<ProductRecord, GameRecord> PRODUCT__PRODUCT_GAME_ID_FOREIGN = Internal.createForeignKey(JProduct.PRODUCT, DSL.name("product_game_id_foreign"), new TableField[] { JProduct.PRODUCT.GAME_ID }, Keys.GAME_PKEY, new TableField[] { JGame.GAME.GAME_ID }, true);
     public static final ForeignKey<UserCurrencyRecord, CurrencyRecord> USER_CURRENCY__USER_CURRENCY_CURRENCY_ID_FOREIGN = Internal.createForeignKey(JUserCurrency.USER_CURRENCY, DSL.name("user_currency_currency_id_foreign"), new TableField[] { JUserCurrency.USER_CURRENCY.CURRENCY_ID }, Keys.CURRENCY_PKEY, new TableField[] { JCurrency.CURRENCY.CURRENCY_ID }, true);
     public static final ForeignKey<UserCurrencyRecord, GameUserRecord> USER_CURRENCY__USER_CURRENCY_USER_ID_FOREIGN = Internal.createForeignKey(JUserCurrency.USER_CURRENCY, DSL.name("user_currency_user_id_foreign"), new TableField[] { JUserCurrency.USER_CURRENCY.USER_ID }, Keys.GAME_USER_PKEY, new TableField[] { JGameUser.GAME_USER.USER_ID }, true);
+    public static final ForeignKey<UserItemInstanceRecord, ItemMasterRecord> USER_ITEM_INSTANCE__USER_ITEM_INSTANCE_ITEM_ID_FKEY = Internal.createForeignKey(JUserItemInstance.USER_ITEM_INSTANCE, DSL.name("USER_ITEM_INSTANCE_ITEM_ID_fkey"), new TableField[] { JUserItemInstance.USER_ITEM_INSTANCE.ITEM_ID }, Keys.ITEM_MASTER_PKEY, new TableField[] { JItemMaster.ITEM_MASTER.ITEM_ID }, true);
+    public static final ForeignKey<UserItemInstanceRecord, GameUserRecord> USER_ITEM_INSTANCE__USER_ITEM_INSTANCE_USER_ID_FKEY = Internal.createForeignKey(JUserItemInstance.USER_ITEM_INSTANCE, DSL.name("USER_ITEM_INSTANCE_USER_ID_fkey"), new TableField[] { JUserItemInstance.USER_ITEM_INSTANCE.USER_ID }, Keys.GAME_USER_PKEY, new TableField[] { JGameUser.GAME_USER.USER_ID }, true);
+    public static final ForeignKey<UserItemStackRecord, ItemMasterRecord> USER_ITEM_STACK__USER_ITEM_STACK_ITEM_ID_FKEY = Internal.createForeignKey(JUserItemStack.USER_ITEM_STACK, DSL.name("USER_ITEM_STACK_ITEM_ID_fkey"), new TableField[] { JUserItemStack.USER_ITEM_STACK.ITEM_ID }, Keys.ITEM_MASTER_PKEY, new TableField[] { JItemMaster.ITEM_MASTER.ITEM_ID }, true);
+    public static final ForeignKey<UserItemStackRecord, GameUserRecord> USER_ITEM_STACK__USER_ITEM_STACK_USER_ID_FKEY = Internal.createForeignKey(JUserItemStack.USER_ITEM_STACK, DSL.name("USER_ITEM_STACK_USER_ID_fkey"), new TableField[] { JUserItemStack.USER_ITEM_STACK.USER_ID }, Keys.GAME_USER_PKEY, new TableField[] { JGameUser.GAME_USER.USER_ID }, true);
     public static final ForeignKey<UserMailRecord, MailRecord> USER_MAIL__USER_MAIL_MAIL_ID_FOREIGN = Internal.createForeignKey(JUserMail.USER_MAIL, DSL.name("user_mail_mail_id_foreign"), new TableField[] { JUserMail.USER_MAIL.MAIL_ID }, Keys.MAIL_PKEY, new TableField[] { JMail.MAIL.MAIL_ID }, true);
     public static final ForeignKey<UserMailRecord, GameUserRecord> USER_MAIL__USER_MAIL_USER_ID_FOREIGN = Internal.createForeignKey(JUserMail.USER_MAIL, DSL.name("user_mail_user_id_foreign"), new TableField[] { JUserMail.USER_MAIL.USER_ID }, Keys.GAME_USER_PKEY, new TableField[] { JGameUser.GAME_USER.USER_ID }, true);
 }

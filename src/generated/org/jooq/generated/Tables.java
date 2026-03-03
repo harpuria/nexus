@@ -10,10 +10,13 @@ import org.jooq.generated.tables.JCouponUseLog;
 import org.jooq.generated.tables.JCurrency;
 import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.JGameUser;
+import org.jooq.generated.tables.JItemMaster;
 import org.jooq.generated.tables.JMail;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JProduct;
 import org.jooq.generated.tables.JUserCurrency;
+import org.jooq.generated.tables.JUserItemInstance;
+import org.jooq.generated.tables.JUserItemStack;
 import org.jooq.generated.tables.JUserMail;
 
 
@@ -54,6 +57,11 @@ public class Tables {
     public static final JGameUser GAME_USER = JGameUser.GAME_USER;
 
     /**
+     * The table <code>nexus.ITEM_MASTER</code>.
+     */
+    public static final JItemMaster ITEM_MASTER = JItemMaster.ITEM_MASTER;
+
+    /**
      * The table <code>nexus.MAIL</code>.
      */
     public static final JMail MAIL = JMail.MAIL;
@@ -72,6 +80,16 @@ public class Tables {
      * The table <code>nexus.USER_CURRENCY</code>.
      */
     public static final JUserCurrency USER_CURRENCY = JUserCurrency.USER_CURRENCY;
+
+    /**
+     * The table <code>nexus.USER_ITEM_INSTANCE</code>.
+     */
+    public static final JUserItemInstance USER_ITEM_INSTANCE = JUserItemInstance.USER_ITEM_INSTANCE;
+
+    /**
+     * The table <code>nexus.USER_ITEM_STACK</code>.
+     */
+    public static final JUserItemStack USER_ITEM_STACK = JUserItemStack.USER_ITEM_STACK;
 
     /**
      * The table <code>nexus.USER_MAIL</code>.

@@ -34,6 +34,8 @@ import org.jooq.generated.Keys;
 import org.jooq.generated.tables.JCouponUseLog.CouponUseLogPath;
 import org.jooq.generated.tables.JGame.GamePath;
 import org.jooq.generated.tables.JUserCurrency.UserCurrencyPath;
+import org.jooq.generated.tables.JUserItemInstance.UserItemInstancePath;
+import org.jooq.generated.tables.JUserItemStack.UserItemStackPath;
 import org.jooq.generated.tables.JUserMail.UserMailPath;
 import org.jooq.generated.tables.records.GameUserRecord;
 import org.jooq.impl.DSL;
@@ -67,7 +69,7 @@ public class JGameUser extends TableImpl<GameUserRecord> {
     /**
      * The column <code>nexus.GAME_USER.USER_ID</code>. GAME_USER 테이블 기본키(PK)
      */
-    public final TableField<GameUserRecord, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"GAME_USER_USER_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME_USER 테이블 기본키(PK)");
+    public final TableField<GameUserRecord, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"GAME_USER_USER_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME_USER 테이블 기본키(PK)");
 
     /**
      * The column <code>nexus.GAME_USER.GAME_ID</code>. 해당 유저가 속한 게임 ID (FK)
@@ -275,6 +277,32 @@ public class JGameUser extends TableImpl<GameUserRecord> {
             _userCurrency = new UserCurrencyPath(this, null, Keys.USER_CURRENCY__USER_CURRENCY_USER_ID_FOREIGN.getInverseKey());
 
         return _userCurrency;
+    }
+
+    private transient UserItemInstancePath _userItemInstance;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>nexus.USER_ITEM_INSTANCE</code> table
+     */
+    public UserItemInstancePath userItemInstance() {
+        if (_userItemInstance == null)
+            _userItemInstance = new UserItemInstancePath(this, null, Keys.USER_ITEM_INSTANCE__USER_ITEM_INSTANCE_USER_ID_FKEY.getInverseKey());
+
+        return _userItemInstance;
+    }
+
+    private transient UserItemStackPath _userItemStack;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>nexus.USER_ITEM_STACK</code> table
+     */
+    public UserItemStackPath userItemStack() {
+        if (_userItemStack == null)
+            _userItemStack = new UserItemStackPath(this, null, Keys.USER_ITEM_STACK__USER_ITEM_STACK_USER_ID_FKEY.getInverseKey());
+
+        return _userItemStack;
     }
 
     private transient UserMailPath _userMail;

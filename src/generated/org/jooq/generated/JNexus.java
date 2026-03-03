@@ -16,10 +16,13 @@ import org.jooq.generated.tables.JCouponUseLog;
 import org.jooq.generated.tables.JCurrency;
 import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.JGameUser;
+import org.jooq.generated.tables.JItemMaster;
 import org.jooq.generated.tables.JMail;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JProduct;
 import org.jooq.generated.tables.JUserCurrency;
+import org.jooq.generated.tables.JUserItemInstance;
+import org.jooq.generated.tables.JUserItemStack;
 import org.jooq.generated.tables.JUserMail;
 import org.jooq.impl.SchemaImpl;
 
@@ -68,6 +71,11 @@ public class JNexus extends SchemaImpl {
     public final JGameUser GAME_USER = JGameUser.GAME_USER;
 
     /**
+     * The table <code>nexus.ITEM_MASTER</code>.
+     */
+    public final JItemMaster ITEM_MASTER = JItemMaster.ITEM_MASTER;
+
+    /**
      * The table <code>nexus.MAIL</code>.
      */
     public final JMail MAIL = JMail.MAIL;
@@ -86,6 +94,16 @@ public class JNexus extends SchemaImpl {
      * The table <code>nexus.USER_CURRENCY</code>.
      */
     public final JUserCurrency USER_CURRENCY = JUserCurrency.USER_CURRENCY;
+
+    /**
+     * The table <code>nexus.USER_ITEM_INSTANCE</code>.
+     */
+    public final JUserItemInstance USER_ITEM_INSTANCE = JUserItemInstance.USER_ITEM_INSTANCE;
+
+    /**
+     * The table <code>nexus.USER_ITEM_STACK</code>.
+     */
+    public final JUserItemStack USER_ITEM_STACK = JUserItemStack.USER_ITEM_STACK;
 
     /**
      * The table <code>nexus.USER_MAIL</code>.
@@ -114,10 +132,13 @@ public class JNexus extends SchemaImpl {
             Sequences.CURRENCY_CURRENCY_ID_SEQ,
             Sequences.GAME_GAME_ID_SEQ,
             Sequences.GAME_USER_USER_ID_SEQ,
+            Sequences.ITEM_MASTER_ITEM_ID_SEQ,
             Sequences.MAIL_MAIL_ID_SEQ,
             Sequences.ORGANIZATION_ORG_ID_SEQ,
             Sequences.PRODUCT_PRODUCT_ID_SEQ,
             Sequences.USER_CURRENCY_USER_CURRENCY_ID_SEQ,
+            Sequences.USER_ITEM_INSTANCE_USER_ITEM_ID_SEQ,
+            Sequences.USER_ITEM_STACK_USER_ITEM_STACK_ID_SEQ,
             Sequences.USER_MAIL_USER_MAIL_ID_SEQ
         );
     }
@@ -131,10 +152,13 @@ public class JNexus extends SchemaImpl {
             JCurrency.CURRENCY,
             JGame.GAME,
             JGameUser.GAME_USER,
+            JItemMaster.ITEM_MASTER,
             JMail.MAIL,
             JOrganization.ORGANIZATION,
             JProduct.PRODUCT,
             JUserCurrency.USER_CURRENCY,
+            JUserItemInstance.USER_ITEM_INSTANCE,
+            JUserItemStack.USER_ITEM_STACK,
             JUserMail.USER_MAIL
         );
     }
