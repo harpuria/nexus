@@ -39,6 +39,8 @@ public final class ApiConstants {
         public static final String COUPON_PATH = API_BASE_PATH + "/coupon";
         public static final String MAIL_PATH = API_BASE_PATH + "/mail";
         public static final String ITEM_PATH = API_BASE_PATH + "/item";
+        public static final String USER_ITEM_STACK_PATH = API_BASE_PATH + "/user-item-stack";
+        public static final String USER_ITEM_INSTANCE_PATH = API_BASE_PATH + "/user-item-instance";
 
         public static final String GAME_TABLE_PATH = API_BASE_PATH + "/game-table";
         public static final String TABLE_COLUMN_PATH = API_BASE_PATH + "/table-column";
