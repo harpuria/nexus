@@ -80,10 +80,10 @@ public class JProduct extends TableImpl<ProductRecord> {
     public final TableField<ProductRecord, PurchaseType> PURCHASE_TYPE = createField(DSL.name("PURCHASE_TYPE"), SQLDataType.VARCHAR(255).nullable(false), this, "구매재화 타입 (캐시, 내부재화)", new EnumConverter<String, PurchaseType>(String.class, PurchaseType.class));
 
     /**
-     * The column <code>nexus.PRODUCT.CURRENCY_ID</code>. 상품 타입이 CURRENCY 인 경우,
-     * 구매재화 아이디 (FK)
+     * The column <code>nexus.PRODUCT.ITEM_ID</code>. 상품 타입이 CURRENCY 인 경우,
+     * 구매재화의 아이템 아이디 (FK)
      */
-    public final TableField<ProductRecord, Integer> CURRENCY_ID = createField(DSL.name("CURRENCY_ID"), SQLDataType.INTEGER, this, "상품 타입이 CURRENCY 인 경우, 구매재화 아이디 (FK)");
+    public final TableField<ProductRecord, Integer> ITEM_ID = createField(DSL.name("ITEM_ID"), SQLDataType.INTEGER, this, "상품 타입이 CURRENCY 인 경우, 구매재화의 아이템 아이디 (FK)");
 
     /**
      * The column <code>nexus.PRODUCT.NAME</code>. 상품 이름

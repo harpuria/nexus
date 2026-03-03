@@ -71,19 +71,19 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
     }
 
     /**
-     * Setter for <code>nexus.PRODUCT.CURRENCY_ID</code>. 상품 타입이 CURRENCY 인 경우,
-     * 구매재화 아이디 (FK)
+     * Setter for <code>nexus.PRODUCT.ITEM_ID</code>. 상품 타입이 CURRENCY 인 경우,
+     * 구매재화의 아이템 아이디 (FK)
      */
-    public ProductRecord setCurrencyId(Integer value) {
+    public ProductRecord setItemId(Integer value) {
         set(3, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.PRODUCT.CURRENCY_ID</code>. 상품 타입이 CURRENCY 인 경우,
-     * 구매재화 아이디 (FK)
+     * Getter for <code>nexus.PRODUCT.ITEM_ID</code>. 상품 타입이 CURRENCY 인 경우,
+     * 구매재화의 아이템 아이디 (FK)
      */
-    public Integer getCurrencyId() {
+    public Integer getItemId() {
         return (Integer) get(3);
     }
 
@@ -290,13 +290,13 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
     /**
      * Create a detached, initialised ProductRecord
      */
-    public ProductRecord(Integer productId, Integer gameId, PurchaseType purchaseType, Integer currencyId, String name, String desc, BigDecimal price, JSONB rewards, LimitType limitType, OffsetDateTime availableStart, OffsetDateTime availableEnd, OffsetDateTime createdAt, OffsetDateTime updatedAt, String createdBy, String updatedBy, String isDel) {
+    public ProductRecord(Integer productId, Integer gameId, PurchaseType purchaseType, Integer itemId, String name, String desc, BigDecimal price, JSONB rewards, LimitType limitType, OffsetDateTime availableStart, OffsetDateTime availableEnd, OffsetDateTime createdAt, OffsetDateTime updatedAt, String createdBy, String updatedBy, String isDel) {
         super(JProduct.PRODUCT);
 
         setProductId(productId);
         setGameId(gameId);
         setPurchaseType(purchaseType);
-        setCurrencyId(currencyId);
+        setItemId(itemId);
         setName(name);
         setDesc(desc);
         setPrice(price);
@@ -322,7 +322,7 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
             setProductId(value.getProductId());
             setGameId(value.getGameId());
             setPurchaseType(value.getPurchaseType());
-            setCurrencyId(value.getCurrencyId());
+            setItemId(value.getItemId());
             setName(value.getName());
             setDesc(value.getDesc());
             setPrice(value.getPrice());

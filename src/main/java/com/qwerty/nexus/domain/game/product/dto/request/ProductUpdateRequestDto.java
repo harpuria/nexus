@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 public class ProductUpdateRequestDto {
     private Integer gameId;
     private PurchaseType purchaseType;
-    private Integer currencyId;
+    private Integer itemId;
 
     @Size(max = 255, message = "상품명은 255자 이하여야 합니다.")
     private String name;

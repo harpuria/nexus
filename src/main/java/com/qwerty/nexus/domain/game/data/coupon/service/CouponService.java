@@ -12,10 +12,10 @@ import com.qwerty.nexus.domain.game.data.coupon.dto.response.CouponResponseDto;
 import com.qwerty.nexus.domain.game.data.coupon.entity.CouponEntity;
 import com.qwerty.nexus.domain.game.data.coupon.entity.CouponUseLogEntity;
 import com.qwerty.nexus.domain.game.data.coupon.repository.CouponRepository;
-import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyEntity;
-import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
-import com.qwerty.nexus.domain.game.data.currency.repository.CurrencyRepository;
-import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
+import com.qwerty.nexus.domain.game.data.item.entity.ItemEntity;
+import com.qwerty.nexus.domain.game.data.item.entity.UserItemStackEntity;
+import com.qwerty.nexus.domain.game.data.item.repository.ItemRepository;
+import com.qwerty.nexus.domain.game.data.item.repository.UserItemStackRepository;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
 import com.qwerty.nexus.global.dto.RewardsDto;
@@ -42,8 +42,8 @@ import java.util.Optional;
 public class CouponService {
     private final CouponRepository couponRepository;
     private final GameUserRepository gameUserRepository;
-    private final CurrencyRepository currencyRepository;
-    private final UserCurrencyRepository userCurrencyRepository;
+    private final ItemRepository itemRepository;
+    private final UserItemStackRepository userItemStackRepository;
     private final ObjectMapper objectMapper;
 
     /**
@@ -239,49 +239,49 @@ public class CouponService {
         }
 
         for (RewardsDto rewardInfo : rewardInfos) {
-            if (rewardInfo.getCurrencyId() <= 0 || rewardInfo.getAmount() == null || rewardInfo.getAmount() <= 0) {
+            if (rewardInfo.getItemId() <= 0 || rewardInfo.getAmount() == null || rewardInfo.getAmount() <= 0) {
                 return Result.Failure.of("쿠폰 보상 정보가 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
             }
 
-            CurrencyEntity currencyCondition = CurrencyEntity.builder()
-                    .currencyId(rewardInfo.getCurrencyId())
+            ItemEntity itemCondition = ItemEntity.builder()
+                    .itemId(rewardInfo.getItemId())
                     .build();
-            Optional<CurrencyEntity> currency = currencyRepository.findByCurrencyId(currencyCondition);
-            if (currency.isEmpty() || "Y".equalsIgnoreCase(currency.get().getIsDel())) {
+            Optional<ItemEntity> item = itemRepository.findByItemId(itemCondition);
+            if (item.isEmpty() || "Y".equalsIgnoreCase(item.get().getIsDel())) {
                 return Result.Failure.of("지급할 재화 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
             }
 
-            UserCurrencyEntity userCurrencyCondition = UserCurrencyEntity.builder()
+            UserItemStackEntity userItemCondition = UserItemStackEntity.builder()
                     .userId(dto.getUserId())
-                    .currencyId(rewardInfo.getCurrencyId())
+                    .itemId(rewardInfo.getItemId())
                     .build();
 
-            Optional<UserCurrencyEntity> userCurrency = userCurrencyRepository.findByUserIdAndCurrencyId(userCurrencyCondition);
-            if (userCurrency.isEmpty()) {
+            Optional<UserItemStackEntity> userItem = userItemStackRepository.findByUserIdAndItemId(userItemCondition);
+            if (userItem.isEmpty()) {
                 return Result.Failure.of("유저 재화 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
             }
 
-            if ("Y".equalsIgnoreCase(userCurrency.get().getIsDel())) {
+            if ("Y".equalsIgnoreCase(userItem.get().getIsDel())) {
                 return Result.Failure.of("비활성화된 유저 재화 정보입니다.", ErrorCode.CONFLICT.getCode());
             }
 
             long rewardAmount = rewardInfo.getAmount();
-            long calculatedAmount = userCurrency.get().getAmount() + rewardAmount;
-            Long maxAmount = currency.get().getMaxAmount();
+            long calculatedAmount = userItem.get().getAmount() + rewardAmount;
+            Long maxAmount = item.get().getMaxAmount();
             if (maxAmount != null && maxAmount < calculatedAmount) {
                 return Result.Failure.of("보유 가능한 최대 재화를 초과했습니다.", ErrorCode.INVALID_REQUEST.getCode());
             }
         }
 
         for (RewardsDto rewardInfo : rewardInfos) {
-            UserCurrencyEntity updateCondition = UserCurrencyEntity.builder()
+            UserItemStackEntity updateCondition = UserItemStackEntity.builder()
                     .userId(dto.getUserId())
-                    .currencyId(rewardInfo.getCurrencyId())
+                    .itemId(rewardInfo.getItemId())
                     .build();
-            int updateCount = userCurrencyRepository.updateUserCurrencyAmountAddByUserIdAndCurrencyId(
+            int updateCount = userItemStackRepository.updateUserItemAmountAddByUserIdAndItemId(
                     updateCondition,
                     rewardInfo.getAmount(),
-                    rewardInfo.getCurrencyId()
+                    rewardInfo.getItemId()
             );
 
             if (updateCount <= 0) {

@@ -161,6 +161,21 @@ public class ItemMasterDao extends DAOImpl<ItemMasterRecord, ItemMaster, Integer
     }
 
     /**
+     * Fetch records that have <code>DEFAULT_STACK BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<ItemMaster> fetchRangeOfJDefaultStack(Long lowerInclusive, Long upperInclusive) {
+        return fetchRange(JItemMaster.ITEM_MASTER.DEFAULT_STACK, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>DEFAULT_STACK IN (values)</code>
+     */
+    public List<ItemMaster> fetchByJDefaultStack(Long... values) {
+        return fetch(JItemMaster.ITEM_MASTER.DEFAULT_STACK, values);
+    }
+
+    /**
      * Fetch records that have <code>MAX_STACK BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */

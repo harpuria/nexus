@@ -106,18 +106,18 @@ public class ProductDao extends DAOImpl<ProductRecord, Product, Integer> {
     }
 
     /**
-     * Fetch records that have <code>CURRENCY_ID BETWEEN lowerInclusive AND
+     * Fetch records that have <code>ITEM_ID BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<Product> fetchRangeOfJCurrencyId(Integer lowerInclusive, Integer upperInclusive) {
-        return fetchRange(JProduct.PRODUCT.CURRENCY_ID, lowerInclusive, upperInclusive);
+    public List<Product> fetchRangeOfJItemId(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(JProduct.PRODUCT.ITEM_ID, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>CURRENCY_ID IN (values)</code>
+     * Fetch records that have <code>ITEM_ID IN (values)</code>
      */
-    public List<Product> fetchByJCurrencyId(Integer... values) {
-        return fetch(JProduct.PRODUCT.CURRENCY_ID, values);
+    public List<Product> fetchByJItemId(Integer... values) {
+        return fetch(JProduct.PRODUCT.ITEM_ID, values);
     }
 
     /**

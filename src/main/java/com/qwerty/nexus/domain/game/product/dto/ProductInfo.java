@@ -6,7 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductInfo {
-    private int currencyId;
+    private int itemId;
     private Long amount;
     private Long maxAmount;
 }

@@ -56,7 +56,7 @@ public class ProductRepository {
         record.changed(PRODUCT.DESC, entity.getDesc() != null);
         record.changed(PRODUCT.PRICE, entity.getPrice() != null);
         record.changed(PRODUCT.PURCHASE_TYPE, entity.getPurchaseType() != null);
-        record.changed(PRODUCT.CURRENCY_ID, entity.getCurrencyId() != null);
+        record.changed(PRODUCT.ITEM_ID, entity.getItemId() != null);
         record.changed(PRODUCT.REWARDS, entity.getRewards() != null);
         record.changed(PRODUCT.LIMIT_TYPE, entity.getLimitType() != null);
         record.changed(PRODUCT.AVAILABLE_START, entity.getAvailableStart() != null);

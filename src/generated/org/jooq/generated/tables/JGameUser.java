@@ -33,7 +33,6 @@ import org.jooq.generated.JNexus;
 import org.jooq.generated.Keys;
 import org.jooq.generated.tables.JCouponUseLog.CouponUseLogPath;
 import org.jooq.generated.tables.JGame.GamePath;
-import org.jooq.generated.tables.JUserCurrency.UserCurrencyPath;
 import org.jooq.generated.tables.JUserItemInstance.UserItemInstancePath;
 import org.jooq.generated.tables.JUserItemStack.UserItemStackPath;
 import org.jooq.generated.tables.JUserMail.UserMailPath;
@@ -264,19 +263,6 @@ public class JGameUser extends TableImpl<GameUserRecord> {
             _couponUseLog = new CouponUseLogPath(this, null, Keys.COUPON_USE_LOG__COUPON_USE_LOG_USER_ID_FOREIGN.getInverseKey());
 
         return _couponUseLog;
-    }
-
-    private transient UserCurrencyPath _userCurrency;
-
-    /**
-     * Get the implicit to-many join path to the
-     * <code>nexus.USER_CURRENCY</code> table
-     */
-    public UserCurrencyPath userCurrency() {
-        if (_userCurrency == null)
-            _userCurrency = new UserCurrencyPath(this, null, Keys.USER_CURRENCY__USER_CURRENCY_USER_ID_FOREIGN.getInverseKey());
-
-        return _userCurrency;
     }
 
     private transient UserItemInstancePath _userItemInstance;

@@ -1,9 +1,5 @@
 package com.qwerty.nexus.domain.game.user.service;
 
-import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyEntity;
-import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
-import com.qwerty.nexus.domain.game.data.currency.repository.CurrencyRepository;
-import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
 import com.qwerty.nexus.domain.game.data.item.entity.ItemEntity;
 import com.qwerty.nexus.domain.game.data.item.entity.UserItemStackEntity;
 import com.qwerty.nexus.domain.game.data.item.repository.ItemRepository;
@@ -35,9 +31,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GameUserService {
     private final GameUserRepository repository;
-
-    private final CurrencyRepository currencyRepository;
-    private final UserCurrencyRepository userCurrencyRepository;
 
     private final ItemRepository itemRepository;
     private final UserItemStackRepository userItemStackRepository;
@@ -213,24 +206,6 @@ public class GameUserService {
      */
     private void createUserData(int gameId, int userId, String socialId){
         // 사용자 정의 테이블의 경우 초반 테이블 만들때 유저데이터 컬럼(가칭)이 Y 인 경우에는 생성하게 끔 처리하면 될듯
-        // 먼저 현재 있는건 유저재화니까 이거부터 정리 해봄
-        // 1) 현재 이 게임의 재화 목록을 모두 가져오기 (currencyId)
-
-        // 유저 재화 TODO : 곧 삭제될 예정
-        List<Integer> currencyIdList = currencyRepository.findAllCurrencyIdsByGameId(CurrencyEntity.builder().gameId(gameId).build());
-        if(!currencyIdList.isEmpty()){
-            currencyIdList.forEach(currencyId -> {
-                UserCurrencyEntity userCurrencyEntity = UserCurrencyEntity.builder()
-                        .currencyId(currencyId)
-                        .userId(userId)
-                        .createdBy(socialId)
-                        .updatedBy(socialId)
-                        .build();
-
-                userCurrencyRepository.insertUserCurrency(userCurrencyEntity);
-            });
-        }
-
         // 유저 아이템
         List<Integer> itemIdList = itemRepository.findAllItemIdsByGameId(ItemEntity.builder().gameId(gameId).build());
         if(!itemIdList.isEmpty()){
@@ -241,7 +216,7 @@ public class GameUserService {
                         .itemId(itemId)
                         .userId(userId)
                         .createdBy(socialId)
-                        .createdBy(socialId)
+                        .updatedBy(socialId)
                         .build();
 
                 userItemStackRepository.insertUserItemStack(userItemStackEntity);

@@ -3,10 +3,9 @@ package com.qwerty.nexus.domain.game.product.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyEntity;
-import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
-import com.qwerty.nexus.domain.game.data.currency.repository.CurrencyRepository;
-import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
+import com.qwerty.nexus.domain.game.data.item.entity.UserItemStackEntity;
+import com.qwerty.nexus.domain.game.data.item.repository.ItemRepository;
+import com.qwerty.nexus.domain.game.data.item.repository.UserItemStackRepository;
 import com.qwerty.nexus.domain.game.product.PurchaseType;
 import com.qwerty.nexus.domain.game.product.dto.ProductInfo;
 import com.qwerty.nexus.domain.game.product.dto.request.ProductBuyRequestDto;
@@ -38,8 +37,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
-    private final CurrencyRepository currencyRepository;
-    private final UserCurrencyRepository userCurrencyRepository;
+    private final ItemRepository itemRepository;
+    private final UserItemStackRepository userItemStackRepository;
     private final ObjectMapper objectMapper;
 
     /**
@@ -52,7 +51,7 @@ public class ProductService {
         ProductEntity entity = ProductEntity.builder()
                 .gameId(dto.getGameId())
                 .purchaseType(dto.getPurchaseType())
-                .currencyId(dto.getCurrencyId())
+                .itemId(dto.getItemId())
                 .name(dto.getName())
                 .desc(dto.getDesc())
                 .price(dto.getPrice())
@@ -92,19 +91,19 @@ public class ProductService {
         PurchaseType mergedPurchaseType = dto.getPurchaseType() != null
                 ? dto.getPurchaseType()
                 : existingProduct.getPurchaseType();
-        Integer mergedCurrencyId = dto.getCurrencyId() != null
-                ? dto.getCurrencyId()
-                : existingProduct.getCurrencyId();
+        Integer mergedItemId = dto.getItemId() != null
+                ? dto.getItemId()
+                : existingProduct.getItemId();
 
-        if (PurchaseType.CURRENCY.equals(mergedPurchaseType) && (mergedCurrencyId == null || mergedCurrencyId <= 0)) {
-            return Result.Failure.of("purchaseType이 CURRENCY인 경우 currencyId는 필수입니다.", ErrorCode.INVALID_REQUEST.getCode());
+        if (PurchaseType.CURRENCY.equals(mergedPurchaseType) && (mergedItemId == null || mergedItemId <= 0)) {
+            return Result.Failure.of("purchaseType이 CURRENCY인 경우 itemId는 필수입니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
         ProductEntity entity = ProductEntity.builder()
                 .productId(dto.getProductId())
                 .gameId(dto.getGameId())
                 .purchaseType(dto.getPurchaseType())
-                .currencyId(dto.getCurrencyId())
+                .itemId(dto.getItemId())
                 .name(dto.getName())
                 .desc(dto.getDesc())
                 .price(dto.getPrice())
@@ -207,7 +206,7 @@ public class ProductService {
         }
 
         if (PurchaseType.CURRENCY.equals(productEntity.getPurchaseType())) {
-            return buyCurrencyProduct(productEntity, dto.getUserId());
+            return buyItemProduct(productEntity, dto.getUserId());
         }
 
         return Result.Failure.of("지원하지 않는 구매 타입입니다.", ErrorCode.INVALID_REQUEST.getCode());
@@ -249,8 +248,8 @@ public class ProductService {
      * @param userId
      * @return
      */
-    private Result<Void> buyCurrencyProduct(ProductEntity productEntity, Integer userId) {
-        if (productEntity.getCurrencyId() == null || productEntity.getPrice() == null) {
+    private Result<Void> buyItemProduct(ProductEntity productEntity, Integer userId) {
+        if (productEntity.getItemId() == null || productEntity.getPrice() == null) {
             return Result.Failure.of("상품 구매 설정이 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
         if (productEntity.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
@@ -262,17 +261,17 @@ public class ProductService {
             return Result.Failure.of("상품 지급 정보 파싱에 실패했습니다.", ErrorCode.INVALID_FORMAT.getCode());
         }
 
-        UserCurrencyEntity consumeCurrency = UserCurrencyEntity.builder()
+        UserItemStackEntity consumeItem = UserItemStackEntity.builder()
                 .userId(userId)
-                .currencyId(productEntity.getCurrencyId())
+                .itemId(productEntity.getItemId())
                 .build();
 
-        Optional<UserCurrencyEntity> currentUserCurrency = userCurrencyRepository.findByUserIdAndCurrencyId(consumeCurrency);
-        if (currentUserCurrency.isEmpty()) {
+        Optional<UserItemStackEntity> currentUserItem = userItemStackRepository.findByUserIdAndItemId(consumeItem);
+        if (currentUserItem.isEmpty()) {
             return Result.Failure.of("유저 재화 정보가 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }
 
-        BigDecimal currentAmount = BigDecimal.valueOf(currentUserCurrency.get().getAmount());
+        BigDecimal currentAmount = BigDecimal.valueOf(currentUserItem.get().getAmount());
         if (currentAmount.compareTo(productEntity.getPrice()) < 0) {
             return Result.Failure.of("구매 재화가 부족합니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
@@ -285,37 +284,37 @@ public class ProductService {
         }
 
         for (ProductInfo reward : rewardList) {
-            if (reward.getCurrencyId() <= 0 || reward.getAmount() == null || reward.getAmount() <= 0) {
+            if (reward.getItemId() <= 0 || reward.getAmount() == null || reward.getAmount() <= 0) {
                 return Result.Failure.of("상품 지급 정보가 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
             }
 
-            CurrencyEntity currencyEntity = CurrencyEntity.builder()
-                    .currencyId(reward.getCurrencyId())
+            ItemEntity itemEntity = ItemEntity.builder()
+                    .itemId(reward.getItemId())
                     .build();
 
-            Optional<CurrencyEntity> currencyInfo = currencyRepository.findByCurrencyId(currencyEntity);
-            if (currencyInfo.isEmpty()) {
+            Optional<ItemEntity> itemInfo = itemRepository.findByItemId(itemEntity);
+            if (itemInfo.isEmpty()) {
                 return Result.Failure.of("지급 대상 재화 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
             }
 
-            UserCurrencyEntity rewardCurrency = UserCurrencyEntity.builder()
+            UserItemEntity rewardItem = UserItemEntity.builder()
                     .userId(userId)
-                    .currencyId(reward.getCurrencyId())
+                    .itemId(reward.getItemId())
                     .build();
 
-            Optional<UserCurrencyEntity> currentRewardCurrency = userCurrencyRepository.findByUserIdAndCurrencyId(rewardCurrency);
-            if (currentRewardCurrency.isEmpty()) {
+            Optional<UserItemEntity> currentRewardItem = userItemStackRepository.findByUserIdAndItemId(rewardItem);
+            if (currentRewardItem.isEmpty()) {
                 return Result.Failure.of("지급 대상 유저 재화 정보가 없습니다.", ErrorCode.NOT_FOUND.getCode());
             }
 
-            long calculatedAmount = currentRewardCurrency.get().getAmount() + reward.getAmount();
-            if (currencyInfo.get().getMaxAmount() != null && currencyInfo.get().getMaxAmount() < calculatedAmount) {
+            long calculatedAmount = currentRewardItem.get().getAmount() + reward.getAmount();
+            if (itemInfo.get().getMaxAmount() != null && itemInfo.get().getMaxAmount() < calculatedAmount) {
                 return Result.Failure.of("보유 가능한 최대 재화를 초과했습니다.", ErrorCode.INVALID_REQUEST.getCode());
             }
         }
 
-        int subtractCount = userCurrencyRepository.updateUserCurrencyAmountSubtractByUserIdAndCurrencyId(
-                consumeCurrency,
+        int subtractCount = userItemStackRepository.updateUserItemAmountSubtractByUserIdAndItemId(
+                consumeItem,
                 consumeAmount
         );
         if (subtractCount <= 0) {
@@ -323,15 +322,15 @@ public class ProductService {
         }
 
         for (ProductInfo reward : rewardList) {
-            UserCurrencyEntity rewardCurrency = UserCurrencyEntity.builder()
+            UserItemEntity rewardItem = UserItemEntity.builder()
                     .userId(userId)
-                    .currencyId(reward.getCurrencyId())
+                    .itemId(reward.getItemId())
                     .build();
 
-            int addCount = userCurrencyRepository.updateUserCurrencyAmountAddByUserIdAndCurrencyId(
-                    rewardCurrency,
+            int addCount = userItemStackRepository.updateUserItemAmountAddByUserIdAndItemId(
+                    rewardItem,
                     reward.getAmount(),
-                    reward.getCurrencyId()
+                    reward.getItemId()
             );
             if (addCount <= 0) {
                 TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();

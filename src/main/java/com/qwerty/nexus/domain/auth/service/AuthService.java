@@ -106,14 +106,14 @@ public class AuthService {
     private void createUserData(AuthRequestDto dto, int userId, String socialId){
         // 사용자 정의 테이블의 경우 초반 테이블 만들때 유저데이터 컬럼(가칭)이 Y 인 경우에는 생성하게 끔 처리하면 될듯
         // 먼저 현재 있는건 유저재화니까 이거부터 정리 해봄
-        // 1) 현재 이 게임의 재화 목록을 모두 가져오기 (currencyId)
+        // 1) 현재 이 게임의 재화 목록을 모두 가져오기 (itemId)
 
         // 유저 재화
-        List<Integer> currencyIdList = currencyRepository.findAllCurrencyIdsByGameId(CurrencyEntity.builder().gameId(dto.getGameId()).build());
-        if(!currencyIdList.isEmpty()){
-            currencyIdList.forEach(currencyId -> {
+        List<Integer> itemIdList = currencyRepository.findAllCurrencyIdsByGameId(CurrencyEntity.builder().gameId(dto.getGameId()).build());
+        if(!itemIdList.isEmpty()){
+            itemIdList.forEach(itemId -> {
                 UserCurrencyEntity userCurrencyEntity = UserCurrencyEntity.builder()
-                        .currencyId(currencyId)
+                        .itemId(itemId)
                         .userId(userId)
                         .createdBy(socialId)
                         .updatedBy(socialId)

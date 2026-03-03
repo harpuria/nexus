@@ -25,6 +25,7 @@ public class ItemMaster implements Serializable {
     private String desc;
     private String itemType;
     private String isStackable;
+    private Long defaultStack;
     private Long maxStack;
     private String rarity;
     private String iconPath;
@@ -45,6 +46,7 @@ public class ItemMaster implements Serializable {
         this.desc = value.desc;
         this.itemType = value.itemType;
         this.isStackable = value.isStackable;
+        this.defaultStack = value.defaultStack;
         this.maxStack = value.maxStack;
         this.rarity = value.rarity;
         this.iconPath = value.iconPath;
@@ -64,6 +66,7 @@ public class ItemMaster implements Serializable {
         String desc,
         String itemType,
         String isStackable,
+        Long defaultStack,
         Long maxStack,
         String rarity,
         String iconPath,
@@ -81,6 +84,7 @@ public class ItemMaster implements Serializable {
         this.desc = desc;
         this.itemType = itemType;
         this.isStackable = isStackable;
+        this.defaultStack = defaultStack;
         this.maxStack = maxStack;
         this.rarity = rarity;
         this.iconPath = iconPath;
@@ -198,6 +202,21 @@ public class ItemMaster implements Serializable {
      */
     public ItemMaster setIsStackable(String isStackable) {
         this.isStackable = isStackable;
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.ITEM_MASTER.DEFAULT_STACK</code>. 기본 수량(스택형일 때)
+     */
+    public Long getDefaultStack() {
+        return this.defaultStack;
+    }
+
+    /**
+     * Setter for <code>nexus.ITEM_MASTER.DEFAULT_STACK</code>. 기본 수량(스택형일 때)
+     */
+    public ItemMaster setDefaultStack(Long defaultStack) {
+        this.defaultStack = defaultStack;
         return this;
     }
 
@@ -389,6 +408,12 @@ public class ItemMaster implements Serializable {
         }
         else if (!this.isStackable.equals(other.isStackable))
             return false;
+        if (this.defaultStack == null) {
+            if (other.defaultStack != null)
+                return false;
+        }
+        else if (!this.defaultStack.equals(other.defaultStack))
+            return false;
         if (this.maxStack == null) {
             if (other.maxStack != null)
                 return false;
@@ -457,6 +482,7 @@ public class ItemMaster implements Serializable {
         result = prime * result + ((this.desc == null) ? 0 : this.desc.hashCode());
         result = prime * result + ((this.itemType == null) ? 0 : this.itemType.hashCode());
         result = prime * result + ((this.isStackable == null) ? 0 : this.isStackable.hashCode());
+        result = prime * result + ((this.defaultStack == null) ? 0 : this.defaultStack.hashCode());
         result = prime * result + ((this.maxStack == null) ? 0 : this.maxStack.hashCode());
         result = prime * result + ((this.rarity == null) ? 0 : this.rarity.hashCode());
         result = prime * result + ((this.iconPath == null) ? 0 : this.iconPath.hashCode());
@@ -480,6 +506,7 @@ public class ItemMaster implements Serializable {
         sb.append(", ").append(desc);
         sb.append(", ").append(itemType);
         sb.append(", ").append(isStackable);
+        sb.append(", ").append(defaultStack);
         sb.append(", ").append(maxStack);
         sb.append(", ").append(rarity);
         sb.append(", ").append(iconPath);

@@ -19,7 +19,7 @@ public class ProductDetailResponseDto extends BaseResponseDto {
     private Integer productId;
     private Integer gameId;
     private PurchaseType purchaseType;
-    private Integer currencyId;
+    private Integer itemId;
     private String name;
     private String desc;
     private BigDecimal price;
@@ -33,7 +33,7 @@ public class ProductDetailResponseDto extends BaseResponseDto {
                 .productId(entity.getProductId())
                 .gameId(entity.getGameId())
                 .purchaseType(entity.getPurchaseType())
-                .currencyId(entity.getCurrencyId())
+                .itemId(entity.getItemId())
                 .name(entity.getName())
                 .desc(entity.getDesc())
                 .price(entity.getPrice())

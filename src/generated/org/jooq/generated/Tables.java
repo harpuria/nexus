@@ -7,14 +7,12 @@ package org.jooq.generated;
 import org.jooq.generated.tables.JAdmin;
 import org.jooq.generated.tables.JCoupon;
 import org.jooq.generated.tables.JCouponUseLog;
-import org.jooq.generated.tables.JCurrency;
 import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.JGameUser;
 import org.jooq.generated.tables.JItemMaster;
 import org.jooq.generated.tables.JMail;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JProduct;
-import org.jooq.generated.tables.JUserCurrency;
 import org.jooq.generated.tables.JUserItemInstance;
 import org.jooq.generated.tables.JUserItemStack;
 import org.jooq.generated.tables.JUserMail;
@@ -40,11 +38,6 @@ public class Tables {
      * The table <code>nexus.COUPON_USE_LOG</code>.
      */
     public static final JCouponUseLog COUPON_USE_LOG = JCouponUseLog.COUPON_USE_LOG;
-
-    /**
-     * The table <code>nexus.CURRENCY</code>.
-     */
-    public static final JCurrency CURRENCY = JCurrency.CURRENCY;
 
     /**
      * The table <code>nexus.GAME</code>.
@@ -75,11 +68,6 @@ public class Tables {
      * The table <code>nexus.PRODUCT</code>.
      */
     public static final JProduct PRODUCT = JProduct.PRODUCT;
-
-    /**
-     * The table <code>nexus.USER_CURRENCY</code>.
-     */
-    public static final JUserCurrency USER_CURRENCY = JUserCurrency.USER_CURRENCY;
 
     /**
      * The table <code>nexus.USER_ITEM_INSTANCE</code>.

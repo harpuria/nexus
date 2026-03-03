@@ -16,7 +16,7 @@ class NexusApplicationTests {
 	void contextLoads() throws JsonProcessingException {
 
         ObjectMapper objectMapper = new ObjectMapper();
-        List<ProductInfo> test = objectMapper.readValue("[{\"currencyId\" : 1, \"amount\" : 100}]", new TypeReference<List<ProductInfo>>() {});
+        List<ProductInfo> test = objectMapper.readValue("[{\"itemId\" : 1, \"amount\" : 100}]", new TypeReference<List<ProductInfo>>() {});
 
         for(ProductInfo t : test){
             System.out.println(t.getCurrencyId());

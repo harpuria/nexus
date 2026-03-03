@@ -15,7 +15,7 @@ public class ProductEntity {
     private Integer productId;
     private Integer gameId;
     private PurchaseType purchaseType;
-    private Integer currencyId;
+    private Integer itemId;
     private String name;
     private String desc;
     private BigDecimal price;

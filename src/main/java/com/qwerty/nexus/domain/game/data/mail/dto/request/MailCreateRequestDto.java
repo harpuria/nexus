@@ -33,7 +33,7 @@ public class MailCreateRequestDto {
     @Size(max = 4000, message = "content는 4000자 이하여야 합니다.")
     private String content;
 
-    @Schema(example = "[{\"currencyId\":1,\"amount\":1000}]")
+    @Schema(example = "[{\"itemId\":1,\"amount\":1000}]")
     @NotNull(message = "rewards는 필수입니다.")
     private JSONB rewards;
 

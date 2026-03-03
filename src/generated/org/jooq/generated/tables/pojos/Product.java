@@ -25,7 +25,7 @@ public class Product implements Serializable {
     private Integer productId;
     private Integer gameId;
     private PurchaseType purchaseType;
-    private Integer currencyId;
+    private Integer itemId;
     private String name;
     private String desc;
     private BigDecimal price;
@@ -45,7 +45,7 @@ public class Product implements Serializable {
         this.productId = value.productId;
         this.gameId = value.gameId;
         this.purchaseType = value.purchaseType;
-        this.currencyId = value.currencyId;
+        this.itemId = value.itemId;
         this.name = value.name;
         this.desc = value.desc;
         this.price = value.price;
@@ -64,7 +64,7 @@ public class Product implements Serializable {
         Integer productId,
         Integer gameId,
         PurchaseType purchaseType,
-        Integer currencyId,
+        Integer itemId,
         String name,
         String desc,
         BigDecimal price,
@@ -81,7 +81,7 @@ public class Product implements Serializable {
         this.productId = productId;
         this.gameId = gameId;
         this.purchaseType = purchaseType;
-        this.currencyId = currencyId;
+        this.itemId = itemId;
         this.name = name;
         this.desc = desc;
         this.price = price;
@@ -142,19 +142,19 @@ public class Product implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.PRODUCT.CURRENCY_ID</code>. 상품 타입이 CURRENCY 인 경우,
-     * 구매재화 아이디 (FK)
+     * Getter for <code>nexus.PRODUCT.ITEM_ID</code>. 상품 타입이 CURRENCY 인 경우,
+     * 구매재화의 아이템 아이디 (FK)
      */
-    public Integer getCurrencyId() {
-        return this.currencyId;
+    public Integer getItemId() {
+        return this.itemId;
     }
 
     /**
-     * Setter for <code>nexus.PRODUCT.CURRENCY_ID</code>. 상품 타입이 CURRENCY 인 경우,
-     * 구매재화 아이디 (FK)
+     * Setter for <code>nexus.PRODUCT.ITEM_ID</code>. 상품 타입이 CURRENCY 인 경우,
+     * 구매재화의 아이템 아이디 (FK)
      */
-    public Product setCurrencyId(Integer currencyId) {
-        this.currencyId = currencyId;
+    public Product setItemId(Integer itemId) {
+        this.itemId = itemId;
         return this;
     }
 
@@ -365,11 +365,11 @@ public class Product implements Serializable {
         }
         else if (!this.purchaseType.equals(other.purchaseType))
             return false;
-        if (this.currencyId == null) {
-            if (other.currencyId != null)
+        if (this.itemId == null) {
+            if (other.itemId != null)
                 return false;
         }
-        else if (!this.currencyId.equals(other.currencyId))
+        else if (!this.itemId.equals(other.itemId))
             return false;
         if (this.name == null) {
             if (other.name != null)
@@ -453,7 +453,7 @@ public class Product implements Serializable {
         result = prime * result + ((this.productId == null) ? 0 : this.productId.hashCode());
         result = prime * result + ((this.gameId == null) ? 0 : this.gameId.hashCode());
         result = prime * result + ((this.purchaseType == null) ? 0 : this.purchaseType.hashCode());
-        result = prime * result + ((this.currencyId == null) ? 0 : this.currencyId.hashCode());
+        result = prime * result + ((this.itemId == null) ? 0 : this.itemId.hashCode());
         result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
         result = prime * result + ((this.desc == null) ? 0 : this.desc.hashCode());
         result = prime * result + ((this.price == null) ? 0 : this.price.hashCode());
@@ -476,7 +476,7 @@ public class Product implements Serializable {
         sb.append(productId);
         sb.append(", ").append(gameId);
         sb.append(", ").append(purchaseType);
-        sb.append(", ").append(currencyId);
+        sb.append(", ").append(itemId);
         sb.append(", ").append(name);
         sb.append(", ").append(desc);
         sb.append(", ").append(price);

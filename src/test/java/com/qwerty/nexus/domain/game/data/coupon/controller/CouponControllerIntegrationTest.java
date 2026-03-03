@@ -72,7 +72,7 @@ class CouponControllerIntegrationTest {
                         .code("WELCOME2026")
                         .maxIssueCount(100L)
                         .useLimitPerUser(2)
-                        .rewards(JSONB.jsonb("[{\"currencyId\":1,\"amount\":100}]"))
+                        .rewards(JSONB.jsonb("[{\"itemId\":1,\"amount\":100}]"))
                         .build()));
         given(couponRepository.countByCouponId(10)).willReturn(0L);
         given(couponRepository.countByCouponIdAndUserId(10, USER_ID)).willReturn(0L);
@@ -118,7 +118,7 @@ class CouponControllerIntegrationTest {
                         .code("LIMIT2026")
                         .maxIssueCount(100L)
                         .useLimitPerUser(1)
-                        .rewards(JSONB.jsonb("[{\"currencyId\":1,\"amount\":100}]"))
+                        .rewards(JSONB.jsonb("[{\"itemId\":1,\"amount\":100}]"))
                         .build()));
         given(couponRepository.countByCouponId(11)).willReturn(10L);
         given(couponRepository.countByCouponIdAndUserId(11, USER_ID)).willReturn(1L);
@@ -143,7 +143,7 @@ class CouponControllerIntegrationTest {
                         .code("MAX2026")
                         .maxIssueCount(100L)
                         .useLimitPerUser(3)
-                        .rewards(JSONB.jsonb("[{\"currencyId\":1,\"amount\":600}]"))
+                        .rewards(JSONB.jsonb("[{\"itemId\":1,\"amount\":600}]"))
                         .build()));
         given(couponRepository.countByCouponId(12)).willReturn(0L);
         given(couponRepository.countByCouponIdAndUserId(12, USER_ID)).willReturn(0L);
@@ -172,7 +172,7 @@ class CouponControllerIntegrationTest {
     private void mockCurrency(long maxAmount, long userAmount) {
         given(currencyRepository.findByCurrencyId(any()))
                 .willReturn(Optional.of(CurrencyEntity.builder()
-                        .currencyId(1)
+                        .itemId(1)
                         .maxAmount(maxAmount)
                         .isDel("N")
                         .build()));
@@ -180,7 +180,7 @@ class CouponControllerIntegrationTest {
         given(userCurrencyRepository.findByUserIdAndCurrencyId(any()))
                 .willReturn(Optional.of(UserCurrencyEntity.builder()
                         .userId(USER_ID)
-                        .currencyId(1)
+                        .itemId(1)
                         .amount(userAmount)
                         .isDel("N")
                         .build()));

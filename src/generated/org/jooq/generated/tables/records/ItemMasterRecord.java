@@ -131,10 +131,25 @@ public class ItemMasterRecord extends UpdatableRecordImpl<ItemMasterRecord> {
     }
 
     /**
+     * Setter for <code>nexus.ITEM_MASTER.DEFAULT_STACK</code>. 기본 수량(스택형일 때)
+     */
+    public ItemMasterRecord setDefaultStack(Long value) {
+        set(7, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.ITEM_MASTER.DEFAULT_STACK</code>. 기본 수량(스택형일 때)
+     */
+    public Long getDefaultStack() {
+        return (Long) get(7);
+    }
+
+    /**
      * Setter for <code>nexus.ITEM_MASTER.MAX_STACK</code>. 최대 누적 가능 수량(스택형일 때)
      */
     public ItemMasterRecord setMaxStack(Long value) {
-        set(7, value);
+        set(8, value);
         return this;
     }
 
@@ -142,14 +157,14 @@ public class ItemMasterRecord extends UpdatableRecordImpl<ItemMasterRecord> {
      * Getter for <code>nexus.ITEM_MASTER.MAX_STACK</code>. 최대 누적 가능 수량(스택형일 때)
      */
     public Long getMaxStack() {
-        return (Long) get(7);
+        return (Long) get(8);
     }
 
     /**
      * Setter for <code>nexus.ITEM_MASTER.RARITY</code>. 등급(선택)
      */
     public ItemMasterRecord setRarity(String value) {
-        set(8, value);
+        set(9, value);
         return this;
     }
 
@@ -157,14 +172,14 @@ public class ItemMasterRecord extends UpdatableRecordImpl<ItemMasterRecord> {
      * Getter for <code>nexus.ITEM_MASTER.RARITY</code>. 등급(선택)
      */
     public String getRarity() {
-        return (String) get(8);
+        return (String) get(9);
     }
 
     /**
      * Setter for <code>nexus.ITEM_MASTER.ICON_PATH</code>. 아이콘 경로(선택)
      */
     public ItemMasterRecord setIconPath(String value) {
-        set(9, value);
+        set(10, value);
         return this;
     }
 
@@ -172,7 +187,7 @@ public class ItemMasterRecord extends UpdatableRecordImpl<ItemMasterRecord> {
      * Getter for <code>nexus.ITEM_MASTER.ICON_PATH</code>. 아이콘 경로(선택)
      */
     public String getIconPath() {
-        return (String) get(9);
+        return (String) get(10);
     }
 
     /**
@@ -180,7 +195,7 @@ public class ItemMasterRecord extends UpdatableRecordImpl<ItemMasterRecord> {
      * 기본스탯/카테고리/태그 등
      */
     public ItemMasterRecord setMetaJson(JSONB value) {
-        set(10, value);
+        set(11, value);
         return this;
     }
 
@@ -189,14 +204,14 @@ public class ItemMasterRecord extends UpdatableRecordImpl<ItemMasterRecord> {
      * 기본스탯/카테고리/태그 등
      */
     public JSONB getMetaJson() {
-        return (JSONB) get(10);
+        return (JSONB) get(11);
     }
 
     /**
      * Setter for <code>nexus.ITEM_MASTER.CREATED_AT</code>. 데이터 생성 날짜
      */
     public ItemMasterRecord setCreatedAt(OffsetDateTime value) {
-        set(11, value);
+        set(12, value);
         return this;
     }
 
@@ -204,14 +219,14 @@ public class ItemMasterRecord extends UpdatableRecordImpl<ItemMasterRecord> {
      * Getter for <code>nexus.ITEM_MASTER.CREATED_AT</code>. 데이터 생성 날짜
      */
     public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(11);
+        return (OffsetDateTime) get(12);
     }
 
     /**
      * Setter for <code>nexus.ITEM_MASTER.CREATED_BY</code>. 데이터 생성자 ID
      */
     public ItemMasterRecord setCreatedBy(String value) {
-        set(12, value);
+        set(13, value);
         return this;
     }
 
@@ -219,14 +234,14 @@ public class ItemMasterRecord extends UpdatableRecordImpl<ItemMasterRecord> {
      * Getter for <code>nexus.ITEM_MASTER.CREATED_BY</code>. 데이터 생성자 ID
      */
     public String getCreatedBy() {
-        return (String) get(12);
+        return (String) get(13);
     }
 
     /**
      * Setter for <code>nexus.ITEM_MASTER.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public ItemMasterRecord setUpdatedAt(OffsetDateTime value) {
-        set(13, value);
+        set(14, value);
         return this;
     }
 
@@ -234,14 +249,14 @@ public class ItemMasterRecord extends UpdatableRecordImpl<ItemMasterRecord> {
      * Getter for <code>nexus.ITEM_MASTER.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(13);
+        return (OffsetDateTime) get(14);
     }
 
     /**
      * Setter for <code>nexus.ITEM_MASTER.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public ItemMasterRecord setUpdatedBy(String value) {
-        set(14, value);
+        set(15, value);
         return this;
     }
 
@@ -249,14 +264,14 @@ public class ItemMasterRecord extends UpdatableRecordImpl<ItemMasterRecord> {
      * Getter for <code>nexus.ITEM_MASTER.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public String getUpdatedBy() {
-        return (String) get(14);
+        return (String) get(15);
     }
 
     /**
      * Setter for <code>nexus.ITEM_MASTER.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public ItemMasterRecord setIsDel(String value) {
-        set(15, value);
+        set(16, value);
         return this;
     }
 
@@ -264,7 +279,7 @@ public class ItemMasterRecord extends UpdatableRecordImpl<ItemMasterRecord> {
      * Getter for <code>nexus.ITEM_MASTER.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public String getIsDel() {
-        return (String) get(15);
+        return (String) get(16);
     }
 
     // -------------------------------------------------------------------------
@@ -290,7 +305,7 @@ public class ItemMasterRecord extends UpdatableRecordImpl<ItemMasterRecord> {
     /**
      * Create a detached, initialised ItemMasterRecord
      */
-    public ItemMasterRecord(Integer itemId, Integer gameId, String itemCode, String name, String desc, String itemType, String isStackable, Long maxStack, String rarity, String iconPath, JSONB metaJson, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public ItemMasterRecord(Integer itemId, Integer gameId, String itemCode, String name, String desc, String itemType, String isStackable, Long defaultStack, Long maxStack, String rarity, String iconPath, JSONB metaJson, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JItemMaster.ITEM_MASTER);
 
         setItemId(itemId);
@@ -300,6 +315,7 @@ public class ItemMasterRecord extends UpdatableRecordImpl<ItemMasterRecord> {
         setDesc(desc);
         setItemType(itemType);
         setIsStackable(isStackable);
+        setDefaultStack(defaultStack);
         setMaxStack(maxStack);
         setRarity(rarity);
         setIconPath(iconPath);
@@ -326,6 +342,7 @@ public class ItemMasterRecord extends UpdatableRecordImpl<ItemMasterRecord> {
             setDesc(value.getDesc());
             setItemType(value.getItemType());
             setIsStackable(value.getIsStackable());
+            setDefaultStack(value.getDefaultStack());
             setMaxStack(value.getMaxStack());
             setRarity(value.getRarity());
             setIconPath(value.getIconPath());

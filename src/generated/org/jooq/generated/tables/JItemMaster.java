@@ -101,9 +101,14 @@ public class JItemMaster extends TableImpl<ItemMasterRecord> {
     public final TableField<ItemMasterRecord, String> IS_STACKABLE = createField(DSL.name("IS_STACKABLE"), SQLDataType.CHAR(1).nullable(false).defaultValue(DSL.field(DSL.raw("'Y'::bpchar"), SQLDataType.CHAR)), this, "스택형 여부 (Y:수량형, N:인스턴스형)");
 
     /**
+     * The column <code>nexus.ITEM_MASTER.DEFAULT_STACK</code>. 기본 수량(스택형일 때)
+     */
+    public final TableField<ItemMasterRecord, Long> DEFAULT_STACK = createField(DSL.name("DEFAULT_STACK"), SQLDataType.BIGINT.defaultValue(DSL.field(DSL.raw("'0'::bigint"), SQLDataType.BIGINT)), this, "기본 수량(스택형일 때)");
+
+    /**
      * The column <code>nexus.ITEM_MASTER.MAX_STACK</code>. 최대 누적 가능 수량(스택형일 때)
      */
-    public final TableField<ItemMasterRecord, Long> MAX_STACK = createField(DSL.name("MAX_STACK"), SQLDataType.BIGINT, this, "최대 누적 가능 수량(스택형일 때)");
+    public final TableField<ItemMasterRecord, Long> MAX_STACK = createField(DSL.name("MAX_STACK"), SQLDataType.BIGINT.defaultValue(DSL.field(DSL.raw("'9223372036854775807'::bigint"), SQLDataType.BIGINT)), this, "최대 누적 가능 수량(스택형일 때)");
 
     /**
      * The column <code>nexus.ITEM_MASTER.RARITY</code>. 등급(선택)

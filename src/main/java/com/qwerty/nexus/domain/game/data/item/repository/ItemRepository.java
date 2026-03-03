@@ -49,6 +49,7 @@ public class ItemRepository {
         record.changed(ITEM.DESC, entity.getDesc() != null);
         record.changed(ITEM.ITEM_TYPE, entity.getItemType() != null);
         record.changed(ITEM.IS_STACKABLE, entity.getIsStackable() != null);
+        record.changed(ITEM.DEFAULT_STACK, entity.getDefaultStack() != null);
         record.changed(ITEM.MAX_STACK, entity.getMaxStack() != null);
         record.changed(ITEM.RARITY, entity.getRarity() != null);
         record.changed(ITEM.ICON_PATH, entity.getIconPath() != null);

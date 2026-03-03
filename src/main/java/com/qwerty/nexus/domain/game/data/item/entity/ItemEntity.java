@@ -16,6 +16,7 @@ public class ItemEntity {
     private String desc;
     private String itemType;
     private String isStackable;
+    private Long defaultStack;
     private Long maxStack;
     private String rarity;
     private String iconPath;

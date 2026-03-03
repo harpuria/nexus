@@ -28,6 +28,8 @@ public class ItemCreateRequestDto {
     @NotBlank @Pattern(regexp = "^[YNyn]$")
     private String isStackable;
     @PositiveOrZero
+    private Long defaultStack;
+    @PositiveOrZero
     private Long maxStack;
     @Size(max = 32)
     private String rarity;
