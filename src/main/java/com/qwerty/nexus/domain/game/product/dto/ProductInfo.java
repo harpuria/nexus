@@ -8,5 +8,4 @@ import lombok.Setter;
 public class ProductInfo {
     private int itemId;
     private Long amount;
-    private Long maxAmount;
 }

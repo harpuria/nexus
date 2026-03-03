@@ -13,8 +13,10 @@ import com.qwerty.nexus.domain.game.data.coupon.entity.CouponEntity;
 import com.qwerty.nexus.domain.game.data.coupon.entity.CouponUseLogEntity;
 import com.qwerty.nexus.domain.game.data.coupon.repository.CouponRepository;
 import com.qwerty.nexus.domain.game.data.item.entity.ItemEntity;
+import com.qwerty.nexus.domain.game.data.item.entity.UserItemInstanceEntity;
 import com.qwerty.nexus.domain.game.data.item.entity.UserItemStackEntity;
 import com.qwerty.nexus.domain.game.data.item.repository.ItemRepository;
+import com.qwerty.nexus.domain.game.data.item.repository.UserItemInstanceRepository;
 import com.qwerty.nexus.domain.game.data.item.repository.UserItemStackRepository;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
@@ -28,11 +30,13 @@ import com.qwerty.nexus.global.util.CommonUtil;
 import com.qwerty.nexus.global.paging.PagingUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.jooq.JSONB;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +47,7 @@ public class CouponService {
     private final CouponRepository couponRepository;
     private final GameUserRepository gameUserRepository;
     private final ItemRepository itemRepository;
+    private final UserItemInstanceRepository userItemInstanceRepository;
     private final UserItemStackRepository userItemStackRepository;
     private final ObjectMapper objectMapper;
 
@@ -238,6 +243,9 @@ public class CouponService {
             return Result.Failure.of("쿠폰 보상 정보가 올바르지 않습니다.", ErrorCode.INVALID_FORMAT.getCode());
         }
 
+        String actor = String.valueOf(dto.getUserId());
+        List<ResolvedCouponReward> resolvedRewards = new ArrayList<>();
+
         for (RewardsDto rewardInfo : rewardInfos) {
             if (rewardInfo.getItemId() <= 0 || rewardInfo.getAmount() == null || rewardInfo.getAmount() <= 0) {
                 return Result.Failure.of("쿠폰 보상 정보가 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
@@ -246,51 +254,89 @@ public class CouponService {
             ItemEntity itemCondition = ItemEntity.builder()
                     .itemId(rewardInfo.getItemId())
                     .build();
-            Optional<ItemEntity> item = itemRepository.findByItemId(itemCondition);
-            if (item.isEmpty() || "Y".equalsIgnoreCase(item.get().getIsDel())) {
-                return Result.Failure.of("지급할 재화 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
+            Optional<ItemEntity> itemOptional = itemRepository.findByItemId(itemCondition);
+            if (itemOptional.isEmpty() || "Y".equalsIgnoreCase(itemOptional.get().getIsDel())) {
+                return Result.Failure.of("지급할 아이템 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
             }
 
-            UserItemStackEntity userItemCondition = UserItemStackEntity.builder()
-                    .userId(dto.getUserId())
-                    .itemId(rewardInfo.getItemId())
-                    .build();
+            ItemEntity item = itemOptional.get();
+            if (isStackReward(item)) {
+                UserItemStackEntity userItemCondition = UserItemStackEntity.builder()
+                        .userId(dto.getUserId())
+                        .itemId(rewardInfo.getItemId())
+                        .build();
 
-            Optional<UserItemStackEntity> userItem = userItemStackRepository.findByUserIdAndItemId(userItemCondition);
-            if (userItem.isEmpty()) {
-                return Result.Failure.of("유저 재화 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
+                Optional<UserItemStackEntity> userItem = userItemStackRepository.findByUserIdAndItemId(userItemCondition);
+                long currentAmount = userItem.map(UserItemStackEntity::getAmount).orElse(0L);
+                long calculatedAmount = currentAmount + rewardInfo.getAmount();
+                Long maxStack = item.getMaxStack();
+                if (maxStack != null && maxStack < calculatedAmount) {
+                    return Result.Failure.of("보유 가능한 최대 아이템 수량을 초과했습니다.", ErrorCode.INVALID_REQUEST.getCode());
+                }
+
+                resolvedRewards.add(new ResolvedCouponReward(rewardInfo.getItemId(), rewardInfo.getAmount(), true));
+                continue;
             }
 
-            if ("Y".equalsIgnoreCase(userItem.get().getIsDel())) {
-                return Result.Failure.of("비활성화된 유저 재화 정보입니다.", ErrorCode.CONFLICT.getCode());
+            if (isInstanceReward(item)) {
+                if (rewardInfo.getAmount() > Integer.MAX_VALUE) {
+                    return Result.Failure.of("쿠폰 보상 정보가 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
+                }
+
+                resolvedRewards.add(new ResolvedCouponReward(rewardInfo.getItemId(), rewardInfo.getAmount(), false));
+                continue;
             }
 
-            long rewardAmount = rewardInfo.getAmount();
-            long calculatedAmount = userItem.get().getAmount() + rewardAmount;
-            Long maxAmount = item.get().getMaxAmount();
-            if (maxAmount != null && maxAmount < calculatedAmount) {
-                return Result.Failure.of("보유 가능한 최대 재화를 초과했습니다.", ErrorCode.INVALID_REQUEST.getCode());
-            }
+            return Result.Failure.of("쿠폰 보상 아이템 유형이 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
-        for (RewardsDto rewardInfo : rewardInfos) {
-            UserItemStackEntity updateCondition = UserItemStackEntity.builder()
-                    .userId(dto.getUserId())
-                    .itemId(rewardInfo.getItemId())
-                    .build();
-            int updateCount = userItemStackRepository.updateUserItemAmountAddByUserIdAndItemId(
-                    updateCondition,
-                    rewardInfo.getAmount(),
-                    rewardInfo.getItemId()
-            );
+        for (ResolvedCouponReward reward : resolvedRewards) {
+            if (reward.stackReward()) {
+                UserItemStackEntity updateCondition = UserItemStackEntity.builder()
+                        .userId(dto.getUserId())
+                        .itemId(reward.itemId())
+                        .updatedBy(actor)
+                        .build();
 
-            if (updateCount <= 0) {
-                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                return Result.Failure.of("쿠폰 보상 지급에 실패했습니다.", ErrorCode.CONFLICT.getCode());
+                int updateCount = userItemStackRepository.updateUserItemAmountAddByUserIdAndItemId(
+                        updateCondition,
+                        reward.amount()
+                );
+
+                if (updateCount <= 0) {
+                    Integer createdId = userItemStackRepository.insertUserItemStack(UserItemStackEntity.builder()
+                            .userId(dto.getUserId())
+                            .itemId(reward.itemId())
+                            .amount(reward.amount())
+                            .createdBy(actor)
+                            .updatedBy(actor)
+                            .build());
+
+                    if (createdId == null) {
+                        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                        return Result.Failure.of("쿠폰 보상 지급에 실패했습니다.", ErrorCode.CONFLICT.getCode());
+                    }
+                }
+                continue;
+            }
+
+            int instanceCount = reward.amount().intValue();
+            for (int index = 0; index < instanceCount; index++) {
+                Integer createdId = userItemInstanceRepository.insertUserItemInstance(UserItemInstanceEntity.builder()
+                        .userId(dto.getUserId())
+                        .itemId(reward.itemId())
+                        .stateJson(JSONB.jsonb("{}"))
+                        .acquiredAt(OffsetDateTime.now())
+                        .createdBy(actor)
+                        .updatedBy(actor)
+                        .build());
+
+                if (createdId == null) {
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    return Result.Failure.of("쿠폰 보상 지급에 실패했습니다.", ErrorCode.CONFLICT.getCode());
+                }
             }
         }
-
-        String actor = String.valueOf(dto.getUserId());
         CouponUseLogEntity couponUseLogEntity = CouponUseLogEntity.builder()
                 .couponId(coupon.getCouponId())
                 .userId(dto.getUserId())
@@ -403,6 +449,25 @@ public class CouponService {
         }
 
         return maxUseCountPerUser <= useLimitPerUser;
+    }
+
+    private boolean isStackReward(ItemEntity itemEntity) {
+        if ("Y".equalsIgnoreCase(itemEntity.getIsStackable())) {
+            return true;
+        }
+
+        return "STACK".equalsIgnoreCase(itemEntity.getItemType());
+    }
+
+    private boolean isInstanceReward(ItemEntity itemEntity) {
+        if ("N".equalsIgnoreCase(itemEntity.getIsStackable())) {
+            return true;
+        }
+
+        return "INSTANCE".equalsIgnoreCase(itemEntity.getItemType());
+    }
+
+    private record ResolvedCouponReward(Integer itemId, Long amount, boolean stackReward) {
     }
 
     private List<RewardsDto> parseRewardList(CouponEntity couponEntity) {

@@ -51,6 +51,51 @@ public class UserItemStackRepository {
                 .fetchOneInto(UserItemStackEntity.class));
     }
 
+    public Optional<UserItemStackEntity> findByUserIdAndItemId(UserItemStackEntity entity) {
+        return Optional.ofNullable(dslContext.selectFrom(USER_ITEM_STACK)
+                .where(USER_ITEM_STACK.USER_ID.eq(entity.getUserId()))
+                .and(USER_ITEM_STACK.ITEM_ID.eq(entity.getItemId()))
+                .and(USER_ITEM_STACK.IS_DEL.eq("N"))
+                .fetchOneInto(UserItemStackEntity.class));
+    }
+
+    public int updateUserItemAmountAddByUserIdAndItemId(UserItemStackEntity entity, Long amount) {
+        if (entity.getUserId() == null || entity.getItemId() == null || amount == null) {
+            return 0;
+        }
+
+        var query = dslContext.update(USER_ITEM_STACK)
+                .set(USER_ITEM_STACK.AMOUNT, USER_ITEM_STACK.AMOUNT.plus(amount));
+
+        if (entity.getUpdatedBy() != null) {
+            query.set(USER_ITEM_STACK.UPDATED_BY, entity.getUpdatedBy());
+        }
+
+        return query.where(USER_ITEM_STACK.USER_ID.eq(entity.getUserId()))
+                .and(USER_ITEM_STACK.ITEM_ID.eq(entity.getItemId()))
+                .and(USER_ITEM_STACK.IS_DEL.eq("N"))
+                .execute();
+    }
+
+    public int updateUserItemAmountSubtractByUserIdAndItemId(UserItemStackEntity entity, Long amount) {
+        if (entity.getUserId() == null || entity.getItemId() == null || amount == null || amount <= 0) {
+            return 0;
+        }
+
+        var query = dslContext.update(USER_ITEM_STACK)
+                .set(USER_ITEM_STACK.AMOUNT, USER_ITEM_STACK.AMOUNT.minus(amount));
+
+        if (entity.getUpdatedBy() != null) {
+            query.set(USER_ITEM_STACK.UPDATED_BY, entity.getUpdatedBy());
+        }
+
+        return query.where(USER_ITEM_STACK.USER_ID.eq(entity.getUserId()))
+                .and(USER_ITEM_STACK.ITEM_ID.eq(entity.getItemId()))
+                .and(USER_ITEM_STACK.AMOUNT.ge(amount))
+                .and(USER_ITEM_STACK.IS_DEL.eq("N"))
+                .execute();
+    }
+
     public List<UserItemStackListResult> findAllByUserIdAndItemId(PagingEntity pagingEntity, Integer userId, Integer itemId, Integer gameId) {
         Condition condition = DSL.noCondition()
                 .and(USER_ITEM_STACK.IS_DEL.eq("N"))

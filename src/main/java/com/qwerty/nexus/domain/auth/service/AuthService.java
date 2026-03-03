@@ -3,10 +3,10 @@ package com.qwerty.nexus.domain.auth.service;
 import com.qwerty.nexus.domain.auth.Provider;
 import com.qwerty.nexus.domain.auth.dto.request.AuthRequestDto;
 import com.qwerty.nexus.domain.auth.dto.response.AuthResponseDto;
-import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyEntity;
-import com.qwerty.nexus.domain.game.data.currency.entity.UserCurrencyEntity;
-import com.qwerty.nexus.domain.game.data.currency.repository.CurrencyRepository;
-import com.qwerty.nexus.domain.game.data.currency.repository.UserCurrencyRepository;
+import com.qwerty.nexus.domain.game.data.item.entity.ItemEntity;
+import com.qwerty.nexus.domain.game.data.item.entity.UserItemStackEntity;
+import com.qwerty.nexus.domain.game.data.item.repository.ItemRepository;
+import com.qwerty.nexus.domain.game.data.item.repository.UserItemStackRepository;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
 import com.qwerty.nexus.global.exception.ErrorCode;
@@ -26,8 +26,8 @@ public class AuthService {
     private final JwtUtil jwtUtil;
     private final GameUserRepository gameUserRepository;
 
-    private final CurrencyRepository currencyRepository;
-    private final UserCurrencyRepository userCurrencyRepository;
+    private final ItemRepository itemRepository;
+    private final UserItemStackRepository userItemStackRepository;
 
     /**
      * 로그인
@@ -105,24 +105,21 @@ public class AuthService {
      */
     private void createUserData(AuthRequestDto dto, int userId, String socialId){
         // 사용자 정의 테이블의 경우 초반 테이블 만들때 유저데이터 컬럼(가칭)이 Y 인 경우에는 생성하게 끔 처리하면 될듯
-        // 먼저 현재 있는건 유저재화니까 이거부터 정리 해봄
-        // 1) 현재 이 게임의 재화 목록을 모두 가져오기 (itemId)
-
-        // 유저 재화
-        List<Integer> itemIdList = currencyRepository.findAllCurrencyIdsByGameId(CurrencyEntity.builder().gameId(dto.getGameId()).build());
+        // 유저 아이템
+        List<Integer> itemIdList = itemRepository.findAllItemIdsByGameId(ItemEntity.builder().gameId(dto.getGameId()).build());
         if(!itemIdList.isEmpty()){
             itemIdList.forEach(itemId -> {
-                UserCurrencyEntity userCurrencyEntity = UserCurrencyEntity.builder()
+                // 스택형 아이템 추가
+                // ** 인스턴스형은 고정된 아이템이 아니기 때문에 여기에서 추가하지 않음 **
+                UserItemStackEntity userItemStackEntity = UserItemStackEntity.builder()
                         .itemId(itemId)
                         .userId(userId)
                         .createdBy(socialId)
                         .updatedBy(socialId)
                         .build();
 
-                userCurrencyRepository.insertUserCurrency(userCurrencyEntity);
+                userItemStackRepository.insertUserItemStack(userItemStackEntity);
             });
         }
-
-        // 유저 데이터 추가될 때 마다 아래에 추가
     }
 }

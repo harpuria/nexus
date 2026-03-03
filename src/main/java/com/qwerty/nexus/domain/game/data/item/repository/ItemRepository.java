@@ -1,6 +1,5 @@
 package com.qwerty.nexus.domain.game.data.item.repository;
 
-import com.qwerty.nexus.domain.game.data.currency.entity.CurrencyEntity;
 import com.qwerty.nexus.domain.game.data.item.entity.ItemEntity;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.PagingEntity;
