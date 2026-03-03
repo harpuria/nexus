@@ -127,6 +127,7 @@ public class ItemRepository {
                 .from(ITEM)
                 .where(ITEM.GAME_ID.eq(entity.getGameId()))
                 .and(ITEM.IS_DEL.eq("N"))
+                .and(ITEM.IS_STACKABLE.eq(entity.getIsStackable()))
                 .fetchInto(Integer.class);
     }
 

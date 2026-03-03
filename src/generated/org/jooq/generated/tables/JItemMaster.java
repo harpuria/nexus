@@ -4,6 +4,8 @@
 package org.jooq.generated.tables;
 
 
+import com.qwerty.nexus.domain.game.data.item.ItemType;
+
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collection;
@@ -37,6 +39,7 @@ import org.jooq.generated.tables.JUserItemInstance.UserItemInstancePath;
 import org.jooq.generated.tables.JUserItemStack.UserItemStackPath;
 import org.jooq.generated.tables.records.ItemMasterRecord;
 import org.jooq.impl.DSL;
+import org.jooq.impl.EnumConverter;
 import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
@@ -92,7 +95,7 @@ public class JItemMaster extends TableImpl<ItemMasterRecord> {
     /**
      * The column <code>nexus.ITEM_MASTER.ITEM_TYPE</code>. 아이템 타입
      */
-    public final TableField<ItemMasterRecord, String> ITEM_TYPE = createField(DSL.name("ITEM_TYPE"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.field(DSL.raw("'ETC'::character varying"), SQLDataType.VARCHAR)), this, "아이템 타입");
+    public final TableField<ItemMasterRecord, ItemType> ITEM_TYPE = createField(DSL.name("ITEM_TYPE"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.field(DSL.raw("'ETC'::character varying"), SQLDataType.VARCHAR)), this, "아이템 타입", new EnumConverter<String, ItemType>(String.class, ItemType.class));
 
     /**
      * The column <code>nexus.ITEM_MASTER.IS_STACKABLE</code>. 스택형 여부 (Y:수량형,

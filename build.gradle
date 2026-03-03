@@ -126,6 +126,11 @@ jooq {
 						enumConverter = true
 						includeExpression = "MAIL\\.SEND_TYPE" // 어떤 컬럼에 적용할 것인가
 					}
+					forcedType {
+						userType = "com.qwerty.nexus.domain.game.data.item.ItemType"
+						enumConverter = true
+						includeExpression = "ITEM_MASTER\\.ITEM_TYPE" // 어떤 컬럼에 적용할 것인가
+					}
                 }
 			}
 			generate {

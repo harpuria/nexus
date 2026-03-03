@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.daos;
 
 
+import com.qwerty.nexus.domain.game.data.item.ItemType;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,7 @@ import org.jooq.generated.tables.JItemMaster;
 import org.jooq.generated.tables.pojos.ItemMaster;
 import org.jooq.generated.tables.records.ItemMasterRecord;
 import org.jooq.impl.DAOImpl;
+import org.jooq.impl.EnumConverter;
 
 
 /**
@@ -134,14 +137,14 @@ public class ItemMasterDao extends DAOImpl<ItemMasterRecord, ItemMaster, Integer
      * Fetch records that have <code>ITEM_TYPE BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<ItemMaster> fetchRangeOfJItemType(String lowerInclusive, String upperInclusive) {
+    public List<ItemMaster> fetchRangeOfJItemType(ItemType lowerInclusive, ItemType upperInclusive) {
         return fetchRange(JItemMaster.ITEM_MASTER.ITEM_TYPE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>ITEM_TYPE IN (values)</code>
      */
-    public List<ItemMaster> fetchByJItemType(String... values) {
+    public List<ItemMaster> fetchByJItemType(ItemType... values) {
         return fetch(JItemMaster.ITEM_MASTER.ITEM_TYPE, values);
     }
 

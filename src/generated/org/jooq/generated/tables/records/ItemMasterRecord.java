@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.records;
 
 
+import com.qwerty.nexus.domain.game.data.item.ItemType;
+
 import java.time.OffsetDateTime;
 
 import org.jooq.JSONB;
@@ -101,7 +103,7 @@ public class ItemMasterRecord extends UpdatableRecordImpl<ItemMasterRecord> {
     /**
      * Setter for <code>nexus.ITEM_MASTER.ITEM_TYPE</code>. 아이템 타입
      */
-    public ItemMasterRecord setItemType(String value) {
+    public ItemMasterRecord setItemType(ItemType value) {
         set(5, value);
         return this;
     }
@@ -109,8 +111,8 @@ public class ItemMasterRecord extends UpdatableRecordImpl<ItemMasterRecord> {
     /**
      * Getter for <code>nexus.ITEM_MASTER.ITEM_TYPE</code>. 아이템 타입
      */
-    public String getItemType() {
-        return (String) get(5);
+    public ItemType getItemType() {
+        return (ItemType) get(5);
     }
 
     /**
@@ -305,7 +307,7 @@ public class ItemMasterRecord extends UpdatableRecordImpl<ItemMasterRecord> {
     /**
      * Create a detached, initialised ItemMasterRecord
      */
-    public ItemMasterRecord(Integer itemId, Integer gameId, String itemCode, String name, String desc, String itemType, String isStackable, Long defaultStack, Long maxStack, String rarity, String iconPath, JSONB metaJson, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public ItemMasterRecord(Integer itemId, Integer gameId, String itemCode, String name, String desc, ItemType itemType, String isStackable, Long defaultStack, Long maxStack, String rarity, String iconPath, JSONB metaJson, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JItemMaster.ITEM_MASTER);
 
         setItemId(itemId);

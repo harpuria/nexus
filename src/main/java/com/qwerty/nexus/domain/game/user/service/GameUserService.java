@@ -207,7 +207,12 @@ public class GameUserService {
     private void createUserData(int gameId, int userId, String socialId){
         // 사용자 정의 테이블의 경우 초반 테이블 만들때 유저데이터 컬럼(가칭)이 Y 인 경우에는 생성하게 끔 처리하면 될듯
         // 유저 아이템
-        List<Integer> itemIdList = itemRepository.findAllItemIdsByGameId(ItemEntity.builder().gameId(gameId).build());
+        ItemEntity entity = ItemEntity.builder()
+                .gameId(gameId)
+                .isStackable("Y") // 스택형 아이템
+                .build();
+
+        List<Integer> itemIdList = itemRepository.findAllItemIdsByGameId(entity);
         if(!itemIdList.isEmpty()){
             itemIdList.forEach(itemId -> {
                 // 스택형 아이템 추가
