@@ -1,7 +1,7 @@
 package com.qwerty.nexus.domain.game.data.coupon.dto.response;
 
 import com.qwerty.nexus.domain.game.data.coupon.entity.CouponEntity;
-import com.qwerty.nexus.global.dto.RewardsDto;
+import com.qwerty.nexus.domain.reward.dto.RewardDto;
 import com.qwerty.nexus.global.dto.BaseResponseDto;
 import com.qwerty.nexus.global.util.CommonUtil;
 import lombok.Getter;
@@ -19,7 +19,7 @@ public class CouponResponseDto extends BaseResponseDto {
     private String name;
     private String desc;
     private String code;
-    private List<RewardsDto> rewards;
+    private List<RewardDto> rewards;
     private OffsetDateTime useStartDate;
     private OffsetDateTime useEndDate;
     private Long maxIssueCount;
@@ -34,7 +34,7 @@ public class CouponResponseDto extends BaseResponseDto {
                 .name(entity.getName())
                 .desc(entity.getDesc())
                 .code(entity.getCode())
-                .rewards(CommonUtil.jsonbToDto(entity.getRewards(), RewardsDto.class))
+                .rewards(CommonUtil.jsonbToDto(entity.getRewards(), RewardDto.class))
                 .useStartDate(entity.getUseStartDate())
                 .useEndDate(entity.getUseEndDate())
                 .maxIssueCount(entity.getMaxIssueCount())

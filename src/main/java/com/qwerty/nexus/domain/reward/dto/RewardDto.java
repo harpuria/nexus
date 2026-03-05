@@ -1,4 +1,4 @@
-package com.qwerty.nexus.global.dto;
+package com.qwerty.nexus.domain.reward.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RewardsDto {
+public class RewardDto {
     private int itemId;
     private Long amount;
 }

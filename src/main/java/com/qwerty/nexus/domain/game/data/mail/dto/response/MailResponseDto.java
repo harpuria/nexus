@@ -1,7 +1,7 @@
 package com.qwerty.nexus.domain.game.data.mail.dto.response;
 
 import com.qwerty.nexus.domain.game.data.mail.entity.MailEntity;
-import com.qwerty.nexus.global.dto.RewardsDto;
+import com.qwerty.nexus.domain.reward.dto.RewardDto;
 import com.qwerty.nexus.global.dto.BaseResponseDto;
 import com.qwerty.nexus.global.util.CommonUtil;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class MailResponseDto extends BaseResponseDto {
     private Integer gameId;
     private String title;
     private String content;
-    private List<RewardsDto> rewards;
+    private List<RewardDto> rewards;
     private String sendType;
     private String recipientsType;
     private OffsetDateTime expireAt;
@@ -31,7 +31,7 @@ public class MailResponseDto extends BaseResponseDto {
                 .gameId(entity.getGameId())
                 .title(entity.getTitle())
                 .content(entity.getContent())
-                .rewards(CommonUtil.jsonbToDto(entity.getRewards(), RewardsDto.class))
+                .rewards(CommonUtil.jsonbToDto(entity.getRewards(), RewardDto.class))
                 .sendType(entity.getSendType())
                 .recipientsType(entity.getRecipientsType())
                 .expireAt(entity.getExpireAt())

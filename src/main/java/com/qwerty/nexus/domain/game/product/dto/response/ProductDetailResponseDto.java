@@ -3,7 +3,7 @@ package com.qwerty.nexus.domain.game.product.dto.response;
 import com.qwerty.nexus.domain.game.product.LimitType;
 import com.qwerty.nexus.domain.game.product.PurchaseType;
 import com.qwerty.nexus.domain.game.product.entity.ProductEntity;
-import com.qwerty.nexus.global.dto.RewardsDto;
+import com.qwerty.nexus.domain.reward.dto.RewardDto;
 import com.qwerty.nexus.global.dto.BaseResponseDto;
 import com.qwerty.nexus.global.util.CommonUtil;
 import lombok.Getter;
@@ -23,7 +23,7 @@ public class ProductDetailResponseDto extends BaseResponseDto {
     private String name;
     private String desc;
     private BigDecimal price;
-    private List<RewardsDto> rewards;
+    private List<RewardDto> rewards;
     private LimitType limitType;
     private OffsetDateTime availableStart;
     private OffsetDateTime availableEnd;
@@ -37,7 +37,7 @@ public class ProductDetailResponseDto extends BaseResponseDto {
                 .name(entity.getName())
                 .desc(entity.getDesc())
                 .price(entity.getPrice())
-                .rewards(CommonUtil.jsonbToDto(entity.getRewards(), RewardsDto.class))
+                .rewards(CommonUtil.jsonbToDto(entity.getRewards(), RewardDto.class))
                 .limitType(entity.getLimitType())
                 .availableStart(entity.getAvailableStart())
                 .availableEnd(entity.getAvailableEnd())

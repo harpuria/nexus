@@ -20,7 +20,7 @@ import com.qwerty.nexus.domain.game.data.item.repository.UserItemInstanceReposit
 import com.qwerty.nexus.domain.game.data.item.repository.UserItemStackRepository;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
-import com.qwerty.nexus.global.dto.RewardsDto;
+import com.qwerty.nexus.domain.reward.dto.RewardDto;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.PagingRequestDto;
@@ -238,7 +238,7 @@ public class CouponService {
             return Result.Failure.of("쿠폰 사용 가능 횟수를 초과했습니다.", ErrorCode.CONFLICT.getCode());
         }
 
-        List<RewardsDto> rewardInfos = parseRewardList(coupon);
+        List<RewardDto> rewardInfos = parseRewardList(coupon);
         if (rewardInfos == null || rewardInfos.isEmpty()) {
             return Result.Failure.of("쿠폰 보상 정보가 올바르지 않습니다.", ErrorCode.INVALID_FORMAT.getCode());
         }
@@ -246,7 +246,7 @@ public class CouponService {
         String actor = String.valueOf(dto.getUserId());
         List<ResolvedCouponReward> resolvedRewards = new ArrayList<>();
 
-        for (RewardsDto rewardInfo : rewardInfos) {
+        for (RewardDto rewardInfo : rewardInfos) {
             if (rewardInfo.getItemId() <= 0 || rewardInfo.getAmount() == null || rewardInfo.getAmount() <= 0) {
                 return Result.Failure.of("쿠폰 보상 정보가 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
             }
@@ -470,7 +470,7 @@ public class CouponService {
     private record ResolvedCouponReward(Integer itemId, Long amount, boolean stackReward) {
     }
 
-    private List<RewardsDto> parseRewardList(CouponEntity couponEntity) {
+    private List<RewardDto> parseRewardList(CouponEntity couponEntity) {
         if (couponEntity.getRewards() == null || couponEntity.getRewards().data() == null) {
             return null;
         }
