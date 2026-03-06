@@ -28,12 +28,22 @@ public class UserItemStackRepository {
         this.dao = new UserItemStackDao(configuration);
     }
 
+    /**
+     * 유저 스택형 아이템 생성
+     * @param entity
+     * @return
+     */
     public Integer insertUserItemStack(UserItemStackEntity entity) {
         UserItemStackRecord record = dslContext.newRecord(USER_ITEM_STACK, entity);
         record.store();
         return record.getUserItemStackId();
     }
 
+    /**
+     * 유저 스택형 아이템 수정
+     * @param entity
+     * @return
+     */
     public int updateUserItemStack(UserItemStackEntity entity) {
         UserItemStackRecord record = dslContext.newRecord(USER_ITEM_STACK, entity);
         record.changed(USER_ITEM_STACK.USER_ID, entity.getUserId() != null);
@@ -44,6 +54,11 @@ public class UserItemStackRepository {
         return record.update();
     }
 
+    /**
+     * 기본키(PK)로 유저 스택형 아이템 단건 조회
+     * @param entity
+     * @return
+     */
     public Optional<UserItemStackEntity> findByUserItemStackId(UserItemStackEntity entity) {
         return Optional.ofNullable(dslContext.selectFrom(USER_ITEM_STACK)
                 .where(USER_ITEM_STACK.USER_ITEM_STACK_ID.eq(entity.getUserItemStackId()))
@@ -51,6 +66,11 @@ public class UserItemStackRepository {
                 .fetchOneInto(UserItemStackEntity.class));
     }
 
+    /**
+     * 유저아이디(FK), 아이템아이디(FK)로 단건 조회
+     * @param entity
+     * @return
+     */
     public Optional<UserItemStackEntity> findByUserIdAndItemId(UserItemStackEntity entity) {
         return Optional.ofNullable(dslContext.selectFrom(USER_ITEM_STACK)
                 .where(USER_ITEM_STACK.USER_ID.eq(entity.getUserId()))
@@ -59,6 +79,12 @@ public class UserItemStackRepository {
                 .fetchOneInto(UserItemStackEntity.class));
     }
 
+    /**
+     * 유저 스택형 아이디 수량 수정 (증가)
+     * @param entity
+     * @param amount
+     * @return
+     */
     public int updateUserItemAmountAddByUserIdAndItemId(UserItemStackEntity entity, Long amount) {
         if (entity.getUserId() == null || entity.getItemId() == null || amount == null) {
             return 0;
@@ -77,6 +103,12 @@ public class UserItemStackRepository {
                 .execute();
     }
 
+    /**
+     * 유저 스택형 아이디 수량 수정 (감소)
+     * @param entity
+     * @param amount
+     * @return
+     */
     public int updateUserItemAmountSubtractByUserIdAndItemId(UserItemStackEntity entity, Long amount) {
         if (entity.getUserId() == null || entity.getItemId() == null || amount == null || amount <= 0) {
             return 0;
@@ -96,6 +128,14 @@ public class UserItemStackRepository {
                 .execute();
     }
 
+    /**
+     * 유저 스택형 아이템 목록 조회
+     * @param pagingEntity
+     * @param userId
+     * @param itemId
+     * @param gameId
+     * @return
+     */
     public List<UserItemStackListResult> findAllByUserIdAndItemId(PagingEntity pagingEntity, Integer userId, Integer itemId, Integer gameId) {
         Condition condition = DSL.noCondition()
                 .and(USER_ITEM_STACK.IS_DEL.eq("N"))
@@ -118,6 +158,13 @@ public class UserItemStackRepository {
                 .fetchInto(UserItemStackListResult.class);
     }
 
+    /**
+     * 유저 스택형 아이템 카운트
+     * @param userId
+     * @param itemId
+     * @param gameId
+     * @return
+     */
     public long countByUserIdAndItemId(Integer userId, Integer itemId, Integer gameId) {
         Condition condition = DSL.noCondition()
                 .and(USER_ITEM_STACK.IS_DEL.eq("N"))
@@ -136,6 +183,12 @@ public class UserItemStackRepository {
         return totalCount != null ? totalCount : 0L;
     }
 
+    /**
+     * 정렬 필드 설정
+     * @param sort
+     * @param direction
+     * @return
+     */
     private SortField<?> resolveSortField(String sort, String direction) {
         String sortKey = Optional.ofNullable(sort).orElse(ApiConstants.Pagination.DEFAULT_SORT_FIELD).toLowerCase(Locale.ROOT);
         Field<?> sortField = switch (sortKey) {

@@ -24,6 +24,11 @@ import java.util.Optional;
 public class UserItemInstanceService {
     private final UserItemInstanceRepository repository;
 
+    /**
+     * 유저 인스턴스형 아이템 생성
+     * @param dto
+     * @return
+     */
     @Transactional
     public Result<Void> createUserItemInstance(UserItemInstanceCreateRequestDto dto) {
         UserItemInstanceEntity entity = UserItemInstanceEntity.builder()
@@ -37,12 +42,17 @@ public class UserItemInstanceService {
 
         Integer createdId = repository.insertUserItemInstance(entity);
         if (createdId == null) {
-            return Result.Failure.of("유저 아이템 인스턴스 생성 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("유저 인스턴스형 아이템 생성 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
         return Result.Success.of(null, ApiConstants.Messages.Success.CREATED);
     }
 
+    /**
+     * 유저 인스턴스형 아이템 수정
+     * @param dto
+     * @return
+     */
     @Transactional
     public Result<Void> updateUserItemInstance(UserItemInstanceUpdateRequestDto dto) {
         UserItemInstanceEntity entity = UserItemInstanceEntity.builder()
@@ -59,9 +69,14 @@ public class UserItemInstanceService {
             return Result.Success.of(null, ApiConstants.Messages.Success.UPDATED);
         }
 
-        return Result.Failure.of("유저 아이템 인스턴스 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+        return Result.Failure.of("유저 인스턴스형 아이템 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
     }
 
+    /**
+     * 유저 인스턴스형 아이템 삭제
+     * @param dto
+     * @return
+     */
     @Transactional
     public Result<Void> deleteUserItemInstance(UserItemInstanceUpdateRequestDto dto) {
         UserItemInstanceEntity entity = UserItemInstanceEntity.builder()
@@ -75,9 +90,14 @@ public class UserItemInstanceService {
             return Result.Success.of(null, ApiConstants.Messages.Success.DELETED);
         }
 
-        return Result.Failure.of("유저 아이템 인스턴스 삭제 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+        return Result.Failure.of("유저 인스턴스형 아이템 삭제 실패.", ErrorCode.INTERNAL_ERROR.getCode());
     }
 
+    /**
+     * 유저 인스턴스형 아이템 단건 조회
+     * @param userItemId
+     * @return
+     */
     public Result<UserItemInstanceResponseDto> getUserItemInstance(Integer userItemId) {
         Optional<UserItemInstanceEntity> itemInstance = repository.findByUserItemId(UserItemInstanceEntity.builder()
                 .userItemId(userItemId)
@@ -87,9 +107,17 @@ public class UserItemInstanceService {
             return Result.Success.of(UserItemInstanceResponseDto.from(itemInstance.get()), ApiConstants.Messages.Success.RETRIEVED);
         }
 
-        return Result.Failure.of("유저 아이템 인스턴스 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
+        return Result.Failure.of("유저 인스턴스형 아이템 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
     }
 
+    /**
+     * 유저 인스턴스형 아이템 목록 조회
+     * @param dto
+     * @param userId
+     * @param itemId
+     * @param gameId
+     * @return
+     */
     public Result<UserItemInstanceListResponseDto> listUserItemInstances(PagingRequestDto dto, Integer userId, Integer itemId, Integer gameId) {
         PagingEntity pagingEntity = PagingUtil.getPagingEntity(dto);
         if (pagingEntity == null) {

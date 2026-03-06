@@ -21,27 +21,43 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(ApiConstants.Path.USER_ITEM_STACK_PATH)
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "유저 아이템 스택", description = "유저 스택형 아이템 관련 API")
+@Tag(name = "유저 스택형 아이템", description = "유저 스택형(ex: 재화, 소모품 등) 아이템 관련 API")
 public class UserItemStackController {
     private final UserItemStackService service;
 
+    /**
+     * 유저 스택형 아이템 생성
+     * @param dto
+     * @return
+     */
     @PostMapping
-    @Operation(summary = "유저 아이템 스택 생성")
+    @Operation(summary = "유저 스택형 아이템 생성")
     public ResponseEntity<ApiResponse<Void>> createUserItemStack(@Valid @RequestBody UserItemStackCreateRequestDto dto) {
         Result<Void> result = service.createUserItemStack(dto);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
+    /**
+     * 유저 스택형 아이템 수정
+     * @param userItemStackId
+     * @param dto
+     * @return
+     */
     @PatchMapping("/{userItemStackId}")
-    @Operation(summary = "유저 아이템 스택 수정")
+    @Operation(summary = "유저 스택형 아이템 수정")
     public ResponseEntity<ApiResponse<Void>> updateUserItemStack(@PathVariable int userItemStackId, @Valid @RequestBody UserItemStackUpdateRequestDto dto) {
         dto.setUserItemStackId(userItemStackId);
         Result<Void> result = service.updateUserItemStack(dto);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
+    /**
+     * 유저 스택형 아이템 삭제
+     * @param userItemStackId
+     * @return
+     */
     @DeleteMapping("/{userItemStackId}")
-    @Operation(summary = "유저 아이템 스택 삭제")
+    @Operation(summary = "유저 스택형 아이템 삭제")
     public ResponseEntity<ApiResponse<Void>> deleteUserItemStack(@PathVariable int userItemStackId) {
         UserItemStackUpdateRequestDto dto = new UserItemStackUpdateRequestDto();
         dto.setUserItemStackId(userItemStackId);
@@ -50,15 +66,31 @@ public class UserItemStackController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
+    /**
+     * 유저 스택형 아이템 단건 조회
+     * @param userItemStackId
+     * @return
+     */
     @GetMapping("/{userItemStackId}")
-    @Operation(summary = "유저 아이템 스택 단건 조회")
+    @Operation(summary = "유저 스택형 아이템 단건 조회")
     public ResponseEntity<ApiResponse<UserItemStackResponseDto>> getUserItemStack(@PathVariable int userItemStackId) {
         Result<UserItemStackResponseDto> result = service.getUserItemStack(userItemStackId);
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
+    /**
+     * 유저 스택형 아이템 목록 조회
+     * @param userId
+     * @param page
+     * @param size
+     * @param sort
+     * @param direction
+     * @param itemId
+     * @param gameId
+     * @return
+     */
     @GetMapping("/list/{userId}")
-    @Operation(summary = "유저 아이템 스택 목록 조회")
+    @Operation(summary = "유저 스택형 아이템 목록 조회")
     public ResponseEntity<ApiResponse<UserItemStackListResponseDto>> listUserItemStacks(
             @PathVariable int userId,
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,

@@ -28,12 +28,22 @@ public class UserItemInstanceRepository {
         this.dao = new UserItemInstanceDao(configuration);
     }
 
+    /**
+     * 유저 인스턴스형 아이템 생성
+     * @param entity
+     * @return
+     */
     public Integer insertUserItemInstance(UserItemInstanceEntity entity) {
         UserItemInstanceRecord record = dslContext.newRecord(USER_ITEM_INSTANCE, entity);
         record.store();
         return record.getUserItemId();
     }
 
+    /**
+     * 유저 인스턴스형 아이템 수정
+     * @param entity
+     * @return
+     */
     public int updateUserItemInstance(UserItemInstanceEntity entity) {
         UserItemInstanceRecord record = dslContext.newRecord(USER_ITEM_INSTANCE, entity);
         record.changed(USER_ITEM_INSTANCE.USER_ID, entity.getUserId() != null);
@@ -45,6 +55,11 @@ public class UserItemInstanceRepository {
         return record.update();
     }
 
+    /**
+     * 유저 인스턴스형 아이템 단건 조회
+     * @param entity
+     * @return
+     */
     public Optional<UserItemInstanceEntity> findByUserItemId(UserItemInstanceEntity entity) {
         return Optional.ofNullable(dslContext.selectFrom(USER_ITEM_INSTANCE)
                 .where(USER_ITEM_INSTANCE.USER_ITEM_ID.eq(entity.getUserItemId()))
@@ -52,6 +67,14 @@ public class UserItemInstanceRepository {
                 .fetchOneInto(UserItemInstanceEntity.class));
     }
 
+    /**
+     * 유저 인스턴스형 아이템 목록 조회
+     * @param pagingEntity
+     * @param userId
+     * @param itemId
+     * @param gameId
+     * @return
+     */
     public List<UserItemInstanceListResult> findAllByUserIdAndItemId(PagingEntity pagingEntity, Integer userId, Integer itemId, Integer gameId) {
         Condition condition = DSL.noCondition()
                 .and(USER_ITEM_INSTANCE.IS_DEL.eq("N"))
@@ -74,6 +97,13 @@ public class UserItemInstanceRepository {
                 .fetchInto(UserItemInstanceListResult.class);
     }
 
+    /**
+     * 유저 인스턴스형 아이템 카운트
+     * @param userId
+     * @param itemId
+     * @param gameId
+     * @return
+     */
     public long countByUserIdAndItemId(Integer userId, Integer itemId, Integer gameId) {
         Condition condition = DSL.noCondition()
                 .and(USER_ITEM_INSTANCE.IS_DEL.eq("N"))
@@ -92,6 +122,12 @@ public class UserItemInstanceRepository {
         return totalCount != null ? totalCount : 0L;
     }
 
+    /**
+     * 정렬 필드 설정
+     * @param sort
+     * @param direction
+     * @return
+     */
     private SortField<?> resolveSortField(String sort, String direction) {
         String sortKey = Optional.ofNullable(sort).orElse(ApiConstants.Pagination.DEFAULT_SORT_FIELD).toLowerCase(Locale.ROOT);
         Field<?> sortField = switch (sortKey) {

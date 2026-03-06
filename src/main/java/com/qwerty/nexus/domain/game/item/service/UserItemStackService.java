@@ -24,6 +24,11 @@ import java.util.Optional;
 public class UserItemStackService {
     private final UserItemStackRepository repository;
 
+    /**
+     * 유저 스택형 아이템 생성
+     * @param dto
+     * @return
+     */
     @Transactional
     public Result<Void> createUserItemStack(UserItemStackCreateRequestDto dto) {
         UserItemStackEntity entity = UserItemStackEntity.builder()
@@ -36,12 +41,17 @@ public class UserItemStackService {
 
         Integer createdId = repository.insertUserItemStack(entity);
         if (createdId == null) {
-            return Result.Failure.of("유저 아이템 스택 생성 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("유저 스택형 아이템 생성 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
         return Result.Success.of(null, ApiConstants.Messages.Success.CREATED);
     }
 
+    /**
+     * 유저 스택형 아이템 수정
+     * @param dto
+     * @return
+     */
     @Transactional
     public Result<Void> updateUserItemStack(UserItemStackUpdateRequestDto dto) {
         UserItemStackEntity entity = UserItemStackEntity.builder()
@@ -57,9 +67,14 @@ public class UserItemStackService {
             return Result.Success.of(null, ApiConstants.Messages.Success.UPDATED);
         }
 
-        return Result.Failure.of("유저 아이템 스택 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+        return Result.Failure.of("유저 스택형 아이템 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
     }
 
+    /**
+     * 유저 스택형 아이템 삭제
+     * @param dto
+     * @return
+     */
     @Transactional
     public Result<Void> deleteUserItemStack(UserItemStackUpdateRequestDto dto) {
         UserItemStackEntity entity = UserItemStackEntity.builder()
@@ -73,9 +88,14 @@ public class UserItemStackService {
             return Result.Success.of(null, ApiConstants.Messages.Success.DELETED);
         }
 
-        return Result.Failure.of("유저 아이템 스택 삭제 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+        return Result.Failure.of("유저 스택형 아이템 삭제 실패.", ErrorCode.INTERNAL_ERROR.getCode());
     }
 
+    /**
+     * 유저 스택형 아이템 단건 조회
+     * @param userItemStackId
+     * @return
+     */
     public Result<UserItemStackResponseDto> getUserItemStack(Integer userItemStackId) {
         Optional<UserItemStackEntity> itemStack = repository.findByUserItemStackId(UserItemStackEntity.builder()
                 .userItemStackId(userItemStackId)
@@ -85,9 +105,17 @@ public class UserItemStackService {
             return Result.Success.of(UserItemStackResponseDto.from(itemStack.get()), ApiConstants.Messages.Success.RETRIEVED);
         }
 
-        return Result.Failure.of("유저 아이템 스택 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
+        return Result.Failure.of("유저 스택형 아이템 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
     }
 
+    /**
+     * 유저 스택형 아이템 목록 조회
+     * @param dto
+     * @param userId
+     * @param itemId
+     * @param gameId
+     * @return
+     */
     public Result<UserItemStackListResponseDto> listUserItemStacks(PagingRequestDto dto, Integer userId, Integer itemId, Integer gameId) {
         PagingEntity pagingEntity = PagingUtil.getPagingEntity(dto);
         if (pagingEntity == null) {

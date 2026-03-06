@@ -18,7 +18,7 @@ class NexusApplicationTests {
         List<ProductInfo> test = objectMapper.readValue("[{\"itemId\" : 1, \"amount\" : 100}]", new TypeReference<List<ProductInfo>>() {});
 
         for(ProductInfo t : test){
-            System.out.println(t.getCurrencyId());
+            System.out.println(t.getItemId());
             System.out.println(t.getAmount());
         }
 	}

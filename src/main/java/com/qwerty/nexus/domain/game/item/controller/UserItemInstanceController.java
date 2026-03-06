@@ -21,27 +21,43 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(ApiConstants.Path.USER_ITEM_INSTANCE_PATH)
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "유저 아이템 인스턴스", description = "유저 인스턴스형 아이템 관련 API")
+@Tag(name = "유저 인스턴스형 아이템", description = "유저 인스턴스형(ex:장비, 영웅, 스킨 등) 아이템 관련 API")
 public class UserItemInstanceController {
     private final UserItemInstanceService service;
 
+    /**
+     * 유저 인스턴스형 아이템 생성
+     * @param dto
+     * @return
+     */
     @PostMapping
-    @Operation(summary = "유저 아이템 인스턴스 생성")
+    @Operation(summary = "유저 인스턴스형 아이템 생성")
     public ResponseEntity<ApiResponse<Void>> createUserItemInstance(@Valid @RequestBody UserItemInstanceCreateRequestDto dto) {
         Result<Void> result = service.createUserItemInstance(dto);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
+    /**
+     * 유저 인스턴스형 아이템 수정
+     * @param userItemId
+     * @param dto
+     * @return
+     */
     @PatchMapping("/{userItemId}")
-    @Operation(summary = "유저 아이템 인스턴스 수정")
+    @Operation(summary = "유저 인스턴스형 아이템 수정")
     public ResponseEntity<ApiResponse<Void>> updateUserItemInstance(@PathVariable int userItemId, @Valid @RequestBody UserItemInstanceUpdateRequestDto dto) {
         dto.setUserItemId(userItemId);
         Result<Void> result = service.updateUserItemInstance(dto);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
+    /**
+     * 유저 인스턴스형 아이템 삭제
+     * @param userItemId
+     * @return
+     */
     @DeleteMapping("/{userItemId}")
-    @Operation(summary = "유저 아이템 인스턴스 삭제")
+    @Operation(summary = "유저 인스턴스형 아이템 삭제")
     public ResponseEntity<ApiResponse<Void>> deleteUserItemInstance(@PathVariable int userItemId) {
         UserItemInstanceUpdateRequestDto dto = new UserItemInstanceUpdateRequestDto();
         dto.setUserItemId(userItemId);
@@ -50,15 +66,31 @@ public class UserItemInstanceController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
+    /**
+     * 유저 인스턴스형 아이템 단건 조회
+     * @param userItemId
+     * @return
+     */
     @GetMapping("/{userItemId}")
-    @Operation(summary = "유저 아이템 인스턴스 단건 조회")
+    @Operation(summary = "유저 인스턴스형 아이템 단건 조회")
     public ResponseEntity<ApiResponse<UserItemInstanceResponseDto>> getUserItemInstance(@PathVariable int userItemId) {
         Result<UserItemInstanceResponseDto> result = service.getUserItemInstance(userItemId);
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
+    /**
+     * 유저 인스턴스형 아이템 목록 조회
+     * @param userId
+     * @param page
+     * @param size
+     * @param sort
+     * @param direction
+     * @param itemId
+     * @param gameId
+     * @return
+     */
     @GetMapping("/list/{userId}")
-    @Operation(summary = "유저 아이템 인스턴스 목록 조회")
+    @Operation(summary = "유저 인스턴스형 아이템 목록 조회")
     public ResponseEntity<ApiResponse<UserItemInstanceListResponseDto>> listUserItemInstances(
             @PathVariable int userId,
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
