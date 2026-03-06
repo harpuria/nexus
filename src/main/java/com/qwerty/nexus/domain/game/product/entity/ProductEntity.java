@@ -1,12 +1,11 @@
 package com.qwerty.nexus.domain.game.product.entity;
 
-import com.qwerty.nexus.domain.game.product.LimitType;
-import com.qwerty.nexus.domain.game.product.PurchaseType;
 import lombok.Builder;
 import lombok.Getter;
 import org.jooq.JSONB;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Getter
@@ -14,15 +13,26 @@ import java.time.OffsetDateTime;
 public class ProductEntity {
     private Integer productId;
     private Integer gameId;
-    private PurchaseType purchaseType;
-    private Integer itemId;
+    private String productCode;
     private String name;
     private String desc;
-    private BigDecimal price;
+    private String imageUrl;
+    private String productType;
     private JSONB rewards;
-    private LimitType limitType;
-    private OffsetDateTime availableStart;
-    private OffsetDateTime availableEnd;
+    private Integer shopProductId;
+    private Integer shopId;
+    private String shopName;
+    private Integer sortOrder;
+    private String isVisible;
+    private String timeLimitType;
+    private LocalDateTime saleStartAt;
+    private LocalDateTime saleEndAt;
+    private String priceType;
+    private String priceItemCode;
+    private BigDecimal priceAmount;
+    private String storeSku;
+    private String purchaseLimitType;
+    private Integer purchaseLimitCount;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
     private String createdBy;
