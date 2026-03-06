@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.item.dto.request;
 
+import com.qwerty.nexus.domain.game.item.ItemType;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
@@ -17,8 +18,7 @@ public class ItemUpdateRequestDto {
     private String name;
     @Size(max = 255)
     private String desc;
-    @Size(max = 32)
-    private String itemType;
+    private ItemType itemType;
     @Pattern(regexp = "^[YNyn]$")
     private String isStackable;
     @PositiveOrZero

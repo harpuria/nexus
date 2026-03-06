@@ -56,6 +56,8 @@ public class RewardService {
                 .requestId(requestId)
                 .sourceId(sourceId)
                 .sourceType(sourceType)
+                .createdBy("NEXUS_SYSTEM")
+                .updatedBy("NEXUS_SYSTEM")
                 .build();
 
         try{
@@ -82,6 +84,8 @@ public class RewardService {
                     UserItemStackEntity userItemStackEntity = UserItemStackEntity.builder()
                             .userId(userId)
                             .itemId(reward.getItemId())
+                            .createdBy("NEXUS_SYSTEM")
+                            .updatedBy("NEXUS_SYSTEM")
                             .build();
 
                     userItemStackRepository.updateUserItemAmountAddByUserIdAndItemId(userItemStackEntity, reward.getAmount());
@@ -92,6 +96,8 @@ public class RewardService {
                             .itemId(reward.getItemId())
                             .stateJson(JSONB.jsonb("{}"))
                             .acquiredAt(OffsetDateTime.now())
+                            .createdBy("NEXUS_SYSTEM")
+                            .updatedBy("NEXUS_SYSTEM")
                             .build();
 
                     userItemInstanceRepository.insertUserItemInstance(userItemInstanceEntity);

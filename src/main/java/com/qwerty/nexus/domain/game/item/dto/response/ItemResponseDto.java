@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.item.dto.response;
 
+import com.qwerty.nexus.domain.game.item.ItemType;
 import com.qwerty.nexus.domain.game.item.entity.ItemEntity;
 import com.qwerty.nexus.global.dto.BaseResponseDto;
 import lombok.Getter;
@@ -14,7 +15,7 @@ public class ItemResponseDto extends BaseResponseDto {
     private String itemCode;
     private String name;
     private String desc;
-    private String itemType;
+    private ItemType itemType;
     private String isStackable;
     private Long maxStack;
     private String rarity;

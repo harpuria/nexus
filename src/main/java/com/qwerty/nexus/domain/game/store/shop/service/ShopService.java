@@ -99,10 +99,13 @@ public class ShopService {
     }
 
     public Result<ShopResponseDto> getShop(Integer shopId) {
-        return shopRepository.findByShopId(shopId)
+        return null;
+        /*return shopRepository.findByShopId(shopId)
                 .map(ShopResponseDto::from)
                 .map(dto -> Result.Success.of(dto, "상점 조회 성공."))
                 .orElseGet(() -> Result.Failure.of("상점 정보가 존재하지 않습니다.", ErrorCode.NOT_FOUND.getCode()));
+
+         */
     }
 
     public Result<ShopListResponseDto> listShops(PagingRequestDto pagingRequestDto, int gameId) {

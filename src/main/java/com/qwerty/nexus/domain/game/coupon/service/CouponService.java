@@ -36,6 +36,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -295,48 +296,10 @@ public class CouponService {
 
         // 지급처리
         rewardService.grant(dto.getGameId(), dto.getUserId(), rewardInfos, "COUPON", dto.getCouponCode(),
-                String.format("COUPON:%s:%s", dto.getUserId(), dto.getCouponCode()));
+                String.format("COUPON:%s:%s:%s", dto.getUserId(), dto.getCouponCode(), LocalDateTime.now()));
 
-        // 구형 지급처리 (곧 삭제)
-        for (ResolvedCouponReward reward : resolvedRewards) {
-            if (reward.stackReward()) {
-                UserItemStackEntity updateCondition = UserItemStackEntity.builder()
-                        .userId(dto.getUserId())
-                        .itemId(reward.itemId())
-                        .updatedBy(actor)
-                        .build();
 
-                int updateCount = userItemStackRepository.updateUserItemAmountAddByUserIdAndItemId(
-                        updateCondition,
-                        reward.amount()
-                );
-
-                if (updateCount <= 0) {
-                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                    return Result.Failure.of("쿠폰 보상 지급에 실패했습니다.", ErrorCode.CONFLICT.getCode());
-                }
-                continue;
-            }
-
-            int instanceCount = reward.amount().intValue();
-            for (int index = 0; index < instanceCount; index++) {
-                Integer createdId = userItemInstanceRepository.insertUserItemInstance(UserItemInstanceEntity.builder()
-                        .userId(dto.getUserId())
-                        .itemId(reward.itemId())
-                        .stateJson(JSONB.jsonb("{}"))
-                        .acquiredAt(OffsetDateTime.now())
-                        .createdBy(actor)
-                        .updatedBy(actor)
-                        .build());
-
-                if (createdId == null) {
-                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                    return Result.Failure.of("쿠폰 보상 지급에 실패했습니다.", ErrorCode.CONFLICT.getCode());
-                }
-            }
-        }
-        // 구형지급처리 끝
-
+        // 쿠폰 로그 저장
         CouponUseLogEntity couponUseLogEntity = CouponUseLogEntity.builder()
                 .couponId(coupon.getCouponId())
                 .userId(dto.getUserId())

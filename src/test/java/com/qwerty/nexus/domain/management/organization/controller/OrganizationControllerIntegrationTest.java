@@ -15,12 +15,15 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -42,11 +45,29 @@ class OrganizationControllerIntegrationTest {
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Test
+    void createOrganization_success() throws Exception {
+        given(organizationRepository.insertOrganization(any())).willReturn(10);
+
+        String body = objectMapper.writeValueAsString(Map.of(
+                "orgNm", "Studio X",
+                "orgCd", "111-22-33333",
+                "createdBy", "superadmin"
+        ));
+
+        mockMvc.perform(post(ApiConstants.Path.ORG_PATH)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(body))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value(ApiConstants.Messages.Success.CREATED));
+    }
+
+    @Test
     void updateOrganization_success() throws Exception {
         given(organizationRepository.updateOrganization(any())).willReturn(1);
 
         String body = objectMapper.writeValueAsString(Map.of(
-                "orgNm", "변경된단체명",
+                "orgNm", "Updated Studio",
                 "orgCd", "111-22-33333",
                 "updatedBy", "superadmin"
         ));
@@ -60,10 +81,20 @@ class OrganizationControllerIntegrationTest {
     }
 
     @Test
+    void deleteOrganization_success() throws Exception {
+        given(organizationRepository.deleteOrganization(any())).willReturn(1);
+
+        mockMvc.perform(delete(ApiConstants.Path.ORG_PATH + "/{orgId}", 10))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.message").value(ApiConstants.Messages.Success.DELETED));
+    }
+
+    @Test
     void getOrganization_success() throws Exception {
         given(organizationRepository.findByOrgId(10)).willReturn(OrganizationEntity.builder()
                 .orgId(10)
-                .orgNm("넥서스")
+                .orgNm("Nexus Org")
                 .orgCd("123-45-67890")
                 .isDel("N")
                 .build());
@@ -72,7 +103,7 @@ class OrganizationControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.data.orgId").value(10))
-                .andExpect(jsonPath("$.data.orgNm").value("넥서스"));
+                .andExpect(jsonPath("$.data.orgNm").value("Nexus Org"));
     }
 
     @Test
@@ -84,4 +115,27 @@ class OrganizationControllerIntegrationTest {
                 .andExpect(jsonPath("$.success").value(false))
                 .andExpect(jsonPath("$.message").value("단체 정보 존재하지 않음."));
     }
+
+    @Test
+    void listOrganizations_success() throws Exception {
+        given(organizationRepository.findAllByPaging(any())).willReturn(List.of(
+                OrganizationEntity.builder()
+                        .orgId(10)
+                        .orgNm("Nexus Org")
+                        .orgCd("123-45-67890")
+                        .isDel("N")
+                        .build()
+        ));
+        given(organizationRepository.countActiveOrganizations()).willReturn(1L);
+
+        mockMvc.perform(get(ApiConstants.Path.ORG_PATH + "/list")
+                        .param("page", "0")
+                        .param("size", "10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.totalCount").value(1))
+                .andExpect(jsonPath("$.data.organizations[0].orgId").value(10));
+    }
 }
+
+
