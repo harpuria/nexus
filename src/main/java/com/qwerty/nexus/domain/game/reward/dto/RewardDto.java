@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.reward.dto;
+package com.qwerty.nexus.domain.game.reward.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,6 @@
-package com.qwerty.nexus.domain.reward.service;
+package com.qwerty.nexus.domain.game.reward.service;
 
-import com.qwerty.nexus.domain.reward.dto.RewardDto;
+import com.qwerty.nexus.domain.game.reward.dto.RewardDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;

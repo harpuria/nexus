@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.reward.repository;
+package com.qwerty.nexus.domain.game.reward.repository;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;

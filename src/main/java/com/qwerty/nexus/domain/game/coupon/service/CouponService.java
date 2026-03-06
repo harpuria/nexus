@@ -20,7 +20,7 @@ import com.qwerty.nexus.domain.game.item.repository.UserItemInstanceRepository;
 import com.qwerty.nexus.domain.game.item.repository.UserItemStackRepository;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
-import com.qwerty.nexus.domain.reward.dto.RewardDto;
+import com.qwerty.nexus.domain.game.reward.dto.RewardDto;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.PagingRequestDto;

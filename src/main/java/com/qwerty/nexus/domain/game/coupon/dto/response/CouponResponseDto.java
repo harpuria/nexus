@@ -1,7 +1,7 @@
 package com.qwerty.nexus.domain.game.coupon.dto.response;
 
 import com.qwerty.nexus.domain.game.coupon.entity.CouponEntity;
-import com.qwerty.nexus.domain.reward.dto.RewardDto;
+import com.qwerty.nexus.domain.game.reward.dto.RewardDto;
 import com.qwerty.nexus.global.dto.BaseResponseDto;
 import com.qwerty.nexus.global.util.CommonUtil;
 import lombok.Getter;
