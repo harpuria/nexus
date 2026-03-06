@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.item.entity;
 
+import com.qwerty.nexus.domain.game.item.ItemType;
 import lombok.Builder;
 import lombok.Getter;
 import org.jooq.JSONB;
@@ -14,7 +15,7 @@ public class ItemEntity {
     private String itemCode;
     private String name;
     private String desc;
-    private String itemType;
+    private ItemType itemType;
     private String isStackable;
     private Long defaultStack;
     private Long maxStack;

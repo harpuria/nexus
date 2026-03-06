@@ -18,6 +18,7 @@ import com.qwerty.nexus.domain.game.item.entity.UserItemStackEntity;
 import com.qwerty.nexus.domain.game.item.repository.ItemRepository;
 import com.qwerty.nexus.domain.game.item.repository.UserItemInstanceRepository;
 import com.qwerty.nexus.domain.game.item.repository.UserItemStackRepository;
+import com.qwerty.nexus.domain.game.reward.service.RewardService;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
 import com.qwerty.nexus.domain.game.reward.dto.RewardDto;
@@ -50,6 +51,8 @@ public class CouponService {
     private final UserItemInstanceRepository userItemInstanceRepository;
     private final UserItemStackRepository userItemStackRepository;
     private final ObjectMapper objectMapper;
+
+    private final RewardService rewardService;
 
     /**
      * 쿠폰 생성
@@ -290,6 +293,11 @@ public class CouponService {
             return Result.Failure.of("쿠폰 보상 아이템 유형이 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
+        // 지급처리
+        rewardService.grant(dto.getGameId(), dto.getUserId(), rewardInfos, "COUPON", dto.getCouponCode(),
+                String.format("COUPON:%s:%s", dto.getUserId(), dto.getCouponCode()));
+
+        // 구형 지급처리 (곧 삭제)
         for (ResolvedCouponReward reward : resolvedRewards) {
             if (reward.stackReward()) {
                 UserItemStackEntity updateCondition = UserItemStackEntity.builder()
@@ -304,18 +312,8 @@ public class CouponService {
                 );
 
                 if (updateCount <= 0) {
-                    Integer createdId = userItemStackRepository.insertUserItemStack(UserItemStackEntity.builder()
-                            .userId(dto.getUserId())
-                            .itemId(reward.itemId())
-                            .amount(reward.amount())
-                            .createdBy(actor)
-                            .updatedBy(actor)
-                            .build());
-
-                    if (createdId == null) {
-                        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-                        return Result.Failure.of("쿠폰 보상 지급에 실패했습니다.", ErrorCode.CONFLICT.getCode());
-                    }
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                    return Result.Failure.of("쿠폰 보상 지급에 실패했습니다.", ErrorCode.CONFLICT.getCode());
                 }
                 continue;
             }
@@ -337,6 +335,8 @@ public class CouponService {
                 }
             }
         }
+        // 구형지급처리 끝
+
         CouponUseLogEntity couponUseLogEntity = CouponUseLogEntity.builder()
                 .couponId(coupon.getCouponId())
                 .userId(dto.getUserId())
@@ -456,7 +456,7 @@ public class CouponService {
             return true;
         }
 
-        return "STACK".equalsIgnoreCase(itemEntity.getItemType());
+        return false;
     }
 
     private boolean isInstanceReward(ItemEntity itemEntity) {
@@ -464,7 +464,7 @@ public class CouponService {
             return true;
         }
 
-        return "INSTANCE".equalsIgnoreCase(itemEntity.getItemType());
+        return false;
     }
 
     private record ResolvedCouponReward(Integer itemId, Long amount, boolean stackReward) {

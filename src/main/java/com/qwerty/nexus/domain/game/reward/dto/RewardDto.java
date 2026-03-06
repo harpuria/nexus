@@ -14,5 +14,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RewardDto {
     private Integer itemId;
+    private String itemCode;
     private Long amount;
 }

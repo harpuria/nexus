@@ -71,6 +71,20 @@ public class ItemRepository {
     }
 
     /**
+     * 아이템 아이디(PK), 아이템 코드, 게임 아이디 (FK)로 정보 찾기 (단건, 재화 지급용)
+     * @param entity
+     * @return
+     */
+    public Optional<ItemEntity> findByItemIdAndItemCodeAndGameId(ItemEntity entity) {
+        return Optional.ofNullable(dslContext.selectFrom(ITEM)
+                .where(ITEM.ITEM_ID.eq(entity.getItemId()))
+                .and(ITEM.ITEM_CODE.eq(entity.getItemCode()))
+                .and(ITEM.GAME_ID.eq(entity.getGameId()))
+                .and(ITEM.IS_DEL.eq("N"))
+                .fetchOneInto(ItemEntity.class));
+    }
+
+    /**
      * 게임 아이디(FK)로 아이템 정보 찾기 (목록)
      * @param pagingEntity
      * @param gameId
