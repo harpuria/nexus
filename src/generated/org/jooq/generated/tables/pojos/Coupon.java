@@ -4,7 +4,7 @@
 package org.jooq.generated.tables.pojos;
 
 
-import com.qwerty.nexus.domain.game.data.coupon.TimeLimitType;
+import com.qwerty.nexus.domain.game.coupon.TimeLimitType;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;

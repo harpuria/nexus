@@ -4,7 +4,7 @@
 package org.jooq.generated.tables.daos;
 
 
-import com.qwerty.nexus.domain.game.data.coupon.TimeLimitType;
+import com.qwerty.nexus.domain.game.coupon.TimeLimitType;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -16,7 +16,6 @@ import org.jooq.generated.tables.JCoupon;
 import org.jooq.generated.tables.pojos.Coupon;
 import org.jooq.generated.tables.records.CouponRecord;
 import org.jooq.impl.DAOImpl;
-import org.jooq.impl.EnumConverter;
 
 
 /**

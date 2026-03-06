@@ -1,14 +1,15 @@
 package com.qwerty.nexus.domain.game.data.coupon.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qwerty.nexus.domain.game.data.coupon.entity.CouponEntity;
-import com.qwerty.nexus.domain.game.data.coupon.repository.CouponRepository;
-import com.qwerty.nexus.domain.game.data.coupon.service.CouponService;
-import com.qwerty.nexus.domain.game.data.item.entity.ItemEntity;
-import com.qwerty.nexus.domain.game.data.item.entity.UserItemStackEntity;
-import com.qwerty.nexus.domain.game.data.item.repository.ItemRepository;
-import com.qwerty.nexus.domain.game.data.item.repository.UserItemInstanceRepository;
-import com.qwerty.nexus.domain.game.data.item.repository.UserItemStackRepository;
+import com.qwerty.nexus.domain.game.coupon.controller.CouponController;
+import com.qwerty.nexus.domain.game.coupon.entity.CouponEntity;
+import com.qwerty.nexus.domain.game.coupon.repository.CouponRepository;
+import com.qwerty.nexus.domain.game.coupon.service.CouponService;
+import com.qwerty.nexus.domain.game.item.entity.ItemEntity;
+import com.qwerty.nexus.domain.game.item.entity.UserItemStackEntity;
+import com.qwerty.nexus.domain.game.item.repository.ItemRepository;
+import com.qwerty.nexus.domain.game.item.repository.UserItemInstanceRepository;
+import com.qwerty.nexus.domain.game.item.repository.UserItemStackRepository;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
 import com.qwerty.nexus.global.constant.ApiConstants;

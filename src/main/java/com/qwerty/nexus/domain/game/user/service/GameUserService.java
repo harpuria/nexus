@@ -1,9 +1,9 @@
 package com.qwerty.nexus.domain.game.user.service;
 
-import com.qwerty.nexus.domain.game.data.item.entity.ItemEntity;
-import com.qwerty.nexus.domain.game.data.item.entity.UserItemStackEntity;
-import com.qwerty.nexus.domain.game.data.item.repository.ItemRepository;
-import com.qwerty.nexus.domain.game.data.item.repository.UserItemStackRepository;
+import com.qwerty.nexus.domain.game.item.entity.ItemEntity;
+import com.qwerty.nexus.domain.game.item.entity.UserItemStackEntity;
+import com.qwerty.nexus.domain.game.item.repository.ItemRepository;
+import com.qwerty.nexus.domain.game.item.repository.UserItemStackRepository;
 import com.qwerty.nexus.domain.game.user.dto.request.GameUserBlockRequestDto;
 import com.qwerty.nexus.domain.game.user.dto.request.GameUserCreateRequestDto;
 import com.qwerty.nexus.domain.game.user.dto.request.GameUserUpdateRequestDto;

@@ -4,7 +4,7 @@
 package org.jooq.generated.tables.daos;
 
 
-import com.qwerty.nexus.domain.game.data.item.ItemType;
+import com.qwerty.nexus.domain.game.item.ItemType;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -16,7 +16,6 @@ import org.jooq.generated.tables.JItemMaster;
 import org.jooq.generated.tables.pojos.ItemMaster;
 import org.jooq.generated.tables.records.ItemMasterRecord;
 import org.jooq.impl.DAOImpl;
-import org.jooq.impl.EnumConverter;
 
 
 /**

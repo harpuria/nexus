@@ -4,8 +4,8 @@
 package org.jooq.generated.tables.daos;
 
 
-import com.qwerty.nexus.domain.game.data.mail.MailRecipientsType;
-import com.qwerty.nexus.domain.game.data.mail.MailSendType;
+import com.qwerty.nexus.domain.game.mail.MailRecipientsType;
+import com.qwerty.nexus.domain.game.mail.MailSendType;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -17,7 +17,6 @@ import org.jooq.generated.tables.JMail;
 import org.jooq.generated.tables.pojos.Mail;
 import org.jooq.generated.tables.records.MailRecord;
 import org.jooq.impl.DAOImpl;
-import org.jooq.impl.EnumConverter;
 
 
 /**
