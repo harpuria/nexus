@@ -99,7 +99,8 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
     }
 
     /**
-     * Setter for <code>nexus.COUPON.REWARDS</code>. 쿠폰 지급 재화
+     * Setter for <code>nexus.COUPON.REWARDS</code>. 지급 보상/구성 JSON (예:
+     * [{itemCode:"GEM", qty:1000}, ...])
      */
     public CouponRecord setRewards(JSONB value) {
         set(5, value);
@@ -107,7 +108,8 @@ public class CouponRecord extends UpdatableRecordImpl<CouponRecord> {
     }
 
     /**
-     * Getter for <code>nexus.COUPON.REWARDS</code>. 쿠폰 지급 재화
+     * Getter for <code>nexus.COUPON.REWARDS</code>. 지급 보상/구성 JSON (예:
+     * [{itemCode:"GEM", qty:1000}, ...])
      */
     public JSONB getRewards() {
         return (JSONB) get(5);

@@ -178,7 +178,7 @@ public class JCouponUseLog extends TableImpl<CouponUseLogRecord> {
 
     @Override
     public List<ForeignKey<CouponUseLogRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.COUPON_USE_LOG__COUPON_USE_LOG_COUPON_ID_FOREIGN, Keys.COUPON_USE_LOG__COUPON_USE_LOG_USER_ID_FOREIGN);
+        return Arrays.asList(Keys.COUPON_USE_LOG__COUPON_USE_LOG_COUPON_ID_FKEY, Keys.COUPON_USE_LOG__COUPON_USE_LOG_USER_ID_FKEY);
     }
 
     private transient CouponPath _coupon;
@@ -188,7 +188,7 @@ public class JCouponUseLog extends TableImpl<CouponUseLogRecord> {
      */
     public CouponPath coupon() {
         if (_coupon == null)
-            _coupon = new CouponPath(this, Keys.COUPON_USE_LOG__COUPON_USE_LOG_COUPON_ID_FOREIGN, null);
+            _coupon = new CouponPath(this, Keys.COUPON_USE_LOG__COUPON_USE_LOG_COUPON_ID_FKEY, null);
 
         return _coupon;
     }
@@ -200,7 +200,7 @@ public class JCouponUseLog extends TableImpl<CouponUseLogRecord> {
      */
     public GameUserPath gameUser() {
         if (_gameUser == null)
-            _gameUser = new GameUserPath(this, Keys.COUPON_USE_LOG__COUPON_USE_LOG_USER_ID_FOREIGN, null);
+            _gameUser = new GameUserPath(this, Keys.COUPON_USE_LOG__COUPON_USE_LOG_USER_ID_FKEY, null);
 
         return _gameUser;
     }

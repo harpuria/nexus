@@ -61,6 +61,26 @@ public class Sequences {
     public static final Sequence<Integer> PRODUCT_PRODUCT_ID_SEQ = Internal.createSequence("PRODUCT_PRODUCT_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 
     /**
+     * The sequence <code>nexus.REWARD_GRANT_GRANT_ID_seq</code>
+     */
+    public static final Sequence<Integer> REWARD_GRANT_GRANT_ID_SEQ = Internal.createSequence("REWARD_GRANT_GRANT_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
+     * The sequence <code>nexus.REWARD_GRANT_ITEM_GRANT_ITEM_ID_seq</code>
+     */
+    public static final Sequence<Integer> REWARD_GRANT_ITEM_GRANT_ITEM_ID_SEQ = Internal.createSequence("REWARD_GRANT_ITEM_GRANT_ITEM_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
+     * The sequence <code>nexus.SHOP_PRODUCT_SHOP_PRODUCT_ID_seq</code>
+     */
+    public static final Sequence<Integer> SHOP_PRODUCT_SHOP_PRODUCT_ID_SEQ = Internal.createSequence("SHOP_PRODUCT_SHOP_PRODUCT_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
+     * The sequence <code>nexus.SHOP_SHOP_ID_seq</code>
+     */
+    public static final Sequence<Integer> SHOP_SHOP_ID_SEQ = Internal.createSequence("SHOP_SHOP_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
      * The sequence <code>nexus.USER_ITEM_INSTANCE_USER_ITEM_ID_seq</code>
      */
     public static final Sequence<Integer> USER_ITEM_INSTANCE_USER_ITEM_ID_SEQ = Internal.createSequence("USER_ITEM_INSTANCE_USER_ITEM_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);

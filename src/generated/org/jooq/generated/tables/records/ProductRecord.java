@@ -4,10 +4,6 @@
 package org.jooq.generated.tables.records;
 
 
-import com.qwerty.nexus.domain.game.product.LimitType;
-import com.qwerty.nexus.domain.game.product.PurchaseType;
-
-import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 import org.jooq.JSONB;
@@ -26,7 +22,7 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>nexus.PRODUCT.PRODUCT_ID</code>. 상품 아이디 (PK)
+     * Setter for <code>nexus.PRODUCT.PRODUCT_ID</code>. 상품 PK
      */
     public ProductRecord setProductId(Integer value) {
         set(0, value);
@@ -34,14 +30,14 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
     }
 
     /**
-     * Getter for <code>nexus.PRODUCT.PRODUCT_ID</code>. 상품 아이디 (PK)
+     * Getter for <code>nexus.PRODUCT.PRODUCT_ID</code>. 상품 PK
      */
     public Integer getProductId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>nexus.PRODUCT.GAME_ID</code>. 상품이 적용될 게임 아이디 (FK)
+     * Setter for <code>nexus.PRODUCT.GAME_ID</code>. 게임 ID (FK)
      */
     public ProductRecord setGameId(Integer value) {
         set(1, value);
@@ -49,64 +45,49 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
     }
 
     /**
-     * Getter for <code>nexus.PRODUCT.GAME_ID</code>. 상품이 적용될 게임 아이디 (FK)
+     * Getter for <code>nexus.PRODUCT.GAME_ID</code>. 게임 ID (FK)
      */
     public Integer getGameId() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>nexus.PRODUCT.PURCHASE_TYPE</code>. 구매재화 타입 (캐시, 내부재화)
+     * Setter for <code>nexus.PRODUCT.PRODUCT_CODE</code>. 게임 내 유니크 상품 코드(클라/운영
+     * 식별용)
      */
-    public ProductRecord setPurchaseType(PurchaseType value) {
+    public ProductRecord setProductCode(String value) {
         set(2, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.PRODUCT.PURCHASE_TYPE</code>. 구매재화 타입 (캐시, 내부재화)
+     * Getter for <code>nexus.PRODUCT.PRODUCT_CODE</code>. 게임 내 유니크 상품 코드(클라/운영
+     * 식별용)
      */
-    public PurchaseType getPurchaseType() {
-        return (PurchaseType) get(2);
+    public String getProductCode() {
+        return (String) get(2);
     }
 
     /**
-     * Setter for <code>nexus.PRODUCT.ITEM_ID</code>. 상품 타입이 CURRENCY 인 경우,
-     * 구매재화의 아이템 아이디 (FK)
+     * Setter for <code>nexus.PRODUCT.NAME</code>. 상품 이름(노출용)
      */
-    public ProductRecord setItemId(Integer value) {
+    public ProductRecord setName(String value) {
         set(3, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.PRODUCT.ITEM_ID</code>. 상품 타입이 CURRENCY 인 경우,
-     * 구매재화의 아이템 아이디 (FK)
-     */
-    public Integer getItemId() {
-        return (Integer) get(3);
-    }
-
-    /**
-     * Setter for <code>nexus.PRODUCT.NAME</code>. 상품 이름
-     */
-    public ProductRecord setName(String value) {
-        set(4, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>nexus.PRODUCT.NAME</code>. 상품 이름
+     * Getter for <code>nexus.PRODUCT.NAME</code>. 상품 이름(노출용)
      */
     public String getName() {
-        return (String) get(4);
+        return (String) get(3);
     }
 
     /**
      * Setter for <code>nexus.PRODUCT.DESC</code>. 상품 설명
      */
     public ProductRecord setDesc(String value) {
-        set(5, value);
+        set(4, value);
         return this;
     }
 
@@ -114,26 +95,42 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
      * Getter for <code>nexus.PRODUCT.DESC</code>. 상품 설명
      */
     public String getDesc() {
+        return (String) get(4);
+    }
+
+    /**
+     * Setter for <code>nexus.PRODUCT.IMAGE_URL</code>. 상품 이미지 URL(선택)
+     */
+    public ProductRecord setImageUrl(String value) {
+        set(5, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.PRODUCT.IMAGE_URL</code>. 상품 이미지 URL(선택)
+     */
+    public String getImageUrl() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>nexus.PRODUCT.PRICE</code>. 상품가격
+     * Setter for <code>nexus.PRODUCT.PRODUCT_TYPE</code>. 상품 타입
      */
-    public ProductRecord setPrice(BigDecimal value) {
+    public ProductRecord setProductType(String value) {
         set(6, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.PRODUCT.PRICE</code>. 상품가격
+     * Getter for <code>nexus.PRODUCT.PRODUCT_TYPE</code>. 상품 타입
      */
-    public BigDecimal getPrice() {
-        return (BigDecimal) get(6);
+    public String getProductType() {
+        return (String) get(6);
     }
 
     /**
-     * Setter for <code>nexus.PRODUCT.REWARDS</code>. 지급 항목
+     * Setter for <code>nexus.PRODUCT.REWARDS</code>. 지급 보상/구성 JSON (예:
+     * [{itemCode:"GEM", qty:1000}, ...])
      */
     public ProductRecord setRewards(JSONB value) {
         set(7, value);
@@ -141,62 +138,18 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
     }
 
     /**
-     * Getter for <code>nexus.PRODUCT.REWARDS</code>. 지급 항목
+     * Getter for <code>nexus.PRODUCT.REWARDS</code>. 지급 보상/구성 JSON (예:
+     * [{itemCode:"GEM", qty:1000}, ...])
      */
     public JSONB getRewards() {
         return (JSONB) get(7);
     }
 
     /**
-     * Setter for <code>nexus.PRODUCT.LIMIT_TYPE</code>. 상품 구매 제한 타입
-     */
-    public ProductRecord setLimitType(LimitType value) {
-        set(8, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>nexus.PRODUCT.LIMIT_TYPE</code>. 상품 구매 제한 타입
-     */
-    public LimitType getLimitType() {
-        return (LimitType) get(8);
-    }
-
-    /**
-     * Setter for <code>nexus.PRODUCT.AVAILABLE_START</code>. 상품 판매 시작 날짜
-     */
-    public ProductRecord setAvailableStart(OffsetDateTime value) {
-        set(9, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>nexus.PRODUCT.AVAILABLE_START</code>. 상품 판매 시작 날짜
-     */
-    public OffsetDateTime getAvailableStart() {
-        return (OffsetDateTime) get(9);
-    }
-
-    /**
-     * Setter for <code>nexus.PRODUCT.AVAILABLE_END</code>. 상품 판매 종료 날짜
-     */
-    public ProductRecord setAvailableEnd(OffsetDateTime value) {
-        set(10, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>nexus.PRODUCT.AVAILABLE_END</code>. 상품 판매 종료 날짜
-     */
-    public OffsetDateTime getAvailableEnd() {
-        return (OffsetDateTime) get(10);
-    }
-
-    /**
      * Setter for <code>nexus.PRODUCT.CREATED_AT</code>. 데이터 생성 날짜
      */
     public ProductRecord setCreatedAt(OffsetDateTime value) {
-        set(11, value);
+        set(8, value);
         return this;
     }
 
@@ -204,14 +157,14 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
      * Getter for <code>nexus.PRODUCT.CREATED_AT</code>. 데이터 생성 날짜
      */
     public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(11);
+        return (OffsetDateTime) get(8);
     }
 
     /**
      * Setter for <code>nexus.PRODUCT.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public ProductRecord setUpdatedAt(OffsetDateTime value) {
-        set(12, value);
+        set(9, value);
         return this;
     }
 
@@ -219,14 +172,14 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
      * Getter for <code>nexus.PRODUCT.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(12);
+        return (OffsetDateTime) get(9);
     }
 
     /**
      * Setter for <code>nexus.PRODUCT.CREATED_BY</code>. 데이터 생성자 ID
      */
     public ProductRecord setCreatedBy(String value) {
-        set(13, value);
+        set(10, value);
         return this;
     }
 
@@ -234,14 +187,14 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
      * Getter for <code>nexus.PRODUCT.CREATED_BY</code>. 데이터 생성자 ID
      */
     public String getCreatedBy() {
-        return (String) get(13);
+        return (String) get(10);
     }
 
     /**
      * Setter for <code>nexus.PRODUCT.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public ProductRecord setUpdatedBy(String value) {
-        set(14, value);
+        set(11, value);
         return this;
     }
 
@@ -249,14 +202,14 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
      * Getter for <code>nexus.PRODUCT.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public String getUpdatedBy() {
-        return (String) get(14);
+        return (String) get(11);
     }
 
     /**
      * Setter for <code>nexus.PRODUCT.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public ProductRecord setIsDel(String value) {
-        set(15, value);
+        set(12, value);
         return this;
     }
 
@@ -264,7 +217,7 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
      * Getter for <code>nexus.PRODUCT.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public String getIsDel() {
-        return (String) get(15);
+        return (String) get(12);
     }
 
     // -------------------------------------------------------------------------
@@ -290,20 +243,17 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
     /**
      * Create a detached, initialised ProductRecord
      */
-    public ProductRecord(Integer productId, Integer gameId, PurchaseType purchaseType, Integer itemId, String name, String desc, BigDecimal price, JSONB rewards, LimitType limitType, OffsetDateTime availableStart, OffsetDateTime availableEnd, OffsetDateTime createdAt, OffsetDateTime updatedAt, String createdBy, String updatedBy, String isDel) {
+    public ProductRecord(Integer productId, Integer gameId, String productCode, String name, String desc, String imageUrl, String productType, JSONB rewards, OffsetDateTime createdAt, OffsetDateTime updatedAt, String createdBy, String updatedBy, String isDel) {
         super(JProduct.PRODUCT);
 
         setProductId(productId);
         setGameId(gameId);
-        setPurchaseType(purchaseType);
-        setItemId(itemId);
+        setProductCode(productCode);
         setName(name);
         setDesc(desc);
-        setPrice(price);
+        setImageUrl(imageUrl);
+        setProductType(productType);
         setRewards(rewards);
-        setLimitType(limitType);
-        setAvailableStart(availableStart);
-        setAvailableEnd(availableEnd);
         setCreatedAt(createdAt);
         setUpdatedAt(updatedAt);
         setCreatedBy(createdBy);
@@ -321,15 +271,12 @@ public class ProductRecord extends UpdatableRecordImpl<ProductRecord> {
         if (value != null) {
             setProductId(value.getProductId());
             setGameId(value.getGameId());
-            setPurchaseType(value.getPurchaseType());
-            setItemId(value.getItemId());
+            setProductCode(value.getProductCode());
             setName(value.getName());
             setDesc(value.getDesc());
-            setPrice(value.getPrice());
+            setImageUrl(value.getImageUrl());
+            setProductType(value.getProductType());
             setRewards(value.getRewards());
-            setLimitType(value.getLimitType());
-            setAvailableStart(value.getAvailableStart());
-            setAvailableEnd(value.getAvailableEnd());
             setCreatedAt(value.getCreatedAt());
             setUpdatedAt(value.getUpdatedAt());
             setCreatedBy(value.getCreatedBy());

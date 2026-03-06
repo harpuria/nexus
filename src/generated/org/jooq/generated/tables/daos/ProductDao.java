@@ -4,10 +4,6 @@
 package org.jooq.generated.tables.daos;
 
 
-import com.qwerty.nexus.domain.game.product.LimitType;
-import com.qwerty.nexus.domain.game.product.PurchaseType;
-
-import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +14,6 @@ import org.jooq.generated.tables.JProduct;
 import org.jooq.generated.tables.pojos.Product;
 import org.jooq.generated.tables.records.ProductRecord;
 import org.jooq.impl.DAOImpl;
-import org.jooq.impl.EnumConverter;
 
 
 /**
@@ -91,33 +86,18 @@ public class ProductDao extends DAOImpl<ProductRecord, Product, Integer> {
     }
 
     /**
-     * Fetch records that have <code>PURCHASE_TYPE BETWEEN lowerInclusive AND
+     * Fetch records that have <code>PRODUCT_CODE BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<Product> fetchRangeOfJPurchaseType(PurchaseType lowerInclusive, PurchaseType upperInclusive) {
-        return fetchRange(JProduct.PRODUCT.PURCHASE_TYPE, lowerInclusive, upperInclusive);
+    public List<Product> fetchRangeOfJProductCode(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JProduct.PRODUCT.PRODUCT_CODE, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>PURCHASE_TYPE IN (values)</code>
+     * Fetch records that have <code>PRODUCT_CODE IN (values)</code>
      */
-    public List<Product> fetchByJPurchaseType(PurchaseType... values) {
-        return fetch(JProduct.PRODUCT.PURCHASE_TYPE, values);
-    }
-
-    /**
-     * Fetch records that have <code>ITEM_ID BETWEEN lowerInclusive AND
-     * upperInclusive</code>
-     */
-    public List<Product> fetchRangeOfJItemId(Integer lowerInclusive, Integer upperInclusive) {
-        return fetchRange(JProduct.PRODUCT.ITEM_ID, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>ITEM_ID IN (values)</code>
-     */
-    public List<Product> fetchByJItemId(Integer... values) {
-        return fetch(JProduct.PRODUCT.ITEM_ID, values);
+    public List<Product> fetchByJProductCode(String... values) {
+        return fetch(JProduct.PRODUCT.PRODUCT_CODE, values);
     }
 
     /**
@@ -151,18 +131,33 @@ public class ProductDao extends DAOImpl<ProductRecord, Product, Integer> {
     }
 
     /**
-     * Fetch records that have <code>PRICE BETWEEN lowerInclusive AND
+     * Fetch records that have <code>IMAGE_URL BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<Product> fetchRangeOfJPrice(BigDecimal lowerInclusive, BigDecimal upperInclusive) {
-        return fetchRange(JProduct.PRODUCT.PRICE, lowerInclusive, upperInclusive);
+    public List<Product> fetchRangeOfJImageUrl(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JProduct.PRODUCT.IMAGE_URL, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>PRICE IN (values)</code>
+     * Fetch records that have <code>IMAGE_URL IN (values)</code>
      */
-    public List<Product> fetchByJPrice(BigDecimal... values) {
-        return fetch(JProduct.PRODUCT.PRICE, values);
+    public List<Product> fetchByJImageUrl(String... values) {
+        return fetch(JProduct.PRODUCT.IMAGE_URL, values);
+    }
+
+    /**
+     * Fetch records that have <code>PRODUCT_TYPE BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<Product> fetchRangeOfJProductType(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JProduct.PRODUCT.PRODUCT_TYPE, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>PRODUCT_TYPE IN (values)</code>
+     */
+    public List<Product> fetchByJProductType(String... values) {
+        return fetch(JProduct.PRODUCT.PRODUCT_TYPE, values);
     }
 
     /**
@@ -178,51 +173,6 @@ public class ProductDao extends DAOImpl<ProductRecord, Product, Integer> {
      */
     public List<Product> fetchByJRewards(JSONB... values) {
         return fetch(JProduct.PRODUCT.REWARDS, values);
-    }
-
-    /**
-     * Fetch records that have <code>LIMIT_TYPE BETWEEN lowerInclusive AND
-     * upperInclusive</code>
-     */
-    public List<Product> fetchRangeOfJLimitType(LimitType lowerInclusive, LimitType upperInclusive) {
-        return fetchRange(JProduct.PRODUCT.LIMIT_TYPE, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>LIMIT_TYPE IN (values)</code>
-     */
-    public List<Product> fetchByJLimitType(LimitType... values) {
-        return fetch(JProduct.PRODUCT.LIMIT_TYPE, values);
-    }
-
-    /**
-     * Fetch records that have <code>AVAILABLE_START BETWEEN lowerInclusive AND
-     * upperInclusive</code>
-     */
-    public List<Product> fetchRangeOfJAvailableStart(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
-        return fetchRange(JProduct.PRODUCT.AVAILABLE_START, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>AVAILABLE_START IN (values)</code>
-     */
-    public List<Product> fetchByJAvailableStart(OffsetDateTime... values) {
-        return fetch(JProduct.PRODUCT.AVAILABLE_START, values);
-    }
-
-    /**
-     * Fetch records that have <code>AVAILABLE_END BETWEEN lowerInclusive AND
-     * upperInclusive</code>
-     */
-    public List<Product> fetchRangeOfJAvailableEnd(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
-        return fetchRange(JProduct.PRODUCT.AVAILABLE_END, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>AVAILABLE_END IN (values)</code>
-     */
-    public List<Product> fetchByJAvailableEnd(OffsetDateTime... values) {
-        return fetch(JProduct.PRODUCT.AVAILABLE_END, values);
     }
 
     /**

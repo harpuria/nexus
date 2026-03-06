@@ -183,7 +183,7 @@ public class JUserMail extends TableImpl<UserMailRecord> {
 
     @Override
     public List<ForeignKey<UserMailRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.USER_MAIL__USER_MAIL_MAIL_ID_FOREIGN, Keys.USER_MAIL__USER_MAIL_USER_ID_FOREIGN);
+        return Arrays.asList(Keys.USER_MAIL__USER_MAIL_MAIL_ID_FKEY, Keys.USER_MAIL__USER_MAIL_USER_ID_FKEY);
     }
 
     private transient MailPath _mail;
@@ -193,7 +193,7 @@ public class JUserMail extends TableImpl<UserMailRecord> {
      */
     public MailPath mail() {
         if (_mail == null)
-            _mail = new MailPath(this, Keys.USER_MAIL__USER_MAIL_MAIL_ID_FOREIGN, null);
+            _mail = new MailPath(this, Keys.USER_MAIL__USER_MAIL_MAIL_ID_FKEY, null);
 
         return _mail;
     }
@@ -205,7 +205,7 @@ public class JUserMail extends TableImpl<UserMailRecord> {
      */
     public GameUserPath gameUser() {
         if (_gameUser == null)
-            _gameUser = new GameUserPath(this, Keys.USER_MAIL__USER_MAIL_USER_ID_FOREIGN, null);
+            _gameUser = new GameUserPath(this, Keys.USER_MAIL__USER_MAIL_USER_ID_FKEY, null);
 
         return _gameUser;
     }

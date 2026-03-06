@@ -85,9 +85,10 @@ public class JMail extends TableImpl<MailRecord> {
     public final TableField<MailRecord, String> CONTENT = createField(DSL.name("CONTENT"), SQLDataType.CLOB.nullable(false), this, "우편 내용");
 
     /**
-     * The column <code>nexus.MAIL.REWARDS</code>. 우편 보상
+     * The column <code>nexus.MAIL.REWARDS</code>. 지급 보상/구성 JSON (예:
+     * [{itemCode:"GEM", qty:1000}, ...])
      */
-    public final TableField<MailRecord, JSONB> REWARDS = createField(DSL.name("REWARDS"), SQLDataType.JSONB, this, "우편 보상");
+    public final TableField<MailRecord, JSONB> REWARDS = createField(DSL.name("REWARDS"), SQLDataType.JSONB, this, "지급 보상/구성 JSON (예: [{itemCode:\"GEM\", qty:1000}, ...])");
 
     /**
      * The column <code>nexus.MAIL.SEND_TYPE</code>. 발송 타입
@@ -203,7 +204,7 @@ public class JMail extends TableImpl<MailRecord> {
 
     @Override
     public List<ForeignKey<MailRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.MAIL__MAIL_GAME_ID_FOREIGN);
+        return Arrays.asList(Keys.MAIL__MAIL_GAME_ID_FKEY);
     }
 
     private transient GamePath _game;
@@ -213,7 +214,7 @@ public class JMail extends TableImpl<MailRecord> {
      */
     public GamePath game() {
         if (_game == null)
-            _game = new GamePath(this, Keys.MAIL__MAIL_GAME_ID_FOREIGN, null);
+            _game = new GamePath(this, Keys.MAIL__MAIL_GAME_ID_FKEY, null);
 
         return _game;
     }
@@ -226,7 +227,7 @@ public class JMail extends TableImpl<MailRecord> {
      */
     public UserMailPath userMail() {
         if (_userMail == null)
-            _userMail = new UserMailPath(this, null, Keys.USER_MAIL__USER_MAIL_MAIL_ID_FOREIGN.getInverseKey());
+            _userMail = new UserMailPath(this, null, Keys.USER_MAIL__USER_MAIL_MAIL_ID_FKEY.getInverseKey());
 
         return _userMail;
     }

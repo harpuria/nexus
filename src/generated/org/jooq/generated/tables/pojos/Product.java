@@ -4,11 +4,7 @@
 package org.jooq.generated.tables.pojos;
 
 
-import com.qwerty.nexus.domain.game.product.LimitType;
-import com.qwerty.nexus.domain.game.product.PurchaseType;
-
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 import org.jooq.JSONB;
@@ -24,15 +20,12 @@ public class Product implements Serializable {
 
     private Integer productId;
     private Integer gameId;
-    private PurchaseType purchaseType;
-    private Integer itemId;
+    private String productCode;
     private String name;
     private String desc;
-    private BigDecimal price;
+    private String imageUrl;
+    private String productType;
     private JSONB rewards;
-    private LimitType limitType;
-    private OffsetDateTime availableStart;
-    private OffsetDateTime availableEnd;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
     private String createdBy;
@@ -44,15 +37,12 @@ public class Product implements Serializable {
     public Product(Product value) {
         this.productId = value.productId;
         this.gameId = value.gameId;
-        this.purchaseType = value.purchaseType;
-        this.itemId = value.itemId;
+        this.productCode = value.productCode;
         this.name = value.name;
         this.desc = value.desc;
-        this.price = value.price;
+        this.imageUrl = value.imageUrl;
+        this.productType = value.productType;
         this.rewards = value.rewards;
-        this.limitType = value.limitType;
-        this.availableStart = value.availableStart;
-        this.availableEnd = value.availableEnd;
         this.createdAt = value.createdAt;
         this.updatedAt = value.updatedAt;
         this.createdBy = value.createdBy;
@@ -63,15 +53,12 @@ public class Product implements Serializable {
     public Product(
         Integer productId,
         Integer gameId,
-        PurchaseType purchaseType,
-        Integer itemId,
+        String productCode,
         String name,
         String desc,
-        BigDecimal price,
+        String imageUrl,
+        String productType,
         JSONB rewards,
-        LimitType limitType,
-        OffsetDateTime availableStart,
-        OffsetDateTime availableEnd,
         OffsetDateTime createdAt,
         OffsetDateTime updatedAt,
         String createdBy,
@@ -80,15 +67,12 @@ public class Product implements Serializable {
     ) {
         this.productId = productId;
         this.gameId = gameId;
-        this.purchaseType = purchaseType;
-        this.itemId = itemId;
+        this.productCode = productCode;
         this.name = name;
         this.desc = desc;
-        this.price = price;
+        this.imageUrl = imageUrl;
+        this.productType = productType;
         this.rewards = rewards;
-        this.limitType = limitType;
-        this.availableStart = availableStart;
-        this.availableEnd = availableEnd;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.createdBy = createdBy;
@@ -97,14 +81,14 @@ public class Product implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.PRODUCT.PRODUCT_ID</code>. 상품 아이디 (PK)
+     * Getter for <code>nexus.PRODUCT.PRODUCT_ID</code>. 상품 PK
      */
     public Integer getProductId() {
         return this.productId;
     }
 
     /**
-     * Setter for <code>nexus.PRODUCT.PRODUCT_ID</code>. 상품 아이디 (PK)
+     * Setter for <code>nexus.PRODUCT.PRODUCT_ID</code>. 상품 PK
      */
     public Product setProductId(Integer productId) {
         this.productId = productId;
@@ -112,14 +96,14 @@ public class Product implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.PRODUCT.GAME_ID</code>. 상품이 적용될 게임 아이디 (FK)
+     * Getter for <code>nexus.PRODUCT.GAME_ID</code>. 게임 ID (FK)
      */
     public Integer getGameId() {
         return this.gameId;
     }
 
     /**
-     * Setter for <code>nexus.PRODUCT.GAME_ID</code>. 상품이 적용될 게임 아이디 (FK)
+     * Setter for <code>nexus.PRODUCT.GAME_ID</code>. 게임 ID (FK)
      */
     public Product setGameId(Integer gameId) {
         this.gameId = gameId;
@@ -127,46 +111,31 @@ public class Product implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.PRODUCT.PURCHASE_TYPE</code>. 구매재화 타입 (캐시, 내부재화)
+     * Getter for <code>nexus.PRODUCT.PRODUCT_CODE</code>. 게임 내 유니크 상품 코드(클라/운영
+     * 식별용)
      */
-    public PurchaseType getPurchaseType() {
-        return this.purchaseType;
+    public String getProductCode() {
+        return this.productCode;
     }
 
     /**
-     * Setter for <code>nexus.PRODUCT.PURCHASE_TYPE</code>. 구매재화 타입 (캐시, 내부재화)
+     * Setter for <code>nexus.PRODUCT.PRODUCT_CODE</code>. 게임 내 유니크 상품 코드(클라/운영
+     * 식별용)
      */
-    public Product setPurchaseType(PurchaseType purchaseType) {
-        this.purchaseType = purchaseType;
+    public Product setProductCode(String productCode) {
+        this.productCode = productCode;
         return this;
     }
 
     /**
-     * Getter for <code>nexus.PRODUCT.ITEM_ID</code>. 상품 타입이 CURRENCY 인 경우,
-     * 구매재화의 아이템 아이디 (FK)
-     */
-    public Integer getItemId() {
-        return this.itemId;
-    }
-
-    /**
-     * Setter for <code>nexus.PRODUCT.ITEM_ID</code>. 상품 타입이 CURRENCY 인 경우,
-     * 구매재화의 아이템 아이디 (FK)
-     */
-    public Product setItemId(Integer itemId) {
-        this.itemId = itemId;
-        return this;
-    }
-
-    /**
-     * Getter for <code>nexus.PRODUCT.NAME</code>. 상품 이름
+     * Getter for <code>nexus.PRODUCT.NAME</code>. 상품 이름(노출용)
      */
     public String getName() {
         return this.name;
     }
 
     /**
-     * Setter for <code>nexus.PRODUCT.NAME</code>. 상품 이름
+     * Setter for <code>nexus.PRODUCT.NAME</code>. 상품 이름(노출용)
      */
     public Product setName(String name) {
         this.name = name;
@@ -189,77 +158,49 @@ public class Product implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.PRODUCT.PRICE</code>. 상품가격
+     * Getter for <code>nexus.PRODUCT.IMAGE_URL</code>. 상품 이미지 URL(선택)
      */
-    public BigDecimal getPrice() {
-        return this.price;
+    public String getImageUrl() {
+        return this.imageUrl;
     }
 
     /**
-     * Setter for <code>nexus.PRODUCT.PRICE</code>. 상품가격
+     * Setter for <code>nexus.PRODUCT.IMAGE_URL</code>. 상품 이미지 URL(선택)
      */
-    public Product setPrice(BigDecimal price) {
-        this.price = price;
+    public Product setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
         return this;
     }
 
     /**
-     * Getter for <code>nexus.PRODUCT.REWARDS</code>. 지급 항목
+     * Getter for <code>nexus.PRODUCT.PRODUCT_TYPE</code>. 상품 타입
+     */
+    public String getProductType() {
+        return this.productType;
+    }
+
+    /**
+     * Setter for <code>nexus.PRODUCT.PRODUCT_TYPE</code>. 상품 타입
+     */
+    public Product setProductType(String productType) {
+        this.productType = productType;
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.PRODUCT.REWARDS</code>. 지급 보상/구성 JSON (예:
+     * [{itemCode:"GEM", qty:1000}, ...])
      */
     public JSONB getRewards() {
         return this.rewards;
     }
 
     /**
-     * Setter for <code>nexus.PRODUCT.REWARDS</code>. 지급 항목
+     * Setter for <code>nexus.PRODUCT.REWARDS</code>. 지급 보상/구성 JSON (예:
+     * [{itemCode:"GEM", qty:1000}, ...])
      */
     public Product setRewards(JSONB rewards) {
         this.rewards = rewards;
-        return this;
-    }
-
-    /**
-     * Getter for <code>nexus.PRODUCT.LIMIT_TYPE</code>. 상품 구매 제한 타입
-     */
-    public LimitType getLimitType() {
-        return this.limitType;
-    }
-
-    /**
-     * Setter for <code>nexus.PRODUCT.LIMIT_TYPE</code>. 상품 구매 제한 타입
-     */
-    public Product setLimitType(LimitType limitType) {
-        this.limitType = limitType;
-        return this;
-    }
-
-    /**
-     * Getter for <code>nexus.PRODUCT.AVAILABLE_START</code>. 상품 판매 시작 날짜
-     */
-    public OffsetDateTime getAvailableStart() {
-        return this.availableStart;
-    }
-
-    /**
-     * Setter for <code>nexus.PRODUCT.AVAILABLE_START</code>. 상품 판매 시작 날짜
-     */
-    public Product setAvailableStart(OffsetDateTime availableStart) {
-        this.availableStart = availableStart;
-        return this;
-    }
-
-    /**
-     * Getter for <code>nexus.PRODUCT.AVAILABLE_END</code>. 상품 판매 종료 날짜
-     */
-    public OffsetDateTime getAvailableEnd() {
-        return this.availableEnd;
-    }
-
-    /**
-     * Setter for <code>nexus.PRODUCT.AVAILABLE_END</code>. 상품 판매 종료 날짜
-     */
-    public Product setAvailableEnd(OffsetDateTime availableEnd) {
-        this.availableEnd = availableEnd;
         return this;
     }
 
@@ -359,17 +300,11 @@ public class Product implements Serializable {
         }
         else if (!this.gameId.equals(other.gameId))
             return false;
-        if (this.purchaseType == null) {
-            if (other.purchaseType != null)
+        if (this.productCode == null) {
+            if (other.productCode != null)
                 return false;
         }
-        else if (!this.purchaseType.equals(other.purchaseType))
-            return false;
-        if (this.itemId == null) {
-            if (other.itemId != null)
-                return false;
-        }
-        else if (!this.itemId.equals(other.itemId))
+        else if (!this.productCode.equals(other.productCode))
             return false;
         if (this.name == null) {
             if (other.name != null)
@@ -383,35 +318,23 @@ public class Product implements Serializable {
         }
         else if (!this.desc.equals(other.desc))
             return false;
-        if (this.price == null) {
-            if (other.price != null)
+        if (this.imageUrl == null) {
+            if (other.imageUrl != null)
                 return false;
         }
-        else if (!this.price.equals(other.price))
+        else if (!this.imageUrl.equals(other.imageUrl))
+            return false;
+        if (this.productType == null) {
+            if (other.productType != null)
+                return false;
+        }
+        else if (!this.productType.equals(other.productType))
             return false;
         if (this.rewards == null) {
             if (other.rewards != null)
                 return false;
         }
         else if (!this.rewards.equals(other.rewards))
-            return false;
-        if (this.limitType == null) {
-            if (other.limitType != null)
-                return false;
-        }
-        else if (!this.limitType.equals(other.limitType))
-            return false;
-        if (this.availableStart == null) {
-            if (other.availableStart != null)
-                return false;
-        }
-        else if (!this.availableStart.equals(other.availableStart))
-            return false;
-        if (this.availableEnd == null) {
-            if (other.availableEnd != null)
-                return false;
-        }
-        else if (!this.availableEnd.equals(other.availableEnd))
             return false;
         if (this.createdAt == null) {
             if (other.createdAt != null)
@@ -452,15 +375,12 @@ public class Product implements Serializable {
         int result = 1;
         result = prime * result + ((this.productId == null) ? 0 : this.productId.hashCode());
         result = prime * result + ((this.gameId == null) ? 0 : this.gameId.hashCode());
-        result = prime * result + ((this.purchaseType == null) ? 0 : this.purchaseType.hashCode());
-        result = prime * result + ((this.itemId == null) ? 0 : this.itemId.hashCode());
+        result = prime * result + ((this.productCode == null) ? 0 : this.productCode.hashCode());
         result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
         result = prime * result + ((this.desc == null) ? 0 : this.desc.hashCode());
-        result = prime * result + ((this.price == null) ? 0 : this.price.hashCode());
+        result = prime * result + ((this.imageUrl == null) ? 0 : this.imageUrl.hashCode());
+        result = prime * result + ((this.productType == null) ? 0 : this.productType.hashCode());
         result = prime * result + ((this.rewards == null) ? 0 : this.rewards.hashCode());
-        result = prime * result + ((this.limitType == null) ? 0 : this.limitType.hashCode());
-        result = prime * result + ((this.availableStart == null) ? 0 : this.availableStart.hashCode());
-        result = prime * result + ((this.availableEnd == null) ? 0 : this.availableEnd.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
         result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
@@ -475,15 +395,12 @@ public class Product implements Serializable {
 
         sb.append(productId);
         sb.append(", ").append(gameId);
-        sb.append(", ").append(purchaseType);
-        sb.append(", ").append(itemId);
+        sb.append(", ").append(productCode);
         sb.append(", ").append(name);
         sb.append(", ").append(desc);
-        sb.append(", ").append(price);
+        sb.append(", ").append(imageUrl);
+        sb.append(", ").append(productType);
         sb.append(", ").append(rewards);
-        sb.append(", ").append(limitType);
-        sb.append(", ").append(availableStart);
-        sb.append(", ").append(availableEnd);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(updatedAt);
         sb.append(", ").append(createdBy);

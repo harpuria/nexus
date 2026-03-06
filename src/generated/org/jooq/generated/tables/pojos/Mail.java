@@ -144,14 +144,16 @@ public class Mail implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.MAIL.REWARDS</code>. 우편 보상
+     * Getter for <code>nexus.MAIL.REWARDS</code>. 지급 보상/구성 JSON (예:
+     * [{itemCode:"GEM", qty:1000}, ...])
      */
     public JSONB getRewards() {
         return this.rewards;
     }
 
     /**
-     * Setter for <code>nexus.MAIL.REWARDS</code>. 우편 보상
+     * Setter for <code>nexus.MAIL.REWARDS</code>. 지급 보상/구성 JSON (예:
+     * [{itemCode:"GEM", qty:1000}, ...])
      */
     public Mail setRewards(JSONB rewards) {
         this.rewards = rewards;

@@ -89,9 +89,10 @@ public class JCoupon extends TableImpl<CouponRecord> {
     public final TableField<CouponRecord, String> CODE = createField(DSL.name("CODE"), SQLDataType.VARCHAR(255).nullable(false), this, "쿠폰 코드");
 
     /**
-     * The column <code>nexus.COUPON.REWARDS</code>. 쿠폰 지급 재화
+     * The column <code>nexus.COUPON.REWARDS</code>. 지급 보상/구성 JSON (예:
+     * [{itemCode:"GEM", qty:1000}, ...])
      */
-    public final TableField<CouponRecord, JSONB> REWARDS = createField(DSL.name("REWARDS"), SQLDataType.JSONB.nullable(false), this, "쿠폰 지급 재화");
+    public final TableField<CouponRecord, JSONB> REWARDS = createField(DSL.name("REWARDS"), SQLDataType.JSONB.nullable(false), this, "지급 보상/구성 JSON (예: [{itemCode:\"GEM\", qty:1000}, ...])");
 
     /**
      * The column <code>nexus.COUPON.TIME_LIMIT_TYPE</code>. 쿠폰 사용 시간 제한 여부
@@ -220,7 +221,7 @@ public class JCoupon extends TableImpl<CouponRecord> {
 
     @Override
     public List<ForeignKey<CouponRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.COUPON__COUPON_GAME_ID_FOREIGN);
+        return Arrays.asList(Keys.COUPON__COUPON_GAME_ID_FKEY);
     }
 
     private transient GamePath _game;
@@ -230,7 +231,7 @@ public class JCoupon extends TableImpl<CouponRecord> {
      */
     public GamePath game() {
         if (_game == null)
-            _game = new GamePath(this, Keys.COUPON__COUPON_GAME_ID_FOREIGN, null);
+            _game = new GamePath(this, Keys.COUPON__COUPON_GAME_ID_FKEY, null);
 
         return _game;
     }
@@ -243,7 +244,7 @@ public class JCoupon extends TableImpl<CouponRecord> {
      */
     public CouponUseLogPath couponUseLog() {
         if (_couponUseLog == null)
-            _couponUseLog = new CouponUseLogPath(this, null, Keys.COUPON_USE_LOG__COUPON_USE_LOG_COUPON_ID_FOREIGN.getInverseKey());
+            _couponUseLog = new CouponUseLogPath(this, null, Keys.COUPON_USE_LOG__COUPON_USE_LOG_COUPON_ID_FKEY.getInverseKey());
 
         return _couponUseLog;
     }

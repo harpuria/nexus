@@ -4,10 +4,6 @@
 package org.jooq.generated.tables;
 
 
-import com.qwerty.nexus.domain.game.product.LimitType;
-import com.qwerty.nexus.domain.game.product.PurchaseType;
-
-import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collection;
@@ -35,9 +31,9 @@ import org.jooq.UniqueKey;
 import org.jooq.generated.JNexus;
 import org.jooq.generated.Keys;
 import org.jooq.generated.tables.JGame.GamePath;
+import org.jooq.generated.tables.JShopProduct.ShopProductPath;
 import org.jooq.generated.tables.records.ProductRecord;
 import org.jooq.impl.DSL;
-import org.jooq.impl.EnumConverter;
 import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
@@ -65,60 +61,46 @@ public class JProduct extends TableImpl<ProductRecord> {
     }
 
     /**
-     * The column <code>nexus.PRODUCT.PRODUCT_ID</code>. 상품 아이디 (PK)
+     * The column <code>nexus.PRODUCT.PRODUCT_ID</code>. 상품 PK
      */
-    public final TableField<ProductRecord, Integer> PRODUCT_ID = createField(DSL.name("PRODUCT_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"PRODUCT_PRODUCT_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "상품 아이디 (PK)");
+    public final TableField<ProductRecord, Integer> PRODUCT_ID = createField(DSL.name("PRODUCT_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"PRODUCT_PRODUCT_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "상품 PK");
 
     /**
-     * The column <code>nexus.PRODUCT.GAME_ID</code>. 상품이 적용될 게임 아이디 (FK)
+     * The column <code>nexus.PRODUCT.GAME_ID</code>. 게임 ID (FK)
      */
-    public final TableField<ProductRecord, Integer> GAME_ID = createField(DSL.name("GAME_ID"), SQLDataType.INTEGER.nullable(false), this, "상품이 적용될 게임 아이디 (FK)");
+    public final TableField<ProductRecord, Integer> GAME_ID = createField(DSL.name("GAME_ID"), SQLDataType.INTEGER.nullable(false), this, "게임 ID (FK)");
 
     /**
-     * The column <code>nexus.PRODUCT.PURCHASE_TYPE</code>. 구매재화 타입 (캐시, 내부재화)
+     * The column <code>nexus.PRODUCT.PRODUCT_CODE</code>. 게임 내 유니크 상품 코드(클라/운영
+     * 식별용)
      */
-    public final TableField<ProductRecord, PurchaseType> PURCHASE_TYPE = createField(DSL.name("PURCHASE_TYPE"), SQLDataType.VARCHAR(255).nullable(false), this, "구매재화 타입 (캐시, 내부재화)", new EnumConverter<String, PurchaseType>(String.class, PurchaseType.class));
+    public final TableField<ProductRecord, String> PRODUCT_CODE = createField(DSL.name("PRODUCT_CODE"), SQLDataType.VARCHAR(64).nullable(false), this, "게임 내 유니크 상품 코드(클라/운영 식별용)");
 
     /**
-     * The column <code>nexus.PRODUCT.ITEM_ID</code>. 상품 타입이 CURRENCY 인 경우,
-     * 구매재화의 아이템 아이디 (FK)
+     * The column <code>nexus.PRODUCT.NAME</code>. 상품 이름(노출용)
      */
-    public final TableField<ProductRecord, Integer> ITEM_ID = createField(DSL.name("ITEM_ID"), SQLDataType.INTEGER, this, "상품 타입이 CURRENCY 인 경우, 구매재화의 아이템 아이디 (FK)");
-
-    /**
-     * The column <code>nexus.PRODUCT.NAME</code>. 상품 이름
-     */
-    public final TableField<ProductRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(255).nullable(false), this, "상품 이름");
+    public final TableField<ProductRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(255).nullable(false), this, "상품 이름(노출용)");
 
     /**
      * The column <code>nexus.PRODUCT.DESC</code>. 상품 설명
      */
-    public final TableField<ProductRecord, String> DESC = createField(DSL.name("DESC"), SQLDataType.CLOB.nullable(false), this, "상품 설명");
+    public final TableField<ProductRecord, String> DESC = createField(DSL.name("DESC"), SQLDataType.CLOB, this, "상품 설명");
 
     /**
-     * The column <code>nexus.PRODUCT.PRICE</code>. 상품가격
+     * The column <code>nexus.PRODUCT.IMAGE_URL</code>. 상품 이미지 URL(선택)
      */
-    public final TableField<ProductRecord, BigDecimal> PRICE = createField(DSL.name("PRICE"), SQLDataType.NUMERIC(15, 2).nullable(false), this, "상품가격");
+    public final TableField<ProductRecord, String> IMAGE_URL = createField(DSL.name("IMAGE_URL"), SQLDataType.CLOB, this, "상품 이미지 URL(선택)");
 
     /**
-     * The column <code>nexus.PRODUCT.REWARDS</code>. 지급 항목
+     * The column <code>nexus.PRODUCT.PRODUCT_TYPE</code>. 상품 타입
      */
-    public final TableField<ProductRecord, JSONB> REWARDS = createField(DSL.name("REWARDS"), SQLDataType.JSONB.nullable(false), this, "지급 항목");
+    public final TableField<ProductRecord, String> PRODUCT_TYPE = createField(DSL.name("PRODUCT_TYPE"), SQLDataType.VARCHAR(32).nullable(false).defaultValue(DSL.field(DSL.raw("'PACKAGE'::character varying"), SQLDataType.VARCHAR)), this, "상품 타입");
 
     /**
-     * The column <code>nexus.PRODUCT.LIMIT_TYPE</code>. 상품 구매 제한 타입
+     * The column <code>nexus.PRODUCT.REWARDS</code>. 지급 보상/구성 JSON (예:
+     * [{itemCode:"GEM", qty:1000}, ...])
      */
-    public final TableField<ProductRecord, LimitType> LIMIT_TYPE = createField(DSL.name("LIMIT_TYPE"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'NONE'::character varying"), SQLDataType.VARCHAR)), this, "상품 구매 제한 타입", new EnumConverter<String, LimitType>(String.class, LimitType.class));
-
-    /**
-     * The column <code>nexus.PRODUCT.AVAILABLE_START</code>. 상품 판매 시작 날짜
-     */
-    public final TableField<ProductRecord, OffsetDateTime> AVAILABLE_START = createField(DSL.name("AVAILABLE_START"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "상품 판매 시작 날짜");
-
-    /**
-     * The column <code>nexus.PRODUCT.AVAILABLE_END</code>. 상품 판매 종료 날짜
-     */
-    public final TableField<ProductRecord, OffsetDateTime> AVAILABLE_END = createField(DSL.name("AVAILABLE_END"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "상품 판매 종료 날짜");
+    public final TableField<ProductRecord, JSONB> REWARDS = createField(DSL.name("REWARDS"), SQLDataType.JSONB.nullable(false), this, "지급 보상/구성 JSON (예: [{itemCode:\"GEM\", qty:1000}, ...])");
 
     /**
      * The column <code>nexus.PRODUCT.CREATED_AT</code>. 데이터 생성 날짜
@@ -219,7 +201,7 @@ public class JProduct extends TableImpl<ProductRecord> {
 
     @Override
     public List<ForeignKey<ProductRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.PRODUCT__PRODUCT_GAME_ID_FOREIGN);
+        return Arrays.asList(Keys.PRODUCT__PRODUCT_GAME_ID_FKEY);
     }
 
     private transient GamePath _game;
@@ -229,17 +211,29 @@ public class JProduct extends TableImpl<ProductRecord> {
      */
     public GamePath game() {
         if (_game == null)
-            _game = new GamePath(this, Keys.PRODUCT__PRODUCT_GAME_ID_FOREIGN, null);
+            _game = new GamePath(this, Keys.PRODUCT__PRODUCT_GAME_ID_FKEY, null);
 
         return _game;
+    }
+
+    private transient ShopProductPath _shopProduct;
+
+    /**
+     * Get the implicit to-many join path to the <code>nexus.SHOP_PRODUCT</code>
+     * table
+     */
+    public ShopProductPath shopProduct() {
+        if (_shopProduct == null)
+            _shopProduct = new ShopProductPath(this, null, Keys.SHOP_PRODUCT__SHOP_PRODUCT_PRODUCT_ID_FKEY.getInverseKey());
+
+        return _shopProduct;
     }
 
     @Override
     public List<Check<ProductRecord>> getChecks() {
         return Arrays.asList(
             Internal.createCheck(this, DSL.name("PRODUCT_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
-            Internal.createCheck(this, DSL.name("PRODUCT_LIMIT_TYPE_check"), "(((\"LIMIT_TYPE\")::text = ANY ((ARRAY['NONE'::character varying, 'ONCE'::character varying, 'DAILY'::character varying, 'WEEKLY'::character varying, 'MONTHLY'::character varying])::text[])))", true),
-            Internal.createCheck(this, DSL.name("PRODUCT_PURCHASE_TYPE_check"), "(((\"PURCHASE_TYPE\")::text = ANY ((ARRAY['CASH'::character varying, 'CURRENCY'::character varying])::text[])))", true)
+            Internal.createCheck(this, DSL.name("PRODUCT_PRODUCT_TYPE_check"), "(((\"PRODUCT_TYPE\")::text = ANY ((ARRAY['PACKAGE'::character varying, 'ITEM'::character varying, 'CURRENCY'::character varying, 'SUBSCRIPTION'::character varying, 'ETC'::character varying])::text[])))", true)
         );
     }
 

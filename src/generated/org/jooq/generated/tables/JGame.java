@@ -39,6 +39,10 @@ import org.jooq.generated.tables.JItemMaster.ItemMasterPath;
 import org.jooq.generated.tables.JMail.MailPath;
 import org.jooq.generated.tables.JOrganization.OrganizationPath;
 import org.jooq.generated.tables.JProduct.ProductPath;
+import org.jooq.generated.tables.JRewardGrant.RewardGrantPath;
+import org.jooq.generated.tables.JRewardGrantItem.RewardGrantItemPath;
+import org.jooq.generated.tables.JShop.ShopPath;
+import org.jooq.generated.tables.JShopProduct.ShopProductPath;
 import org.jooq.generated.tables.records.GameRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.EnumConverter;
@@ -213,7 +217,7 @@ public class JGame extends TableImpl<GameRecord> {
 
     @Override
     public List<ForeignKey<GameRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.GAME__GAME_ORG_ID_FOREIGN);
+        return Arrays.asList(Keys.GAME__GAME_ORG_ID_FKEY);
     }
 
     private transient OrganizationPath _organization;
@@ -223,7 +227,7 @@ public class JGame extends TableImpl<GameRecord> {
      */
     public OrganizationPath organization() {
         if (_organization == null)
-            _organization = new OrganizationPath(this, Keys.GAME__GAME_ORG_ID_FOREIGN, null);
+            _organization = new OrganizationPath(this, Keys.GAME__GAME_ORG_ID_FKEY, null);
 
         return _organization;
     }
@@ -235,7 +239,7 @@ public class JGame extends TableImpl<GameRecord> {
      */
     public AdminPath admin() {
         if (_admin == null)
-            _admin = new AdminPath(this, null, Keys.ADMIN__ADMIN_GAME_ID_FOREIGN.getInverseKey());
+            _admin = new AdminPath(this, null, Keys.ADMIN__ADMIN_GAME_ID_FKEY.getInverseKey());
 
         return _admin;
     }
@@ -247,7 +251,7 @@ public class JGame extends TableImpl<GameRecord> {
      */
     public CouponPath coupon() {
         if (_coupon == null)
-            _coupon = new CouponPath(this, null, Keys.COUPON__COUPON_GAME_ID_FOREIGN.getInverseKey());
+            _coupon = new CouponPath(this, null, Keys.COUPON__COUPON_GAME_ID_FKEY.getInverseKey());
 
         return _coupon;
     }
@@ -260,7 +264,7 @@ public class JGame extends TableImpl<GameRecord> {
      */
     public GameUserPath gameUser() {
         if (_gameUser == null)
-            _gameUser = new GameUserPath(this, null, Keys.GAME_USER__GAME_USER_GAME_ID_FOREIGN.getInverseKey());
+            _gameUser = new GameUserPath(this, null, Keys.GAME_USER__GAME_USER_GAME_ID_FKEY.getInverseKey());
 
         return _gameUser;
     }
@@ -285,7 +289,7 @@ public class JGame extends TableImpl<GameRecord> {
      */
     public MailPath mail() {
         if (_mail == null)
-            _mail = new MailPath(this, null, Keys.MAIL__MAIL_GAME_ID_FOREIGN.getInverseKey());
+            _mail = new MailPath(this, null, Keys.MAIL__MAIL_GAME_ID_FKEY.getInverseKey());
 
         return _mail;
     }
@@ -298,9 +302,60 @@ public class JGame extends TableImpl<GameRecord> {
      */
     public ProductPath product() {
         if (_product == null)
-            _product = new ProductPath(this, null, Keys.PRODUCT__PRODUCT_GAME_ID_FOREIGN.getInverseKey());
+            _product = new ProductPath(this, null, Keys.PRODUCT__PRODUCT_GAME_ID_FKEY.getInverseKey());
 
         return _product;
+    }
+
+    private transient RewardGrantPath _rewardGrant;
+
+    /**
+     * Get the implicit to-many join path to the <code>nexus.REWARD_GRANT</code>
+     * table
+     */
+    public RewardGrantPath rewardGrant() {
+        if (_rewardGrant == null)
+            _rewardGrant = new RewardGrantPath(this, null, Keys.REWARD_GRANT__REWARD_GRANT_GAME_ID_FKEY.getInverseKey());
+
+        return _rewardGrant;
+    }
+
+    private transient RewardGrantItemPath _rewardGrantItem;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>nexus.REWARD_GRANT_ITEM</code> table
+     */
+    public RewardGrantItemPath rewardGrantItem() {
+        if (_rewardGrantItem == null)
+            _rewardGrantItem = new RewardGrantItemPath(this, null, Keys.REWARD_GRANT_ITEM__REWARD_GRANT_ITEM_GAME_ID_FKEY.getInverseKey());
+
+        return _rewardGrantItem;
+    }
+
+    private transient ShopPath _shop;
+
+    /**
+     * Get the implicit to-many join path to the <code>nexus.SHOP</code> table
+     */
+    public ShopPath shop() {
+        if (_shop == null)
+            _shop = new ShopPath(this, null, Keys.SHOP__SHOP_GAME_ID_FKEY.getInverseKey());
+
+        return _shop;
+    }
+
+    private transient ShopProductPath _shopProduct;
+
+    /**
+     * Get the implicit to-many join path to the <code>nexus.SHOP_PRODUCT</code>
+     * table
+     */
+    public ShopProductPath shopProduct() {
+        if (_shopProduct == null)
+            _shopProduct = new ShopProductPath(this, null, Keys.SHOP_PRODUCT__SHOP_PRODUCT_GAME_ID_FKEY.getInverseKey());
+
+        return _shopProduct;
     }
 
     @Override

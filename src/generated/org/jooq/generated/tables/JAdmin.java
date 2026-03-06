@@ -206,7 +206,7 @@ public class JAdmin extends TableImpl<AdminRecord> {
 
     @Override
     public List<ForeignKey<AdminRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.ADMIN__ADMIN_GAME_ID_FOREIGN, Keys.ADMIN__ADMIN_ORG_ID_FOREIGN);
+        return Arrays.asList(Keys.ADMIN__ADMIN_GAME_ID_FKEY, Keys.ADMIN__ADMIN_ORG_ID_FKEY);
     }
 
     private transient GamePath _game;
@@ -216,7 +216,7 @@ public class JAdmin extends TableImpl<AdminRecord> {
      */
     public GamePath game() {
         if (_game == null)
-            _game = new GamePath(this, Keys.ADMIN__ADMIN_GAME_ID_FOREIGN, null);
+            _game = new GamePath(this, Keys.ADMIN__ADMIN_GAME_ID_FKEY, null);
 
         return _game;
     }
@@ -228,7 +228,7 @@ public class JAdmin extends TableImpl<AdminRecord> {
      */
     public OrganizationPath organization() {
         if (_organization == null)
-            _organization = new OrganizationPath(this, Keys.ADMIN__ADMIN_ORG_ID_FOREIGN, null);
+            _organization = new OrganizationPath(this, Keys.ADMIN__ADMIN_ORG_ID_FKEY, null);
 
         return _organization;
     }

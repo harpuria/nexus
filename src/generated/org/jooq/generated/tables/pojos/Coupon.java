@@ -170,14 +170,16 @@ public class Coupon implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.COUPON.REWARDS</code>. 쿠폰 지급 재화
+     * Getter for <code>nexus.COUPON.REWARDS</code>. 지급 보상/구성 JSON (예:
+     * [{itemCode:"GEM", qty:1000}, ...])
      */
     public JSONB getRewards() {
         return this.rewards;
     }
 
     /**
-     * Setter for <code>nexus.COUPON.REWARDS</code>. 쿠폰 지급 재화
+     * Setter for <code>nexus.COUPON.REWARDS</code>. 지급 보상/구성 JSON (예:
+     * [{itemCode:"GEM", qty:1000}, ...])
      */
     public Coupon setRewards(JSONB rewards) {
         this.rewards = rewards;

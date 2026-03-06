@@ -13,6 +13,10 @@ import org.jooq.generated.tables.JItemMaster;
 import org.jooq.generated.tables.JMail;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JProduct;
+import org.jooq.generated.tables.JRewardGrant;
+import org.jooq.generated.tables.JRewardGrantItem;
+import org.jooq.generated.tables.JShop;
+import org.jooq.generated.tables.JShopProduct;
 import org.jooq.generated.tables.JUserItemInstance;
 import org.jooq.generated.tables.JUserItemStack;
 import org.jooq.generated.tables.JUserMail;
@@ -68,6 +72,26 @@ public class Tables {
      * The table <code>nexus.PRODUCT</code>.
      */
     public static final JProduct PRODUCT = JProduct.PRODUCT;
+
+    /**
+     * The table <code>nexus.REWARD_GRANT</code>.
+     */
+    public static final JRewardGrant REWARD_GRANT = JRewardGrant.REWARD_GRANT;
+
+    /**
+     * The table <code>nexus.REWARD_GRANT_ITEM</code>.
+     */
+    public static final JRewardGrantItem REWARD_GRANT_ITEM = JRewardGrantItem.REWARD_GRANT_ITEM;
+
+    /**
+     * The table <code>nexus.SHOP</code>.
+     */
+    public static final JShop SHOP = JShop.SHOP;
+
+    /**
+     * The table <code>nexus.SHOP_PRODUCT</code>.
+     */
+    public static final JShopProduct SHOP_PRODUCT = JShopProduct.SHOP_PRODUCT;
 
     /**
      * The table <code>nexus.USER_ITEM_INSTANCE</code>.

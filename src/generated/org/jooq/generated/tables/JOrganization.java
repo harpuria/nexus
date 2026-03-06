@@ -184,7 +184,7 @@ public class JOrganization extends TableImpl<OrganizationRecord> {
      */
     public AdminPath admin() {
         if (_admin == null)
-            _admin = new AdminPath(this, null, Keys.ADMIN__ADMIN_ORG_ID_FOREIGN.getInverseKey());
+            _admin = new AdminPath(this, null, Keys.ADMIN__ADMIN_ORG_ID_FKEY.getInverseKey());
 
         return _admin;
     }
@@ -196,7 +196,7 @@ public class JOrganization extends TableImpl<OrganizationRecord> {
      */
     public GamePath game() {
         if (_game == null)
-            _game = new GamePath(this, null, Keys.GAME__GAME_ORG_ID_FOREIGN.getInverseKey());
+            _game = new GamePath(this, null, Keys.GAME__GAME_ORG_ID_FKEY.getInverseKey());
 
         return _game;
     }

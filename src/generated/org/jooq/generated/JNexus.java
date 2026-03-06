@@ -19,6 +19,10 @@ import org.jooq.generated.tables.JItemMaster;
 import org.jooq.generated.tables.JMail;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JProduct;
+import org.jooq.generated.tables.JRewardGrant;
+import org.jooq.generated.tables.JRewardGrantItem;
+import org.jooq.generated.tables.JShop;
+import org.jooq.generated.tables.JShopProduct;
 import org.jooq.generated.tables.JUserItemInstance;
 import org.jooq.generated.tables.JUserItemStack;
 import org.jooq.generated.tables.JUserMail;
@@ -84,6 +88,26 @@ public class JNexus extends SchemaImpl {
     public final JProduct PRODUCT = JProduct.PRODUCT;
 
     /**
+     * The table <code>nexus.REWARD_GRANT</code>.
+     */
+    public final JRewardGrant REWARD_GRANT = JRewardGrant.REWARD_GRANT;
+
+    /**
+     * The table <code>nexus.REWARD_GRANT_ITEM</code>.
+     */
+    public final JRewardGrantItem REWARD_GRANT_ITEM = JRewardGrantItem.REWARD_GRANT_ITEM;
+
+    /**
+     * The table <code>nexus.SHOP</code>.
+     */
+    public final JShop SHOP = JShop.SHOP;
+
+    /**
+     * The table <code>nexus.SHOP_PRODUCT</code>.
+     */
+    public final JShopProduct SHOP_PRODUCT = JShopProduct.SHOP_PRODUCT;
+
+    /**
      * The table <code>nexus.USER_ITEM_INSTANCE</code>.
      */
     public final JUserItemInstance USER_ITEM_INSTANCE = JUserItemInstance.USER_ITEM_INSTANCE;
@@ -123,6 +147,10 @@ public class JNexus extends SchemaImpl {
             Sequences.MAIL_MAIL_ID_SEQ,
             Sequences.ORGANIZATION_ORG_ID_SEQ,
             Sequences.PRODUCT_PRODUCT_ID_SEQ,
+            Sequences.REWARD_GRANT_GRANT_ID_SEQ,
+            Sequences.REWARD_GRANT_ITEM_GRANT_ITEM_ID_SEQ,
+            Sequences.SHOP_PRODUCT_SHOP_PRODUCT_ID_SEQ,
+            Sequences.SHOP_SHOP_ID_SEQ,
             Sequences.USER_ITEM_INSTANCE_USER_ITEM_ID_SEQ,
             Sequences.USER_ITEM_STACK_USER_ITEM_STACK_ID_SEQ,
             Sequences.USER_MAIL_USER_MAIL_ID_SEQ
@@ -141,6 +169,10 @@ public class JNexus extends SchemaImpl {
             JMail.MAIL,
             JOrganization.ORGANIZATION,
             JProduct.PRODUCT,
+            JRewardGrant.REWARD_GRANT,
+            JRewardGrantItem.REWARD_GRANT_ITEM,
+            JShop.SHOP,
+            JShopProduct.SHOP_PRODUCT,
             JUserItemInstance.USER_ITEM_INSTANCE,
             JUserItemStack.USER_ITEM_STACK,
             JUserMail.USER_MAIL

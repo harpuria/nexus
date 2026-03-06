@@ -85,7 +85,8 @@ public class MailRecord extends UpdatableRecordImpl<MailRecord> {
     }
 
     /**
-     * Setter for <code>nexus.MAIL.REWARDS</code>. 우편 보상
+     * Setter for <code>nexus.MAIL.REWARDS</code>. 지급 보상/구성 JSON (예:
+     * [{itemCode:"GEM", qty:1000}, ...])
      */
     public MailRecord setRewards(JSONB value) {
         set(4, value);
@@ -93,7 +94,8 @@ public class MailRecord extends UpdatableRecordImpl<MailRecord> {
     }
 
     /**
-     * Getter for <code>nexus.MAIL.REWARDS</code>. 우편 보상
+     * Getter for <code>nexus.MAIL.REWARDS</code>. 지급 보상/구성 JSON (예:
+     * [{itemCode:"GEM", qty:1000}, ...])
      */
     public JSONB getRewards() {
         return (JSONB) get(4);
