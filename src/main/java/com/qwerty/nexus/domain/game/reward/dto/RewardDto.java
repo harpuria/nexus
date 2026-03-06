@@ -8,12 +8,11 @@ import lombok.Setter;
 /**
  * 공통 보상 DTO (JSONB 타입을 DTO 타입으로 변경할 때 사용)
  */
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class RewardDto {
-    private int itemId;
+    private Integer itemId;
     private Long amount;
 }
