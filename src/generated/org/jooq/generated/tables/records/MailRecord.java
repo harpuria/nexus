@@ -132,7 +132,7 @@ public class MailRecord extends UpdatableRecordImpl<MailRecord> {
     }
 
     /**
-     * Setter for <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간
+     * Setter for <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간 (null 이면 무제한)
      */
     public MailRecord setExpireAt(OffsetDateTime value) {
         set(7, value);
@@ -140,7 +140,7 @@ public class MailRecord extends UpdatableRecordImpl<MailRecord> {
     }
 
     /**
-     * Getter for <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간
+     * Getter for <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간 (null 이면 무제한)
      */
     public OffsetDateTime getExpireAt() {
         return (OffsetDateTime) get(7);

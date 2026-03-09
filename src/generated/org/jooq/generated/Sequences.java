@@ -46,9 +46,19 @@ public class Sequences {
     public static final Sequence<Integer> ITEM_MASTER_ITEM_ID_SEQ = Internal.createSequence("ITEM_MASTER_ITEM_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 
     /**
+     * The sequence <code>nexus.MAIL_DISPATCH_MAIL_DISPATCH_ID_seq</code>
+     */
+    public static final Sequence<Integer> MAIL_DISPATCH_MAIL_DISPATCH_ID_SEQ = Internal.createSequence("MAIL_DISPATCH_MAIL_DISPATCH_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
      * The sequence <code>nexus.MAIL_MAIL_ID_seq</code>
      */
     public static final Sequence<Integer> MAIL_MAIL_ID_SEQ = Internal.createSequence("MAIL_MAIL_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
+
+    /**
+     * The sequence <code>nexus.MAIL_USER_STATE_MAIL_USER_STATE_ID_seq</code>
+     */
+    public static final Sequence<Integer> MAIL_USER_STATE_MAIL_USER_STATE_ID_SEQ = Internal.createSequence("MAIL_USER_STATE_MAIL_USER_STATE_ID_seq", JNexus.NEXUS, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null);
 
     /**
      * The sequence <code>nexus.ORGANIZATION_ORG_ID_seq</code>

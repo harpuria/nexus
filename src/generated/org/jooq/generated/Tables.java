@@ -11,6 +11,8 @@ import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.JGameUser;
 import org.jooq.generated.tables.JItemMaster;
 import org.jooq.generated.tables.JMail;
+import org.jooq.generated.tables.JMailDispatch;
+import org.jooq.generated.tables.JMailUserState;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JProduct;
 import org.jooq.generated.tables.JRewardGrant;
@@ -62,6 +64,16 @@ public class Tables {
      * The table <code>nexus.MAIL</code>.
      */
     public static final JMail MAIL = JMail.MAIL;
+
+    /**
+     * The table <code>nexus.MAIL_DISPATCH</code>.
+     */
+    public static final JMailDispatch MAIL_DISPATCH = JMailDispatch.MAIL_DISPATCH;
+
+    /**
+     * The table <code>nexus.MAIL_USER_STATE</code>.
+     */
+    public static final JMailUserState MAIL_USER_STATE = JMailUserState.MAIL_USER_STATE;
 
     /**
      * The table <code>nexus.ORGANIZATION</code>.

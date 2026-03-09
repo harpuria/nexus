@@ -13,7 +13,9 @@ import org.jooq.Check;
 import org.jooq.Condition;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Index;
 import org.jooq.InverseForeignKey;
+import org.jooq.JSONB;
 import org.jooq.Name;
 import org.jooq.Path;
 import org.jooq.PlainSQL;
@@ -27,8 +29,10 @@ import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
+import org.jooq.generated.Indexes;
 import org.jooq.generated.JNexus;
 import org.jooq.generated.Keys;
+import org.jooq.generated.tables.JGame.GamePath;
 import org.jooq.generated.tables.JGameUser.GameUserPath;
 import org.jooq.generated.tables.JMail.MailPath;
 import org.jooq.generated.tables.records.UserMailRecord;
@@ -65,6 +69,11 @@ public class JUserMail extends TableImpl<UserMailRecord> {
     public final TableField<UserMailRecord, Integer> USER_MAIL_ID = createField(DSL.name("USER_MAIL_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"USER_MAIL_USER_MAIL_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "유저 우편 아이디 (PK)");
 
     /**
+     * The column <code>nexus.USER_MAIL.GAME_ID</code>. 게임 아이디 (FK)
+     */
+    public final TableField<UserMailRecord, Integer> GAME_ID = createField(DSL.name("GAME_ID"), SQLDataType.INTEGER.nullable(false), this, "게임 아이디 (FK)");
+
+    /**
      * The column <code>nexus.USER_MAIL.MAIL_ID</code>. 우편 아이디 (FK)
      */
     public final TableField<UserMailRecord, Integer> MAIL_ID = createField(DSL.name("MAIL_ID"), SQLDataType.INTEGER.nullable(false), this, "우편 아이디 (FK)");
@@ -80,9 +89,42 @@ public class JUserMail extends TableImpl<UserMailRecord> {
     public final TableField<UserMailRecord, String> IS_READ = createField(DSL.name("IS_READ"), SQLDataType.CHAR(1).nullable(false).defaultValue(DSL.field(DSL.raw("'N'::bpchar"), SQLDataType.CHAR)), this, "읽음 여부");
 
     /**
+     * The column <code>nexus.USER_MAIL.READ_AT</code>. 읽은 일시
+     */
+    public final TableField<UserMailRecord, OffsetDateTime> READ_AT = createField(DSL.name("READ_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "읽은 일시");
+
+    /**
      * The column <code>nexus.USER_MAIL.IS_RECEIVED</code>. 보상 수령 여부
      */
     public final TableField<UserMailRecord, String> IS_RECEIVED = createField(DSL.name("IS_RECEIVED"), SQLDataType.CHAR(1).nullable(false).defaultValue(DSL.field(DSL.raw("'N'::bpchar"), SQLDataType.CHAR)), this, "보상 수령 여부");
+
+    /**
+     * The column <code>nexus.USER_MAIL.RECEIVED_AT</code>. 보상 수령 일시
+     */
+    public final TableField<UserMailRecord, OffsetDateTime> RECEIVED_AT = createField(DSL.name("RECEIVED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "보상 수령 일시");
+
+    /**
+     * The column <code>nexus.USER_MAIL.TITLE</code>. 유저에게 실제 노출되는 제목(실제 전송된 정보)
+     */
+    public final TableField<UserMailRecord, String> TITLE = createField(DSL.name("TITLE"), SQLDataType.VARCHAR(255).nullable(false), this, "유저에게 실제 노출되는 제목(실제 전송된 정보)");
+
+    /**
+     * The column <code>nexus.USER_MAIL.CONTENT</code>. 유저에게 실제 노출되는 내용 (실제 전송된
+     * 정보)
+     */
+    public final TableField<UserMailRecord, String> CONTENT = createField(DSL.name("CONTENT"), SQLDataType.CLOB.nullable(false), this, "유저에게 실제 노출되는 내용 (실제 전송된 정보)");
+
+    /**
+     * The column <code>nexus.USER_MAIL.REWARDS</code>. 유저에게 지급될 실제 보상 정보 (실제
+     * 전송된 정보)
+     */
+    public final TableField<UserMailRecord, JSONB> REWARDS = createField(DSL.name("REWARDS"), SQLDataType.JSONB, this, "유저에게 지급될 실제 보상 정보 (실제 전송된 정보)");
+
+    /**
+     * The column <code>nexus.USER_MAIL.EXPIRE_AT</code>. 유저 우편 만료 일시 (실제 전송된
+     * 정보)
+     */
+    public final TableField<UserMailRecord, OffsetDateTime> EXPIRE_AT = createField(DSL.name("EXPIRE_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "유저 우편 만료 일시 (실제 전송된 정보)");
 
     /**
      * The column <code>nexus.USER_MAIL.CREATED_AT</code>. 데이터 생성 날짜
@@ -177,13 +219,30 @@ public class JUserMail extends TableImpl<UserMailRecord> {
     }
 
     @Override
+    public List<Index> getIndexes() {
+        return Arrays.asList(Indexes.IX_USER_MAIL_GAME_ID_USER_ID_CREATED_AT, Indexes.IX_USER_MAIL_USER_ID_CREATED_AT, Indexes.UK_USER_MAIL);
+    }
+
+    @Override
     public UniqueKey<UserMailRecord> getPrimaryKey() {
         return Keys.USER_MAIL_PKEY;
     }
 
     @Override
     public List<ForeignKey<UserMailRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.USER_MAIL__USER_MAIL_MAIL_ID_FKEY, Keys.USER_MAIL__USER_MAIL_USER_ID_FKEY);
+        return Arrays.asList(Keys.USER_MAIL__USER_MAIL_GAME_ID_FKEY, Keys.USER_MAIL__USER_MAIL_MAIL_ID_FKEY, Keys.USER_MAIL__USER_MAIL_USER_ID_FKEY);
+    }
+
+    private transient GamePath _game;
+
+    /**
+     * Get the implicit join path to the <code>nexus.GAME</code> table.
+     */
+    public GamePath game() {
+        if (_game == null)
+            _game = new GamePath(this, Keys.USER_MAIL__USER_MAIL_GAME_ID_FKEY, null);
+
+        return _game;
     }
 
     private transient MailPath _mail;

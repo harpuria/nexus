@@ -191,14 +191,14 @@ public class Mail implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간
+     * Getter for <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간 (null 이면 무제한)
      */
     public OffsetDateTime getExpireAt() {
         return this.expireAt;
     }
 
     /**
-     * Setter for <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간
+     * Setter for <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간 (null 이면 무제한)
      */
     public Mail setExpireAt(OffsetDateTime expireAt) {
         this.expireAt = expireAt;

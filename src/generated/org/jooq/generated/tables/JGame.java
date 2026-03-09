@@ -37,12 +37,15 @@ import org.jooq.generated.tables.JCoupon.CouponPath;
 import org.jooq.generated.tables.JGameUser.GameUserPath;
 import org.jooq.generated.tables.JItemMaster.ItemMasterPath;
 import org.jooq.generated.tables.JMail.MailPath;
+import org.jooq.generated.tables.JMailDispatch.MailDispatchPath;
+import org.jooq.generated.tables.JMailUserState.MailUserStatePath;
 import org.jooq.generated.tables.JOrganization.OrganizationPath;
 import org.jooq.generated.tables.JProduct.ProductPath;
 import org.jooq.generated.tables.JRewardGrant.RewardGrantPath;
 import org.jooq.generated.tables.JRewardGrantItem.RewardGrantItemPath;
 import org.jooq.generated.tables.JShop.ShopPath;
 import org.jooq.generated.tables.JShopProduct.ShopProductPath;
+import org.jooq.generated.tables.JUserMail.UserMailPath;
 import org.jooq.generated.tables.records.GameRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.EnumConverter;
@@ -282,6 +285,19 @@ public class JGame extends TableImpl<GameRecord> {
         return _itemMaster;
     }
 
+    private transient MailDispatchPath _mailDispatch;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>nexus.MAIL_DISPATCH</code> table
+     */
+    public MailDispatchPath mailDispatch() {
+        if (_mailDispatch == null)
+            _mailDispatch = new MailDispatchPath(this, null, Keys.MAIL_DISPATCH__MAIL_DISPATCH_GAME_ID_FKEY.getInverseKey());
+
+        return _mailDispatch;
+    }
+
     private transient MailPath _mail;
 
     /**
@@ -292,6 +308,19 @@ public class JGame extends TableImpl<GameRecord> {
             _mail = new MailPath(this, null, Keys.MAIL__MAIL_GAME_ID_FKEY.getInverseKey());
 
         return _mail;
+    }
+
+    private transient MailUserStatePath _mailUserState;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>nexus.MAIL_USER_STATE</code> table
+     */
+    public MailUserStatePath mailUserState() {
+        if (_mailUserState == null)
+            _mailUserState = new MailUserStatePath(this, null, Keys.MAIL_USER_STATE__MAIL_USER_STATE_GAME_ID_FKEY.getInverseKey());
+
+        return _mailUserState;
     }
 
     private transient ProductPath _product;
@@ -356,6 +385,19 @@ public class JGame extends TableImpl<GameRecord> {
             _shopProduct = new ShopProductPath(this, null, Keys.SHOP_PRODUCT__SHOP_PRODUCT_GAME_ID_FKEY.getInverseKey());
 
         return _shopProduct;
+    }
+
+    private transient UserMailPath _userMail;
+
+    /**
+     * Get the implicit to-many join path to the <code>nexus.USER_MAIL</code>
+     * table
+     */
+    public UserMailPath userMail() {
+        if (_userMail == null)
+            _userMail = new UserMailPath(this, null, Keys.USER_MAIL__USER_MAIL_GAME_ID_FKEY.getInverseKey());
+
+        return _userMail;
     }
 
     @Override

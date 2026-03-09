@@ -16,6 +16,7 @@ import org.jooq.Check;
 import org.jooq.Condition;
 import org.jooq.Field;
 import org.jooq.ForeignKey;
+import org.jooq.Index;
 import org.jooq.InverseForeignKey;
 import org.jooq.JSONB;
 import org.jooq.Name;
@@ -31,9 +32,12 @@ import org.jooq.Table;
 import org.jooq.TableField;
 import org.jooq.TableOptions;
 import org.jooq.UniqueKey;
+import org.jooq.generated.Indexes;
 import org.jooq.generated.JNexus;
 import org.jooq.generated.Keys;
 import org.jooq.generated.tables.JGame.GamePath;
+import org.jooq.generated.tables.JMailDispatch.MailDispatchPath;
+import org.jooq.generated.tables.JMailUserState.MailUserStatePath;
 import org.jooq.generated.tables.JUserMail.UserMailPath;
 import org.jooq.generated.tables.records.MailRecord;
 import org.jooq.impl.DSL;
@@ -101,9 +105,9 @@ public class JMail extends TableImpl<MailRecord> {
     public final TableField<MailRecord, MailRecipientsType> RECIPIENTS_TYPE = createField(DSL.name("RECIPIENTS_TYPE"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'USER'::character varying"), SQLDataType.VARCHAR)), this, "발송 대상 타입", new EnumConverter<String, MailRecipientsType>(String.class, MailRecipientsType.class));
 
     /**
-     * The column <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간
+     * The column <code>nexus.MAIL.EXPIRE_AT</code>. 우편 유효 기간 (null 이면 무제한)
      */
-    public final TableField<MailRecord, OffsetDateTime> EXPIRE_AT = createField(DSL.name("EXPIRE_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "우편 유효 기간");
+    public final TableField<MailRecord, OffsetDateTime> EXPIRE_AT = createField(DSL.name("EXPIRE_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "우편 유효 기간 (null 이면 무제한)");
 
     /**
      * The column <code>nexus.MAIL.CREATED_AT</code>. 데이터 생성 날짜
@@ -198,6 +202,11 @@ public class JMail extends TableImpl<MailRecord> {
     }
 
     @Override
+    public List<Index> getIndexes() {
+        return Arrays.asList(Indexes.IX_MAIL_GAME_ID, Indexes.IX_MAIL_GAME_ID_IS_DEL, Indexes.IX_MAIL_GAME_ID_RECIPIENTS_TYPE);
+    }
+
+    @Override
     public UniqueKey<MailRecord> getPrimaryKey() {
         return Keys.MAIL_PKEY;
     }
@@ -217,6 +226,32 @@ public class JMail extends TableImpl<MailRecord> {
             _game = new GamePath(this, Keys.MAIL__MAIL_GAME_ID_FKEY, null);
 
         return _game;
+    }
+
+    private transient MailDispatchPath _mailDispatch;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>nexus.MAIL_DISPATCH</code> table
+     */
+    public MailDispatchPath mailDispatch() {
+        if (_mailDispatch == null)
+            _mailDispatch = new MailDispatchPath(this, null, Keys.MAIL_DISPATCH__MAIL_DISPATCH_MAIL_ID_FKEY.getInverseKey());
+
+        return _mailDispatch;
+    }
+
+    private transient MailUserStatePath _mailUserState;
+
+    /**
+     * Get the implicit to-many join path to the
+     * <code>nexus.MAIL_USER_STATE</code> table
+     */
+    public MailUserStatePath mailUserState() {
+        if (_mailUserState == null)
+            _mailUserState = new MailUserStatePath(this, null, Keys.MAIL_USER_STATE__MAIL_USER_STATE_MAIL_ID_FKEY.getInverseKey());
+
+        return _mailUserState;
     }
 
     private transient UserMailPath _userMail;

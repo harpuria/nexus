@@ -6,6 +6,7 @@ package org.jooq.generated.tables.records;
 
 import java.time.OffsetDateTime;
 
+import org.jooq.JSONB;
 import org.jooq.Record1;
 import org.jooq.generated.tables.JUserMail;
 import org.jooq.generated.tables.pojos.UserMail;
@@ -36,10 +37,25 @@ public class UserMailRecord extends UpdatableRecordImpl<UserMailRecord> {
     }
 
     /**
+     * Setter for <code>nexus.USER_MAIL.GAME_ID</code>. 게임 아이디 (FK)
+     */
+    public UserMailRecord setGameId(Integer value) {
+        set(1, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.USER_MAIL.GAME_ID</code>. 게임 아이디 (FK)
+     */
+    public Integer getGameId() {
+        return (Integer) get(1);
+    }
+
+    /**
      * Setter for <code>nexus.USER_MAIL.MAIL_ID</code>. 우편 아이디 (FK)
      */
     public UserMailRecord setMailId(Integer value) {
-        set(1, value);
+        set(2, value);
         return this;
     }
 
@@ -47,14 +63,14 @@ public class UserMailRecord extends UpdatableRecordImpl<UserMailRecord> {
      * Getter for <code>nexus.USER_MAIL.MAIL_ID</code>. 우편 아이디 (FK)
      */
     public Integer getMailId() {
-        return (Integer) get(1);
+        return (Integer) get(2);
     }
 
     /**
      * Setter for <code>nexus.USER_MAIL.USER_ID</code>. 유저 아이디 (FK)
      */
     public UserMailRecord setUserId(Integer value) {
-        set(2, value);
+        set(3, value);
         return this;
     }
 
@@ -62,14 +78,14 @@ public class UserMailRecord extends UpdatableRecordImpl<UserMailRecord> {
      * Getter for <code>nexus.USER_MAIL.USER_ID</code>. 유저 아이디 (FK)
      */
     public Integer getUserId() {
-        return (Integer) get(2);
+        return (Integer) get(3);
     }
 
     /**
      * Setter for <code>nexus.USER_MAIL.IS_READ</code>. 읽음 여부
      */
     public UserMailRecord setIsRead(String value) {
-        set(3, value);
+        set(4, value);
         return this;
     }
 
@@ -77,14 +93,29 @@ public class UserMailRecord extends UpdatableRecordImpl<UserMailRecord> {
      * Getter for <code>nexus.USER_MAIL.IS_READ</code>. 읽음 여부
      */
     public String getIsRead() {
-        return (String) get(3);
+        return (String) get(4);
+    }
+
+    /**
+     * Setter for <code>nexus.USER_MAIL.READ_AT</code>. 읽은 일시
+     */
+    public UserMailRecord setReadAt(OffsetDateTime value) {
+        set(5, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.USER_MAIL.READ_AT</code>. 읽은 일시
+     */
+    public OffsetDateTime getReadAt() {
+        return (OffsetDateTime) get(5);
     }
 
     /**
      * Setter for <code>nexus.USER_MAIL.IS_RECEIVED</code>. 보상 수령 여부
      */
     public UserMailRecord setIsReceived(String value) {
-        set(4, value);
+        set(6, value);
         return this;
     }
 
@@ -92,14 +123,95 @@ public class UserMailRecord extends UpdatableRecordImpl<UserMailRecord> {
      * Getter for <code>nexus.USER_MAIL.IS_RECEIVED</code>. 보상 수령 여부
      */
     public String getIsReceived() {
-        return (String) get(4);
+        return (String) get(6);
+    }
+
+    /**
+     * Setter for <code>nexus.USER_MAIL.RECEIVED_AT</code>. 보상 수령 일시
+     */
+    public UserMailRecord setReceivedAt(OffsetDateTime value) {
+        set(7, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.USER_MAIL.RECEIVED_AT</code>. 보상 수령 일시
+     */
+    public OffsetDateTime getReceivedAt() {
+        return (OffsetDateTime) get(7);
+    }
+
+    /**
+     * Setter for <code>nexus.USER_MAIL.TITLE</code>. 유저에게 실제 노출되는 제목(실제 전송된 정보)
+     */
+    public UserMailRecord setTitle(String value) {
+        set(8, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.USER_MAIL.TITLE</code>. 유저에게 실제 노출되는 제목(실제 전송된 정보)
+     */
+    public String getTitle() {
+        return (String) get(8);
+    }
+
+    /**
+     * Setter for <code>nexus.USER_MAIL.CONTENT</code>. 유저에게 실제 노출되는 내용 (실제 전송된
+     * 정보)
+     */
+    public UserMailRecord setContent(String value) {
+        set(9, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.USER_MAIL.CONTENT</code>. 유저에게 실제 노출되는 내용 (실제 전송된
+     * 정보)
+     */
+    public String getContent() {
+        return (String) get(9);
+    }
+
+    /**
+     * Setter for <code>nexus.USER_MAIL.REWARDS</code>. 유저에게 지급될 실제 보상 정보 (실제
+     * 전송된 정보)
+     */
+    public UserMailRecord setRewards(JSONB value) {
+        set(10, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.USER_MAIL.REWARDS</code>. 유저에게 지급될 실제 보상 정보 (실제
+     * 전송된 정보)
+     */
+    public JSONB getRewards() {
+        return (JSONB) get(10);
+    }
+
+    /**
+     * Setter for <code>nexus.USER_MAIL.EXPIRE_AT</code>. 유저 우편 만료 일시 (실제 전송된
+     * 정보)
+     */
+    public UserMailRecord setExpireAt(OffsetDateTime value) {
+        set(11, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.USER_MAIL.EXPIRE_AT</code>. 유저 우편 만료 일시 (실제 전송된
+     * 정보)
+     */
+    public OffsetDateTime getExpireAt() {
+        return (OffsetDateTime) get(11);
     }
 
     /**
      * Setter for <code>nexus.USER_MAIL.CREATED_AT</code>. 데이터 생성 날짜
      */
     public UserMailRecord setCreatedAt(OffsetDateTime value) {
-        set(5, value);
+        set(12, value);
         return this;
     }
 
@@ -107,14 +219,14 @@ public class UserMailRecord extends UpdatableRecordImpl<UserMailRecord> {
      * Getter for <code>nexus.USER_MAIL.CREATED_AT</code>. 데이터 생성 날짜
      */
     public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(5);
+        return (OffsetDateTime) get(12);
     }
 
     /**
      * Setter for <code>nexus.USER_MAIL.CREATED_BY</code>. 데이터 생성자 ID
      */
     public UserMailRecord setCreatedBy(String value) {
-        set(6, value);
+        set(13, value);
         return this;
     }
 
@@ -122,14 +234,14 @@ public class UserMailRecord extends UpdatableRecordImpl<UserMailRecord> {
      * Getter for <code>nexus.USER_MAIL.CREATED_BY</code>. 데이터 생성자 ID
      */
     public String getCreatedBy() {
-        return (String) get(6);
+        return (String) get(13);
     }
 
     /**
      * Setter for <code>nexus.USER_MAIL.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public UserMailRecord setUpdatedAt(OffsetDateTime value) {
-        set(7, value);
+        set(14, value);
         return this;
     }
 
@@ -137,14 +249,14 @@ public class UserMailRecord extends UpdatableRecordImpl<UserMailRecord> {
      * Getter for <code>nexus.USER_MAIL.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(7);
+        return (OffsetDateTime) get(14);
     }
 
     /**
      * Setter for <code>nexus.USER_MAIL.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public UserMailRecord setUpdatedBy(String value) {
-        set(8, value);
+        set(15, value);
         return this;
     }
 
@@ -152,14 +264,14 @@ public class UserMailRecord extends UpdatableRecordImpl<UserMailRecord> {
      * Getter for <code>nexus.USER_MAIL.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public String getUpdatedBy() {
-        return (String) get(8);
+        return (String) get(15);
     }
 
     /**
      * Setter for <code>nexus.USER_MAIL.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public UserMailRecord setIsDel(String value) {
-        set(9, value);
+        set(16, value);
         return this;
     }
 
@@ -167,7 +279,7 @@ public class UserMailRecord extends UpdatableRecordImpl<UserMailRecord> {
      * Getter for <code>nexus.USER_MAIL.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public String getIsDel() {
-        return (String) get(9);
+        return (String) get(16);
     }
 
     // -------------------------------------------------------------------------
@@ -193,14 +305,21 @@ public class UserMailRecord extends UpdatableRecordImpl<UserMailRecord> {
     /**
      * Create a detached, initialised UserMailRecord
      */
-    public UserMailRecord(Integer userMailId, Integer mailId, Integer userId, String isRead, String isReceived, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public UserMailRecord(Integer userMailId, Integer gameId, Integer mailId, Integer userId, String isRead, OffsetDateTime readAt, String isReceived, OffsetDateTime receivedAt, String title, String content, JSONB rewards, OffsetDateTime expireAt, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JUserMail.USER_MAIL);
 
         setUserMailId(userMailId);
+        setGameId(gameId);
         setMailId(mailId);
         setUserId(userId);
         setIsRead(isRead);
+        setReadAt(readAt);
         setIsReceived(isReceived);
+        setReceivedAt(receivedAt);
+        setTitle(title);
+        setContent(content);
+        setRewards(rewards);
+        setExpireAt(expireAt);
         setCreatedAt(createdAt);
         setCreatedBy(createdBy);
         setUpdatedAt(updatedAt);
@@ -217,10 +336,17 @@ public class UserMailRecord extends UpdatableRecordImpl<UserMailRecord> {
 
         if (value != null) {
             setUserMailId(value.getUserMailId());
+            setGameId(value.getGameId());
             setMailId(value.getMailId());
             setUserId(value.getUserId());
             setIsRead(value.getIsRead());
+            setReadAt(value.getReadAt());
             setIsReceived(value.getIsReceived());
+            setReceivedAt(value.getReceivedAt());
+            setTitle(value.getTitle());
+            setContent(value.getContent());
+            setRewards(value.getRewards());
+            setExpireAt(value.getExpireAt());
             setCreatedAt(value.getCreatedAt());
             setCreatedBy(value.getCreatedBy());
             setUpdatedAt(value.getUpdatedAt());

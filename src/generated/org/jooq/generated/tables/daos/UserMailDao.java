@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.jooq.Configuration;
+import org.jooq.JSONB;
 import org.jooq.generated.tables.JUserMail;
 import org.jooq.generated.tables.pojos.UserMail;
 import org.jooq.generated.tables.records.UserMailRecord;
@@ -70,6 +71,21 @@ public class UserMailDao extends DAOImpl<UserMailRecord, UserMail, Integer> {
     }
 
     /**
+     * Fetch records that have <code>GAME_ID BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<UserMail> fetchRangeOfJGameId(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(JUserMail.USER_MAIL.GAME_ID, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>GAME_ID IN (values)</code>
+     */
+    public List<UserMail> fetchByJGameId(Integer... values) {
+        return fetch(JUserMail.USER_MAIL.GAME_ID, values);
+    }
+
+    /**
      * Fetch records that have <code>MAIL_ID BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
@@ -115,6 +131,21 @@ public class UserMailDao extends DAOImpl<UserMailRecord, UserMail, Integer> {
     }
 
     /**
+     * Fetch records that have <code>READ_AT BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<UserMail> fetchRangeOfJReadAt(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
+        return fetchRange(JUserMail.USER_MAIL.READ_AT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>READ_AT IN (values)</code>
+     */
+    public List<UserMail> fetchByJReadAt(OffsetDateTime... values) {
+        return fetch(JUserMail.USER_MAIL.READ_AT, values);
+    }
+
+    /**
      * Fetch records that have <code>IS_RECEIVED BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
@@ -127,6 +158,81 @@ public class UserMailDao extends DAOImpl<UserMailRecord, UserMail, Integer> {
      */
     public List<UserMail> fetchByJIsReceived(String... values) {
         return fetch(JUserMail.USER_MAIL.IS_RECEIVED, values);
+    }
+
+    /**
+     * Fetch records that have <code>RECEIVED_AT BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<UserMail> fetchRangeOfJReceivedAt(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
+        return fetchRange(JUserMail.USER_MAIL.RECEIVED_AT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>RECEIVED_AT IN (values)</code>
+     */
+    public List<UserMail> fetchByJReceivedAt(OffsetDateTime... values) {
+        return fetch(JUserMail.USER_MAIL.RECEIVED_AT, values);
+    }
+
+    /**
+     * Fetch records that have <code>TITLE BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<UserMail> fetchRangeOfJTitle(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JUserMail.USER_MAIL.TITLE, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>TITLE IN (values)</code>
+     */
+    public List<UserMail> fetchByJTitle(String... values) {
+        return fetch(JUserMail.USER_MAIL.TITLE, values);
+    }
+
+    /**
+     * Fetch records that have <code>CONTENT BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<UserMail> fetchRangeOfJContent(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JUserMail.USER_MAIL.CONTENT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>CONTENT IN (values)</code>
+     */
+    public List<UserMail> fetchByJContent(String... values) {
+        return fetch(JUserMail.USER_MAIL.CONTENT, values);
+    }
+
+    /**
+     * Fetch records that have <code>REWARDS BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<UserMail> fetchRangeOfJRewards(JSONB lowerInclusive, JSONB upperInclusive) {
+        return fetchRange(JUserMail.USER_MAIL.REWARDS, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>REWARDS IN (values)</code>
+     */
+    public List<UserMail> fetchByJRewards(JSONB... values) {
+        return fetch(JUserMail.USER_MAIL.REWARDS, values);
+    }
+
+    /**
+     * Fetch records that have <code>EXPIRE_AT BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<UserMail> fetchRangeOfJExpireAt(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
+        return fetchRange(JUserMail.USER_MAIL.EXPIRE_AT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>EXPIRE_AT IN (values)</code>
+     */
+    public List<UserMail> fetchByJExpireAt(OffsetDateTime... values) {
+        return fetch(JUserMail.USER_MAIL.EXPIRE_AT, values);
     }
 
     /**
