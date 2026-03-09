@@ -16,6 +16,9 @@ public class OrganizationUpdateRequestDto {
     @Schema(example = "123-45-67890")
     private String orgCd;
 
+    @Schema(example = "/images/org/logo_updated.png")
+    private String logoPath;
+
     @Schema(example = "N")
     private String isDel;
 
