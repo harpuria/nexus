@@ -62,7 +62,7 @@ public class JCouponUseLog extends TableImpl<CouponUseLogRecord> {
     /**
      * The column <code>nexus.COUPON_USE_LOG.LOG_ID</code>. 쿠폰 사용 로그 아이디 (PK)
      */
-    public final TableField<CouponUseLogRecord, Integer> LOG_ID = createField(DSL.name("LOG_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"COUPON_USE_LOG_LOG_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "쿠폰 사용 로그 아이디 (PK)");
+    public final TableField<CouponUseLogRecord, Integer> LOG_ID = createField(DSL.name("LOG_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"COUPON_USE_LOG_LOG_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "쿠폰 사용 로그 아이디 (PK)");
 
     /**
      * The column <code>nexus.COUPON_USE_LOG.COUPON_ID</code>. 쿠폰 아이디 (FK)
@@ -78,6 +78,11 @@ public class JCouponUseLog extends TableImpl<CouponUseLogRecord> {
      * The column <code>nexus.COUPON_USE_LOG.USED_AT</code>. 쿠폰 사용 날짜
      */
     public final TableField<CouponUseLogRecord, OffsetDateTime> USED_AT = createField(DSL.name("USED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "쿠폰 사용 날짜");
+
+    /**
+     * The column <code>nexus.COUPON_USE_LOG.STATUS</code>. 작업 성공 여부
+     */
+    public final TableField<CouponUseLogRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(20).nullable(false).defaultValue(DSL.field(DSL.raw("'PENDING'::character varying"), SQLDataType.VARCHAR)), this, "작업 성공 여부");
 
     /**
      * The column <code>nexus.COUPON_USE_LOG.CREATED_AT</code>. 데이터 생성 날짜
@@ -208,7 +213,8 @@ public class JCouponUseLog extends TableImpl<CouponUseLogRecord> {
     @Override
     public List<Check<CouponUseLogRecord>> getChecks() {
         return Arrays.asList(
-            Internal.createCheck(this, DSL.name("COUPON_USE_LOG_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true)
+            Internal.createCheck(this, DSL.name("COUPON_USE_LOG_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
+            Internal.createCheck(this, DSL.name("COUPON_USE_LOG_STATUS_check"), "(((\"STATUS\")::text = ANY ((ARRAY['PENDING'::character varying, 'SUCCESS'::character varying, 'FAILED'::character varying])::text[])))", true)
         );
     }
 

@@ -115,7 +115,7 @@ public class RewardGrantRecord extends UpdatableRecordImpl<RewardGrantRecord> {
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT.STATUS</code>. 지급 처리 상태
+     * Setter for <code>nexus.REWARD_GRANT.STATUS</code>. 작업 성공 여부
      */
     public RewardGrantRecord setStatus(String value) {
         set(6, value);
@@ -123,7 +123,7 @@ public class RewardGrantRecord extends UpdatableRecordImpl<RewardGrantRecord> {
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT.STATUS</code>. 지급 처리 상태
+     * Getter for <code>nexus.REWARD_GRANT.STATUS</code>. 작업 성공 여부
      */
     public String getStatus() {
         return (String) get(6);

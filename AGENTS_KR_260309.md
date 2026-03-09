@@ -199,7 +199,7 @@ return record.update();
 - Lombok Annotation `@Getter`,`@Builder`를 사용한다.
 
 ### 6.6 Result Class
-- jOOQ Query 결과를 보유하는 객체.
+- jOOQ Query 결과를 보유하는 객체. 
 - Lombok Annotation `@Getter`를 사용한다.
 - 명시적으로 요청하지 않는 이상 **Setter Method의 사용은 금지한다**.
 

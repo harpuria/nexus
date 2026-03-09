@@ -20,6 +20,7 @@ public class CouponUseLog implements Serializable {
     private Integer couponId;
     private Integer userId;
     private OffsetDateTime usedAt;
+    private String status;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;
@@ -33,6 +34,7 @@ public class CouponUseLog implements Serializable {
         this.couponId = value.couponId;
         this.userId = value.userId;
         this.usedAt = value.usedAt;
+        this.status = value.status;
         this.createdAt = value.createdAt;
         this.createdBy = value.createdBy;
         this.updatedAt = value.updatedAt;
@@ -45,6 +47,7 @@ public class CouponUseLog implements Serializable {
         Integer couponId,
         Integer userId,
         OffsetDateTime usedAt,
+        String status,
         OffsetDateTime createdAt,
         String createdBy,
         OffsetDateTime updatedAt,
@@ -55,6 +58,7 @@ public class CouponUseLog implements Serializable {
         this.couponId = couponId;
         this.userId = userId;
         this.usedAt = usedAt;
+        this.status = status;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.updatedAt = updatedAt;
@@ -119,6 +123,21 @@ public class CouponUseLog implements Serializable {
      */
     public CouponUseLog setUsedAt(OffsetDateTime usedAt) {
         this.usedAt = usedAt;
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.COUPON_USE_LOG.STATUS</code>. 작업 성공 여부
+     */
+    public String getStatus() {
+        return this.status;
+    }
+
+    /**
+     * Setter for <code>nexus.COUPON_USE_LOG.STATUS</code>. 작업 성공 여부
+     */
+    public CouponUseLog setStatus(String status) {
+        this.status = status;
         return this;
     }
 
@@ -230,6 +249,12 @@ public class CouponUseLog implements Serializable {
         }
         else if (!this.usedAt.equals(other.usedAt))
             return false;
+        if (this.status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!this.status.equals(other.status))
+            return false;
         if (this.createdAt == null) {
             if (other.createdAt != null)
                 return false;
@@ -271,6 +296,7 @@ public class CouponUseLog implements Serializable {
         result = prime * result + ((this.couponId == null) ? 0 : this.couponId.hashCode());
         result = prime * result + ((this.userId == null) ? 0 : this.userId.hashCode());
         result = prime * result + ((this.usedAt == null) ? 0 : this.usedAt.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
@@ -287,6 +313,7 @@ public class CouponUseLog implements Serializable {
         sb.append(", ").append(couponId);
         sb.append(", ").append(userId);
         sb.append(", ").append(usedAt);
+        sb.append(", ").append(status);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(createdBy);
         sb.append(", ").append(updatedAt);

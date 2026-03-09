@@ -112,22 +112,22 @@ jooq {
 						includeExpression = "PRODUCT\\.PURCHASE_TYPE" // 어떤 컬럼에 적용할 것인가
 					}
 					forcedType {
-						userType = "com.qwerty.nexus.domain.game.data.coupon.TimeLimitType"
+						userType = "com.qwerty.nexus.domain.game.coupon.TimeLimitType"
 						enumConverter = true
 						includeExpression = "COUPON\\.TIME_LIMIT_TYPE" // 어떤 컬럼에 적용할 것인가
 					}
 					forcedType {
-						userType = "com.qwerty.nexus.domain.game.data.mail.MailRecipientsType"
+						userType = "com.qwerty.nexus.domain.game.mail.MailRecipientsType"
 						enumConverter = true
 						includeExpression = "MAIL\\.RECIPIENTS_TYPE" // 어떤 컬럼에 적용할 것인가
 					}
 					forcedType {
-						userType = "com.qwerty.nexus.domain.game.data.mail.MailSendType"
+						userType = "com.qwerty.nexus.domain.game.mail.MailSendType"
 						enumConverter = true
 						includeExpression = "MAIL\\.SEND_TYPE" // 어떤 컬럼에 적용할 것인가
 					}
 					forcedType {
-						userType = "com.qwerty.nexus.domain.game.data.item.ItemType"
+						userType = "com.qwerty.nexus.domain.game.item.ItemType"
 						enumConverter = true
 						includeExpression = "ITEM_MASTER\\.ITEM_TYPE" // 어떤 컬럼에 적용할 것인가
 					}

@@ -16,6 +16,7 @@ import org.jooq.generated.tables.JCoupon;
 import org.jooq.generated.tables.pojos.Coupon;
 import org.jooq.generated.tables.records.CouponRecord;
 import org.jooq.impl.DAOImpl;
+import org.jooq.impl.EnumConverter;
 
 
 /**

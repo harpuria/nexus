@@ -81,10 +81,25 @@ public class CouponUseLogRecord extends UpdatableRecordImpl<CouponUseLogRecord> 
     }
 
     /**
+     * Setter for <code>nexus.COUPON_USE_LOG.STATUS</code>. 작업 성공 여부
+     */
+    public CouponUseLogRecord setStatus(String value) {
+        set(4, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.COUPON_USE_LOG.STATUS</code>. 작업 성공 여부
+     */
+    public String getStatus() {
+        return (String) get(4);
+    }
+
+    /**
      * Setter for <code>nexus.COUPON_USE_LOG.CREATED_AT</code>. 데이터 생성 날짜
      */
     public CouponUseLogRecord setCreatedAt(OffsetDateTime value) {
-        set(4, value);
+        set(5, value);
         return this;
     }
 
@@ -92,14 +107,14 @@ public class CouponUseLogRecord extends UpdatableRecordImpl<CouponUseLogRecord> 
      * Getter for <code>nexus.COUPON_USE_LOG.CREATED_AT</code>. 데이터 생성 날짜
      */
     public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(4);
+        return (OffsetDateTime) get(5);
     }
 
     /**
      * Setter for <code>nexus.COUPON_USE_LOG.CREATED_BY</code>. 데이터 생성자 ID
      */
     public CouponUseLogRecord setCreatedBy(String value) {
-        set(5, value);
+        set(6, value);
         return this;
     }
 
@@ -107,14 +122,14 @@ public class CouponUseLogRecord extends UpdatableRecordImpl<CouponUseLogRecord> 
      * Getter for <code>nexus.COUPON_USE_LOG.CREATED_BY</code>. 데이터 생성자 ID
      */
     public String getCreatedBy() {
-        return (String) get(5);
+        return (String) get(6);
     }
 
     /**
      * Setter for <code>nexus.COUPON_USE_LOG.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public CouponUseLogRecord setUpdatedAt(OffsetDateTime value) {
-        set(6, value);
+        set(7, value);
         return this;
     }
 
@@ -122,14 +137,14 @@ public class CouponUseLogRecord extends UpdatableRecordImpl<CouponUseLogRecord> 
      * Getter for <code>nexus.COUPON_USE_LOG.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(6);
+        return (OffsetDateTime) get(7);
     }
 
     /**
      * Setter for <code>nexus.COUPON_USE_LOG.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public CouponUseLogRecord setUpdatedBy(String value) {
-        set(7, value);
+        set(8, value);
         return this;
     }
 
@@ -137,14 +152,14 @@ public class CouponUseLogRecord extends UpdatableRecordImpl<CouponUseLogRecord> 
      * Getter for <code>nexus.COUPON_USE_LOG.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public String getUpdatedBy() {
-        return (String) get(7);
+        return (String) get(8);
     }
 
     /**
      * Setter for <code>nexus.COUPON_USE_LOG.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public CouponUseLogRecord setIsDel(String value) {
-        set(8, value);
+        set(9, value);
         return this;
     }
 
@@ -152,7 +167,7 @@ public class CouponUseLogRecord extends UpdatableRecordImpl<CouponUseLogRecord> 
      * Getter for <code>nexus.COUPON_USE_LOG.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public String getIsDel() {
-        return (String) get(8);
+        return (String) get(9);
     }
 
     // -------------------------------------------------------------------------
@@ -178,13 +193,14 @@ public class CouponUseLogRecord extends UpdatableRecordImpl<CouponUseLogRecord> 
     /**
      * Create a detached, initialised CouponUseLogRecord
      */
-    public CouponUseLogRecord(Integer logId, Integer couponId, Integer userId, OffsetDateTime usedAt, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public CouponUseLogRecord(Integer logId, Integer couponId, Integer userId, OffsetDateTime usedAt, String status, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JCouponUseLog.COUPON_USE_LOG);
 
         setLogId(logId);
         setCouponId(couponId);
         setUserId(userId);
         setUsedAt(usedAt);
+        setStatus(status);
         setCreatedAt(createdAt);
         setCreatedBy(createdBy);
         setUpdatedAt(updatedAt);
@@ -204,6 +220,7 @@ public class CouponUseLogRecord extends UpdatableRecordImpl<CouponUseLogRecord> 
             setCouponId(value.getCouponId());
             setUserId(value.getUserId());
             setUsedAt(value.getUsedAt());
+            setStatus(value.getStatus());
             setCreatedAt(value.getCreatedAt());
             setCreatedBy(value.getCreatedBy());
             setUpdatedAt(value.getUpdatedAt());

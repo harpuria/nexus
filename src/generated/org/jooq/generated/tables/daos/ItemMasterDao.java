@@ -16,6 +16,7 @@ import org.jooq.generated.tables.JItemMaster;
 import org.jooq.generated.tables.pojos.ItemMaster;
 import org.jooq.generated.tables.records.ItemMasterRecord;
 import org.jooq.impl.DAOImpl;
+import org.jooq.impl.EnumConverter;
 
 
 /**

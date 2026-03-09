@@ -185,14 +185,14 @@ public class RewardGrant implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT.STATUS</code>. 지급 처리 상태
+     * Getter for <code>nexus.REWARD_GRANT.STATUS</code>. 작업 성공 여부
      */
     public String getStatus() {
         return this.status;
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT.STATUS</code>. 지급 처리 상태
+     * Setter for <code>nexus.REWARD_GRANT.STATUS</code>. 작업 성공 여부
      */
     public RewardGrant setStatus(String status) {
         this.status = status;

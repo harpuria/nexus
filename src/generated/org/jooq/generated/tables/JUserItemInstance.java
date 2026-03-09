@@ -66,7 +66,7 @@ public class JUserItemInstance extends TableImpl<UserItemInstanceRecord> {
      * The column <code>nexus.USER_ITEM_INSTANCE.USER_ITEM_ID</code>. 유저 인스턴스형
      * 보유 PK
      */
-    public final TableField<UserItemInstanceRecord, Integer> USER_ITEM_ID = createField(DSL.name("USER_ITEM_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"USER_ITEM_INSTANCE_USER_ITEM_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "유저 인스턴스형 보유 PK");
+    public final TableField<UserItemInstanceRecord, Integer> USER_ITEM_ID = createField(DSL.name("USER_ITEM_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"USER_ITEM_INSTANCE_USER_ITEM_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "유저 인스턴스형 보유 PK");
 
     /**
      * The column <code>nexus.USER_ITEM_INSTANCE.USER_ID</code>. GAME_USER

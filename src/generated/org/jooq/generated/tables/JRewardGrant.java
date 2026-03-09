@@ -65,7 +65,7 @@ public class JRewardGrant extends TableImpl<RewardGrantRecord> {
     /**
      * The column <code>nexus.REWARD_GRANT.GRANT_ID</code>. 보상 지급 헤더 PK
      */
-    public final TableField<RewardGrantRecord, Integer> GRANT_ID = createField(DSL.name("GRANT_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"REWARD_GRANT_GRANT_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "보상 지급 헤더 PK");
+    public final TableField<RewardGrantRecord, Integer> GRANT_ID = createField(DSL.name("GRANT_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"REWARD_GRANT_GRANT_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "보상 지급 헤더 PK");
 
     /**
      * The column <code>nexus.REWARD_GRANT.GAME_ID</code>. 게임 ID (FK)
@@ -95,9 +95,9 @@ public class JRewardGrant extends TableImpl<RewardGrantRecord> {
     public final TableField<RewardGrantRecord, String> SOURCE_ID = createField(DSL.name("SOURCE_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "출처 식별자(상품ID/메일ID/가챠결과ID 등)");
 
     /**
-     * The column <code>nexus.REWARD_GRANT.STATUS</code>. 지급 처리 상태
+     * The column <code>nexus.REWARD_GRANT.STATUS</code>. 작업 성공 여부
      */
-    public final TableField<RewardGrantRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(16).nullable(false).defaultValue(DSL.field(DSL.raw("'SUCCESS'::character varying"), SQLDataType.VARCHAR)), this, "지급 처리 상태");
+    public final TableField<RewardGrantRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(10).nullable(false).defaultValue(DSL.field(DSL.raw("'PENDING'::character varying"), SQLDataType.VARCHAR)), this, "작업 성공 여부");
 
     /**
      * The column <code>nexus.REWARD_GRANT.FAIL_CODE</code>. 실패 코드(선택)
@@ -270,7 +270,7 @@ public class JRewardGrant extends TableImpl<RewardGrantRecord> {
         return Arrays.asList(
             Internal.createCheck(this, DSL.name("REWARD_GRANT_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
             Internal.createCheck(this, DSL.name("REWARD_GRANT_SOURCE_TYPE_check"), "(((\"SOURCE_TYPE\")::text = ANY ((ARRAY['SHOP'::character varying, 'MAIL'::character varying, 'GACHA'::character varying, 'COUPON'::character varying, 'ATTENDANCE'::character varying, 'QUEST'::character varying, 'EVENT'::character varying, 'GM'::character varying, 'ETC'::character varying])::text[])))", true),
-            Internal.createCheck(this, DSL.name("REWARD_GRANT_STATUS_check"), "(((\"STATUS\")::text = ANY ((ARRAY['SUCCESS'::character varying, 'FAILED'::character varying])::text[])))", true)
+            Internal.createCheck(this, DSL.name("REWARD_GRANT_STATUS_check"), "(((\"STATUS\")::text = ANY ((ARRAY['PENDING'::character varying, 'SUCCESS'::character varying, 'FAILED'::character varying])::text[])))", true)
         );
     }
 

@@ -17,6 +17,7 @@ import org.jooq.generated.tables.JMail;
 import org.jooq.generated.tables.pojos.Mail;
 import org.jooq.generated.tables.records.MailRecord;
 import org.jooq.impl.DAOImpl;
+import org.jooq.impl.EnumConverter;
 
 
 /**

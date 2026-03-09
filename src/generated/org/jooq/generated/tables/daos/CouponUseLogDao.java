@@ -115,6 +115,21 @@ public class CouponUseLogDao extends DAOImpl<CouponUseLogRecord, CouponUseLog, I
     }
 
     /**
+     * Fetch records that have <code>STATUS BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<CouponUseLog> fetchRangeOfJStatus(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JCouponUseLog.COUPON_USE_LOG.STATUS, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>STATUS IN (values)</code>
+     */
+    public List<CouponUseLog> fetchByJStatus(String... values) {
+        return fetch(JCouponUseLog.COUPON_USE_LOG.STATUS, values);
+    }
+
+    /**
      * Fetch records that have <code>CREATED_AT BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */

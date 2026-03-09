@@ -62,7 +62,7 @@ public class JUserMail extends TableImpl<UserMailRecord> {
     /**
      * The column <code>nexus.USER_MAIL.USER_MAIL_ID</code>. 유저 우편 아이디 (PK)
      */
-    public final TableField<UserMailRecord, Integer> USER_MAIL_ID = createField(DSL.name("USER_MAIL_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"USER_MAIL_USER_MAIL_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "유저 우편 아이디 (PK)");
+    public final TableField<UserMailRecord, Integer> USER_MAIL_ID = createField(DSL.name("USER_MAIL_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"USER_MAIL_USER_MAIL_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "유저 우편 아이디 (PK)");
 
     /**
      * The column <code>nexus.USER_MAIL.MAIL_ID</code>. 우편 아이디 (FK)

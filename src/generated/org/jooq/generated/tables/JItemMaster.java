@@ -69,7 +69,7 @@ public class JItemMaster extends TableImpl<ItemMasterRecord> {
     /**
      * The column <code>nexus.ITEM_MASTER.ITEM_ID</code>. 아이템 마스터 PK
      */
-    public final TableField<ItemMasterRecord, Integer> ITEM_ID = createField(DSL.name("ITEM_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"ITEM_MASTER_ITEM_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "아이템 마스터 PK");
+    public final TableField<ItemMasterRecord, Integer> ITEM_ID = createField(DSL.name("ITEM_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"ITEM_MASTER_ITEM_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "아이템 마스터 PK");
 
     /**
      * The column <code>nexus.ITEM_MASTER.GAME_ID</code>. 게임 ID (FK)

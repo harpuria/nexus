@@ -67,7 +67,7 @@ public class JRewardGrantItem extends TableImpl<RewardGrantItemRecord> {
      * The column <code>nexus.REWARD_GRANT_ITEM.GRANT_ITEM_ID</code>. 보상 지급 라인
      * PK
      */
-    public final TableField<RewardGrantItemRecord, Integer> GRANT_ITEM_ID = createField(DSL.name("GRANT_ITEM_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"REWARD_GRANT_ITEM_GRANT_ITEM_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "보상 지급 라인 PK");
+    public final TableField<RewardGrantItemRecord, Integer> GRANT_ITEM_ID = createField(DSL.name("GRANT_ITEM_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"REWARD_GRANT_ITEM_GRANT_ITEM_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "보상 지급 라인 PK");
 
     /**
      * The column <code>nexus.REWARD_GRANT_ITEM.GRANT_ID</code>. REWARD_GRANT FK
