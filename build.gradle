@@ -60,6 +60,19 @@ dependencies {
 	implementation  'io.jsonwebtoken:jjwt-jackson:0.12.6'
 }
 
+// jooq enum mapping
+def enumMappings = [
+		[type: "com.qwerty.nexus.domain.management.admin.AdminRole", expr: "ADMIN\\.ADMIN_ROLE"],
+		[type: "com.qwerty.nexus.domain.management.game.GameStatus", expr: "GAME\\.STATUS"],
+		[type: "com.qwerty.nexus.domain.auth.Provider", expr: "GAME_USER\\.PROVIDER"],
+		//[type: "com.qwerty.nexus.domain.game.store.product.LimitType", expr: "PRODUCT\\.LIMIT_TYPE"],
+		//[type: "com.qwerty.nexus.domain.game.store.product.PurchaseType", expr: "PRODUCT\\.PURCHASE_TYPE"],
+		[type: "com.qwerty.nexus.domain.game.coupon.TimeLimitType", expr: "COUPON\\.TIME_LIMIT_TYPE"],
+		[type: "com.qwerty.nexus.domain.game.mail.MailRecipientsType", expr: "MAIL\\.RECIPIENTS_TYPE"],
+		[type: "com.qwerty.nexus.domain.game.mail.MailSendType", expr: "MAIL\\.SEND_TYPE"],
+		[type: "com.qwerty.nexus.domain.game.item.ItemType", expr: "ITEM_MASTER\\.ITEM_TYPE"]
+]
+
 // jooq dsl setting
 jooq {
 	configuration {
@@ -85,7 +98,52 @@ jooq {
 				name = "org.jooq.meta.postgres.PostgresDatabase"
 				inputSchema = "nexus"
                 forcedTypes {
-                    // enum converter
+					// enum converter (check 제약조건이 있고, 이를 enum 으로 관리하고자 할 때 사용)
+					enumMappings.each{ m ->
+						forcedType {
+							userType = m.type
+							enumConverter = true
+							includeExpression = m.expr
+						}
+					}
+                }
+			}
+			generate {
+				daos = true
+				records = true
+				immutablePojos = false
+				fluentSetters = true
+				javaTimeTypes = true
+				deprecated = false
+			}
+			target {
+				directory = "src/generated"
+			}
+
+			// 추가생성전략
+			strategy {
+				name = "jooq.custom.generator.JPrefixGeneratorStrategy"
+			}
+		}
+	}
+}
+
+sourceSets {
+	main {
+		java {
+			// src/generated 폴더에 있는 것들을 리소스로 활용 하기 위함
+			srcDirs = ["src/main/java", "src/generated"]
+		}
+	}
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+/*
+
+// enum converter
                     forcedType {
                         userType = "com.qwerty.nexus.domain.management.admin.AdminRole"
                         enumConverter = true
@@ -131,37 +189,6 @@ jooq {
 						enumConverter = true
 						includeExpression = "ITEM_MASTER\\.ITEM_TYPE" // 어떤 컬럼에 적용할 것인가
 					}
-                }
-			}
-			generate {
-				daos = true
-				records = true
-				immutablePojos = false
-				fluentSetters = true
-				javaTimeTypes = true
-				deprecated = false
-			}
-			target {
-				directory = "src/generated"
-			}
 
-			// 추가생성전략
-			strategy {
-				name = "jooq.custom.generator.JPrefixGeneratorStrategy"
-			}
-		}
-	}
-}
 
-sourceSets {
-	main {
-		java {
-			// src/generated 폴더에 있는 것들을 리소스로 활용 하기 위함
-			srcDirs = ["src/main/java", "src/generated"]
-		}
-	}
-}
-
-tasks.named('test') {
-	useJUnitPlatform()
-}
+ */
