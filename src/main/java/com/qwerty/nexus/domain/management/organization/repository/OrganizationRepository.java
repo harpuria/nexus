@@ -31,10 +31,10 @@ public class OrganizationRepository {
     }
 
     /**
-     * Create organization information.
+     * 단체 생성
      *
-     * @param entity organization entity
-     * @return new organization primary key
+     * @param entity 단체 엔티티
+     * @return 생성된 단체 PK
      */
     public Integer insertOrganization(OrganizationEntity entity) {
         OrganizationRecord record = dslContext.newRecord(ORGANIZATION, entity);
@@ -44,10 +44,10 @@ public class OrganizationRepository {
     }
 
     /**
-     * Update organization information.
+     * 단체 정보 수정
      *
-     * @param entity organization entity
-     * @return affected rows
+     * @param entity 단체 엔티티
+     * @return 수정된 행 수
      */
     public int updateOrganization(OrganizationEntity entity) {
         OrganizationRecord record = dslContext.newRecord(ORGANIZATION, entity);
@@ -60,10 +60,10 @@ public class OrganizationRepository {
     }
 
     /**
-     * Delete organization information (logical delete).
+     * 단체 삭제 (논리 삭제)
      *
-     * @param entity organization delete payload
-     * @return affected rows
+     * @param entity 단체 삭제 정보
+     * @return 수정된 행 수
      */
     public int deleteOrganization(OrganizationEntity entity) {
         OrganizationRecord record = dslContext.newRecord(ORGANIZATION, entity);
@@ -73,10 +73,10 @@ public class OrganizationRepository {
     }
 
     /**
-     * Find a single organization by organization id.
+     * 단체 단건 조회
      *
-     * @param orgId organization primary key
-     * @return organization entity
+     * @param orgId 단체 PK
+     * @return 단체 엔티티
      */
     public OrganizationEntity findByOrgId(Integer orgId) {
         if (orgId == null) {
@@ -92,10 +92,10 @@ public class OrganizationRepository {
     }
 
     /**
-     * Find organizations with paging parameters.
+     * 단체 목록 조회
      *
-     * @param pagingEntity paging entity
-     * @return organization list
+     * @param pagingEntity 페이징 정보
+     * @return 단체 목록
      */
     public List<OrganizationEntity> findAllByPaging(PagingEntity pagingEntity) {
         Condition condition = ORGANIZATION.IS_DEL.eq("N");
@@ -115,9 +115,9 @@ public class OrganizationRepository {
     }
 
     /**
-     * Count active organizations.
+     * 삭제되지 않은 단체 수 조회
      *
-     * @return active organization count
+     * @return 단체 수
      */
     public long countActiveOrganizations() {
         Long count = dslContext.selectCount()
@@ -129,11 +129,11 @@ public class OrganizationRepository {
     }
 
     /**
-     * Resolve sorting field.
+     * 정렬 필드 설정
      *
-     * @param sort sort key
-     * @param direction sort direction
-     * @return sort field
+     * @param sort 정렬 키
+     * @param direction 정렬 방향
+     * @return 정렬 필드
      */
     private SortField<?> resolveSortField(String sort, String direction) {
         Field<?> sortField;

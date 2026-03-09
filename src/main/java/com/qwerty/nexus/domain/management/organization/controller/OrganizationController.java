@@ -31,86 +31,81 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(ApiConstants.Path.ORG_PATH)
 @RequiredArgsConstructor
-@Tag(name = "Organization", description = "Organization API")
+@Tag(name = "단체", description = "단체 관련 API")
 public class OrganizationController {
-    private final OrganizationService service;
+    private final OrganizationService organizationService;
 
     /**
-     * Create organization information.
-     *
-     * @param dto organization create request payload
-     * @return success or failure response
+     * 단체 생성
+     * @param dto 생성할 단체 정보
+     * @return 성공 혹은 실패 응답
      */
     @PostMapping
-    @Operation(summary = "Create organization")
-    public ResponseEntity<ApiResponse<Void>> createOrganization(@RequestBody OrganizationCreateRequestDto dto) {
-        Result<Void> result = service.createOrganization(dto);
+    @Operation(summary = "단체 생성")
+    public ResponseEntity<ApiResponse<Void>> createOrganization(@Parameter @RequestBody OrganizationCreateRequestDto dto) {
+        Result<Void> result = organizationService.createOrganization(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
     /**
-     * Update organization information.
-     *
-     * @param orgId organization primary key
-     * @param dto organization update request payload
-     * @return success or failure response
+     * 단체 정보 수정
+     * @param orgId 단체 PK
+     * @param dto 수정할 단체 정보
+     * @return 성공 혹은 실패 응답
      */
     @PatchMapping("/{orgId}")
-    @Operation(summary = "Update organization")
+    @Operation(summary = "단체 정보 수정")
     public ResponseEntity<ApiResponse<Void>> updateOrganization(
             @PathVariable("orgId") int orgId,
             @Parameter @RequestBody OrganizationUpdateRequestDto dto
     ) {
         dto.setOrgId(orgId);
-        Result<Void> result = service.updateOrganization(dto);
+        Result<Void> result = organizationService.updateOrganization(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
     /**
-     * Delete organization information (logical delete).
-     *
-     * @param orgId organization primary key
-     * @return success or failure response
+     * 단체 삭제 (논리 삭제)
+     * @param orgId 단체 PK
+     * @return 성공 혹은 실패 응답
      */
     @DeleteMapping("/{orgId}")
-    @Operation(summary = "Delete organization (logical)")
+    @Operation(summary = "단체 삭제 (논리 삭제)")
     public ResponseEntity<ApiResponse<Void>> deleteOrganization(@PathVariable("orgId") int orgId) {
         OrganizationUpdateRequestDto dto = new OrganizationUpdateRequestDto();
         dto.setOrgId(orgId);
         dto.setIsDel("Y");
 
-        Result<Void> result = service.deleteOrganization(dto);
+        Result<Void> result = organizationService.deleteOrganization(dto);
 
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
     /**
-     * Get a single organization information.
-     *
-     * @param orgId organization primary key
-     * @return single organization response
+     * 단체 단건 조회
+     * @param orgId 단체 PK
+     * @return 단체 정보 응답
      */
     @GetMapping("/{orgId}")
-    @Operation(summary = "Get organization")
+    @Operation(summary = "단체 단건 조회")
     public ResponseEntity<ApiResponse<OrganizationResponseDto>> getOrganization(@PathVariable("orgId") int orgId) {
-        Result<OrganizationResponseDto> result = service.getOrganization(orgId);
+        Result<OrganizationResponseDto> result = organizationService.getOrganization(orgId);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
     /**
-     * List organization information.
-     *
-     * @param page page number
-     * @param size page size
-     * @param sort sort field
-     * @param direction sort direction
-     * @return organization list response
+     * 단체 목록 조회
+     * @param page 페이지 번호
+     * @param size 페이지 크기
+     * @param sort 정렬 컬럼
+     * @param direction 정렬 방향
+     * @return 단체 목록 응답
      */
     @GetMapping("/list")
-    @Operation(summary = "List organizations")
+    @Operation(summary = "단체 목록 조회")
     public ResponseEntity<ApiResponse<OrganizationListResponseDto>> listOrganizations(
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_SIZE) int size,
@@ -123,9 +118,8 @@ public class OrganizationController {
         pagingRequestDto.setSort(sort);
         pagingRequestDto.setDirection(direction);
 
-        Result<OrganizationListResponseDto> result = service.listOrganizations(pagingRequestDto);
+        Result<OrganizationListResponseDto> result = organizationService.listOrganizations(pagingRequestDto);
 
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 }
-

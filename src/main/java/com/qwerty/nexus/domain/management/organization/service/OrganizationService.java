@@ -18,140 +18,138 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Log4j2
 @Service
 @RequiredArgsConstructor
 public class OrganizationService {
-    private final OrganizationRepository repository;
+    private final OrganizationRepository organizationRepository;
 
     /**
-     * Create organization information.
-     *
-     * @param dto organization create request payload
-     * @return success or failure
+     * 단체 생성
+     * @param dto 생성할 단체 정보
+     * @return 성공 혹은 실패
      */
     @Transactional
     public Result<Void> createOrganization(OrganizationCreateRequestDto dto) {
-        OrganizationEntity orgEntity = OrganizationEntity.builder()
+        OrganizationEntity organizationEntity = OrganizationEntity.builder()
                 .orgNm(dto.getOrgNm())
                 .orgCd(dto.getOrgCd())
                 .logoPath(dto.getLogoPath())
                 .createdBy(dto.getCreatedBy())
                 .updatedBy(dto.getCreatedBy())
+                .isDel("N")
                 .build();
 
-        Integer insertedOrgId = repository.insertOrganization(orgEntity);
-        if (insertedOrgId == null) {
-            return Result.Failure.of("Organization create failed.", ErrorCode.INTERNAL_ERROR.getCode());
+        Integer organizationId = organizationRepository.insertOrganization(organizationEntity);
+        if (organizationId == null) {
+            return Result.Failure.of("단체 생성 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
         return Result.Success.of(null, ApiConstants.Messages.Success.CREATED);
     }
 
     /**
-     * Update organization information.
-     *
-     * @param dto organization update request payload
-     * @return success or failure
+     * 단체 정보 수정
+     * @param dto 수정할 단체 정보
+     * @return 성공 혹은 실패
      */
     @Transactional
     public Result<Void> updateOrganization(OrganizationUpdateRequestDto dto) {
-        // Check actor permission before update when auth/authorization is fully wired.
-        OrganizationEntity orgEntity = OrganizationEntity.builder()
+        OrganizationEntity targetOrganization = organizationRepository.findByOrgId(dto.getOrgId());
+        if (targetOrganization == null) {
+            return Result.Failure.of("단체 정보 존재하지 않음.", ErrorCode.NOT_FOUND.getCode());
+        }
+
+        OrganizationEntity organizationEntity = OrganizationEntity.builder()
                 .orgId(dto.getOrgId())
                 .orgNm(dto.getOrgNm())
                 .orgCd(dto.getOrgCd())
+                .logoPath(dto.getLogoPath())
                 .updatedBy(dto.getUpdatedBy())
                 .build();
 
-        int updatedRows = repository.updateOrganization(orgEntity);
-        if (updatedRows > 0) {
-            return Result.Success.of(null, "단체 정보 수정 성공.");
+        int updatedRows = organizationRepository.updateOrganization(organizationEntity);
+        if (updatedRows <= 0) {
+            return Result.Failure.of("단체 정보 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Failure.of("단체 정보 수정 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+        return Result.Success.of(null, ApiConstants.Messages.Success.UPDATED);
     }
 
     /**
-     * Delete organization information (logical delete).
-     *
-     * @param dto organization update request payload
-     * @return success or failure
+     * 단체 삭제 (논리 삭제)
+     * @param dto 삭제할 단체 정보
+     * @return 성공 혹은 실패
      */
     @Transactional
     public Result<Void> deleteOrganization(OrganizationUpdateRequestDto dto) {
-        OrganizationEntity orgEntity = OrganizationEntity.builder()
+        OrganizationEntity targetOrganization = organizationRepository.findByOrgId(dto.getOrgId());
+        if (targetOrganization == null) {
+            return Result.Failure.of("단체 정보 존재하지 않음.", ErrorCode.NOT_FOUND.getCode());
+        }
+
+        OrganizationEntity organizationEntity = OrganizationEntity.builder()
                 .orgId(dto.getOrgId())
-                .isDel(dto.getIsDel())
+                .isDel("Y")
                 .updatedBy(dto.getUpdatedBy())
                 .build();
 
-        int deletedRows = repository.deleteOrganization(orgEntity);
+        int deletedRows = organizationRepository.deleteOrganization(organizationEntity);
         if (deletedRows <= 0) {
-            return Result.Failure.of("Organization delete failed.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("단체 삭제 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
         return Result.Success.of(null, ApiConstants.Messages.Success.DELETED);
     }
 
     /**
-     * Get a single organization information.
-     *
-     * @param orgId organization primary key
-     * @return organization data or failure
+     * 단체 단건 조회
+     * @param orgId 단체 PK
+     * @return 단체 정보
      */
     public Result<OrganizationResponseDto> getOrganization(int orgId) {
-        Optional<OrganizationEntity> selectResult = Optional.ofNullable(repository.findByOrgId(orgId));
-        if (selectResult.isPresent()) {
-            return Result.Success.of(OrganizationResponseDto.from(selectResult.get()), "단체 정보 조회 완료.");
+        OrganizationEntity organizationEntity = organizationRepository.findByOrgId(orgId);
+        if (organizationEntity == null) {
+            return Result.Failure.of("단체 정보 존재하지 않음.", ErrorCode.NOT_FOUND.getCode());
         }
 
-        return Result.Failure.of("단체 정보 존재하지 않음.", ErrorCode.NOT_FOUND.getCode());
+        return Result.Success.of(OrganizationResponseDto.from(organizationEntity), ApiConstants.Messages.Success.RETRIEVED);
     }
 
     /**
-     * List organizations.
-     *
-     * @param pagingDto paging request data
-     * @return paged organization list
+     * 단체 목록 조회
+     * @param pagingRequestDto 페이징 요청 정보
+     * @return 단체 목록
      */
-    public Result<OrganizationListResponseDto> listOrganizations(PagingRequestDto pagingDto) {
-        PagingEntity pagingEntity = PagingUtil.getPagingEntity(pagingDto);
+    public Result<OrganizationListResponseDto> listOrganizations(PagingRequestDto pagingRequestDto) {
+        PagingEntity pagingEntity = PagingUtil.getPagingEntity(pagingRequestDto);
         if (pagingEntity == null) {
-            return Result.Failure.of("Paging parse failed.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("페이징 정보 변환 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        int validatedSize = pagingEntity.getSize();
-        int safePage = pagingEntity.getPage();
-
-        List<OrganizationEntity> selectResult = repository.findAllByPaging(pagingEntity);
-        if (selectResult == null) {
-            return Result.Failure.of("Organization list retrieval failed.", ErrorCode.INTERNAL_ERROR.getCode());
+        List<OrganizationEntity> organizationEntities = organizationRepository.findAllByPaging(pagingEntity);
+        if (organizationEntities == null) {
+            return Result.Failure.of("단체 목록 조회 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        List<OrganizationResponseDto> organizations = selectResult.stream()
+        List<OrganizationResponseDto> organizations = organizationEntities.stream()
                 .map(OrganizationResponseDto::from)
                 .toList();
 
-        long totalCount = repository.countActiveOrganizations();
-        int totalPages = validatedSize == 0 ? 0 : (int) Math.ceil((double) totalCount / validatedSize);
-        boolean hasNext = safePage + 1 < totalPages;
-        boolean hasPrevious = safePage > 0 && totalPages > 0;
+        long totalCount = organizationRepository.countActiveOrganizations();
+        int totalPages = (int) Math.ceil((double) totalCount / pagingEntity.getSize());
 
-        OrganizationListResponseDto response = OrganizationListResponseDto.builder()
+        OrganizationListResponseDto responseDto = OrganizationListResponseDto.builder()
                 .organizations(organizations)
-                .page(safePage)
-                .size(validatedSize)
+                .page(pagingEntity.getPage())
+                .size(pagingEntity.getSize())
                 .totalCount(totalCount)
                 .totalPages(totalPages)
-                .hasNext(hasNext)
-                .hasPrevious(hasPrevious)
+                .hasNext(pagingEntity.getPage() + 1 < totalPages)
+                .hasPrevious(pagingEntity.getPage() > 0)
                 .build();
 
-        return Result.Success.of(response, ApiConstants.Messages.Success.RETRIEVED);
+        return Result.Success.of(responseDto, ApiConstants.Messages.Success.RETRIEVED);
     }
 }
-
-
