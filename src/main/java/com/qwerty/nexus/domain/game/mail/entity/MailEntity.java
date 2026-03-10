@@ -1,5 +1,7 @@
 package com.qwerty.nexus.domain.game.mail.entity;
 
+import com.qwerty.nexus.domain.game.mail.MailRecipientsType;
+import com.qwerty.nexus.domain.game.mail.MailSendType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -16,8 +18,8 @@ public class MailEntity {
     private String title;
     private String content;
     private JSONB rewards;
-    private String sendType;
-    private String recipientsType;
+    private MailSendType sendType;
+    private MailRecipientsType recipientsType;
     private OffsetDateTime expireAt;
     private OffsetDateTime createdAt;
     private String createdBy;
