@@ -1,5 +1,7 @@
 package com.qwerty.nexus.domain.game.mail.dto.response;
 
+import com.qwerty.nexus.domain.game.mail.MailRecipientsType;
+import com.qwerty.nexus.domain.game.mail.MailSendType;
 import com.qwerty.nexus.domain.game.mail.entity.MailEntity;
 import com.qwerty.nexus.domain.game.reward.dto.RewardDto;
 import com.qwerty.nexus.global.dto.BaseResponseDto;
@@ -19,8 +21,8 @@ public class MailResponseDto extends BaseResponseDto {
     private String title;
     private String content;
     private List<RewardDto> rewards;
-    private String sendType;
-    private String recipientsType;
+    private MailSendType sendType;
+    private MailRecipientsType recipientsType;
     private OffsetDateTime expireAt;
 
     public static MailResponseDto from(MailEntity entity) {
