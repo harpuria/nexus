@@ -1,10 +1,10 @@
-package com.qwerty.nexus.domain.game.mail.admin.controller;
+package com.qwerty.nexus.domain.game.mail.controller;
 
-import com.qwerty.nexus.domain.game.mail.admin.dto.request.MailCreateRequestDto;
-import com.qwerty.nexus.domain.game.mail.admin.dto.request.MailUpdateRequestDto;
-import com.qwerty.nexus.domain.game.mail.admin.dto.response.MailListResponseDto;
-import com.qwerty.nexus.domain.game.mail.admin.dto.response.MailResponseDto;
-import com.qwerty.nexus.domain.game.mail.admin.service.MailService;
+import com.qwerty.nexus.domain.game.mail.dto.request.MailCreateRequestDto;
+import com.qwerty.nexus.domain.game.mail.dto.request.MailUpdateRequestDto;
+import com.qwerty.nexus.domain.game.mail.dto.response.MailListResponseDto;
+import com.qwerty.nexus.domain.game.mail.dto.response.MailResponseDto;
+import com.qwerty.nexus.domain.game.mail.service.MailService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.PagingRequestDto;
 import com.qwerty.nexus.global.response.ApiResponse;
@@ -20,11 +20,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @Validated
 @RequiredArgsConstructor
 @RequestMapping(ApiConstants.Path.MAIL_PATH)
-@Tag(name = "우편 메타데이터", description = "우편 메타데이터 API")
+@Tag(name = "우편", description = "우편 메타데이터 API")
 public class MailController {
     private final MailService mailService;
 
@@ -120,26 +122,10 @@ public class MailController {
      * 우편 발송 (즉시)
      * @return
      */
-    @PostMapping("/send")
-    @Operation(summary = "우편 발송")
-    public ResponseEntity<ApiResponse<Void>> sendMail(){
-        // TODO : 우편 발송 (즉시 - 이거는 API 호출 방식)
-        /*
-            1. ALL 인 경우 (전체 유저)
-                1.1. MAIL_DISPATCH 에 등록
-            2. USER 인 경우 (특정 유저)
-                2.1. USER_MAIL 에 등록
-
-            1. mailId 가져옴 -> 어떤 메일 보낼 건지 메일 정보 불러옴
-            2. 확인해보니...
-                2.1 전체메일임(ALL) -> 해당 게임의 삭제, 탈퇴된 유저 제외하고 모두 보내기 (정지는 보내야하나?)
-                2.2 개별메일임(USER) -> 해당 유저에게만 보냄 (누구한테 보낼건지는 웹콘솔 등에서 처리하면 될듯)
-            3. 템플릿 문자열 {} 변환 처리 (템플릿 문자열은 몇가지 미리 정해놓은 방식을 사용하게 함. ex) nickname, ranking, level, stage 등
-                3.1 템플릿 문자열이 하나도 없으면 -> 그냥 그대로 보내면 됨
-                3.2 템플릿 문자열이 하나라도 있으면 -> {} 이름에 알맞게 치환 처리
-         */
-        return ResponseEntityUtils.toResponseEntityVoid(null, HttpStatus.OK);
+    @PostMapping("/send/{mailId}")
+    @Operation(summary = "우편 단건 발송 (즉시)")
+    public ResponseEntity<ApiResponse<Void>> sendMail(@PathVariable("mailId") int mailId, List<Integer> userIdList){
+        Result<Void> result = mailService.sendMail(mailId, userIdList);
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
-
-    // TODO : 우편 발송 (스케쥴러 - 이거는 별도의 스케쥴러를 만들어서 등록해야 함)
 }

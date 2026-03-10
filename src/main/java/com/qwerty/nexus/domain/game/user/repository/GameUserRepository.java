@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import com.qwerty.nexus.global.paging.PagingEntity;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -84,15 +85,17 @@ public class GameUserRepository {
     }
 
     /**
-     * 현재 게임의 유저 ID 전체 가져오기
+     * 현재 게임의 유저 ID 전체 가져오기 (삭제, 탈퇴, 정지 상태 유저 제외)
      * @param entity
      * @return
      */
     public List<Integer> findAllUserIdsByGameId(GameUserEntity entity){
         Condition condition = DSL.noCondition();
 
-        condition = condition.and(GAME_USER.IS_DEL.isNull().or(GAME_USER.IS_DEL.eq("N")));
         condition = condition.and(GAME_USER.GAME_ID.eq(entity.getGameId()));
+        condition = condition.and(GAME_USER.IS_DEL.eq("N"));
+        condition = condition.and(GAME_USER.IS_WITHDRAWAL.eq("N"));
+        condition = condition.and(GAME_USER.BLOCK_END_DATE.gt(OffsetDateTime.now()));
 
         return dslContext.select(GAME_USER.USER_ID).from(GAME_USER)
                 .where(condition)

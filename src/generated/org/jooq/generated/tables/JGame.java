@@ -37,8 +37,6 @@ import org.jooq.generated.tables.JCoupon.CouponPath;
 import org.jooq.generated.tables.JGameUser.GameUserPath;
 import org.jooq.generated.tables.JItemMaster.ItemMasterPath;
 import org.jooq.generated.tables.JMail.MailPath;
-import org.jooq.generated.tables.JMailDispatch.MailDispatchPath;
-import org.jooq.generated.tables.JMailUserState.MailUserStatePath;
 import org.jooq.generated.tables.JOrganization.OrganizationPath;
 import org.jooq.generated.tables.JProduct.ProductPath;
 import org.jooq.generated.tables.JRewardGrant.RewardGrantPath;
@@ -78,7 +76,7 @@ public class JGame extends TableImpl<GameRecord> {
     /**
      * The column <code>nexus.GAME.GAME_ID</code>. GAME 테이블 기본키 (PK)
      */
-    public final TableField<GameRecord, Integer> GAME_ID = createField(DSL.name("GAME_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"GAME_GAME_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME 테이블 기본키 (PK)");
+    public final TableField<GameRecord, Integer> GAME_ID = createField(DSL.name("GAME_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"GAME_GAME_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME 테이블 기본키 (PK)");
 
     /**
      * The column <code>nexus.GAME.ORG_ID</code>. 게임 소속 (FK)
@@ -285,19 +283,6 @@ public class JGame extends TableImpl<GameRecord> {
         return _itemMaster;
     }
 
-    private transient MailDispatchPath _mailDispatch;
-
-    /**
-     * Get the implicit to-many join path to the
-     * <code>nexus.MAIL_DISPATCH</code> table
-     */
-    public MailDispatchPath mailDispatch() {
-        if (_mailDispatch == null)
-            _mailDispatch = new MailDispatchPath(this, null, Keys.MAIL_DISPATCH__MAIL_DISPATCH_GAME_ID_FKEY.getInverseKey());
-
-        return _mailDispatch;
-    }
-
     private transient MailPath _mail;
 
     /**
@@ -308,19 +293,6 @@ public class JGame extends TableImpl<GameRecord> {
             _mail = new MailPath(this, null, Keys.MAIL__MAIL_GAME_ID_FKEY.getInverseKey());
 
         return _mail;
-    }
-
-    private transient MailUserStatePath _mailUserState;
-
-    /**
-     * Get the implicit to-many join path to the
-     * <code>nexus.MAIL_USER_STATE</code> table
-     */
-    public MailUserStatePath mailUserState() {
-        if (_mailUserState == null)
-            _mailUserState = new MailUserStatePath(this, null, Keys.MAIL_USER_STATE__MAIL_USER_STATE_GAME_ID_FKEY.getInverseKey());
-
-        return _mailUserState;
     }
 
     private transient ProductPath _product;

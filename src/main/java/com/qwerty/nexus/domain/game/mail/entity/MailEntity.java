@@ -1,7 +1,7 @@
-package com.qwerty.nexus.domain.game.mail.admin.entity;
+package com.qwerty.nexus.domain.game.mail.entity;
 
-import com.qwerty.nexus.domain.game.mail.admin.MailRecipientsType;
-import com.qwerty.nexus.domain.game.mail.admin.MailSendType;
+import com.qwerty.nexus.domain.game.mail.MailRecipientsType;
+import com.qwerty.nexus.domain.game.mail.MailSendType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;

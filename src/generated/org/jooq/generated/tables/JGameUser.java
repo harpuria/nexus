@@ -33,7 +33,6 @@ import org.jooq.generated.JNexus;
 import org.jooq.generated.Keys;
 import org.jooq.generated.tables.JCouponUseLog.CouponUseLogPath;
 import org.jooq.generated.tables.JGame.GamePath;
-import org.jooq.generated.tables.JMailUserState.MailUserStatePath;
 import org.jooq.generated.tables.JRewardGrant.RewardGrantPath;
 import org.jooq.generated.tables.JRewardGrantItem.RewardGrantItemPath;
 import org.jooq.generated.tables.JUserItemInstance.UserItemInstancePath;
@@ -71,7 +70,7 @@ public class JGameUser extends TableImpl<GameUserRecord> {
     /**
      * The column <code>nexus.GAME_USER.USER_ID</code>. GAME_USER 테이블 기본키(PK)
      */
-    public final TableField<GameUserRecord, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"GAME_USER_USER_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME_USER 테이블 기본키(PK)");
+    public final TableField<GameUserRecord, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"GAME_USER_USER_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME_USER 테이블 기본키(PK)");
 
     /**
      * The column <code>nexus.GAME_USER.GAME_ID</code>. 해당 유저가 속한 게임 ID (FK)
@@ -266,19 +265,6 @@ public class JGameUser extends TableImpl<GameUserRecord> {
             _couponUseLog = new CouponUseLogPath(this, null, Keys.COUPON_USE_LOG__COUPON_USE_LOG_USER_ID_FKEY.getInverseKey());
 
         return _couponUseLog;
-    }
-
-    private transient MailUserStatePath _mailUserState;
-
-    /**
-     * Get the implicit to-many join path to the
-     * <code>nexus.MAIL_USER_STATE</code> table
-     */
-    public MailUserStatePath mailUserState() {
-        if (_mailUserState == null)
-            _mailUserState = new MailUserStatePath(this, null, Keys.MAIL_USER_STATE__MAIL_USER_STATE_USER_ID_FKEY.getInverseKey());
-
-        return _mailUserState;
     }
 
     private transient RewardGrantItemPath _rewardGrantItem;

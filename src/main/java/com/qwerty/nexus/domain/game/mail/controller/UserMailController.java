@@ -1,6 +1,6 @@
-package com.qwerty.nexus.domain.game.mail.user.controller;
+package com.qwerty.nexus.domain.game.mail.controller;
 
-import com.qwerty.nexus.domain.game.mail.user.service.UserMailService;
+import com.qwerty.nexus.domain.game.mail.service.UserMailService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

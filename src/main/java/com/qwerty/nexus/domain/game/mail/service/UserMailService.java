@@ -1,6 +1,6 @@
-package com.qwerty.nexus.domain.game.mail.user.service;
+package com.qwerty.nexus.domain.game.mail.service;
 
-import com.qwerty.nexus.domain.game.mail.user.repository.UserMailRepository;
+import com.qwerty.nexus.domain.game.mail.repository.UserMailRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;

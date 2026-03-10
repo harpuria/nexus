@@ -17,8 +17,6 @@ import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.JGameUser;
 import org.jooq.generated.tables.JItemMaster;
 import org.jooq.generated.tables.JMail;
-import org.jooq.generated.tables.JMailDispatch;
-import org.jooq.generated.tables.JMailUserState;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JProduct;
 import org.jooq.generated.tables.JRewardGrant;
@@ -78,16 +76,6 @@ public class JNexus extends SchemaImpl {
      * The table <code>nexus.MAIL</code>.
      */
     public final JMail MAIL = JMail.MAIL;
-
-    /**
-     * The table <code>nexus.MAIL_DISPATCH</code>.
-     */
-    public final JMailDispatch MAIL_DISPATCH = JMailDispatch.MAIL_DISPATCH;
-
-    /**
-     * The table <code>nexus.MAIL_USER_STATE</code>.
-     */
-    public final JMailUserState MAIL_USER_STATE = JMailUserState.MAIL_USER_STATE;
 
     /**
      * The table <code>nexus.ORGANIZATION</code>.
@@ -156,9 +144,7 @@ public class JNexus extends SchemaImpl {
             Sequences.GAME_GAME_ID_SEQ,
             Sequences.GAME_USER_USER_ID_SEQ,
             Sequences.ITEM_MASTER_ITEM_ID_SEQ,
-            Sequences.MAIL_DISPATCH_MAIL_DISPATCH_ID_SEQ,
             Sequences.MAIL_MAIL_ID_SEQ,
-            Sequences.MAIL_USER_STATE_MAIL_USER_STATE_ID_SEQ,
             Sequences.ORGANIZATION_ORG_ID_SEQ,
             Sequences.PRODUCT_PRODUCT_ID_SEQ,
             Sequences.REWARD_GRANT_GRANT_ID_SEQ,
@@ -181,8 +167,6 @@ public class JNexus extends SchemaImpl {
             JGameUser.GAME_USER,
             JItemMaster.ITEM_MASTER,
             JMail.MAIL,
-            JMailDispatch.MAIL_DISPATCH,
-            JMailUserState.MAIL_USER_STATE,
             JOrganization.ORGANIZATION,
             JProduct.PRODUCT,
             JRewardGrant.REWARD_GRANT,

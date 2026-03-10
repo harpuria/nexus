@@ -66,7 +66,7 @@ public class JShop extends TableImpl<ShopRecord> {
     /**
      * The column <code>nexus.SHOP.SHOP_ID</code>. 상점 PK
      */
-    public final TableField<ShopRecord, Integer> SHOP_ID = createField(DSL.name("SHOP_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"SHOP_SHOP_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "상점 PK");
+    public final TableField<ShopRecord, Integer> SHOP_ID = createField(DSL.name("SHOP_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"SHOP_SHOP_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "상점 PK");
 
     /**
      * The column <code>nexus.SHOP.GAME_ID</code>. 게임 ID (FK)

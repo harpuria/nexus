@@ -1,7 +1,7 @@
-package com.qwerty.nexus.domain.game.mail.admin.dto.request;
+package com.qwerty.nexus.domain.game.mail.dto.request;
 
-import com.qwerty.nexus.domain.game.mail.admin.MailRecipientsType;
-import com.qwerty.nexus.domain.game.mail.admin.MailSendType;
+import com.qwerty.nexus.domain.game.mail.MailRecipientsType;
+import com.qwerty.nexus.domain.game.mail.MailSendType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -33,7 +33,7 @@ public class MailCreateRequestDto {
     @Size(max = 4000, message = "content는 4000자 이하여야 합니다.")
     private String content;
 
-    @Schema(example = "[{\"itemId\":1,\"amount\":1000}]")
+    @Schema(example = "[{\"itemCode\":\"GOLD\",\"amount\":1000}]")
     @NotNull(message = "rewards는 필수입니다.")
     private JSONB rewards;
 

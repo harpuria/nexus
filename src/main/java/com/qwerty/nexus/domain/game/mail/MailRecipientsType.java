@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.game.mail.admin;
+package com.qwerty.nexus.domain.game.mail;
 
 public enum MailRecipientsType {
     ALL,

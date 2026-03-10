@@ -4,8 +4,8 @@
 package org.jooq.generated.tables;
 
 
-import com.qwerty.nexus.domain.game.mail.admin.MailRecipientsType;
-import com.qwerty.nexus.domain.game.mail.admin.MailSendType;
+import com.qwerty.nexus.domain.game.mail.MailRecipientsType;
+import com.qwerty.nexus.domain.game.mail.MailSendType;
 
 import java.time.OffsetDateTime;
 import java.util.Arrays;
@@ -36,8 +36,6 @@ import org.jooq.generated.Indexes;
 import org.jooq.generated.JNexus;
 import org.jooq.generated.Keys;
 import org.jooq.generated.tables.JGame.GamePath;
-import org.jooq.generated.tables.JMailDispatch.MailDispatchPath;
-import org.jooq.generated.tables.JMailUserState.MailUserStatePath;
 import org.jooq.generated.tables.JUserMail.UserMailPath;
 import org.jooq.generated.tables.records.MailRecord;
 import org.jooq.impl.DSL;
@@ -71,7 +69,7 @@ public class JMail extends TableImpl<MailRecord> {
     /**
      * The column <code>nexus.MAIL.MAIL_ID</code>. 우편 아이디 (PK)
      */
-    public final TableField<MailRecord, Integer> MAIL_ID = createField(DSL.name("MAIL_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"MAIL_MAIL_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "우편 아이디 (PK)");
+    public final TableField<MailRecord, Integer> MAIL_ID = createField(DSL.name("MAIL_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"MAIL_MAIL_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "우편 아이디 (PK)");
 
     /**
      * The column <code>nexus.MAIL.GAME_ID</code>. 게임 아이디 (FK)
@@ -226,32 +224,6 @@ public class JMail extends TableImpl<MailRecord> {
             _game = new GamePath(this, Keys.MAIL__MAIL_GAME_ID_FKEY, null);
 
         return _game;
-    }
-
-    private transient MailDispatchPath _mailDispatch;
-
-    /**
-     * Get the implicit to-many join path to the
-     * <code>nexus.MAIL_DISPATCH</code> table
-     */
-    public MailDispatchPath mailDispatch() {
-        if (_mailDispatch == null)
-            _mailDispatch = new MailDispatchPath(this, null, Keys.MAIL_DISPATCH__MAIL_DISPATCH_MAIL_ID_FKEY.getInverseKey());
-
-        return _mailDispatch;
-    }
-
-    private transient MailUserStatePath _mailUserState;
-
-    /**
-     * Get the implicit to-many join path to the
-     * <code>nexus.MAIL_USER_STATE</code> table
-     */
-    public MailUserStatePath mailUserState() {
-        if (_mailUserState == null)
-            _mailUserState = new MailUserStatePath(this, null, Keys.MAIL_USER_STATE__MAIL_USER_STATE_MAIL_ID_FKEY.getInverseKey());
-
-        return _mailUserState;
     }
 
     private transient UserMailPath _userMail;
