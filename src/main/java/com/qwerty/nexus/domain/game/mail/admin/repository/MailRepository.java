@@ -1,6 +1,6 @@
-package com.qwerty.nexus.domain.game.mail.repository;
+package com.qwerty.nexus.domain.game.mail.admin.repository;
 
-import com.qwerty.nexus.domain.game.mail.entity.MailEntity;
+import com.qwerty.nexus.domain.game.mail.admin.entity.MailEntity;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.PagingEntity;
 import org.jooq.Condition;

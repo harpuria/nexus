@@ -33,12 +33,12 @@ public final class ApiConstants {
         public static final String ORG_PATH = API_BASE_PATH + "/org";
         public static final String GAME_PATH = API_BASE_PATH + "/game";
         public static final String GAME_USER_PATH = API_BASE_PATH + "/game-user";
-        public static final String CURRENCY_PATH = API_BASE_PATH + "/currency";
-        public static final String USER_CURRENCY_PATH = API_BASE_PATH + "/user-currency";
         public static final String PRODUCT_PATH = API_BASE_PATH + "/product";
         public static final String SHOP_PATH = API_BASE_PATH + "/shop";
         public static final String COUPON_PATH = API_BASE_PATH + "/coupon";
         public static final String MAIL_PATH = API_BASE_PATH + "/mail";
+        public static final String USER_MAIL_PATH = API_BASE_PATH + "/user-mail";
+
         public static final String ITEM_PATH = API_BASE_PATH + "/item";
         public static final String USER_ITEM_STACK_PATH = API_BASE_PATH + "/user-item-stack";
         public static final String USER_ITEM_INSTANCE_PATH = API_BASE_PATH + "/user-item-instance";

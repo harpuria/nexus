@@ -1,8 +1,8 @@
-package com.qwerty.nexus.domain.game.mail.dto.response;
+package com.qwerty.nexus.domain.game.mail.admin.dto.response;
 
-import com.qwerty.nexus.domain.game.mail.MailRecipientsType;
-import com.qwerty.nexus.domain.game.mail.MailSendType;
-import com.qwerty.nexus.domain.game.mail.entity.MailEntity;
+import com.qwerty.nexus.domain.game.mail.admin.MailRecipientsType;
+import com.qwerty.nexus.domain.game.mail.admin.MailSendType;
+import com.qwerty.nexus.domain.game.mail.admin.entity.MailEntity;
 import com.qwerty.nexus.domain.game.reward.dto.RewardDto;
 import com.qwerty.nexus.global.dto.BaseResponseDto;
 import com.qwerty.nexus.global.util.CommonUtil;

@@ -1,10 +1,10 @@
-package com.qwerty.nexus.domain.game.mail.controller;
+package com.qwerty.nexus.domain.game.mail.admin.controller;
 
-import com.qwerty.nexus.domain.game.mail.dto.request.MailCreateRequestDto;
-import com.qwerty.nexus.domain.game.mail.dto.request.MailUpdateRequestDto;
-import com.qwerty.nexus.domain.game.mail.dto.response.MailListResponseDto;
-import com.qwerty.nexus.domain.game.mail.dto.response.MailResponseDto;
-import com.qwerty.nexus.domain.game.mail.service.MailService;
+import com.qwerty.nexus.domain.game.mail.admin.dto.request.MailCreateRequestDto;
+import com.qwerty.nexus.domain.game.mail.admin.dto.request.MailUpdateRequestDto;
+import com.qwerty.nexus.domain.game.mail.admin.dto.response.MailListResponseDto;
+import com.qwerty.nexus.domain.game.mail.admin.dto.response.MailResponseDto;
+import com.qwerty.nexus.domain.game.mail.admin.service.MailService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.PagingRequestDto;
 import com.qwerty.nexus.global.response.ApiResponse;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @RequiredArgsConstructor
 @RequestMapping(ApiConstants.Path.MAIL_PATH)
-@Tag(name = "우편", description = "우편 기본 API")
+@Tag(name = "우편 메타데이터", description = "우편 메타데이터 API")
 public class MailController {
     private final MailService mailService;
 
@@ -125,6 +125,11 @@ public class MailController {
     public ResponseEntity<ApiResponse<Void>> sendMail(){
         // TODO : 우편 발송 (즉시 - 이거는 API 호출 방식)
         /*
+            1. ALL 인 경우 (전체 유저)
+                1.1. MAIL_DISPATCH 에 등록
+            2. USER 인 경우 (특정 유저)
+                2.1. USER_MAIL 에 등록
+
             1. mailId 가져옴 -> 어떤 메일 보낼 건지 메일 정보 불러옴
             2. 확인해보니...
                 2.1 전체메일임(ALL) -> 해당 게임의 삭제, 탈퇴된 유저 제외하고 모두 보내기 (정지는 보내야하나?)

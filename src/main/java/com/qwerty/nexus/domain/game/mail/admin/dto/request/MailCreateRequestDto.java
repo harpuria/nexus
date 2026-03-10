@@ -1,7 +1,7 @@
-package com.qwerty.nexus.domain.game.mail.dto.request;
+package com.qwerty.nexus.domain.game.mail.admin.dto.request;
 
-import com.qwerty.nexus.domain.game.mail.MailRecipientsType;
-import com.qwerty.nexus.domain.game.mail.MailSendType;
+import com.qwerty.nexus.domain.game.mail.admin.MailRecipientsType;
+import com.qwerty.nexus.domain.game.mail.admin.MailSendType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

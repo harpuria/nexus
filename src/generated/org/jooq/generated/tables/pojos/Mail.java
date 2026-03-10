@@ -4,8 +4,8 @@
 package org.jooq.generated.tables.pojos;
 
 
-import com.qwerty.nexus.domain.game.mail.MailRecipientsType;
-import com.qwerty.nexus.domain.game.mail.MailSendType;
+import com.qwerty.nexus.domain.game.mail.admin.MailRecipientsType;
+import com.qwerty.nexus.domain.game.mail.admin.MailSendType;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;

@@ -1,11 +1,11 @@
-package com.qwerty.nexus.domain.game.mail.service;
+package com.qwerty.nexus.domain.game.mail.admin.service;
 
-import com.qwerty.nexus.domain.game.mail.dto.request.MailCreateRequestDto;
-import com.qwerty.nexus.domain.game.mail.dto.request.MailUpdateRequestDto;
-import com.qwerty.nexus.domain.game.mail.dto.response.MailListResponseDto;
-import com.qwerty.nexus.domain.game.mail.dto.response.MailResponseDto;
-import com.qwerty.nexus.domain.game.mail.entity.MailEntity;
-import com.qwerty.nexus.domain.game.mail.repository.MailRepository;
+import com.qwerty.nexus.domain.game.mail.admin.dto.request.MailCreateRequestDto;
+import com.qwerty.nexus.domain.game.mail.admin.dto.request.MailUpdateRequestDto;
+import com.qwerty.nexus.domain.game.mail.admin.dto.response.MailListResponseDto;
+import com.qwerty.nexus.domain.game.mail.admin.dto.response.MailResponseDto;
+import com.qwerty.nexus.domain.game.mail.admin.entity.MailEntity;
+import com.qwerty.nexus.domain.game.mail.admin.repository.MailRepository;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.PagingRequestDto;
