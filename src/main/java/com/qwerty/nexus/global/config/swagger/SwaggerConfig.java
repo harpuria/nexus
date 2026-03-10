@@ -1,5 +1,6 @@
 package com.qwerty.nexus.global.config.swagger;
 
+import com.qwerty.nexus.global.constant.ApiConstants;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -33,16 +34,16 @@ public class SwaggerConfig {
         SecurityScheme xClientIdSecurityScheme = new SecurityScheme()
                 .type(SecurityScheme.Type.APIKEY)
                 .in(SecurityScheme.In.HEADER)
-                .name("X-CLIENT-ID");
+                .name(ApiConstants.Headers.GAME_CLIENT_ID_HEADER);
 
         SecurityRequirement securityRequirement = new SecurityRequirement()
                 .addList("bearerAuth")
-                .addList("X-CLIENT-ID");
+                .addList(ApiConstants.Headers.GAME_CLIENT_ID_HEADER);
 
         return new OpenAPI()
                 .components(new Components()
                         .addSecuritySchemes("bearerAuth", jwtSecurityScheme)
-                        .addSecuritySchemes("X-CLIENT-ID", xClientIdSecurityScheme))
+                        .addSecuritySchemes(ApiConstants.Headers.GAME_CLIENT_ID_HEADER, xClientIdSecurityScheme))
                 .addSecurityItem(securityRequirement)
                 .info(new Info()
                         .title("Nexus API")

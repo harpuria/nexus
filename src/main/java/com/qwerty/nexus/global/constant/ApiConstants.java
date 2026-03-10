@@ -103,6 +103,7 @@ public final class ApiConstants {
         public static final String CLIENT_VERSION_HEADER = "X-Client-Version";
         public static final String DEVICE_ID_HEADER = "X-Device-ID";
         public static final String PLATFORM_HEADER = "X-Platform";
+        public static final String GAME_CLIENT_ID_HEADER = "X-CLIENT-ID";
 
         // JWT 관련
         public static final String BEARER_PREFIX = "Bearer ";

@@ -1,6 +1,7 @@
 package com.qwerty.nexus.global.interceptor;
 
 import com.qwerty.nexus.domain.management.game.service.GameService;
+import com.qwerty.nexus.global.constant.ApiConstants;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ public class GameClientInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String clientId = request.getHeader("X-CLIENT-ID");
+        String clientId = request.getHeader(ApiConstants.Headers.GAME_CLIENT_ID_HEADER);
 
         // 게임 클리이언트 아이디가 없는 경우 차단처리
         if(clientId == null || clientId.isBlank()){
