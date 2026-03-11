@@ -9,6 +9,7 @@ import java.time.OffsetDateTime;
 @Getter
 @Builder
 public class UserMailEntity {
+    private Integer userMailId;
     private Integer gameId;
     private Integer mailId;
     private Integer userId;
@@ -20,7 +21,9 @@ public class UserMailEntity {
     private String content;
     private JSONB rewards;
     private OffsetDateTime expireAt;
+    private OffsetDateTime createdAt;
     private String createdBy;
+    private OffsetDateTime updatedAt;
     private String updatedBy;
     private String isDel;
 }

@@ -188,10 +188,14 @@ public class MailService {
         }
 
         UserMailEntity userMailEntity = UserMailEntity.builder()
+                .gameId(mailEntity.get().getGameId())
                 .mailId(mailId)
                 .title(mailEntity.get().getTitle())
                 .content(mailEntity.get().getContent())
                 .rewards(mailEntity.get().getRewards())
+                .expireAt(mailEntity.get().getExpireAt())
+                .createdBy(mailEntity.get().getCreatedBy())
+                .updatedBy(mailEntity.get().getUpdatedBy())
                 .build();
 
         if(mailEntity.get().getRecipientsType() == MailRecipientsType.ALL){
