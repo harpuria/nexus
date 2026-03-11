@@ -58,9 +58,9 @@ public class ItemService {
             return Result.Failure.of("아이템 생성 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        // 재화 생성 후, 게임에 유저가 있을경우 각 유저들에게 유저재화 데이터 추가
+        // 재화 생성 후, 게임에 유저가 있을경우 각 유저들에게 유저재화 데이터 추가 (삭제, 탈퇴 유저 제외)
         List<Integer> userIdList = gameUserRepository.findAllUserIdsByGameId(
-                GameUserEntity.builder().gameId(dto.getGameId()).build()
+                GameUserEntity.builder().gameId(dto.getGameId()).build(), ApiConstants.Domain.ITEM
         );
 
         for (Integer userId : userIdList) {

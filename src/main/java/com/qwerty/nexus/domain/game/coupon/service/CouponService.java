@@ -18,6 +18,7 @@ import com.qwerty.nexus.domain.game.item.entity.UserItemStackEntity;
 import com.qwerty.nexus.domain.game.item.repository.ItemRepository;
 import com.qwerty.nexus.domain.game.item.repository.UserItemInstanceRepository;
 import com.qwerty.nexus.domain.game.item.repository.UserItemStackRepository;
+import com.qwerty.nexus.domain.game.reward.dto.GrantDto;
 import com.qwerty.nexus.domain.game.reward.service.RewardService;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
 import com.qwerty.nexus.domain.game.user.repository.GameUserRepository;
@@ -295,8 +296,15 @@ public class CouponService {
         }
 
         // 지급처리
-        rewardService.grant(dto.getGameId(), dto.getUserId(), rewardInfos, "COUPON", dto.getCouponCode(),
-                String.format("COUPON:%s:%s:%s", dto.getUserId(), dto.getCouponCode(), LocalDateTime.now()));
+        GrantDto grantDto = GrantDto.builder()
+                .gameId(dto.getGameId())
+                .userId(dto.getUserId())
+                .rewards(rewardInfos)
+                .sourceType(ApiConstants.Domain.COUPON)
+                .sourceId(dto.getCouponCode())
+                .requestId(String.format("COUPON:%s:%s:%s", dto.getUserId(), dto.getCouponCode(), LocalDateTime.now())) // TODO : 멱등성 키 만드는거도 만들어둘까..
+                .build();
+        rewardService.grant(grantDto);
 
 
         // 쿠폰 로그 저장

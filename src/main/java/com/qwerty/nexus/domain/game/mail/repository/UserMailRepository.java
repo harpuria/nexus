@@ -30,6 +30,17 @@ public class UserMailRepository {
      * @return
      */
     public List<Integer> insertUserMail(UserMailEntity userMailEntity, List<Integer> userIds) {
+        List<UserMailRecord> records = userIds.stream().map(userId -> {
+            UserMailRecord r = dslContext.newRecord(USER_MAIL);
+            r.setMailId(userMailEntity.getMailId());
+            r.setUserId(userId);
+            r.setTitle(userMailEntity.getTitle());
+            r.setContent(userMailEntity.getContent());
+            return r;
+        }).toList();
+
+        dslContext.batchInsert(records).execute(); // 다량 insert 할 때 유리 함
+
         return userIds.stream()
                 .map(userId -> {
                     UserMailEntity entity = UserMailEntity.builder()

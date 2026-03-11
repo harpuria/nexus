@@ -35,4 +35,19 @@ public class RewardRepository {
 
         return record.getGrantId();
     }
+
+    /**
+     * 트랜잭션 수정
+     * @param rewardGrantEntity
+     * @return
+     */
+    public Integer updateGrant(RewardGrantEntity rewardGrantEntity) {
+        RewardGrantRecord record = dslContext.newRecord(REWARD_GRANT, rewardGrantEntity);
+        record.changed(REWARD_GRANT.STATUS, rewardGrantEntity.getStatus() != null);
+        record.changed(REWARD_GRANT.FAIL_MESSAGE, rewardGrantEntity.getFailMessage() != null);
+        record.changed(REWARD_GRANT.UPDATED_BY, rewardGrantEntity.getUpdatedBy() != null);
+        record.changed(REWARD_GRANT.IS_DEL, rewardGrantEntity.getIsDel() != null);
+
+        return record.update();
+    }
 }

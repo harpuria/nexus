@@ -18,6 +18,17 @@ public final class ApiConstants {
     }
 
     // =================================================================
+    // 도메인 관련
+    // =================================================================
+    public static final class Domain{
+        private Domain() {}
+
+        public static final String ITEM = "ITEM";
+        public static final String COUPON = "COUPON";
+        public static final String MAIL = "MAIL";
+    }
+
+    // =================================================================
     // API 버전 및 경로 관련
     // =================================================================
 

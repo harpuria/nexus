@@ -7,6 +7,7 @@ import com.qwerty.nexus.domain.game.mail.dto.response.UserMailListResponseDto;
 import com.qwerty.nexus.domain.game.mail.dto.response.UserMailResponseDto;
 import com.qwerty.nexus.domain.game.mail.entity.UserMailEntity;
 import com.qwerty.nexus.domain.game.mail.repository.UserMailRepository;
+import com.qwerty.nexus.domain.game.reward.service.RewardService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.PagingEntity;
@@ -27,6 +28,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserMailService {
     private final UserMailRepository userMailRepository;
+    private final RewardService rewardService;
 
     public Result<UserMailListResponseDto> listUserMail(PagingRequestDto dto, Integer userId) {
         PagingEntity pagingEntity = PagingUtil.getPagingEntity(dto);
@@ -100,6 +102,9 @@ public class UserMailService {
                 .receivedAt(OffsetDateTime.now())
                 .updatedBy(dto.getUpdatedBy())
                 .build();
+
+        // 보상 지급 처리
+
 
         int updateCount = userMailRepository.updateUserMail(updateEntity);
         if (updateCount > 0) {

@@ -6,6 +6,7 @@ import com.qwerty.nexus.domain.game.item.entity.UserItemStackEntity;
 import com.qwerty.nexus.domain.game.item.repository.ItemRepository;
 import com.qwerty.nexus.domain.game.item.repository.UserItemInstanceRepository;
 import com.qwerty.nexus.domain.game.item.repository.UserItemStackRepository;
+import com.qwerty.nexus.domain.game.reward.dto.GrantDto;
 import com.qwerty.nexus.domain.game.reward.dto.RewardDto;
 import com.qwerty.nexus.domain.game.reward.entity.RewardGrantEntity;
 import com.qwerty.nexus.domain.game.reward.repository.RewardRepository;
@@ -36,42 +37,40 @@ public class RewardService {
 
     /**
      * 보상 지급 처리
-     * @param gameId 게임 ID
-     * @param userId 유저 ID
-     * @param rewards 보상 목록
-     * @param sourceType 보상 출처 타입 (ex: COUPON, SHOP 등)
-     * @param sourceId 출처 식별자
-     * @param requestId 멱등성 키
+     * @param grantDto 보상지급처리 dto
      * @return 보상 지급 트랜잭션 ID, 실패여부도 주면 좋으려나
      */
     @Transactional
-    public void grant(Integer gameId, Integer userId, List<RewardDto> rewards, String sourceType, String sourceId, String requestId) {
+    public void grant(GrantDto grantDto) {
+        int grantId = 0;
+
         // validation check
-        validateGrantRequest(gameId, userId, rewards, sourceType, sourceId, requestId);
+        validateGrantRequest(grantDto);
 
         // 멱등성 체크 및 로그 저장
         RewardGrantEntity rewardGrantEntity = RewardGrantEntity.builder()
-                .gameId(gameId)
-                .userId(userId)
-                .requestId(requestId)
-                .sourceId(sourceId)
-                .sourceType(sourceType)
+                .gameId(grantDto.getGameId())
+                .userId(grantDto.getUserId())
+                .status("PENDING")
+                .requestId(generateIdempotencyKey(grantDto))
+                .sourceId(grantDto.getSourceId())
+                .sourceType(grantDto.getSourceType())
                 .createdBy("NEXUS_SYSTEM")
                 .updatedBy("NEXUS_SYSTEM")
                 .build();
 
         try{
             // 로그 저장시 UNIQUE KEY 존재 유무로 멱등성 자동 체크
-            rewardRepository.insertGrant(rewardGrantEntity);
+            grantId = rewardRepository.insertGrant(rewardGrantEntity);
         } catch (DuplicateKeyException e){
             return;
         }
 
         // 보상 리스트 순회
-        for(RewardDto reward : rewards){
+        for(RewardDto reward : grantDto.getRewards()){
             // 아이템 마스터 테이블 조회
             ItemEntity itemEntity = ItemEntity.builder()
-                    .gameId(gameId)
+                    .gameId(grantDto.getGameId())
                     .itemId(reward.getItemId())
                     .itemCode(CommonUtil.normalizeText(reward.getItemCode()))
                     .build();
@@ -82,7 +81,7 @@ public class RewardService {
                 if(isStackable.equalsIgnoreCase("Y")){
                     // STACK
                     UserItemStackEntity userItemStackEntity = UserItemStackEntity.builder()
-                            .userId(userId)
+                            .userId(grantDto.getUserId())
                             .itemId(reward.getItemId())
                             .createdBy("NEXUS_SYSTEM")
                             .updatedBy("NEXUS_SYSTEM")
@@ -92,9 +91,9 @@ public class RewardService {
                 }else{
                     // NON-STACK (INSTANCE)
                     UserItemInstanceEntity userItemInstanceEntity = UserItemInstanceEntity.builder()
-                            .userId(userId)
+                            .userId(grantDto.getUserId())
                             .itemId(reward.getItemId())
-                            .stateJson(JSONB.jsonb("{}"))
+                            .stateJson(JSONB.jsonb("{}")) // TODO : 이거는 어떤 아이템이냐에 따라서 기본 값을 줘야 할듯 (예를들어 무기면 {강화:0, 레벨:1} 이런식으로)
                             .acquiredAt(OffsetDateTime.now())
                             .createdBy("NEXUS_SYSTEM")
                             .updatedBy("NEXUS_SYSTEM")
@@ -104,26 +103,48 @@ public class RewardService {
                 }
             }
         }
+
+        // 성공시 update
+        rewardRepository.updateGrant(RewardGrantEntity.builder()
+                .grantId(grantId)
+                .status("SUCCESS")
+                .updatedBy("NEXUS_SYSTEM")
+                .build());
     }
 
-    private void validateGrantRequest(Integer gameId, Integer userId, List<RewardDto> rewards, String sourceType, String sourceId, String requestId) {
-        if (gameId == null || gameId <= 0) {
+    /**
+     * 멱등키 생성
+     * @param grantDto
+     * @return
+     */
+    private String generateIdempotencyKey(GrantDto grantDto){
+        String idempotencyKeyTemplate = "%s:%s:%s:%s";
+
+        return String.format(idempotencyKeyTemplate, grantDto.getSourceType(), grantDto.getGameId(), grantDto.getUserId(), grantDto.getSourceId());
+    }
+
+    /**
+     * 지급 요청 정보 검증
+     * @param grantDto
+     */
+    private void validateGrantRequest(GrantDto grantDto) {
+        if (grantDto.getGameId() == null || grantDto.getGameId() <= 0) {
             throw new IllegalArgumentException("게임 ID가 올바르지 않습니다.");
         }
 
-        if (userId == null || userId <= 0) {
+        if (grantDto.getUserId() == null || grantDto.getUserId() <= 0) {
             throw new IllegalArgumentException("유저 ID가 올바르지 않습니다.");
         }
 
-        if (!StringUtils.hasText(sourceType) || !StringUtils.hasText(sourceId) || !StringUtils.hasText(requestId)) {
+        if (!StringUtils.hasText(grantDto.getSourceType()) || !StringUtils.hasText(grantDto.getSourceId()) || !StringUtils.hasText(grantDto.getRequestId())) {
             throw new IllegalArgumentException("보상 출처와 requestId는 필수입니다.");
         }
 
-        if (rewards == null || rewards.isEmpty()) {
+        if (grantDto.getRewards() == null || grantDto.getRewards().isEmpty()) {
             throw new IllegalArgumentException("보상 정보가 비어 있습니다.");
         }
 
-        for (RewardDto reward : rewards) {
+        for (RewardDto reward : grantDto.getRewards()) {
             if (reward.getItemId() == null || reward.getItemId() <= 0) {
                 throw new IllegalArgumentException("보상 itemId가 올바르지 않습니다.");
             }
