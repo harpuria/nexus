@@ -19,11 +19,10 @@ public class RewardGrant implements Serializable {
     private Integer grantId;
     private Integer gameId;
     private Integer userId;
-    private String requestId;
+    private String idempotencyKey;
     private String sourceType;
     private String sourceId;
     private String status;
-    private String failCode;
     private String failMessage;
     private Integer itemCount;
     private Long totalAmount;
@@ -39,11 +38,10 @@ public class RewardGrant implements Serializable {
         this.grantId = value.grantId;
         this.gameId = value.gameId;
         this.userId = value.userId;
-        this.requestId = value.requestId;
+        this.idempotencyKey = value.idempotencyKey;
         this.sourceType = value.sourceType;
         this.sourceId = value.sourceId;
         this.status = value.status;
-        this.failCode = value.failCode;
         this.failMessage = value.failMessage;
         this.itemCount = value.itemCount;
         this.totalAmount = value.totalAmount;
@@ -58,11 +56,10 @@ public class RewardGrant implements Serializable {
         Integer grantId,
         Integer gameId,
         Integer userId,
-        String requestId,
+        String idempotencyKey,
         String sourceType,
         String sourceId,
         String status,
-        String failCode,
         String failMessage,
         Integer itemCount,
         Long totalAmount,
@@ -75,11 +72,10 @@ public class RewardGrant implements Serializable {
         this.grantId = grantId;
         this.gameId = gameId;
         this.userId = userId;
-        this.requestId = requestId;
+        this.idempotencyKey = idempotencyKey;
         this.sourceType = sourceType;
         this.sourceId = sourceId;
         this.status = status;
-        this.failCode = failCode;
         this.failMessage = failMessage;
         this.itemCount = itemCount;
         this.totalAmount = totalAmount;
@@ -136,19 +132,19 @@ public class RewardGrant implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT.REQUEST_ID</code>. 멱등키 (예:
+     * Getter for <code>nexus.REWARD_GRANT.IDEMPOTENCY_KEY</code>. 멱등키 (예:
      * MAIL:uid:mailId, SHOP:orderId)
      */
-    public String getRequestId() {
-        return this.requestId;
+    public String getIdempotencyKey() {
+        return this.idempotencyKey;
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT.REQUEST_ID</code>. 멱등키 (예:
+     * Setter for <code>nexus.REWARD_GRANT.IDEMPOTENCY_KEY</code>. 멱등키 (예:
      * MAIL:uid:mailId, SHOP:orderId)
      */
-    public RewardGrant setRequestId(String requestId) {
-        this.requestId = requestId;
+    public RewardGrant setIdempotencyKey(String idempotencyKey) {
+        this.idempotencyKey = idempotencyKey;
         return this;
     }
 
@@ -200,31 +196,16 @@ public class RewardGrant implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT.FAIL_CODE</code>. 실패 코드(선택)
-     */
-    public String getFailCode() {
-        return this.failCode;
-    }
-
-    /**
-     * Setter for <code>nexus.REWARD_GRANT.FAIL_CODE</code>. 실패 코드(선택)
-     */
-    public RewardGrant setFailCode(String failCode) {
-        this.failCode = failCode;
-        return this;
-    }
-
-    /**
-     * Getter for <code>nexus.REWARD_GRANT.FAIL_MESSAGE</code>. 실패 메시지(선택, 과도한
-     * 상세 스택은 지양)
+     * Getter for <code>nexus.REWARD_GRANT.FAIL_MESSAGE</code>. 실패시 저장하는 메시지
+     * (선택사항)
      */
     public String getFailMessage() {
         return this.failMessage;
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT.FAIL_MESSAGE</code>. 실패 메시지(선택, 과도한
-     * 상세 스택은 지양)
+     * Setter for <code>nexus.REWARD_GRANT.FAIL_MESSAGE</code>. 실패시 저장하는 메시지
+     * (선택사항)
      */
     public RewardGrant setFailMessage(String failMessage) {
         this.failMessage = failMessage;
@@ -365,11 +346,11 @@ public class RewardGrant implements Serializable {
         }
         else if (!this.userId.equals(other.userId))
             return false;
-        if (this.requestId == null) {
-            if (other.requestId != null)
+        if (this.idempotencyKey == null) {
+            if (other.idempotencyKey != null)
                 return false;
         }
-        else if (!this.requestId.equals(other.requestId))
+        else if (!this.idempotencyKey.equals(other.idempotencyKey))
             return false;
         if (this.sourceType == null) {
             if (other.sourceType != null)
@@ -388,12 +369,6 @@ public class RewardGrant implements Serializable {
                 return false;
         }
         else if (!this.status.equals(other.status))
-            return false;
-        if (this.failCode == null) {
-            if (other.failCode != null)
-                return false;
-        }
-        else if (!this.failCode.equals(other.failCode))
             return false;
         if (this.failMessage == null) {
             if (other.failMessage != null)
@@ -453,11 +428,10 @@ public class RewardGrant implements Serializable {
         result = prime * result + ((this.grantId == null) ? 0 : this.grantId.hashCode());
         result = prime * result + ((this.gameId == null) ? 0 : this.gameId.hashCode());
         result = prime * result + ((this.userId == null) ? 0 : this.userId.hashCode());
-        result = prime * result + ((this.requestId == null) ? 0 : this.requestId.hashCode());
+        result = prime * result + ((this.idempotencyKey == null) ? 0 : this.idempotencyKey.hashCode());
         result = prime * result + ((this.sourceType == null) ? 0 : this.sourceType.hashCode());
         result = prime * result + ((this.sourceId == null) ? 0 : this.sourceId.hashCode());
         result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
-        result = prime * result + ((this.failCode == null) ? 0 : this.failCode.hashCode());
         result = prime * result + ((this.failMessage == null) ? 0 : this.failMessage.hashCode());
         result = prime * result + ((this.itemCount == null) ? 0 : this.itemCount.hashCode());
         result = prime * result + ((this.totalAmount == null) ? 0 : this.totalAmount.hashCode());
@@ -476,11 +450,10 @@ public class RewardGrant implements Serializable {
         sb.append(grantId);
         sb.append(", ").append(gameId);
         sb.append(", ").append(userId);
-        sb.append(", ").append(requestId);
+        sb.append(", ").append(idempotencyKey);
         sb.append(", ").append(sourceType);
         sb.append(", ").append(sourceId);
         sb.append(", ").append(status);
-        sb.append(", ").append(failCode);
         sb.append(", ").append(failMessage);
         sb.append(", ").append(itemCount);
         sb.append(", ").append(totalAmount);

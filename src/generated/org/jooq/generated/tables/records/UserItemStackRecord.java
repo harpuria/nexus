@@ -53,7 +53,7 @@ public class UserItemStackRecord extends UpdatableRecordImpl<UserItemStackRecord
     }
 
     /**
-     * Setter for <code>nexus.USER_ITEM_STACK.ITEM_ID</code>. ITEM_MASTER PK(FK)
+     * Setter for <code>nexus.USER_ITEM_STACK.ITEM_ID</code>. ITEM PK(FK)
      */
     public UserItemStackRecord setItemId(Integer value) {
         set(2, value);
@@ -61,7 +61,7 @@ public class UserItemStackRecord extends UpdatableRecordImpl<UserItemStackRecord
     }
 
     /**
-     * Getter for <code>nexus.USER_ITEM_STACK.ITEM_ID</code>. ITEM_MASTER PK(FK)
+     * Getter for <code>nexus.USER_ITEM_STACK.ITEM_ID</code>. ITEM PK(FK)
      */
     public Integer getItemId() {
         return (Integer) get(2);

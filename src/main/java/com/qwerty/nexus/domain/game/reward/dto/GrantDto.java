@@ -12,6 +12,5 @@ public class GrantDto {
     Integer userId;             // 유저 ID
     List<RewardDto> rewards;    // 보상 목록
     String sourceType;          // 보상 출처 타입 (ex: COUPON, SHOP, MAIL 등)
-    String sourceId;            // 출처 식별자
-    String requestId;           // 멱등성 키
+    String sourceId;            // 출처 식별자 (ex: mailId, couponCode 등)
 }

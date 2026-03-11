@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Log4j2
@@ -38,10 +37,10 @@ public class RewardService {
     /**
      * 보상 지급 처리
      * @param grantDto 보상지급처리 dto
-     * @return 보상 지급 트랜잭션 ID, 실패여부도 주면 좋으려나
+     * @return 성공 및 실패 여부
      */
     @Transactional
-    public void grant(GrantDto grantDto) {
+    public boolean grant(GrantDto grantDto) {
         int grantId = 0;
 
         // validation check
@@ -52,7 +51,7 @@ public class RewardService {
                 .gameId(grantDto.getGameId())
                 .userId(grantDto.getUserId())
                 .status("PENDING")
-                .requestId(generateIdempotencyKey(grantDto))
+                .idempotencyKey(generateIdempotencyKey(grantDto))
                 .sourceId(grantDto.getSourceId())
                 .sourceType(grantDto.getSourceType())
                 .createdBy("NEXUS_SYSTEM")
@@ -63,12 +62,12 @@ public class RewardService {
             // 로그 저장시 UNIQUE KEY 존재 유무로 멱등성 자동 체크
             grantId = rewardRepository.insertGrant(rewardGrantEntity);
         } catch (DuplicateKeyException e){
-            return;
+            return false;
         }
 
         // 보상 리스트 순회
         for(RewardDto reward : grantDto.getRewards()){
-            // 아이템 마스터 테이블 조회
+            // 아이템 테이블 조회
             ItemEntity itemEntity = ItemEntity.builder()
                     .gameId(grantDto.getGameId())
                     .itemId(reward.getItemId())
@@ -110,6 +109,8 @@ public class RewardService {
                 .status("SUCCESS")
                 .updatedBy("NEXUS_SYSTEM")
                 .build());
+
+        return true;
     }
 
     /**
@@ -136,8 +137,8 @@ public class RewardService {
             throw new IllegalArgumentException("유저 ID가 올바르지 않습니다.");
         }
 
-        if (!StringUtils.hasText(grantDto.getSourceType()) || !StringUtils.hasText(grantDto.getSourceId()) || !StringUtils.hasText(grantDto.getRequestId())) {
-            throw new IllegalArgumentException("보상 출처와 requestId는 필수입니다.");
+        if (!StringUtils.hasText(grantDto.getSourceType()) || !StringUtils.hasText(grantDto.getSourceId())) {
+            throw new IllegalArgumentException("보상 출처는 필수입니다.");
         }
 
         if (grantDto.getRewards() == null || grantDto.getRewards().isEmpty()) {

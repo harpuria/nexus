@@ -148,7 +148,7 @@ public class RewardGrantItem implements Serializable {
 
     /**
      * Getter for <code>nexus.REWARD_GRANT_ITEM.ITEM_CODE</code>. 지급 아이템
-     * 코드(ITEM_MASTER.ITEM_CODE)
+     * 코드(ITEM.ITEM_CODE)
      */
     public String getItemCode() {
         return this.itemCode;
@@ -156,7 +156,7 @@ public class RewardGrantItem implements Serializable {
 
     /**
      * Setter for <code>nexus.REWARD_GRANT_ITEM.ITEM_CODE</code>. 지급 아이템
-     * 코드(ITEM_MASTER.ITEM_CODE)
+     * 코드(ITEM.ITEM_CODE)
      */
     public RewardGrantItem setItemCode(String itemCode) {
         this.itemCode = itemCode;
@@ -164,16 +164,16 @@ public class RewardGrantItem implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT_ITEM.ITEM_ID</code>. 지급 당시
-     * ITEM_MASTER의 ITEM_ID 스냅샷(선택)
+     * Getter for <code>nexus.REWARD_GRANT_ITEM.ITEM_ID</code>. 지급 당시 ITEM의
+     * ITEM_ID 스냅샷(선택)
      */
     public Integer getItemId() {
         return this.itemId;
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT_ITEM.ITEM_ID</code>. 지급 당시
-     * ITEM_MASTER의 ITEM_ID 스냅샷(선택)
+     * Setter for <code>nexus.REWARD_GRANT_ITEM.ITEM_ID</code>. 지급 당시 ITEM의
+     * ITEM_ID 스냅샷(선택)
      */
     public RewardGrantItem setItemId(Integer itemId) {
         this.itemId = itemId;

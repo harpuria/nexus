@@ -4,9 +4,9 @@ import com.qwerty.nexus.domain.game.item.entity.ItemEntity;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.PagingEntity;
 import org.jooq.*;
-import org.jooq.generated.tables.JItemMaster;
-import org.jooq.generated.tables.daos.ItemMasterDao;
-import org.jooq.generated.tables.records.ItemMasterRecord;
+import org.jooq.generated.tables.JItem;
+import org.jooq.generated.tables.daos.ItemDao;
+import org.jooq.generated.tables.records.ItemRecord;
 import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -18,12 +18,12 @@ import java.util.Optional;
 @Repository
 public class ItemRepository {
     private final DSLContext dslContext;
-    private final JItemMaster ITEM = JItemMaster.ITEM_MASTER;
-    private final ItemMasterDao dao;
+    private final JItem ITEM = JItem.ITEM;
+    private final ItemDao dao;
 
     public ItemRepository(Configuration configuration, DSLContext dslContext) {
         this.dslContext = dslContext;
-        this.dao = new ItemMasterDao(configuration);
+        this.dao = new ItemDao(configuration);
     }
 
     /**
@@ -32,7 +32,7 @@ public class ItemRepository {
      * @return
      */
     public Integer insertItem(ItemEntity entity) {
-        ItemMasterRecord record = dslContext.newRecord(ITEM, entity);
+        ItemRecord record = dslContext.newRecord(ITEM, entity);
         record.store();
         return record.getItemId();
     }
@@ -43,7 +43,7 @@ public class ItemRepository {
      * @return
      */
     public int updateItem(ItemEntity entity) {
-        ItemMasterRecord record = dslContext.newRecord(ITEM, entity);
+        ItemRecord record = dslContext.newRecord(ITEM, entity);
         record.changed(ITEM.NAME, entity.getName() != null);
         record.changed(ITEM.DESC, entity.getDesc() != null);
         record.changed(ITEM.ITEM_TYPE, entity.getItemType() != null);

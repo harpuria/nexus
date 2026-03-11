@@ -85,7 +85,7 @@ public class RewardGrantItemRecord extends UpdatableRecordImpl<RewardGrantItemRe
 
     /**
      * Setter for <code>nexus.REWARD_GRANT_ITEM.ITEM_CODE</code>. 지급 아이템
-     * 코드(ITEM_MASTER.ITEM_CODE)
+     * 코드(ITEM.ITEM_CODE)
      */
     public RewardGrantItemRecord setItemCode(String value) {
         set(4, value);
@@ -94,15 +94,15 @@ public class RewardGrantItemRecord extends UpdatableRecordImpl<RewardGrantItemRe
 
     /**
      * Getter for <code>nexus.REWARD_GRANT_ITEM.ITEM_CODE</code>. 지급 아이템
-     * 코드(ITEM_MASTER.ITEM_CODE)
+     * 코드(ITEM.ITEM_CODE)
      */
     public String getItemCode() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT_ITEM.ITEM_ID</code>. 지급 당시
-     * ITEM_MASTER의 ITEM_ID 스냅샷(선택)
+     * Setter for <code>nexus.REWARD_GRANT_ITEM.ITEM_ID</code>. 지급 당시 ITEM의
+     * ITEM_ID 스냅샷(선택)
      */
     public RewardGrantItemRecord setItemId(Integer value) {
         set(5, value);
@@ -110,8 +110,8 @@ public class RewardGrantItemRecord extends UpdatableRecordImpl<RewardGrantItemRe
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT_ITEM.ITEM_ID</code>. 지급 당시
-     * ITEM_MASTER의 ITEM_ID 스냅샷(선택)
+     * Getter for <code>nexus.REWARD_GRANT_ITEM.ITEM_ID</code>. 지급 당시 ITEM의
+     * ITEM_ID 스냅샷(선택)
      */
     public Integer getItemId() {
         return (Integer) get(5);

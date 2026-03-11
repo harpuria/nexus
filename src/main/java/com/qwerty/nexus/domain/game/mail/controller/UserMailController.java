@@ -122,4 +122,16 @@ public class UserMailController {
         Result<Void> result = userMailService.deleteUserMail(requestDto);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
+
+    /**
+     * 우편 전체 삭제
+     * @param userId
+     * @return
+     */
+    @DeleteMapping("/all/{userId}")
+    @Operation(summary = "유저 우편 전체 삭제")
+    public ResponseEntity<ApiResponse<Void>> deleteAllUserMail(@PathVariable Integer userId) {
+        Result<Void> result = userMailService.deleteAllUserMail(userId);
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
+    }
 }

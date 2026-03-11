@@ -201,7 +201,7 @@ public class JMail extends TableImpl<MailRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.asList(Indexes.IX_MAIL_GAME_ID, Indexes.IX_MAIL_GAME_ID_IS_DEL, Indexes.IX_MAIL_GAME_ID_RECIPIENTS_TYPE);
+        return Arrays.asList(Indexes.IDX_GAME, Indexes.IDX_GAME_IS_DEL, Indexes.IDX_GAME_RECIPIENTS);
     }
 
     @Override

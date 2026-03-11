@@ -11,7 +11,7 @@ public class RewardGrantEntity {
     private Integer grantId;
     private Integer gameId;
     private Integer userId;
-    private String requestId;
+    private String idempotencyKey;
     private String sourceType;
     private String sourceId;
     private String status;

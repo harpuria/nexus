@@ -35,7 +35,7 @@ import org.jooq.generated.Keys;
 import org.jooq.generated.tables.JAdmin.AdminPath;
 import org.jooq.generated.tables.JCoupon.CouponPath;
 import org.jooq.generated.tables.JGameUser.GameUserPath;
-import org.jooq.generated.tables.JItemMaster.ItemMasterPath;
+import org.jooq.generated.tables.JItem.ItemPath;
 import org.jooq.generated.tables.JMail.MailPath;
 import org.jooq.generated.tables.JOrganization.OrganizationPath;
 import org.jooq.generated.tables.JProduct.ProductPath;
@@ -270,17 +270,16 @@ public class JGame extends TableImpl<GameRecord> {
         return _gameUser;
     }
 
-    private transient ItemMasterPath _itemMaster;
+    private transient ItemPath _item;
 
     /**
-     * Get the implicit to-many join path to the <code>nexus.ITEM_MASTER</code>
-     * table
+     * Get the implicit to-many join path to the <code>nexus.ITEM</code> table
      */
-    public ItemMasterPath itemMaster() {
-        if (_itemMaster == null)
-            _itemMaster = new ItemMasterPath(this, null, Keys.ITEM_MASTER__ITEM_MASTER_GAME_ID_FKEY.getInverseKey());
+    public ItemPath item() {
+        if (_item == null)
+            _item = new ItemPath(this, null, Keys.ITEM__ITEM_GAME_ID_FKEY.getInverseKey());
 
-        return _itemMaster;
+        return _item;
     }
 
     private transient MailPath _mail;

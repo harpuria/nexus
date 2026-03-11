@@ -95,14 +95,14 @@ public class UserItemStack implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.USER_ITEM_STACK.ITEM_ID</code>. ITEM_MASTER PK(FK)
+     * Getter for <code>nexus.USER_ITEM_STACK.ITEM_ID</code>. ITEM PK(FK)
      */
     public Integer getItemId() {
         return this.itemId;
     }
 
     /**
-     * Setter for <code>nexus.USER_ITEM_STACK.ITEM_ID</code>. ITEM_MASTER PK(FK)
+     * Setter for <code>nexus.USER_ITEM_STACK.ITEM_ID</code>. ITEM PK(FK)
      */
     public UserItemStack setItemId(Integer itemId) {
         this.itemId = itemId;

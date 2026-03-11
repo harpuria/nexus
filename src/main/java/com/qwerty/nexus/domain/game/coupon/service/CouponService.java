@@ -302,9 +302,10 @@ public class CouponService {
                 .rewards(rewardInfos)
                 .sourceType(ApiConstants.Domain.COUPON)
                 .sourceId(dto.getCouponCode())
-                .requestId(String.format("COUPON:%s:%s:%s", dto.getUserId(), dto.getCouponCode(), LocalDateTime.now())) // TODO : 멱등성 키 만드는거도 만들어둘까..
                 .build();
-        rewardService.grant(grantDto);
+        boolean grantRst = rewardService.grant(grantDto);
+        if(!grantRst)
+            return Result.Failure.of("쿠폰 보상 지급 처리 실패.", ErrorCode.INTERNAL_ERROR.getCode());
 
 
         // 쿠폰 로그 저장

@@ -7,6 +7,8 @@ import com.qwerty.nexus.domain.game.mail.dto.response.UserMailListResponseDto;
 import com.qwerty.nexus.domain.game.mail.dto.response.UserMailResponseDto;
 import com.qwerty.nexus.domain.game.mail.entity.UserMailEntity;
 import com.qwerty.nexus.domain.game.mail.repository.UserMailRepository;
+import com.qwerty.nexus.domain.game.reward.dto.GrantDto;
+import com.qwerty.nexus.domain.game.reward.dto.RewardDto;
 import com.qwerty.nexus.domain.game.reward.service.RewardService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
@@ -14,6 +16,7 @@ import com.qwerty.nexus.global.paging.PagingEntity;
 import com.qwerty.nexus.global.paging.PagingRequestDto;
 import com.qwerty.nexus.global.paging.PagingUtil;
 import com.qwerty.nexus.global.response.Result;
+import com.qwerty.nexus.global.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -30,6 +33,12 @@ public class UserMailService {
     private final UserMailRepository userMailRepository;
     private final RewardService rewardService;
 
+    /**
+     * 우편 목록 조회
+     * @param dto
+     * @param userId
+     * @return
+     */
     public Result<UserMailListResponseDto> listUserMail(PagingRequestDto dto, Integer userId) {
         PagingEntity pagingEntity = PagingUtil.getPagingEntity(dto);
         if (pagingEntity == null) {
@@ -55,6 +64,11 @@ public class UserMailService {
                 .build(), ApiConstants.Messages.Success.RETRIEVED);
     }
 
+    /**
+     * 우편 단건 보기
+     * @param dto
+     * @return
+     */
     @Transactional
     public Result<UserMailResponseDto> getUserMail(UserMailActionRequestDto dto) {
         Optional<UserMailEntity> userMailOptional = userMailRepository.findByUserMailId(dto.getUserMailId());
@@ -82,6 +96,11 @@ public class UserMailService {
         return Result.Success.of(UserMailResponseDto.from(updatedUserMail.get()), ApiConstants.Messages.Success.RETRIEVED);
     }
 
+    /**
+     * 우편 단건 보상 받기
+     * @param dto
+     * @return
+     */
     @Transactional
     public Result<Void> receiveUserMail(UserMailActionRequestDto dto) {
         Optional<UserMailEntity> userMailOptional = userMailRepository.findByUserMailId(dto.getUserMailId());
@@ -104,7 +123,15 @@ public class UserMailService {
                 .build();
 
         // 보상 지급 처리
-
+        GrantDto grantDto = GrantDto.builder()
+                .gameId(userMailEntity.getGameId())
+                .sourceId(dto.getUserMailId().toString())
+                .rewards(CommonUtil.jsonbToDto(userMailEntity.getRewards(), RewardDto.class))
+                .sourceType(ApiConstants.Domain.MAIL)
+                .build();
+        boolean grantRst = rewardService.grant(grantDto);
+        if(!grantRst)
+            return Result.Failure.of("우편 보상 지급 처리 실패.", ErrorCode.INTERNAL_ERROR.getCode());
 
         int updateCount = userMailRepository.updateUserMail(updateEntity);
         if (updateCount > 0) {
@@ -114,8 +141,14 @@ public class UserMailService {
         return Result.Failure.of("유저 우편 보상 수령 처리 실패.", ErrorCode.INTERNAL_ERROR.getCode());
     }
 
+    /**
+     * 전체 우편 보상 받기
+     * @param dto
+     * @return
+     */
     @Transactional
     public Result<Void> receiveAllUserMail(UserMailBulkReceiveRequestDto dto) {
+        // 받지 않은 우편들 전체 불러오기
         List<UserMailEntity> notReceivedMails = userMailRepository.findAllByUserIdAndIsReceived(dto.getUserId(), "N");
         if (notReceivedMails.isEmpty()) {
             return Result.Success.of(null, ApiConstants.Messages.Success.PROCESSED);
@@ -131,6 +164,17 @@ public class UserMailService {
                     .updatedBy(dto.getUpdatedBy())
                     .build();
 
+            // 보상 지급 처리
+            GrantDto grantDto = GrantDto.builder()
+                    .gameId(notReceivedMail.getGameId())
+                    .sourceId(notReceivedMail.getUserMailId().toString())
+                    .rewards(CommonUtil.jsonbToDto(notReceivedMail.getRewards(), RewardDto.class))
+                    .sourceType(ApiConstants.Domain.MAIL)
+                    .build();
+            boolean grantRst = rewardService.grant(grantDto);
+            if(!grantRst)
+                return Result.Failure.of("전체 우편 보상 지급 처리 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+
             int updateCount = userMailRepository.updateUserMail(updateEntity);
             if (updateCount == 0) {
                 return Result.Failure.of("유저 우편 전체 보상 수령 처리 실패.", ErrorCode.INTERNAL_ERROR.getCode());
@@ -140,6 +184,11 @@ public class UserMailService {
         return Result.Success.of(null, ApiConstants.Messages.Success.PROCESSED);
     }
 
+    /**
+     * 우편 단건 삭제
+     * @param dto
+     * @return
+     */
     @Transactional
     public Result<Void> deleteUserMail(UserMailDeleteRequestDto dto) {
         UserMailEntity updateEntity = UserMailEntity.builder()
@@ -154,5 +203,19 @@ public class UserMailService {
         }
 
         return Result.Failure.of("유저 우편 삭제 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+    }
+
+    /**
+     * 유저 전체 우편 삭제 (읽은것, 보상받은것만 삭제)
+     * @param userId
+     * @return
+     */
+    public Result<Void> deleteAllUserMail(Integer userId) {
+        int updateCount = userMailRepository.updateAllUserMail(userId);
+        if (updateCount > 0) {
+            return Result.Success.of(null, ApiConstants.Messages.Success.DELETED);
+        }
+
+        return Result.Failure.of("유저 우편 전체 삭제 실패.", ErrorCode.INTERNAL_ERROR.getCode());
     }
 }

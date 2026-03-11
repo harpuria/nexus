@@ -66,19 +66,19 @@ public class RewardGrantRecord extends UpdatableRecordImpl<RewardGrantRecord> {
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT.REQUEST_ID</code>. 멱등키 (예:
+     * Setter for <code>nexus.REWARD_GRANT.IDEMPOTENCY_KEY</code>. 멱등키 (예:
      * MAIL:uid:mailId, SHOP:orderId)
      */
-    public RewardGrantRecord setRequestId(String value) {
+    public RewardGrantRecord setIdempotencyKey(String value) {
         set(3, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT.REQUEST_ID</code>. 멱등키 (예:
+     * Getter for <code>nexus.REWARD_GRANT.IDEMPOTENCY_KEY</code>. 멱등키 (예:
      * MAIL:uid:mailId, SHOP:orderId)
      */
-    public String getRequestId() {
+    public String getIdempotencyKey() {
         return (String) get(3);
     }
 
@@ -130,42 +130,27 @@ public class RewardGrantRecord extends UpdatableRecordImpl<RewardGrantRecord> {
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT.FAIL_CODE</code>. 실패 코드(선택)
+     * Setter for <code>nexus.REWARD_GRANT.FAIL_MESSAGE</code>. 실패시 저장하는 메시지
+     * (선택사항)
      */
-    public RewardGrantRecord setFailCode(String value) {
+    public RewardGrantRecord setFailMessage(String value) {
         set(7, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT.FAIL_CODE</code>. 실패 코드(선택)
-     */
-    public String getFailCode() {
-        return (String) get(7);
-    }
-
-    /**
-     * Setter for <code>nexus.REWARD_GRANT.FAIL_MESSAGE</code>. 실패 메시지(선택, 과도한
-     * 상세 스택은 지양)
-     */
-    public RewardGrantRecord setFailMessage(String value) {
-        set(8, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>nexus.REWARD_GRANT.FAIL_MESSAGE</code>. 실패 메시지(선택, 과도한
-     * 상세 스택은 지양)
+     * Getter for <code>nexus.REWARD_GRANT.FAIL_MESSAGE</code>. 실패시 저장하는 메시지
+     * (선택사항)
      */
     public String getFailMessage() {
-        return (String) get(8);
+        return (String) get(7);
     }
 
     /**
      * Setter for <code>nexus.REWARD_GRANT.ITEM_COUNT</code>. 지급 라인 수
      */
     public RewardGrantRecord setItemCount(Integer value) {
-        set(9, value);
+        set(8, value);
         return this;
     }
 
@@ -173,7 +158,7 @@ public class RewardGrantRecord extends UpdatableRecordImpl<RewardGrantRecord> {
      * Getter for <code>nexus.REWARD_GRANT.ITEM_COUNT</code>. 지급 라인 수
      */
     public Integer getItemCount() {
-        return (Integer) get(9);
+        return (Integer) get(8);
     }
 
     /**
@@ -181,7 +166,7 @@ public class RewardGrantRecord extends UpdatableRecordImpl<RewardGrantRecord> {
      * 필요 없으면 제거)
      */
     public RewardGrantRecord setTotalAmount(Long value) {
-        set(10, value);
+        set(9, value);
         return this;
     }
 
@@ -190,14 +175,14 @@ public class RewardGrantRecord extends UpdatableRecordImpl<RewardGrantRecord> {
      * 필요 없으면 제거)
      */
     public Long getTotalAmount() {
-        return (Long) get(10);
+        return (Long) get(9);
     }
 
     /**
      * Setter for <code>nexus.REWARD_GRANT.CREATED_AT</code>. 데이터 생성 날짜
      */
     public RewardGrantRecord setCreatedAt(OffsetDateTime value) {
-        set(11, value);
+        set(10, value);
         return this;
     }
 
@@ -205,14 +190,14 @@ public class RewardGrantRecord extends UpdatableRecordImpl<RewardGrantRecord> {
      * Getter for <code>nexus.REWARD_GRANT.CREATED_AT</code>. 데이터 생성 날짜
      */
     public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(11);
+        return (OffsetDateTime) get(10);
     }
 
     /**
      * Setter for <code>nexus.REWARD_GRANT.CREATED_BY</code>. 데이터 생성자 ID
      */
     public RewardGrantRecord setCreatedBy(String value) {
-        set(12, value);
+        set(11, value);
         return this;
     }
 
@@ -220,14 +205,14 @@ public class RewardGrantRecord extends UpdatableRecordImpl<RewardGrantRecord> {
      * Getter for <code>nexus.REWARD_GRANT.CREATED_BY</code>. 데이터 생성자 ID
      */
     public String getCreatedBy() {
-        return (String) get(12);
+        return (String) get(11);
     }
 
     /**
      * Setter for <code>nexus.REWARD_GRANT.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public RewardGrantRecord setUpdatedAt(OffsetDateTime value) {
-        set(13, value);
+        set(12, value);
         return this;
     }
 
@@ -235,14 +220,14 @@ public class RewardGrantRecord extends UpdatableRecordImpl<RewardGrantRecord> {
      * Getter for <code>nexus.REWARD_GRANT.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(13);
+        return (OffsetDateTime) get(12);
     }
 
     /**
      * Setter for <code>nexus.REWARD_GRANT.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public RewardGrantRecord setUpdatedBy(String value) {
-        set(14, value);
+        set(13, value);
         return this;
     }
 
@@ -250,14 +235,14 @@ public class RewardGrantRecord extends UpdatableRecordImpl<RewardGrantRecord> {
      * Getter for <code>nexus.REWARD_GRANT.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public String getUpdatedBy() {
-        return (String) get(14);
+        return (String) get(13);
     }
 
     /**
      * Setter for <code>nexus.REWARD_GRANT.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public RewardGrantRecord setIsDel(String value) {
-        set(15, value);
+        set(14, value);
         return this;
     }
 
@@ -265,7 +250,7 @@ public class RewardGrantRecord extends UpdatableRecordImpl<RewardGrantRecord> {
      * Getter for <code>nexus.REWARD_GRANT.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public String getIsDel() {
-        return (String) get(15);
+        return (String) get(14);
     }
 
     // -------------------------------------------------------------------------
@@ -291,17 +276,16 @@ public class RewardGrantRecord extends UpdatableRecordImpl<RewardGrantRecord> {
     /**
      * Create a detached, initialised RewardGrantRecord
      */
-    public RewardGrantRecord(Integer grantId, Integer gameId, Integer userId, String requestId, String sourceType, String sourceId, String status, String failCode, String failMessage, Integer itemCount, Long totalAmount, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public RewardGrantRecord(Integer grantId, Integer gameId, Integer userId, String idempotencyKey, String sourceType, String sourceId, String status, String failMessage, Integer itemCount, Long totalAmount, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JRewardGrant.REWARD_GRANT);
 
         setGrantId(grantId);
         setGameId(gameId);
         setUserId(userId);
-        setRequestId(requestId);
+        setIdempotencyKey(idempotencyKey);
         setSourceType(sourceType);
         setSourceId(sourceId);
         setStatus(status);
-        setFailCode(failCode);
         setFailMessage(failMessage);
         setItemCount(itemCount);
         setTotalAmount(totalAmount);
@@ -323,11 +307,10 @@ public class RewardGrantRecord extends UpdatableRecordImpl<RewardGrantRecord> {
             setGrantId(value.getGrantId());
             setGameId(value.getGameId());
             setUserId(value.getUserId());
-            setRequestId(value.getRequestId());
+            setIdempotencyKey(value.getIdempotencyKey());
             setSourceType(value.getSourceType());
             setSourceId(value.getSourceId());
             setStatus(value.getStatus());
-            setFailCode(value.getFailCode());
             setFailMessage(value.getFailMessage());
             setItemCount(value.getItemCount());
             setTotalAmount(value.getTotalAmount());

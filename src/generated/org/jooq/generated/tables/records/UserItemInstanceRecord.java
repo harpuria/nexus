@@ -56,8 +56,7 @@ public class UserItemInstanceRecord extends UpdatableRecordImpl<UserItemInstance
     }
 
     /**
-     * Setter for <code>nexus.USER_ITEM_INSTANCE.ITEM_ID</code>. ITEM_MASTER
-     * PK(FK)
+     * Setter for <code>nexus.USER_ITEM_INSTANCE.ITEM_ID</code>. ITEM PK(FK)
      */
     public UserItemInstanceRecord setItemId(Integer value) {
         set(2, value);
@@ -65,8 +64,7 @@ public class UserItemInstanceRecord extends UpdatableRecordImpl<UserItemInstance
     }
 
     /**
-     * Getter for <code>nexus.USER_ITEM_INSTANCE.ITEM_ID</code>. ITEM_MASTER
-     * PK(FK)
+     * Getter for <code>nexus.USER_ITEM_INSTANCE.ITEM_ID</code>. ITEM PK(FK)
      */
     public Integer getItemId() {
         return (Integer) get(2);

@@ -9,7 +9,7 @@ import org.jooq.generated.tables.JCoupon;
 import org.jooq.generated.tables.JCouponUseLog;
 import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.JGameUser;
-import org.jooq.generated.tables.JItemMaster;
+import org.jooq.generated.tables.JItem;
 import org.jooq.generated.tables.JMail;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JProduct;
@@ -54,9 +54,9 @@ public class Tables {
     public static final JGameUser GAME_USER = JGameUser.GAME_USER;
 
     /**
-     * The table <code>nexus.ITEM_MASTER</code>.
+     * The table <code>nexus.ITEM</code>.
      */
-    public static final JItemMaster ITEM_MASTER = JItemMaster.ITEM_MASTER;
+    public static final JItem ITEM = JItem.ITEM;
 
     /**
      * The table <code>nexus.MAIL</code>.

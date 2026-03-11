@@ -5,7 +5,7 @@ import com.qwerty.nexus.domain.game.item.result.UserItemInstanceListResult;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.PagingEntity;
 import org.jooq.*;
-import org.jooq.generated.tables.JItemMaster;
+import org.jooq.generated.tables.JItem;
 import org.jooq.generated.tables.JUserItemInstance;
 import org.jooq.generated.tables.daos.UserItemInstanceDao;
 import org.jooq.generated.tables.records.UserItemInstanceRecord;
@@ -20,7 +20,7 @@ import java.util.Optional;
 public class UserItemInstanceRepository {
     private final DSLContext dslContext;
     private final JUserItemInstance USER_ITEM_INSTANCE = JUserItemInstance.USER_ITEM_INSTANCE;
-    private final JItemMaster ITEM = JItemMaster.ITEM_MASTER;
+    private final JItem ITEM = JItem.ITEM;
     private final UserItemInstanceDao dao;
 
     public UserItemInstanceRepository(Configuration configuration, DSLContext dslContext) {

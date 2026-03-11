@@ -15,7 +15,7 @@ import org.jooq.generated.tables.JCoupon;
 import org.jooq.generated.tables.JCouponUseLog;
 import org.jooq.generated.tables.JGame;
 import org.jooq.generated.tables.JGameUser;
-import org.jooq.generated.tables.JItemMaster;
+import org.jooq.generated.tables.JItem;
 import org.jooq.generated.tables.JMail;
 import org.jooq.generated.tables.JOrganization;
 import org.jooq.generated.tables.JProduct;
@@ -68,9 +68,9 @@ public class JNexus extends SchemaImpl {
     public final JGameUser GAME_USER = JGameUser.GAME_USER;
 
     /**
-     * The table <code>nexus.ITEM_MASTER</code>.
+     * The table <code>nexus.ITEM</code>.
      */
-    public final JItemMaster ITEM_MASTER = JItemMaster.ITEM_MASTER;
+    public final JItem ITEM = JItem.ITEM;
 
     /**
      * The table <code>nexus.MAIL</code>.
@@ -143,7 +143,7 @@ public class JNexus extends SchemaImpl {
             Sequences.COUPON_USE_LOG_LOG_ID_SEQ,
             Sequences.GAME_GAME_ID_SEQ,
             Sequences.GAME_USER_USER_ID_SEQ,
-            Sequences.ITEM_MASTER_ITEM_ID_SEQ,
+            Sequences.ITEM_ITEM_ID_SEQ,
             Sequences.MAIL_MAIL_ID_SEQ,
             Sequences.ORGANIZATION_ORG_ID_SEQ,
             Sequences.PRODUCT_PRODUCT_ID_SEQ,
@@ -165,7 +165,7 @@ public class JNexus extends SchemaImpl {
             JCouponUseLog.COUPON_USE_LOG,
             JGame.GAME,
             JGameUser.GAME_USER,
-            JItemMaster.ITEM_MASTER,
+            JItem.ITEM,
             JMail.MAIL,
             JOrganization.ORGANIZATION,
             JProduct.PRODUCT,

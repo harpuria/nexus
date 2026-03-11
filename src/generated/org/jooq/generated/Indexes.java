@@ -6,7 +6,7 @@ package org.jooq.generated;
 
 import org.jooq.Index;
 import org.jooq.OrderField;
-import org.jooq.generated.tables.JItemMaster;
+import org.jooq.generated.tables.JItem;
 import org.jooq.generated.tables.JMail;
 import org.jooq.generated.tables.JRewardGrant;
 import org.jooq.generated.tables.JRewardGrantItem;
@@ -29,29 +29,30 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
-    public static final Index IDX_ITEM_MASTER_GAME_TYPE = Internal.createIndex(DSL.name("idx_item_master_game_type"), JItemMaster.ITEM_MASTER, new OrderField[] { JItemMaster.ITEM_MASTER.GAME_ID, JItemMaster.ITEM_MASTER.ITEM_TYPE }, false);
+    public static final Index IDX_GAME = Internal.createIndex(DSL.name("IDX_GAME"), JMail.MAIL, new OrderField[] { JMail.MAIL.GAME_ID }, false);
+    public static final Index IDX_GAME_IS_DEL = Internal.createIndex(DSL.name("IDX_GAME_IS_DEL"), JMail.MAIL, new OrderField[] { JMail.MAIL.GAME_ID, JMail.MAIL.IS_DEL }, false);
+    public static final Index IDX_GAME_RECEIVED = Internal.createIndex(DSL.name("IDX_GAME_RECEIVED"), JUserMail.USER_MAIL, new OrderField[] { JUserMail.USER_MAIL.GAME_ID, JUserMail.USER_MAIL.USER_ID, JUserMail.USER_MAIL.IS_RECEIVED, JUserMail.USER_MAIL.CREATED_AT }, false);
+    public static final Index IDX_GAME_RECIPIENTS = Internal.createIndex(DSL.name("IDX_GAME_RECIPIENTS"), JMail.MAIL, new OrderField[] { JMail.MAIL.GAME_ID, JMail.MAIL.RECIPIENTS_TYPE }, false);
+    public static final Index IDX_GAME_USER_CREATED_AT = Internal.createIndex(DSL.name("IDX_GAME_USER_CREATED_AT"), JUserMail.USER_MAIL, new OrderField[] { JUserMail.USER_MAIL.GAME_ID, JUserMail.USER_MAIL.USER_ID, JUserMail.USER_MAIL.CREATED_AT }, false);
+    public static final Index IDX_ITEM_GAME_TYPE = Internal.createIndex(DSL.name("idx_item_game_type"), JItem.ITEM, new OrderField[] { JItem.ITEM.GAME_ID, JItem.ITEM.ITEM_TYPE }, false);
+    public static final Index IDX_REWARD_GRANT_GAME_TIME = Internal.createIndex(DSL.name("IDX_REWARD_GRANT_GAME_TIME"), JRewardGrant.REWARD_GRANT, new OrderField[] { JRewardGrant.REWARD_GRANT.GAME_ID, JRewardGrant.REWARD_GRANT.CREATED_AT }, false);
+    public static final Index IDX_REWARD_GRANT_ITEM_CODE_TIME = Internal.createIndex(DSL.name("IDX_REWARD_GRANT_ITEM_CODE_TIME"), JRewardGrantItem.REWARD_GRANT_ITEM, new OrderField[] { JRewardGrantItem.REWARD_GRANT_ITEM.GAME_ID, JRewardGrantItem.REWARD_GRANT_ITEM.ITEM_CODE, JRewardGrantItem.REWARD_GRANT_ITEM.CREATED_AT }, false);
+    public static final Index IDX_REWARD_GRANT_ITEM_GRANT = Internal.createIndex(DSL.name("IDX_REWARD_GRANT_ITEM_GRANT"), JRewardGrantItem.REWARD_GRANT_ITEM, new OrderField[] { JRewardGrantItem.REWARD_GRANT_ITEM.GRANT_ID }, false);
+    public static final Index IDX_REWARD_GRANT_ITEM_USER_TIME = Internal.createIndex(DSL.name("IDX_REWARD_GRANT_ITEM_USER_TIME"), JRewardGrantItem.REWARD_GRANT_ITEM, new OrderField[] { JRewardGrantItem.REWARD_GRANT_ITEM.GAME_ID, JRewardGrantItem.REWARD_GRANT_ITEM.USER_ID, JRewardGrantItem.REWARD_GRANT_ITEM.CREATED_AT }, false);
+    public static final Index IDX_REWARD_GRANT_SOURCE = Internal.createIndex(DSL.name("IDX_REWARD_GRANT_SOURCE"), JRewardGrant.REWARD_GRANT, new OrderField[] { JRewardGrant.REWARD_GRANT.GAME_ID, JRewardGrant.REWARD_GRANT.SOURCE_TYPE, JRewardGrant.REWARD_GRANT.SOURCE_ID }, false);
+    public static final Index IDX_REWARD_GRANT_USER_TIME = Internal.createIndex(DSL.name("IDX_REWARD_GRANT_USER_TIME"), JRewardGrant.REWARD_GRANT, new OrderField[] { JRewardGrant.REWARD_GRANT.GAME_ID, JRewardGrant.REWARD_GRANT.USER_ID, JRewardGrant.REWARD_GRANT.CREATED_AT }, false);
+    public static final Index IDX_SHOP_GAME_SORT = Internal.createIndex(DSL.name("IDX_SHOP_GAME_SORT"), JShop.SHOP, new OrderField[] { JShop.SHOP.GAME_ID, JShop.SHOP.SORT_ORDER }, false);
+    public static final Index IDX_SHOP_GAME_TYPE = Internal.createIndex(DSL.name("IDX_SHOP_GAME_TYPE"), JShop.SHOP, new OrderField[] { JShop.SHOP.GAME_ID, JShop.SHOP.SHOP_TYPE }, false);
+    public static final Index IDX_SHOP_PRODUCT_SORT = Internal.createIndex(DSL.name("IDX_SHOP_PRODUCT_SORT"), JShopProduct.SHOP_PRODUCT, new OrderField[] { JShopProduct.SHOP_PRODUCT.GAME_ID, JShopProduct.SHOP_PRODUCT.SHOP_ID, JShopProduct.SHOP_PRODUCT.SORT_ORDER }, false);
+    public static final Index IDX_SHOP_PRODUCT_VISIBLE = Internal.createIndex(DSL.name("IDX_SHOP_PRODUCT_VISIBLE"), JShopProduct.SHOP_PRODUCT, new OrderField[] { JShopProduct.SHOP_PRODUCT.GAME_ID, JShopProduct.SHOP_PRODUCT.SHOP_ID, JShopProduct.SHOP_PRODUCT.IS_VISIBLE }, false);
+    public static final Index IDX_USER_CREATED_AT = Internal.createIndex(DSL.name("IDX_USER_CREATED_AT"), JUserMail.USER_MAIL, new OrderField[] { JUserMail.USER_MAIL.USER_ID, JUserMail.USER_MAIL.CREATED_AT }, false);
     public static final Index IDX_USER_ITEM_INSTANCE_ITEM = Internal.createIndex(DSL.name("idx_user_item_instance_item"), JUserItemInstance.USER_ITEM_INSTANCE, new OrderField[] { JUserItemInstance.USER_ITEM_INSTANCE.ITEM_ID }, false);
     public static final Index IDX_USER_ITEM_INSTANCE_USER = Internal.createIndex(DSL.name("idx_user_item_instance_user"), JUserItemInstance.USER_ITEM_INSTANCE, new OrderField[] { JUserItemInstance.USER_ITEM_INSTANCE.USER_ID }, false);
     public static final Index IDX_USER_ITEM_STACK_ITEM = Internal.createIndex(DSL.name("idx_user_item_stack_item"), JUserItemStack.USER_ITEM_STACK, new OrderField[] { JUserItemStack.USER_ITEM_STACK.ITEM_ID }, false);
-    public static final Index IX_MAIL_GAME_ID = Internal.createIndex(DSL.name("IX_MAIL_GAME_ID"), JMail.MAIL, new OrderField[] { JMail.MAIL.GAME_ID }, false);
-    public static final Index IX_MAIL_GAME_ID_IS_DEL = Internal.createIndex(DSL.name("IX_MAIL_GAME_ID_IS_DEL"), JMail.MAIL, new OrderField[] { JMail.MAIL.GAME_ID, JMail.MAIL.IS_DEL }, false);
-    public static final Index IX_MAIL_GAME_ID_RECIPIENTS_TYPE = Internal.createIndex(DSL.name("IX_MAIL_GAME_ID_RECIPIENTS_TYPE"), JMail.MAIL, new OrderField[] { JMail.MAIL.GAME_ID, JMail.MAIL.RECIPIENTS_TYPE }, false);
-    public static final Index IX_REWARD_GRANT_GAME_TIME = Internal.createIndex(DSL.name("IX_REWARD_GRANT_GAME_TIME"), JRewardGrant.REWARD_GRANT, new OrderField[] { JRewardGrant.REWARD_GRANT.GAME_ID, JRewardGrant.REWARD_GRANT.CREATED_AT }, false);
-    public static final Index IX_REWARD_GRANT_ITEM_CODE_TIME = Internal.createIndex(DSL.name("IX_REWARD_GRANT_ITEM_CODE_TIME"), JRewardGrantItem.REWARD_GRANT_ITEM, new OrderField[] { JRewardGrantItem.REWARD_GRANT_ITEM.GAME_ID, JRewardGrantItem.REWARD_GRANT_ITEM.ITEM_CODE, JRewardGrantItem.REWARD_GRANT_ITEM.CREATED_AT }, false);
-    public static final Index IX_REWARD_GRANT_ITEM_GRANT = Internal.createIndex(DSL.name("IX_REWARD_GRANT_ITEM_GRANT"), JRewardGrantItem.REWARD_GRANT_ITEM, new OrderField[] { JRewardGrantItem.REWARD_GRANT_ITEM.GRANT_ID }, false);
-    public static final Index IX_REWARD_GRANT_ITEM_USER_TIME = Internal.createIndex(DSL.name("IX_REWARD_GRANT_ITEM_USER_TIME"), JRewardGrantItem.REWARD_GRANT_ITEM, new OrderField[] { JRewardGrantItem.REWARD_GRANT_ITEM.GAME_ID, JRewardGrantItem.REWARD_GRANT_ITEM.USER_ID, JRewardGrantItem.REWARD_GRANT_ITEM.CREATED_AT }, false);
-    public static final Index IX_REWARD_GRANT_SOURCE = Internal.createIndex(DSL.name("IX_REWARD_GRANT_SOURCE"), JRewardGrant.REWARD_GRANT, new OrderField[] { JRewardGrant.REWARD_GRANT.GAME_ID, JRewardGrant.REWARD_GRANT.SOURCE_TYPE, JRewardGrant.REWARD_GRANT.SOURCE_ID }, false);
-    public static final Index IX_REWARD_GRANT_USER_TIME = Internal.createIndex(DSL.name("IX_REWARD_GRANT_USER_TIME"), JRewardGrant.REWARD_GRANT, new OrderField[] { JRewardGrant.REWARD_GRANT.GAME_ID, JRewardGrant.REWARD_GRANT.USER_ID, JRewardGrant.REWARD_GRANT.CREATED_AT }, false);
-    public static final Index IX_SHOP_GAME_SORT = Internal.createIndex(DSL.name("IX_SHOP_GAME_SORT"), JShop.SHOP, new OrderField[] { JShop.SHOP.GAME_ID, JShop.SHOP.SORT_ORDER }, false);
-    public static final Index IX_SHOP_GAME_TYPE = Internal.createIndex(DSL.name("IX_SHOP_GAME_TYPE"), JShop.SHOP, new OrderField[] { JShop.SHOP.GAME_ID, JShop.SHOP.SHOP_TYPE }, false);
-    public static final Index IX_SHOP_PRODUCT_SORT = Internal.createIndex(DSL.name("IX_SHOP_PRODUCT_SORT"), JShopProduct.SHOP_PRODUCT, new OrderField[] { JShopProduct.SHOP_PRODUCT.GAME_ID, JShopProduct.SHOP_PRODUCT.SHOP_ID, JShopProduct.SHOP_PRODUCT.SORT_ORDER }, false);
-    public static final Index IX_SHOP_PRODUCT_VISIBLE = Internal.createIndex(DSL.name("IX_SHOP_PRODUCT_VISIBLE"), JShopProduct.SHOP_PRODUCT, new OrderField[] { JShopProduct.SHOP_PRODUCT.GAME_ID, JShopProduct.SHOP_PRODUCT.SHOP_ID, JShopProduct.SHOP_PRODUCT.IS_VISIBLE }, false);
-    public static final Index IX_USER_MAIL_GAME_ID_USER_ID_CREATED_AT = Internal.createIndex(DSL.name("IX_USER_MAIL_GAME_ID_USER_ID_CREATED_AT"), JUserMail.USER_MAIL, new OrderField[] { JUserMail.USER_MAIL.GAME_ID, JUserMail.USER_MAIL.USER_ID, JUserMail.USER_MAIL.CREATED_AT }, false);
-    public static final Index IX_USER_MAIL_USER_ID_CREATED_AT = Internal.createIndex(DSL.name("IX_USER_MAIL_USER_ID_CREATED_AT"), JUserMail.USER_MAIL, new OrderField[] { JUserMail.USER_MAIL.USER_ID, JUserMail.USER_MAIL.CREATED_AT }, false);
-    public static final Index UK_REWARD_GRANT_REQUEST_ID = Internal.createIndex(DSL.name("UK_REWARD_GRANT_REQUEST_ID"), JRewardGrant.REWARD_GRANT, new OrderField[] { JRewardGrant.REWARD_GRANT.GAME_ID, JRewardGrant.REWARD_GRANT.REQUEST_ID }, true);
-    public static final Index UK_SHOP_GAME_CODE = Internal.createIndex(DSL.name("UK_SHOP_GAME_CODE"), JShop.SHOP, new OrderField[] { JShop.SHOP.GAME_ID, JShop.SHOP.SHOP_CODE }, true);
-    public static final Index UK_SHOP_PRODUCT = Internal.createIndex(DSL.name("UK_SHOP_PRODUCT"), JShopProduct.SHOP_PRODUCT, new OrderField[] { JShopProduct.SHOP_PRODUCT.SHOP_ID, JShopProduct.SHOP_PRODUCT.PRODUCT_ID }, true);
-    public static final Index UK_USER_MAIL = Internal.createIndex(DSL.name("UK_USER_MAIL"), JUserMail.USER_MAIL, new OrderField[] { JUserMail.USER_MAIL.MAIL_ID, JUserMail.USER_MAIL.USER_ID }, true);
-    public static final Index UQ_ITEM_MASTER_GAME_ITEM_CODE = Internal.createIndex(DSL.name("uq_item_master_game_item_code"), JItemMaster.ITEM_MASTER, new OrderField[] { JItemMaster.ITEM_MASTER.GAME_ID, JItemMaster.ITEM_MASTER.ITEM_CODE }, true);
-    public static final Index UQ_USER_ITEM_STACK_USER_ITEM = Internal.createIndex(DSL.name("uq_user_item_stack_user_item"), JUserItemStack.USER_ITEM_STACK, new OrderField[] { JUserItemStack.USER_ITEM_STACK.USER_ID, JUserItemStack.USER_ITEM_STACK.ITEM_ID }, true);
+    public static final Index UNQ_ITEM_GAME_ITEM_CODE = Internal.createIndex(DSL.name("unq_item_game_item_code"), JItem.ITEM, new OrderField[] { JItem.ITEM.GAME_ID, JItem.ITEM.ITEM_CODE }, true);
+    public static final Index UNQ_MAIL_USER = Internal.createIndex(DSL.name("UNQ_MAIL_USER"), JUserMail.USER_MAIL, new OrderField[] { JUserMail.USER_MAIL.MAIL_ID, JUserMail.USER_MAIL.USER_ID }, true);
+    public static final Index UNQ_REWARD_GRANT_IDEMPOTENCY_KEY = Internal.createIndex(DSL.name("UNQ_REWARD_GRANT_IDEMPOTENCY_KEY"), JRewardGrant.REWARD_GRANT, new OrderField[] { JRewardGrant.REWARD_GRANT.GAME_ID, JRewardGrant.REWARD_GRANT.IDEMPOTENCY_KEY }, true);
+    public static final Index UNQ_SHOP_GAME_CODE = Internal.createIndex(DSL.name("UNQ_SHOP_GAME_CODE"), JShop.SHOP, new OrderField[] { JShop.SHOP.GAME_ID, JShop.SHOP.SHOP_CODE }, true);
+    public static final Index UNQ_SHOP_PRODUCT = Internal.createIndex(DSL.name("UNQ_SHOP_PRODUCT"), JShopProduct.SHOP_PRODUCT, new OrderField[] { JShopProduct.SHOP_PRODUCT.SHOP_ID, JShopProduct.SHOP_PRODUCT.PRODUCT_ID }, true);
+    public static final Index UNQ_USER_ITEM_STACK_USER_ITEM = Internal.createIndex(DSL.name("unq_user_item_stack_user_item"), JUserItemStack.USER_ITEM_STACK, new OrderField[] { JUserItemStack.USER_ITEM_STACK.USER_ID, JUserItemStack.USER_ITEM_STACK.ITEM_ID }, true);
 }

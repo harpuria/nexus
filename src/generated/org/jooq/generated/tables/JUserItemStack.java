@@ -32,7 +32,7 @@ import org.jooq.generated.Indexes;
 import org.jooq.generated.JNexus;
 import org.jooq.generated.Keys;
 import org.jooq.generated.tables.JGameUser.GameUserPath;
-import org.jooq.generated.tables.JItemMaster.ItemMasterPath;
+import org.jooq.generated.tables.JItem.ItemPath;
 import org.jooq.generated.tables.records.UserItemStackRecord;
 import org.jooq.impl.DSL;
 import org.jooq.impl.Internal;
@@ -73,9 +73,9 @@ public class JUserItemStack extends TableImpl<UserItemStackRecord> {
     public final TableField<UserItemStackRecord, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER.nullable(false), this, "GAME_USER PK(FK)");
 
     /**
-     * The column <code>nexus.USER_ITEM_STACK.ITEM_ID</code>. ITEM_MASTER PK(FK)
+     * The column <code>nexus.USER_ITEM_STACK.ITEM_ID</code>. ITEM PK(FK)
      */
-    public final TableField<UserItemStackRecord, Integer> ITEM_ID = createField(DSL.name("ITEM_ID"), SQLDataType.INTEGER.nullable(false), this, "ITEM_MASTER PK(FK)");
+    public final TableField<UserItemStackRecord, Integer> ITEM_ID = createField(DSL.name("ITEM_ID"), SQLDataType.INTEGER.nullable(false), this, "ITEM PK(FK)");
 
     /**
      * The column <code>nexus.USER_ITEM_STACK.AMOUNT</code>. 보유 수량
@@ -176,7 +176,7 @@ public class JUserItemStack extends TableImpl<UserItemStackRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.asList(Indexes.IDX_USER_ITEM_STACK_ITEM, Indexes.UQ_USER_ITEM_STACK_USER_ITEM);
+        return Arrays.asList(Indexes.IDX_USER_ITEM_STACK_ITEM, Indexes.UNQ_USER_ITEM_STACK_USER_ITEM);
     }
 
     @Override
@@ -189,16 +189,16 @@ public class JUserItemStack extends TableImpl<UserItemStackRecord> {
         return Arrays.asList(Keys.USER_ITEM_STACK__USER_ITEM_STACK_ITEM_ID_FKEY, Keys.USER_ITEM_STACK__USER_ITEM_STACK_USER_ID_FKEY);
     }
 
-    private transient ItemMasterPath _itemMaster;
+    private transient ItemPath _item;
 
     /**
-     * Get the implicit join path to the <code>nexus.ITEM_MASTER</code> table.
+     * Get the implicit join path to the <code>nexus.ITEM</code> table.
      */
-    public ItemMasterPath itemMaster() {
-        if (_itemMaster == null)
-            _itemMaster = new ItemMasterPath(this, Keys.USER_ITEM_STACK__USER_ITEM_STACK_ITEM_ID_FKEY, null);
+    public ItemPath item() {
+        if (_item == null)
+            _item = new ItemPath(this, Keys.USER_ITEM_STACK__USER_ITEM_STACK_ITEM_ID_FKEY, null);
 
-        return _itemMaster;
+        return _item;
     }
 
     private transient GameUserPath _gameUser;

@@ -100,18 +100,18 @@ public class RewardGrantDao extends DAOImpl<RewardGrantRecord, RewardGrant, Inte
     }
 
     /**
-     * Fetch records that have <code>REQUEST_ID BETWEEN lowerInclusive AND
+     * Fetch records that have <code>IDEMPOTENCY_KEY BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<RewardGrant> fetchRangeOfJRequestId(String lowerInclusive, String upperInclusive) {
-        return fetchRange(JRewardGrant.REWARD_GRANT.REQUEST_ID, lowerInclusive, upperInclusive);
+    public List<RewardGrant> fetchRangeOfJIdempotencyKey(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JRewardGrant.REWARD_GRANT.IDEMPOTENCY_KEY, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>REQUEST_ID IN (values)</code>
+     * Fetch records that have <code>IDEMPOTENCY_KEY IN (values)</code>
      */
-    public List<RewardGrant> fetchByJRequestId(String... values) {
-        return fetch(JRewardGrant.REWARD_GRANT.REQUEST_ID, values);
+    public List<RewardGrant> fetchByJIdempotencyKey(String... values) {
+        return fetch(JRewardGrant.REWARD_GRANT.IDEMPOTENCY_KEY, values);
     }
 
     /**
@@ -157,21 +157,6 @@ public class RewardGrantDao extends DAOImpl<RewardGrantRecord, RewardGrant, Inte
      */
     public List<RewardGrant> fetchByJStatus(String... values) {
         return fetch(JRewardGrant.REWARD_GRANT.STATUS, values);
-    }
-
-    /**
-     * Fetch records that have <code>FAIL_CODE BETWEEN lowerInclusive AND
-     * upperInclusive</code>
-     */
-    public List<RewardGrant> fetchRangeOfJFailCode(String lowerInclusive, String upperInclusive) {
-        return fetchRange(JRewardGrant.REWARD_GRANT.FAIL_CODE, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>FAIL_CODE IN (values)</code>
-     */
-    public List<RewardGrant> fetchByJFailCode(String... values) {
-        return fetch(JRewardGrant.REWARD_GRANT.FAIL_CODE, values);
     }
 
     /**

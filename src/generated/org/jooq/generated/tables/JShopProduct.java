@@ -257,7 +257,7 @@ public class JShopProduct extends TableImpl<ShopProductRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.asList(Indexes.IX_SHOP_PRODUCT_SORT, Indexes.IX_SHOP_PRODUCT_VISIBLE, Indexes.UK_SHOP_PRODUCT);
+        return Arrays.asList(Indexes.IDX_SHOP_PRODUCT_SORT, Indexes.IDX_SHOP_PRODUCT_VISIBLE, Indexes.UNQ_SHOP_PRODUCT);
     }
 
     @Override

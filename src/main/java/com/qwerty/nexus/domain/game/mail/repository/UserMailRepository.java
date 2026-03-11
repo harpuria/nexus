@@ -3,12 +3,15 @@ package com.qwerty.nexus.domain.game.mail.repository;
 import com.qwerty.nexus.domain.game.mail.entity.UserMailEntity;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.PagingEntity;
+import io.jsonwebtoken.lang.Collections;
 import org.jooq.*;
 import org.jooq.generated.tables.JUserMail;
 import org.jooq.generated.tables.daos.UserMailDao;
 import org.jooq.generated.tables.records.UserMailRecord;
+import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -25,7 +28,7 @@ public class UserMailRepository {
     }
 
     /**
-     * 유저 메일 추가
+     * 유저 우편 추가
      * @param userMailEntity
      * @return
      */
@@ -39,29 +42,14 @@ public class UserMailRepository {
             return r;
         }).toList();
 
-        dslContext.batchInsert(records).execute(); // 다량 insert 할 때 유리 함
-
-        return userIds.stream()
-                .map(userId -> {
-                    UserMailEntity entity = UserMailEntity.builder()
-                            .gameId(userMailEntity.getGameId())
-                            .mailId(userMailEntity.getMailId())
-                            .userId(userId)
-                            .title(userMailEntity.getTitle())
-                            .content(userMailEntity.getContent())
-                            .rewards(userMailEntity.getRewards())
-                            .expireAt(userMailEntity.getExpireAt())
-                            .createdBy(userMailEntity.getCreatedBy())
-                            .updatedBy(userMailEntity.getUpdatedBy())
-                            .build();
-
-                    UserMailRecord record = dslContext.newRecord(USER_MAIL, entity);
-                    record.store();
-                    return record.getUserMailId();
-                })
-                .toList();
+        return Arrays.stream(dslContext.batchInsert(records).execute()).boxed().toList();
     }
 
+    /**
+     * 우편 단건 조회
+     * @param userMailId
+     * @return
+     */
     public Optional<UserMailEntity> findByUserMailId(Integer userMailId) {
         return Optional.ofNullable(dslContext.selectFrom(USER_MAIL)
                 .where(USER_MAIL.USER_MAIL_ID.eq(userMailId))
@@ -69,6 +57,12 @@ public class UserMailRepository {
                 .fetchOneInto(UserMailEntity.class));
     }
 
+    /**
+     * 우편 목록 조회
+     * @param pagingEntity
+     * @param userId
+     * @return
+     */
     public List<UserMailEntity> findAllByUserId(PagingEntity pagingEntity, Integer userId) {
         int size = pagingEntity.getSize() > 0 ? pagingEntity.getSize() : ApiConstants.Pagination.DEFAULT_PAGE_SIZE;
         int page = Math.max(pagingEntity.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
@@ -82,6 +76,12 @@ public class UserMailRepository {
                 .fetchInto(UserMailEntity.class);
     }
 
+    /**
+     * 우편 목록 조회 (받았는지 안받았는지 여부로 체크)
+     * @param userId 유저아이디(PK)
+     * @param isReceived 받았는지 여부
+     * @return
+     */
     public List<UserMailEntity> findAllByUserIdAndIsReceived(Integer userId, String isReceived) {
         return dslContext.selectFrom(USER_MAIL)
                 .where(USER_MAIL.USER_ID.eq(userId))
@@ -90,6 +90,11 @@ public class UserMailRepository {
                 .fetchInto(UserMailEntity.class);
     }
 
+    /**
+     * 유저 우편 개수 카운트
+     * @param userId
+     * @return
+     */
     public long countByUserId(Integer userId) {
         Long totalCount = dslContext.selectCount()
                 .from(USER_MAIL)
@@ -100,6 +105,11 @@ public class UserMailRepository {
         return totalCount != null ? totalCount : 0L;
     }
 
+    /**
+     * 유저 우편 수정
+     * @param entity
+     * @return
+     */
     public int updateUserMail(UserMailEntity entity) {
         UserMailRecord record = dslContext.newRecord(USER_MAIL, entity);
         record.changed(USER_MAIL.IS_READ, entity.getIsRead() != null);
@@ -111,6 +121,30 @@ public class UserMailRepository {
         return record.update();
     }
 
+    /**
+     * 유저 전체 우편 수정 (읽었고, 보상받은 건들 논리적 삭제 처리)
+     * @param userId
+     * @return
+     */
+    public int updateAllUserMail(Integer userId) {
+        Condition condition = DSL.noCondition();
+        condition = condition.and(USER_MAIL.IS_DEL.eq("N"));
+        condition = condition.and(USER_MAIL.USER_ID.eq(userId));
+        condition = condition.and(USER_MAIL.IS_RECEIVED.eq("Y"));
+        condition = condition.and(USER_MAIL.IS_READ.eq("Y"));
+
+        return dslContext.update(USER_MAIL)
+                .set(USER_MAIL.IS_DEL, "Y")
+                .where(condition)
+                .execute();
+    }
+
+    /**
+     * 정렬 필드 설정
+     * @param sort
+     * @param direction
+     * @return
+     */
     private SortField<?> resolveSortField(String sort, String direction) {
         String sortKey = Optional.ofNullable(sort)
                 .orElse(ApiConstants.Pagination.DEFAULT_SORT_FIELD)

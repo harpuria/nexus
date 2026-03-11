@@ -220,7 +220,7 @@ public class JUserMail extends TableImpl<UserMailRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.asList(Indexes.IX_USER_MAIL_GAME_ID_USER_ID_CREATED_AT, Indexes.IX_USER_MAIL_USER_ID_CREATED_AT, Indexes.UK_USER_MAIL);
+        return Arrays.asList(Indexes.IDX_GAME_RECEIVED, Indexes.IDX_GAME_USER_CREATED_AT, Indexes.IDX_USER_CREATED_AT, Indexes.UNQ_MAIL_USER);
     }
 
     @Override

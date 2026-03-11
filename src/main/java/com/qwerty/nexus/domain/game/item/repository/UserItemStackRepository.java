@@ -5,7 +5,7 @@ import com.qwerty.nexus.domain.game.item.result.UserItemStackListResult;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.PagingEntity;
 import org.jooq.*;
-import org.jooq.generated.tables.JItemMaster;
+import org.jooq.generated.tables.JItem;
 import org.jooq.generated.tables.JUserItemStack;
 import org.jooq.generated.tables.daos.UserItemStackDao;
 import org.jooq.generated.tables.records.UserItemStackRecord;
@@ -20,7 +20,7 @@ import java.util.Optional;
 public class UserItemStackRepository {
     private final DSLContext dslContext;
     private final JUserItemStack USER_ITEM_STACK = JUserItemStack.USER_ITEM_STACK;
-    private final JItemMaster ITEM = JItemMaster.ITEM_MASTER;
+    private final JItem ITEM = JItem.ITEM;
     private final UserItemStackDao dao;
 
     public UserItemStackRepository(Configuration configuration, DSLContext dslContext) {

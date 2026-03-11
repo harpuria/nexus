@@ -78,10 +78,10 @@ public class JRewardGrant extends TableImpl<RewardGrantRecord> {
     public final TableField<RewardGrantRecord, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER.nullable(false), this, "유저 ID (FK)");
 
     /**
-     * The column <code>nexus.REWARD_GRANT.REQUEST_ID</code>. 멱등키 (예:
+     * The column <code>nexus.REWARD_GRANT.IDEMPOTENCY_KEY</code>. 멱등키 (예:
      * MAIL:uid:mailId, SHOP:orderId)
      */
-    public final TableField<RewardGrantRecord, String> REQUEST_ID = createField(DSL.name("REQUEST_ID"), SQLDataType.VARCHAR(128).nullable(false), this, "멱등키 (예: MAIL:uid:mailId, SHOP:orderId)");
+    public final TableField<RewardGrantRecord, String> IDEMPOTENCY_KEY = createField(DSL.name("IDEMPOTENCY_KEY"), SQLDataType.VARCHAR(128).nullable(false), this, "멱등키 (예: MAIL:uid:mailId, SHOP:orderId)");
 
     /**
      * The column <code>nexus.REWARD_GRANT.SOURCE_TYPE</code>. 보상 출처 타입
@@ -100,15 +100,10 @@ public class JRewardGrant extends TableImpl<RewardGrantRecord> {
     public final TableField<RewardGrantRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(10).nullable(false).defaultValue(DSL.field(DSL.raw("'PENDING'::character varying"), SQLDataType.VARCHAR)), this, "작업 성공 여부");
 
     /**
-     * The column <code>nexus.REWARD_GRANT.FAIL_CODE</code>. 실패 코드(선택)
+     * The column <code>nexus.REWARD_GRANT.FAIL_MESSAGE</code>. 실패시 저장하는 메시지
+     * (선택사항)
      */
-    public final TableField<RewardGrantRecord, String> FAIL_CODE = createField(DSL.name("FAIL_CODE"), SQLDataType.VARCHAR(64), this, "실패 코드(선택)");
-
-    /**
-     * The column <code>nexus.REWARD_GRANT.FAIL_MESSAGE</code>. 실패 메시지(선택, 과도한
-     * 상세 스택은 지양)
-     */
-    public final TableField<RewardGrantRecord, String> FAIL_MESSAGE = createField(DSL.name("FAIL_MESSAGE"), SQLDataType.CLOB, this, "실패 메시지(선택, 과도한 상세 스택은 지양)");
+    public final TableField<RewardGrantRecord, String> FAIL_MESSAGE = createField(DSL.name("FAIL_MESSAGE"), SQLDataType.VARCHAR(255), this, "실패시 저장하는 메시지 (선택사항)");
 
     /**
      * The column <code>nexus.REWARD_GRANT.ITEM_COUNT</code>. 지급 라인 수
@@ -215,7 +210,7 @@ public class JRewardGrant extends TableImpl<RewardGrantRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.asList(Indexes.IX_REWARD_GRANT_GAME_TIME, Indexes.IX_REWARD_GRANT_SOURCE, Indexes.IX_REWARD_GRANT_USER_TIME, Indexes.UK_REWARD_GRANT_REQUEST_ID);
+        return Arrays.asList(Indexes.IDX_REWARD_GRANT_GAME_TIME, Indexes.IDX_REWARD_GRANT_SOURCE, Indexes.IDX_REWARD_GRANT_USER_TIME, Indexes.UNQ_REWARD_GRANT_IDEMPOTENCY_KEY);
     }
 
     @Override

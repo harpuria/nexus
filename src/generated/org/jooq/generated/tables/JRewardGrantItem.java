@@ -86,15 +86,15 @@ public class JRewardGrantItem extends TableImpl<RewardGrantItemRecord> {
 
     /**
      * The column <code>nexus.REWARD_GRANT_ITEM.ITEM_CODE</code>. 지급 아이템
-     * 코드(ITEM_MASTER.ITEM_CODE)
+     * 코드(ITEM.ITEM_CODE)
      */
-    public final TableField<RewardGrantItemRecord, String> ITEM_CODE = createField(DSL.name("ITEM_CODE"), SQLDataType.VARCHAR(64).nullable(false), this, "지급 아이템 코드(ITEM_MASTER.ITEM_CODE)");
+    public final TableField<RewardGrantItemRecord, String> ITEM_CODE = createField(DSL.name("ITEM_CODE"), SQLDataType.VARCHAR(64).nullable(false), this, "지급 아이템 코드(ITEM.ITEM_CODE)");
 
     /**
-     * The column <code>nexus.REWARD_GRANT_ITEM.ITEM_ID</code>. 지급 당시
-     * ITEM_MASTER의 ITEM_ID 스냅샷(선택)
+     * The column <code>nexus.REWARD_GRANT_ITEM.ITEM_ID</code>. 지급 당시 ITEM의
+     * ITEM_ID 스냅샷(선택)
      */
-    public final TableField<RewardGrantItemRecord, Integer> ITEM_ID = createField(DSL.name("ITEM_ID"), SQLDataType.INTEGER, this, "지급 당시 ITEM_MASTER의 ITEM_ID 스냅샷(선택)");
+    public final TableField<RewardGrantItemRecord, Integer> ITEM_ID = createField(DSL.name("ITEM_ID"), SQLDataType.INTEGER, this, "지급 당시 ITEM의 ITEM_ID 스냅샷(선택)");
 
     /**
      * The column <code>nexus.REWARD_GRANT_ITEM.AMOUNT</code>. 지급 수량 (인스턴스형이면 1
@@ -207,7 +207,7 @@ public class JRewardGrantItem extends TableImpl<RewardGrantItemRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.asList(Indexes.IX_REWARD_GRANT_ITEM_CODE_TIME, Indexes.IX_REWARD_GRANT_ITEM_GRANT, Indexes.IX_REWARD_GRANT_ITEM_USER_TIME);
+        return Arrays.asList(Indexes.IDX_REWARD_GRANT_ITEM_CODE_TIME, Indexes.IDX_REWARD_GRANT_ITEM_GRANT, Indexes.IDX_REWARD_GRANT_ITEM_USER_TIME);
     }
 
     @Override
