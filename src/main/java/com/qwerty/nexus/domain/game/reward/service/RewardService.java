@@ -137,7 +137,7 @@ public class RewardService {
             throw new IllegalArgumentException("유저 ID가 올바르지 않습니다.");
         }
 
-        if (!StringUtils.hasText(grantDto.getSourceType()) || !StringUtils.hasText(grantDto.getSourceId())) {
+        if (grantDto.getSourceType() == null) {
             throw new IllegalArgumentException("보상 출처는 필수입니다.");
         }
 

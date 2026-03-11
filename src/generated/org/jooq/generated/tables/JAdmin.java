@@ -236,7 +236,7 @@ public class JAdmin extends TableImpl<AdminRecord> {
     @Override
     public List<Check<AdminRecord>> getChecks() {
         return Arrays.asList(
-            Internal.createCheck(this, DSL.name("ADMIN_ADMIN_ROLE_check"), "(((\"ADMIN_ROLE\")::text = ANY ((ARRAY['NEXUS'::character varying, 'SUPER'::character varying, 'ADMIN'::character varying, 'OPERATOR'::character varying, 'NO_ROLE'::character varying])::text[])))", true),
+            Internal.createCheck(this, DSL.name("ADMIN_ADMIN_ROLE_check"), "(((\"ADMIN_ROLE\")::text = ANY ((ARRAY['NEXUS'::character varying, 'SUPER'::character varying, 'ADMIN'::character varying, 'NONE'::character varying])::text[])))", true),
             Internal.createCheck(this, DSL.name("ADMIN_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true)
         );
     }

@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.reward.entity;
 
+import com.qwerty.nexus.domain.game.reward.SourceType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,7 +13,7 @@ public class RewardGrantEntity {
     private Integer gameId;
     private Integer userId;
     private String idempotencyKey;
-    private String sourceType;
+    private SourceType sourceType;
     private String sourceId;
     private String status;
     private String failCode;

@@ -136,7 +136,6 @@ public class AdminController {
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
-
     /**
      * 관리자 로그인
      * @param dto 관리자 정보를 담은 객체 (DTO)

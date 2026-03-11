@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.records;
 
 
+import com.qwerty.nexus.domain.game.item.ItemType;
+
 import java.time.OffsetDateTime;
 
 import org.jooq.JSONB;
@@ -22,7 +24,7 @@ public class ItemRecord extends UpdatableRecordImpl<ItemRecord> {
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>nexus.ITEM.ITEM_ID</code>. 아이템 마스터 PK
+     * Setter for <code>nexus.ITEM.ITEM_ID</code>. 아이템 PK
      */
     public ItemRecord setItemId(Integer value) {
         set(0, value);
@@ -30,7 +32,7 @@ public class ItemRecord extends UpdatableRecordImpl<ItemRecord> {
     }
 
     /**
-     * Getter for <code>nexus.ITEM.ITEM_ID</code>. 아이템 마스터 PK
+     * Getter for <code>nexus.ITEM.ITEM_ID</code>. 아이템 PK
      */
     public Integer getItemId() {
         return (Integer) get(0);
@@ -99,7 +101,7 @@ public class ItemRecord extends UpdatableRecordImpl<ItemRecord> {
     /**
      * Setter for <code>nexus.ITEM.ITEM_TYPE</code>. 아이템 타입
      */
-    public ItemRecord setItemType(String value) {
+    public ItemRecord setItemType(ItemType value) {
         set(5, value);
         return this;
     }
@@ -107,8 +109,8 @@ public class ItemRecord extends UpdatableRecordImpl<ItemRecord> {
     /**
      * Getter for <code>nexus.ITEM.ITEM_TYPE</code>. 아이템 타입
      */
-    public String getItemType() {
-        return (String) get(5);
+    public ItemType getItemType() {
+        return (ItemType) get(5);
     }
 
     /**
@@ -299,7 +301,7 @@ public class ItemRecord extends UpdatableRecordImpl<ItemRecord> {
     /**
      * Create a detached, initialised ItemRecord
      */
-    public ItemRecord(Integer itemId, Integer gameId, String itemCode, String name, String desc, String itemType, String isStackable, Long defaultStack, Long maxStack, String rarity, String iconPath, JSONB metaJson, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public ItemRecord(Integer itemId, Integer gameId, String itemCode, String name, String desc, ItemType itemType, String isStackable, Long defaultStack, Long maxStack, String rarity, String iconPath, JSONB metaJson, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JItem.ITEM);
 
         setItemId(itemId);

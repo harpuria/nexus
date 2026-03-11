@@ -18,6 +18,7 @@ import com.qwerty.nexus.domain.game.item.entity.UserItemStackEntity;
 import com.qwerty.nexus.domain.game.item.repository.ItemRepository;
 import com.qwerty.nexus.domain.game.item.repository.UserItemInstanceRepository;
 import com.qwerty.nexus.domain.game.item.repository.UserItemStackRepository;
+import com.qwerty.nexus.domain.game.reward.SourceType;
 import com.qwerty.nexus.domain.game.reward.dto.GrantDto;
 import com.qwerty.nexus.domain.game.reward.service.RewardService;
 import com.qwerty.nexus.domain.game.user.entity.GameUserEntity;
@@ -300,7 +301,7 @@ public class CouponService {
                 .gameId(dto.getGameId())
                 .userId(dto.getUserId())
                 .rewards(rewardInfos)
-                .sourceType(ApiConstants.Domain.COUPON)
+                .sourceType(SourceType.COUPON)
                 .sourceId(dto.getCouponCode())
                 .build();
         boolean grantRst = rewardService.grant(grantDto);

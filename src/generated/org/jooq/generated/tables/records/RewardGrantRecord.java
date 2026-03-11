@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.records;
 
 
+import com.qwerty.nexus.domain.game.reward.SourceType;
+
 import java.time.OffsetDateTime;
 
 import org.jooq.Record1;
@@ -85,7 +87,7 @@ public class RewardGrantRecord extends UpdatableRecordImpl<RewardGrantRecord> {
     /**
      * Setter for <code>nexus.REWARD_GRANT.SOURCE_TYPE</code>. 보상 출처 타입
      */
-    public RewardGrantRecord setSourceType(String value) {
+    public RewardGrantRecord setSourceType(SourceType value) {
         set(4, value);
         return this;
     }
@@ -93,8 +95,8 @@ public class RewardGrantRecord extends UpdatableRecordImpl<RewardGrantRecord> {
     /**
      * Getter for <code>nexus.REWARD_GRANT.SOURCE_TYPE</code>. 보상 출처 타입
      */
-    public String getSourceType() {
-        return (String) get(4);
+    public SourceType getSourceType() {
+        return (SourceType) get(4);
     }
 
     /**
@@ -276,7 +278,7 @@ public class RewardGrantRecord extends UpdatableRecordImpl<RewardGrantRecord> {
     /**
      * Create a detached, initialised RewardGrantRecord
      */
-    public RewardGrantRecord(Integer grantId, Integer gameId, Integer userId, String idempotencyKey, String sourceType, String sourceId, String status, String failMessage, Integer itemCount, Long totalAmount, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public RewardGrantRecord(Integer grantId, Integer gameId, Integer userId, String idempotencyKey, SourceType sourceType, String sourceId, String status, String failMessage, Integer itemCount, Long totalAmount, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JRewardGrant.REWARD_GRANT);
 
         setGrantId(grantId);

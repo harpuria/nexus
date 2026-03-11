@@ -4,6 +4,8 @@
 package org.jooq.generated.tables;
 
 
+import com.qwerty.nexus.domain.game.item.ItemType;
+
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collection;
@@ -37,6 +39,7 @@ import org.jooq.generated.tables.JUserItemInstance.UserItemInstancePath;
 import org.jooq.generated.tables.JUserItemStack.UserItemStackPath;
 import org.jooq.generated.tables.records.ItemRecord;
 import org.jooq.impl.DSL;
+import org.jooq.impl.EnumConverter;
 import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
@@ -64,9 +67,9 @@ public class JItem extends TableImpl<ItemRecord> {
     }
 
     /**
-     * The column <code>nexus.ITEM.ITEM_ID</code>. 아이템 마스터 PK
+     * The column <code>nexus.ITEM.ITEM_ID</code>. 아이템 PK
      */
-    public final TableField<ItemRecord, Integer> ITEM_ID = createField(DSL.name("ITEM_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"ITEM_ITEM_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "아이템 마스터 PK");
+    public final TableField<ItemRecord, Integer> ITEM_ID = createField(DSL.name("ITEM_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"ITEM_ITEM_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "아이템 PK");
 
     /**
      * The column <code>nexus.ITEM.GAME_ID</code>. 게임 ID (FK)
@@ -91,7 +94,7 @@ public class JItem extends TableImpl<ItemRecord> {
     /**
      * The column <code>nexus.ITEM.ITEM_TYPE</code>. 아이템 타입
      */
-    public final TableField<ItemRecord, String> ITEM_TYPE = createField(DSL.name("ITEM_TYPE"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.field(DSL.raw("'ETC'::character varying"), SQLDataType.VARCHAR)), this, "아이템 타입");
+    public final TableField<ItemRecord, ItemType> ITEM_TYPE = createField(DSL.name("ITEM_TYPE"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.field(DSL.raw("'ETC'::character varying"), SQLDataType.VARCHAR)), this, "아이템 타입", new EnumConverter<String, ItemType>(String.class, ItemType.class));
 
     /**
      * The column <code>nexus.ITEM.IS_STACKABLE</code>. 스택형 여부 (Y:수량형, N:인스턴스형)

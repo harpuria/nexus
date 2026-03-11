@@ -4,6 +4,8 @@
 package org.jooq.generated.tables;
 
 
+import com.qwerty.nexus.domain.game.reward.SourceType;
+
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collection;
@@ -36,6 +38,7 @@ import org.jooq.generated.tables.JGameUser.GameUserPath;
 import org.jooq.generated.tables.JRewardGrantItem.RewardGrantItemPath;
 import org.jooq.generated.tables.records.RewardGrantRecord;
 import org.jooq.impl.DSL;
+import org.jooq.impl.EnumConverter;
 import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
@@ -86,7 +89,7 @@ public class JRewardGrant extends TableImpl<RewardGrantRecord> {
     /**
      * The column <code>nexus.REWARD_GRANT.SOURCE_TYPE</code>. 보상 출처 타입
      */
-    public final TableField<RewardGrantRecord, String> SOURCE_TYPE = createField(DSL.name("SOURCE_TYPE"), SQLDataType.VARCHAR(32).nullable(false), this, "보상 출처 타입");
+    public final TableField<RewardGrantRecord, SourceType> SOURCE_TYPE = createField(DSL.name("SOURCE_TYPE"), SQLDataType.VARCHAR(32).nullable(false), this, "보상 출처 타입", new EnumConverter<String, SourceType>(String.class, SourceType.class));
 
     /**
      * The column <code>nexus.REWARD_GRANT.SOURCE_ID</code>. 출처
@@ -264,7 +267,7 @@ public class JRewardGrant extends TableImpl<RewardGrantRecord> {
     public List<Check<RewardGrantRecord>> getChecks() {
         return Arrays.asList(
             Internal.createCheck(this, DSL.name("REWARD_GRANT_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
-            Internal.createCheck(this, DSL.name("REWARD_GRANT_SOURCE_TYPE_check"), "(((\"SOURCE_TYPE\")::text = ANY ((ARRAY['SHOP'::character varying, 'MAIL'::character varying, 'GACHA'::character varying, 'COUPON'::character varying, 'ATTENDANCE'::character varying, 'QUEST'::character varying, 'EVENT'::character varying, 'GM'::character varying, 'ETC'::character varying])::text[])))", true),
+            Internal.createCheck(this, DSL.name("REWARD_GRANT_SOURCE_TYPE_check"), "(((\"SOURCE_TYPE\")::text = ANY ((ARRAY['SHOP'::character varying, 'MAIL'::character varying, 'GACHA'::character varying, 'COUPON'::character varying, 'ATTENDANCE'::character varying, 'ACHIEVEMENT'::character varying, 'QUEST'::character varying, 'STAGE'::character varying, 'EVENT'::character varying, 'GM'::character varying, 'ETC'::character varying])::text[])))", true),
             Internal.createCheck(this, DSL.name("REWARD_GRANT_STATUS_check"), "(((\"STATUS\")::text = ANY ((ARRAY['PENDING'::character varying, 'SUCCESS'::character varying, 'FAILED'::character varying])::text[])))", true)
         );
     }

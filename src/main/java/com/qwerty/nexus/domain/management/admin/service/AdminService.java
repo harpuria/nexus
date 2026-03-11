@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.management.admin.service;
 
+import com.qwerty.nexus.domain.management.admin.AdminRole;
 import com.qwerty.nexus.domain.management.admin.dto.request.*;
 import com.qwerty.nexus.domain.management.admin.dto.response.AdminListResponseDto;
 import com.qwerty.nexus.domain.management.admin.entity.AdminEntity;
@@ -271,6 +272,10 @@ public class AdminService {
 
         if ("Y".equalsIgnoreCase(admin.getIsDel())) {
             return Result.Failure.of("삭제된 관리자 계정입니다.", ErrorCode.ACCOUNT_DISABLED.getCode());
+        }
+
+        if (admin.getAdminRole() == AdminRole.NONE) {
+            return Result.Failure.of("접근권한이 없습니다.", ErrorCode.ACCOUNT_DISABLED.getCode());
         }
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

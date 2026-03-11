@@ -70,7 +70,8 @@ def enumMappings = [
 		[type: "com.qwerty.nexus.domain.game.coupon.TimeLimitType", expr: "COUPON\\.TIME_LIMIT_TYPE"],
 		[type: "com.qwerty.nexus.domain.game.mail.MailRecipientsType", expr: "MAIL\\.RECIPIENTS_TYPE"],
 		[type: "com.qwerty.nexus.domain.game.mail.MailSendType", expr: "MAIL\\.SEND_TYPE"],
-		[type: "com.qwerty.nexus.domain.game.item.ItemType", expr: "ITEM\\.ITEM_TYPE"]
+		[type: "com.qwerty.nexus.domain.game.item.ItemType", expr: "ITEM\\.ITEM_TYPE"],
+		[type: "com.qwerty.nexus.domain.game.reward.SourceType", expr: "REWARD_GRANT\\.SOURCE_TYPE"]
 ]
 
 // jooq dsl setting

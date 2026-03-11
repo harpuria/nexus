@@ -7,6 +7,7 @@ import com.qwerty.nexus.domain.game.mail.dto.response.UserMailListResponseDto;
 import com.qwerty.nexus.domain.game.mail.dto.response.UserMailResponseDto;
 import com.qwerty.nexus.domain.game.mail.entity.UserMailEntity;
 import com.qwerty.nexus.domain.game.mail.repository.UserMailRepository;
+import com.qwerty.nexus.domain.game.reward.SourceType;
 import com.qwerty.nexus.domain.game.reward.dto.GrantDto;
 import com.qwerty.nexus.domain.game.reward.dto.RewardDto;
 import com.qwerty.nexus.domain.game.reward.service.RewardService;
@@ -127,7 +128,7 @@ public class UserMailService {
                 .gameId(userMailEntity.getGameId())
                 .sourceId(dto.getUserMailId().toString())
                 .rewards(CommonUtil.jsonbToDto(userMailEntity.getRewards(), RewardDto.class))
-                .sourceType(ApiConstants.Domain.MAIL)
+                .sourceType(SourceType.MAIL)
                 .build();
         boolean grantRst = rewardService.grant(grantDto);
         if(!grantRst)
@@ -169,7 +170,7 @@ public class UserMailService {
                     .gameId(notReceivedMail.getGameId())
                     .sourceId(notReceivedMail.getUserMailId().toString())
                     .rewards(CommonUtil.jsonbToDto(notReceivedMail.getRewards(), RewardDto.class))
-                    .sourceType(ApiConstants.Domain.MAIL)
+                    .sourceType(SourceType.MAIL)
                     .build();
             boolean grantRst = rewardService.grant(grantDto);
             if(!grantRst)

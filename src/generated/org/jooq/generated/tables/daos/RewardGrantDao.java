@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.daos;
 
 
+import com.qwerty.nexus.domain.game.reward.SourceType;
+
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +15,7 @@ import org.jooq.generated.tables.JRewardGrant;
 import org.jooq.generated.tables.pojos.RewardGrant;
 import org.jooq.generated.tables.records.RewardGrantRecord;
 import org.jooq.impl.DAOImpl;
+import org.jooq.impl.EnumConverter;
 
 
 /**
@@ -118,14 +121,14 @@ public class RewardGrantDao extends DAOImpl<RewardGrantRecord, RewardGrant, Inte
      * Fetch records that have <code>SOURCE_TYPE BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<RewardGrant> fetchRangeOfJSourceType(String lowerInclusive, String upperInclusive) {
+    public List<RewardGrant> fetchRangeOfJSourceType(SourceType lowerInclusive, SourceType upperInclusive) {
         return fetchRange(JRewardGrant.REWARD_GRANT.SOURCE_TYPE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>SOURCE_TYPE IN (values)</code>
      */
-    public List<RewardGrant> fetchByJSourceType(String... values) {
+    public List<RewardGrant> fetchByJSourceType(SourceType... values) {
         return fetch(JRewardGrant.REWARD_GRANT.SOURCE_TYPE, values);
     }
 

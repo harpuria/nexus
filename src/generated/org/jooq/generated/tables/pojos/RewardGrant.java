@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.pojos;
 
 
+import com.qwerty.nexus.domain.game.reward.SourceType;
+
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 
@@ -20,7 +22,7 @@ public class RewardGrant implements Serializable {
     private Integer gameId;
     private Integer userId;
     private String idempotencyKey;
-    private String sourceType;
+    private SourceType sourceType;
     private String sourceId;
     private String status;
     private String failMessage;
@@ -57,7 +59,7 @@ public class RewardGrant implements Serializable {
         Integer gameId,
         Integer userId,
         String idempotencyKey,
-        String sourceType,
+        SourceType sourceType,
         String sourceId,
         String status,
         String failMessage,
@@ -151,14 +153,14 @@ public class RewardGrant implements Serializable {
     /**
      * Getter for <code>nexus.REWARD_GRANT.SOURCE_TYPE</code>. 보상 출처 타입
      */
-    public String getSourceType() {
+    public SourceType getSourceType() {
         return this.sourceType;
     }
 
     /**
      * Setter for <code>nexus.REWARD_GRANT.SOURCE_TYPE</code>. 보상 출처 타입
      */
-    public RewardGrant setSourceType(String sourceType) {
+    public RewardGrant setSourceType(SourceType sourceType) {
         this.sourceType = sourceType;
         return this;
     }

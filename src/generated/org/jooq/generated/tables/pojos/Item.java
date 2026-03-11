@@ -4,6 +4,8 @@
 package org.jooq.generated.tables.pojos;
 
 
+import com.qwerty.nexus.domain.game.item.ItemType;
+
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 
@@ -23,7 +25,7 @@ public class Item implements Serializable {
     private String itemCode;
     private String name;
     private String desc;
-    private String itemType;
+    private ItemType itemType;
     private String isStackable;
     private Long defaultStack;
     private Long maxStack;
@@ -64,7 +66,7 @@ public class Item implements Serializable {
         String itemCode,
         String name,
         String desc,
-        String itemType,
+        ItemType itemType,
         String isStackable,
         Long defaultStack,
         Long maxStack,
@@ -97,14 +99,14 @@ public class Item implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.ITEM.ITEM_ID</code>. 아이템 마스터 PK
+     * Getter for <code>nexus.ITEM.ITEM_ID</code>. 아이템 PK
      */
     public Integer getItemId() {
         return this.itemId;
     }
 
     /**
-     * Setter for <code>nexus.ITEM.ITEM_ID</code>. 아이템 마스터 PK
+     * Setter for <code>nexus.ITEM.ITEM_ID</code>. 아이템 PK
      */
     public Item setItemId(Integer itemId) {
         this.itemId = itemId;
@@ -174,14 +176,14 @@ public class Item implements Serializable {
     /**
      * Getter for <code>nexus.ITEM.ITEM_TYPE</code>. 아이템 타입
      */
-    public String getItemType() {
+    public ItemType getItemType() {
         return this.itemType;
     }
 
     /**
      * Setter for <code>nexus.ITEM.ITEM_TYPE</code>. 아이템 타입
      */
-    public Item setItemType(String itemType) {
+    public Item setItemType(ItemType itemType) {
         this.itemType = itemType;
         return this;
     }
