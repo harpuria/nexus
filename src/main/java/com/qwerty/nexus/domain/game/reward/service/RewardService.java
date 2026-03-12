@@ -9,6 +9,7 @@ import com.qwerty.nexus.domain.game.item.repository.UserItemStackRepository;
 import com.qwerty.nexus.domain.game.reward.dto.GrantDto;
 import com.qwerty.nexus.domain.game.reward.dto.RewardDto;
 import com.qwerty.nexus.domain.game.reward.entity.RewardGrantEntity;
+import com.qwerty.nexus.domain.game.reward.entity.RewardGrantItemEntity;
 import com.qwerty.nexus.domain.game.reward.repository.RewardRepository;
 import com.qwerty.nexus.global.util.CommonUtil;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class RewardService {
-    private static final String REWARD_SERVICE_ACTOR = "reward-service";
+    private static final String REWARD_SERVICE_ACTOR = "NEXUS-SYSTEM";
 
     private final ItemRepository itemRepository;
     private final UserItemStackRepository userItemStackRepository;
@@ -42,11 +43,12 @@ public class RewardService {
     @Transactional
     public boolean grant(GrantDto grantDto) {
         int grantId = 0;
+        int grantItemId = 0;
 
         // validation check
         validateGrantRequest(grantDto);
 
-        // 멱등성 체크 및 로그 저장
+        // 아이템 지급 트랜잭션 등록 - PENDING
         RewardGrantEntity rewardGrantEntity = RewardGrantEntity.builder()
                 .gameId(grantDto.getGameId())
                 .userId(grantDto.getUserId())
@@ -54,12 +56,12 @@ public class RewardService {
                 .idempotencyKey(generateIdempotencyKey(grantDto))
                 .sourceId(grantDto.getSourceId())
                 .sourceType(grantDto.getSourceType())
-                .createdBy("NEXUS_SYSTEM")
-                .updatedBy("NEXUS_SYSTEM")
+                .createdBy(REWARD_SERVICE_ACTOR)
+                .updatedBy(REWARD_SERVICE_ACTOR)
                 .build();
 
         try{
-            // 로그 저장시 UNIQUE KEY 존재 유무로 멱등성 자동 체크
+            // 트랜잭션 저장시 UNIQUE KEY(GAME_ID, IDEMPOTENCY_KEY) 존재 유무로 멱등성 자동 체크
             grantId = rewardRepository.insertGrant(rewardGrantEntity);
         } catch (DuplicateKeyException e){
             return false;
@@ -75,15 +77,32 @@ public class RewardService {
                     .build();
 
             Optional<ItemEntity> rst = itemRepository.findByItemIdAndItemCodeAndGameId(itemEntity);
+
             if(rst.isPresent()){
-                String isStackable = rst.get().getIsStackable();
+                ItemEntity rewardItemInfo = rst.get();
+                String isStackable = rewardItemInfo.getIsStackable();
+
+                // 아이템 지급 내역 등록 - PENDING
+                RewardGrantItemEntity rewardGrantItemEntity = RewardGrantItemEntity.builder()
+                        .grantId(grantId)
+                        .itemId(rewardItemInfo.getItemId())
+                        .isStackable(isStackable)
+                        .itemCode(rewardItemInfo.getItemCode())
+                        .itemType(rewardItemInfo.getItemType().name())
+                        .status("PENDING")
+                        .createdBy(REWARD_SERVICE_ACTOR)
+                        .updatedBy(REWARD_SERVICE_ACTOR)
+                        .build();
+
+                grantItemId = rewardRepository.insertGrantItem(rewardGrantItemEntity);
+
                 if(isStackable.equalsIgnoreCase("Y")){
                     // STACK
                     UserItemStackEntity userItemStackEntity = UserItemStackEntity.builder()
                             .userId(grantDto.getUserId())
                             .itemId(reward.getItemId())
-                            .createdBy("NEXUS_SYSTEM")
-                            .updatedBy("NEXUS_SYSTEM")
+                            .createdBy(REWARD_SERVICE_ACTOR)
+                            .updatedBy(REWARD_SERVICE_ACTOR)
                             .build();
 
                     userItemStackRepository.updateUserItemAmountAddByUserIdAndItemId(userItemStackEntity, reward.getAmount());
@@ -94,20 +113,44 @@ public class RewardService {
                             .itemId(reward.getItemId())
                             .stateJson(JSONB.jsonb("{}")) // TODO : 이거는 어떤 아이템이냐에 따라서 기본 값을 줘야 할듯 (예를들어 무기면 {강화:0, 레벨:1} 이런식으로)
                             .acquiredAt(OffsetDateTime.now())
-                            .createdBy("NEXUS_SYSTEM")
-                            .updatedBy("NEXUS_SYSTEM")
+                            .createdBy(REWARD_SERVICE_ACTOR)
+                            .updatedBy(REWARD_SERVICE_ACTOR)
                             .build();
 
                     userItemInstanceRepository.insertUserItemInstance(userItemInstanceEntity);
                 }
+
+                // 아이템 지급 내역 갱신 - SUCCESS
+                rewardRepository.updateGrantItem(RewardGrantItemEntity.builder()
+                        .grantItemId(grantItemId)
+                        .status("SUCCESS")
+                        .updatedBy(REWARD_SERVICE_ACTOR)
+                        .build());
+
+            }else{
+                // 아이템 지급 내역 갱신 - FAILED
+                rewardRepository.updateGrantItem(RewardGrantItemEntity.builder()
+                        .grantItemId(grantItemId)
+                        .status("FAILED")
+                        .failReason("보상 아이템이 존재하지 않습니다.")
+                        .updatedBy(REWARD_SERVICE_ACTOR)
+                        .build());
+
+                // 아이템 지급 트랜잭션 갱신 - FAILED
+                rewardRepository.updateGrant(RewardGrantEntity.builder()
+                        .grantId(grantId)
+                        .status("FAILED")
+                        .failReason("일부 혹은 전체 보상 아이템이 존재하지 않습니다.")
+                        .updatedBy(REWARD_SERVICE_ACTOR)
+                        .build());
             }
         }
 
-        // 성공시 update
+        // 아이템 지급 트랜잭션 갱신 - SUCCESS
         rewardRepository.updateGrant(RewardGrantEntity.builder()
                 .grantId(grantId)
                 .status("SUCCESS")
-                .updatedBy("NEXUS_SYSTEM")
+                .updatedBy(REWARD_SERVICE_ACTOR)
                 .build());
 
         return true;

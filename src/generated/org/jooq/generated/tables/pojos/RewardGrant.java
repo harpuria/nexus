@@ -24,10 +24,9 @@ public class RewardGrant implements Serializable {
     private String idempotencyKey;
     private SourceType sourceType;
     private String sourceId;
+    private Integer totalItemCount;
     private String status;
-    private String failMessage;
-    private Integer itemCount;
-    private Long totalAmount;
+    private String failReason;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;
@@ -43,10 +42,9 @@ public class RewardGrant implements Serializable {
         this.idempotencyKey = value.idempotencyKey;
         this.sourceType = value.sourceType;
         this.sourceId = value.sourceId;
+        this.totalItemCount = value.totalItemCount;
         this.status = value.status;
-        this.failMessage = value.failMessage;
-        this.itemCount = value.itemCount;
-        this.totalAmount = value.totalAmount;
+        this.failReason = value.failReason;
         this.createdAt = value.createdAt;
         this.createdBy = value.createdBy;
         this.updatedAt = value.updatedAt;
@@ -61,10 +59,9 @@ public class RewardGrant implements Serializable {
         String idempotencyKey,
         SourceType sourceType,
         String sourceId,
+        Integer totalItemCount,
         String status,
-        String failMessage,
-        Integer itemCount,
-        Long totalAmount,
+        String failReason,
         OffsetDateTime createdAt,
         String createdBy,
         OffsetDateTime updatedAt,
@@ -77,10 +74,9 @@ public class RewardGrant implements Serializable {
         this.idempotencyKey = idempotencyKey;
         this.sourceType = sourceType;
         this.sourceId = sourceId;
+        this.totalItemCount = totalItemCount;
         this.status = status;
-        this.failMessage = failMessage;
-        this.itemCount = itemCount;
-        this.totalAmount = totalAmount;
+        this.failReason = failReason;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.updatedAt = updatedAt;
@@ -89,14 +85,14 @@ public class RewardGrant implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT.GRANT_ID</code>. 보상 지급 헤더 PK
+     * Getter for <code>nexus.REWARD_GRANT.GRANT_ID</code>. 보상 지급 트랜잭션 PK
      */
     public Integer getGrantId() {
         return this.grantId;
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT.GRANT_ID</code>. 보상 지급 헤더 PK
+     * Setter for <code>nexus.REWARD_GRANT.GRANT_ID</code>. 보상 지급 트랜잭션 PK
      */
     public RewardGrant setGrantId(Integer grantId) {
         this.grantId = grantId;
@@ -183,6 +179,21 @@ public class RewardGrant implements Serializable {
     }
 
     /**
+     * Getter for <code>nexus.REWARD_GRANT.TOTAL_ITEM_COUNT</code>. 지급 아이템 종류 수
+     */
+    public Integer getTotalItemCount() {
+        return this.totalItemCount;
+    }
+
+    /**
+     * Setter for <code>nexus.REWARD_GRANT.TOTAL_ITEM_COUNT</code>. 지급 아이템 종류 수
+     */
+    public RewardGrant setTotalItemCount(Integer totalItemCount) {
+        this.totalItemCount = totalItemCount;
+        return this;
+    }
+
+    /**
      * Getter for <code>nexus.REWARD_GRANT.STATUS</code>. 작업 성공 여부
      */
     public String getStatus() {
@@ -198,51 +209,17 @@ public class RewardGrant implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT.FAIL_MESSAGE</code>. 실패시 저장하는 메시지
-     * (선택사항)
+     * Getter for <code>nexus.REWARD_GRANT.FAIL_REASON</code>. 보상 지급 실패 사유
      */
-    public String getFailMessage() {
-        return this.failMessage;
+    public String getFailReason() {
+        return this.failReason;
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT.FAIL_MESSAGE</code>. 실패시 저장하는 메시지
-     * (선택사항)
+     * Setter for <code>nexus.REWARD_GRANT.FAIL_REASON</code>. 보상 지급 실패 사유
      */
-    public RewardGrant setFailMessage(String failMessage) {
-        this.failMessage = failMessage;
-        return this;
-    }
-
-    /**
-     * Getter for <code>nexus.REWARD_GRANT.ITEM_COUNT</code>. 지급 라인 수
-     */
-    public Integer getItemCount() {
-        return this.itemCount;
-    }
-
-    /**
-     * Setter for <code>nexus.REWARD_GRANT.ITEM_COUNT</code>. 지급 라인 수
-     */
-    public RewardGrant setItemCount(Integer itemCount) {
-        this.itemCount = itemCount;
-        return this;
-    }
-
-    /**
-     * Getter for <code>nexus.REWARD_GRANT.TOTAL_AMOUNT</code>. 합계(의미가 애매할 수 있어
-     * 필요 없으면 제거)
-     */
-    public Long getTotalAmount() {
-        return this.totalAmount;
-    }
-
-    /**
-     * Setter for <code>nexus.REWARD_GRANT.TOTAL_AMOUNT</code>. 합계(의미가 애매할 수 있어
-     * 필요 없으면 제거)
-     */
-    public RewardGrant setTotalAmount(Long totalAmount) {
-        this.totalAmount = totalAmount;
+    public RewardGrant setFailReason(String failReason) {
+        this.failReason = failReason;
         return this;
     }
 
@@ -366,29 +343,23 @@ public class RewardGrant implements Serializable {
         }
         else if (!this.sourceId.equals(other.sourceId))
             return false;
+        if (this.totalItemCount == null) {
+            if (other.totalItemCount != null)
+                return false;
+        }
+        else if (!this.totalItemCount.equals(other.totalItemCount))
+            return false;
         if (this.status == null) {
             if (other.status != null)
                 return false;
         }
         else if (!this.status.equals(other.status))
             return false;
-        if (this.failMessage == null) {
-            if (other.failMessage != null)
+        if (this.failReason == null) {
+            if (other.failReason != null)
                 return false;
         }
-        else if (!this.failMessage.equals(other.failMessage))
-            return false;
-        if (this.itemCount == null) {
-            if (other.itemCount != null)
-                return false;
-        }
-        else if (!this.itemCount.equals(other.itemCount))
-            return false;
-        if (this.totalAmount == null) {
-            if (other.totalAmount != null)
-                return false;
-        }
-        else if (!this.totalAmount.equals(other.totalAmount))
+        else if (!this.failReason.equals(other.failReason))
             return false;
         if (this.createdAt == null) {
             if (other.createdAt != null)
@@ -433,10 +404,9 @@ public class RewardGrant implements Serializable {
         result = prime * result + ((this.idempotencyKey == null) ? 0 : this.idempotencyKey.hashCode());
         result = prime * result + ((this.sourceType == null) ? 0 : this.sourceType.hashCode());
         result = prime * result + ((this.sourceId == null) ? 0 : this.sourceId.hashCode());
+        result = prime * result + ((this.totalItemCount == null) ? 0 : this.totalItemCount.hashCode());
         result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
-        result = prime * result + ((this.failMessage == null) ? 0 : this.failMessage.hashCode());
-        result = prime * result + ((this.itemCount == null) ? 0 : this.itemCount.hashCode());
-        result = prime * result + ((this.totalAmount == null) ? 0 : this.totalAmount.hashCode());
+        result = prime * result + ((this.failReason == null) ? 0 : this.failReason.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
@@ -455,10 +425,9 @@ public class RewardGrant implements Serializable {
         sb.append(", ").append(idempotencyKey);
         sb.append(", ").append(sourceType);
         sb.append(", ").append(sourceId);
+        sb.append(", ").append(totalItemCount);
         sb.append(", ").append(status);
-        sb.append(", ").append(failMessage);
-        sb.append(", ").append(itemCount);
-        sb.append(", ").append(totalAmount);
+        sb.append(", ").append(failReason);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(createdBy);
         sb.append(", ").append(updatedAt);

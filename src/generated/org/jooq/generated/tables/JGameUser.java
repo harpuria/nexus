@@ -34,7 +34,6 @@ import org.jooq.generated.Keys;
 import org.jooq.generated.tables.JCouponUseLog.CouponUseLogPath;
 import org.jooq.generated.tables.JGame.GamePath;
 import org.jooq.generated.tables.JRewardGrant.RewardGrantPath;
-import org.jooq.generated.tables.JRewardGrantItem.RewardGrantItemPath;
 import org.jooq.generated.tables.JUserItemInstance.UserItemInstancePath;
 import org.jooq.generated.tables.JUserItemStack.UserItemStackPath;
 import org.jooq.generated.tables.JUserMail.UserMailPath;
@@ -265,19 +264,6 @@ public class JGameUser extends TableImpl<GameUserRecord> {
             _couponUseLog = new CouponUseLogPath(this, null, Keys.COUPON_USE_LOG__COUPON_USE_LOG_USER_ID_FKEY.getInverseKey());
 
         return _couponUseLog;
-    }
-
-    private transient RewardGrantItemPath _rewardGrantItem;
-
-    /**
-     * Get the implicit to-many join path to the
-     * <code>nexus.REWARD_GRANT_ITEM</code> table
-     */
-    public RewardGrantItemPath rewardGrantItem() {
-        if (_rewardGrantItem == null)
-            _rewardGrantItem = new RewardGrantItemPath(this, null, Keys.REWARD_GRANT_ITEM__REWARD_GRANT_ITEM_USER_ID_FKEY.getInverseKey());
-
-        return _rewardGrantItem;
     }
 
     private transient RewardGrantPath _rewardGrant;

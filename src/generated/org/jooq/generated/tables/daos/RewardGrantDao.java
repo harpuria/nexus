@@ -148,6 +148,21 @@ public class RewardGrantDao extends DAOImpl<RewardGrantRecord, RewardGrant, Inte
     }
 
     /**
+     * Fetch records that have <code>TOTAL_ITEM_COUNT BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<RewardGrant> fetchRangeOfJTotalItemCount(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(JRewardGrant.REWARD_GRANT.TOTAL_ITEM_COUNT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>TOTAL_ITEM_COUNT IN (values)</code>
+     */
+    public List<RewardGrant> fetchByJTotalItemCount(Integer... values) {
+        return fetch(JRewardGrant.REWARD_GRANT.TOTAL_ITEM_COUNT, values);
+    }
+
+    /**
      * Fetch records that have <code>STATUS BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
@@ -163,48 +178,18 @@ public class RewardGrantDao extends DAOImpl<RewardGrantRecord, RewardGrant, Inte
     }
 
     /**
-     * Fetch records that have <code>FAIL_MESSAGE BETWEEN lowerInclusive AND
+     * Fetch records that have <code>FAIL_REASON BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<RewardGrant> fetchRangeOfJFailMessage(String lowerInclusive, String upperInclusive) {
-        return fetchRange(JRewardGrant.REWARD_GRANT.FAIL_MESSAGE, lowerInclusive, upperInclusive);
+    public List<RewardGrant> fetchRangeOfJFailReason(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JRewardGrant.REWARD_GRANT.FAIL_REASON, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>FAIL_MESSAGE IN (values)</code>
+     * Fetch records that have <code>FAIL_REASON IN (values)</code>
      */
-    public List<RewardGrant> fetchByJFailMessage(String... values) {
-        return fetch(JRewardGrant.REWARD_GRANT.FAIL_MESSAGE, values);
-    }
-
-    /**
-     * Fetch records that have <code>ITEM_COUNT BETWEEN lowerInclusive AND
-     * upperInclusive</code>
-     */
-    public List<RewardGrant> fetchRangeOfJItemCount(Integer lowerInclusive, Integer upperInclusive) {
-        return fetchRange(JRewardGrant.REWARD_GRANT.ITEM_COUNT, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>ITEM_COUNT IN (values)</code>
-     */
-    public List<RewardGrant> fetchByJItemCount(Integer... values) {
-        return fetch(JRewardGrant.REWARD_GRANT.ITEM_COUNT, values);
-    }
-
-    /**
-     * Fetch records that have <code>TOTAL_AMOUNT BETWEEN lowerInclusive AND
-     * upperInclusive</code>
-     */
-    public List<RewardGrant> fetchRangeOfJTotalAmount(Long lowerInclusive, Long upperInclusive) {
-        return fetchRange(JRewardGrant.REWARD_GRANT.TOTAL_AMOUNT, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>TOTAL_AMOUNT IN (values)</code>
-     */
-    public List<RewardGrant> fetchByJTotalAmount(Long... values) {
-        return fetch(JRewardGrant.REWARD_GRANT.TOTAL_AMOUNT, values);
+    public List<RewardGrant> fetchByJFailReason(String... values) {
+        return fetch(JRewardGrant.REWARD_GRANT.FAIL_REASON, values);
     }
 
     /**

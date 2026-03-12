@@ -6,7 +6,6 @@ package org.jooq.generated.tables.records;
 
 import java.time.OffsetDateTime;
 
-import org.jooq.JSONB;
 import org.jooq.Record1;
 import org.jooq.generated.tables.JRewardGrantItem;
 import org.jooq.generated.tables.pojos.RewardGrantItem;
@@ -22,8 +21,8 @@ public class RewardGrantItemRecord extends UpdatableRecordImpl<RewardGrantItemRe
     private static final long serialVersionUID = 1L;
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT_ITEM.GRANT_ITEM_ID</code>. 보상 지급 라인
-     * PK
+     * Setter for <code>nexus.REWARD_GRANT_ITEM.GRANT_ITEM_ID</code>. 보상 지급 아이템
+     * 정보 PK
      */
     public RewardGrantItemRecord setGrantItemId(Integer value) {
         set(0, value);
@@ -31,8 +30,8 @@ public class RewardGrantItemRecord extends UpdatableRecordImpl<RewardGrantItemRe
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT_ITEM.GRANT_ITEM_ID</code>. 보상 지급 라인
-     * PK
+     * Getter for <code>nexus.REWARD_GRANT_ITEM.GRANT_ITEM_ID</code>. 보상 지급 아이템
+     * 정보 PK
      */
     public Integer getGrantItemId() {
         return (Integer) get(0);
@@ -54,116 +53,116 @@ public class RewardGrantItemRecord extends UpdatableRecordImpl<RewardGrantItemRe
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT_ITEM.GAME_ID</code>. 게임 ID (FK)
+     * Setter for <code>nexus.REWARD_GRANT_ITEM.ITEM_ID</code>. 지급 당시 ITEM의
+     * ITEM_ID 스냅샷
      */
-    public RewardGrantItemRecord setGameId(Integer value) {
+    public RewardGrantItemRecord setItemId(Integer value) {
         set(2, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT_ITEM.GAME_ID</code>. 게임 ID (FK)
+     * Getter for <code>nexus.REWARD_GRANT_ITEM.ITEM_ID</code>. 지급 당시 ITEM의
+     * ITEM_ID 스냅샷
      */
-    public Integer getGameId() {
+    public Integer getItemId() {
         return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT_ITEM.USER_ID</code>. 유저 ID (FK)
+     * Setter for <code>nexus.REWARD_GRANT_ITEM.IS_STACKABLE</code>. 스택형 여부 스냅샷
      */
-    public RewardGrantItemRecord setUserId(Integer value) {
+    public RewardGrantItemRecord setIsStackable(String value) {
         set(3, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT_ITEM.USER_ID</code>. 유저 ID (FK)
+     * Getter for <code>nexus.REWARD_GRANT_ITEM.IS_STACKABLE</code>. 스택형 여부 스냅샷
      */
-    public Integer getUserId() {
-        return (Integer) get(3);
+    public String getIsStackable() {
+        return (String) get(3);
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT_ITEM.ITEM_CODE</code>. 지급 아이템
-     * 코드(ITEM.ITEM_CODE)
+     * Setter for <code>nexus.REWARD_GRANT_ITEM.AMOUNT</code>. 지급 수량 (인스턴스형인 경우
+     * 1로 고정)
      */
-    public RewardGrantItemRecord setItemCode(String value) {
+    public RewardGrantItemRecord setAmount(Long value) {
         set(4, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT_ITEM.ITEM_CODE</code>. 지급 아이템
-     * 코드(ITEM.ITEM_CODE)
+     * Getter for <code>nexus.REWARD_GRANT_ITEM.AMOUNT</code>. 지급 수량 (인스턴스형인 경우
+     * 1로 고정)
      */
-    public String getItemCode() {
-        return (String) get(4);
+    public Long getAmount() {
+        return (Long) get(4);
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT_ITEM.ITEM_ID</code>. 지급 당시 ITEM의
-     * ITEM_ID 스냅샷(선택)
+     * Setter for <code>nexus.REWARD_GRANT_ITEM.ITEM_CODE</code>. 조회 편의용 아이템 코드
+     * 스냅샷
      */
-    public RewardGrantItemRecord setItemId(Integer value) {
+    public RewardGrantItemRecord setItemCode(String value) {
         set(5, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT_ITEM.ITEM_ID</code>. 지급 당시 ITEM의
-     * ITEM_ID 스냅샷(선택)
+     * Getter for <code>nexus.REWARD_GRANT_ITEM.ITEM_CODE</code>. 조회 편의용 아이템 코드
+     * 스냅샷
      */
-    public Integer getItemId() {
-        return (Integer) get(5);
+    public String getItemCode() {
+        return (String) get(5);
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT_ITEM.AMOUNT</code>. 지급 수량 (인스턴스형이면 1
-     * 또는 정책값)
+     * Setter for <code>nexus.REWARD_GRANT_ITEM.ITEM_TYPE</code>. 아이템 타입 스냅샷
      */
-    public RewardGrantItemRecord setAmount(Long value) {
+    public RewardGrantItemRecord setItemType(String value) {
         set(6, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT_ITEM.AMOUNT</code>. 지급 수량 (인스턴스형이면 1
-     * 또는 정책값)
+     * Getter for <code>nexus.REWARD_GRANT_ITEM.ITEM_TYPE</code>. 아이템 타입 스냅샷
      */
-    public Long getAmount() {
-        return (Long) get(6);
+    public String getItemType() {
+        return (String) get(6);
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT_ITEM.RESULT_TYPE</code>. 지급 결과 타입
+     * Setter for <code>nexus.REWARD_GRANT_ITEM.STATUS</code>. 작업 성공 여부
      */
-    public RewardGrantItemRecord setResultType(String value) {
+    public RewardGrantItemRecord setStatus(String value) {
         set(7, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT_ITEM.RESULT_TYPE</code>. 지급 결과 타입
+     * Getter for <code>nexus.REWARD_GRANT_ITEM.STATUS</code>. 작업 성공 여부
      */
-    public String getResultType() {
+    public String getStatus() {
         return (String) get(7);
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT_ITEM.RESULT_META</code>. 대체지급 사유/추가
-     * 정보(선택)
+     * Setter for <code>nexus.REWARD_GRANT_ITEM.FAIL_REASON</code>. 개별 아이템 지급 실패
+     * 사유
      */
-    public RewardGrantItemRecord setResultMeta(JSONB value) {
+    public RewardGrantItemRecord setFailReason(String value) {
         set(8, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT_ITEM.RESULT_META</code>. 대체지급 사유/추가
-     * 정보(선택)
+     * Getter for <code>nexus.REWARD_GRANT_ITEM.FAIL_REASON</code>. 개별 아이템 지급 실패
+     * 사유
      */
-    public JSONB getResultMeta() {
-        return (JSONB) get(8);
+    public String getFailReason() {
+        return (String) get(8);
     }
 
     /**
@@ -264,18 +263,18 @@ public class RewardGrantItemRecord extends UpdatableRecordImpl<RewardGrantItemRe
     /**
      * Create a detached, initialised RewardGrantItemRecord
      */
-    public RewardGrantItemRecord(Integer grantItemId, Integer grantId, Integer gameId, Integer userId, String itemCode, Integer itemId, Long amount, String resultType, JSONB resultMeta, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public RewardGrantItemRecord(Integer grantItemId, Integer grantId, Integer itemId, String isStackable, Long amount, String itemCode, String itemType, String status, String failReason, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JRewardGrantItem.REWARD_GRANT_ITEM);
 
         setGrantItemId(grantItemId);
         setGrantId(grantId);
-        setGameId(gameId);
-        setUserId(userId);
-        setItemCode(itemCode);
         setItemId(itemId);
+        setIsStackable(isStackable);
         setAmount(amount);
-        setResultType(resultType);
-        setResultMeta(resultMeta);
+        setItemCode(itemCode);
+        setItemType(itemType);
+        setStatus(status);
+        setFailReason(failReason);
         setCreatedAt(createdAt);
         setCreatedBy(createdBy);
         setUpdatedAt(updatedAt);
@@ -293,13 +292,13 @@ public class RewardGrantItemRecord extends UpdatableRecordImpl<RewardGrantItemRe
         if (value != null) {
             setGrantItemId(value.getGrantItemId());
             setGrantId(value.getGrantId());
-            setGameId(value.getGameId());
-            setUserId(value.getUserId());
-            setItemCode(value.getItemCode());
             setItemId(value.getItemId());
+            setIsStackable(value.getIsStackable());
             setAmount(value.getAmount());
-            setResultType(value.getResultType());
-            setResultMeta(value.getResultMeta());
+            setItemCode(value.getItemCode());
+            setItemType(value.getItemType());
+            setStatus(value.getStatus());
+            setFailReason(value.getFailReason());
             setCreatedAt(value.getCreatedAt());
             setCreatedBy(value.getCreatedBy());
             setUpdatedAt(value.getUpdatedAt());

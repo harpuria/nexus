@@ -1,12 +1,14 @@
 package com.qwerty.nexus.domain.game.reward.repository;
 
 import com.qwerty.nexus.domain.game.reward.entity.RewardGrantEntity;
+import com.qwerty.nexus.domain.game.reward.entity.RewardGrantItemEntity;
 import org.jooq.Configuration;
 import org.jooq.DSLContext;
 import org.jooq.generated.tables.JRewardGrant;
 import org.jooq.generated.tables.JRewardGrantItem;
 import org.jooq.generated.tables.daos.RewardGrantDao;
 import org.jooq.generated.tables.daos.RewardGrantItemDao;
+import org.jooq.generated.tables.records.RewardGrantItemRecord;
 import org.jooq.generated.tables.records.RewardGrantRecord;
 import org.springframework.stereotype.Repository;
 
@@ -44,9 +46,36 @@ public class RewardRepository {
     public Integer updateGrant(RewardGrantEntity rewardGrantEntity) {
         RewardGrantRecord record = dslContext.newRecord(REWARD_GRANT, rewardGrantEntity);
         record.changed(REWARD_GRANT.STATUS, rewardGrantEntity.getStatus() != null);
-        record.changed(REWARD_GRANT.FAIL_MESSAGE, rewardGrantEntity.getFailMessage() != null);
+        record.changed(REWARD_GRANT.FAIL_REASON, rewardGrantEntity.getFailReason() != null);
         record.changed(REWARD_GRANT.UPDATED_BY, rewardGrantEntity.getUpdatedBy() != null);
         record.changed(REWARD_GRANT.IS_DEL, rewardGrantEntity.getIsDel() != null);
+
+        return record.update();
+    }
+
+    /**
+     * 아이템 지급 내역 등록
+     * @param rewardGrantItemEntity
+     * @return
+     */
+    public Integer insertGrantItem(RewardGrantItemEntity rewardGrantItemEntity){
+        RewardGrantItemRecord record = dslContext.newRecord(REWARD_GRANT_ITEM, rewardGrantItemEntity);
+        record.store();
+
+        return record.getGrantItemId();
+    }
+
+    /**
+     * 아이템 지급 내역 수정
+     * @param rewardGrantItemEntity
+     * @return
+     */
+    public Integer updateGrantItem(RewardGrantItemEntity rewardGrantItemEntity){
+        RewardGrantItemRecord record = dslContext.newRecord(REWARD_GRANT_ITEM);
+        record.changed(REWARD_GRANT_ITEM.IS_DEL, rewardGrantItemEntity.getIsDel() != null);
+        record.changed(REWARD_GRANT_ITEM.STATUS, rewardGrantItemEntity.getStatus() != null);
+        record.changed(REWARD_GRANT_ITEM.FAIL_REASON, rewardGrantItemEntity.getFailReason() != null);
+        record.changed(REWARD_GRANT_ITEM.UPDATED_BY, rewardGrantItemEntity.getUpdatedBy() != null);
 
         return record.update();
     }

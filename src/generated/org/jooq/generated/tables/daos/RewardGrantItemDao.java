@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.jooq.Configuration;
-import org.jooq.JSONB;
 import org.jooq.generated.tables.JRewardGrantItem;
 import org.jooq.generated.tables.pojos.RewardGrantItem;
 import org.jooq.generated.tables.records.RewardGrantItemRecord;
@@ -86,51 +85,6 @@ public class RewardGrantItemDao extends DAOImpl<RewardGrantItemRecord, RewardGra
     }
 
     /**
-     * Fetch records that have <code>GAME_ID BETWEEN lowerInclusive AND
-     * upperInclusive</code>
-     */
-    public List<RewardGrantItem> fetchRangeOfJGameId(Integer lowerInclusive, Integer upperInclusive) {
-        return fetchRange(JRewardGrantItem.REWARD_GRANT_ITEM.GAME_ID, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>GAME_ID IN (values)</code>
-     */
-    public List<RewardGrantItem> fetchByJGameId(Integer... values) {
-        return fetch(JRewardGrantItem.REWARD_GRANT_ITEM.GAME_ID, values);
-    }
-
-    /**
-     * Fetch records that have <code>USER_ID BETWEEN lowerInclusive AND
-     * upperInclusive</code>
-     */
-    public List<RewardGrantItem> fetchRangeOfJUserId(Integer lowerInclusive, Integer upperInclusive) {
-        return fetchRange(JRewardGrantItem.REWARD_GRANT_ITEM.USER_ID, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>USER_ID IN (values)</code>
-     */
-    public List<RewardGrantItem> fetchByJUserId(Integer... values) {
-        return fetch(JRewardGrantItem.REWARD_GRANT_ITEM.USER_ID, values);
-    }
-
-    /**
-     * Fetch records that have <code>ITEM_CODE BETWEEN lowerInclusive AND
-     * upperInclusive</code>
-     */
-    public List<RewardGrantItem> fetchRangeOfJItemCode(String lowerInclusive, String upperInclusive) {
-        return fetchRange(JRewardGrantItem.REWARD_GRANT_ITEM.ITEM_CODE, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>ITEM_CODE IN (values)</code>
-     */
-    public List<RewardGrantItem> fetchByJItemCode(String... values) {
-        return fetch(JRewardGrantItem.REWARD_GRANT_ITEM.ITEM_CODE, values);
-    }
-
-    /**
      * Fetch records that have <code>ITEM_ID BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
@@ -143,6 +97,21 @@ public class RewardGrantItemDao extends DAOImpl<RewardGrantItemRecord, RewardGra
      */
     public List<RewardGrantItem> fetchByJItemId(Integer... values) {
         return fetch(JRewardGrantItem.REWARD_GRANT_ITEM.ITEM_ID, values);
+    }
+
+    /**
+     * Fetch records that have <code>IS_STACKABLE BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<RewardGrantItem> fetchRangeOfJIsStackable(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JRewardGrantItem.REWARD_GRANT_ITEM.IS_STACKABLE, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>IS_STACKABLE IN (values)</code>
+     */
+    public List<RewardGrantItem> fetchByJIsStackable(String... values) {
+        return fetch(JRewardGrantItem.REWARD_GRANT_ITEM.IS_STACKABLE, values);
     }
 
     /**
@@ -161,33 +130,63 @@ public class RewardGrantItemDao extends DAOImpl<RewardGrantItemRecord, RewardGra
     }
 
     /**
-     * Fetch records that have <code>RESULT_TYPE BETWEEN lowerInclusive AND
+     * Fetch records that have <code>ITEM_CODE BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<RewardGrantItem> fetchRangeOfJResultType(String lowerInclusive, String upperInclusive) {
-        return fetchRange(JRewardGrantItem.REWARD_GRANT_ITEM.RESULT_TYPE, lowerInclusive, upperInclusive);
+    public List<RewardGrantItem> fetchRangeOfJItemCode(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JRewardGrantItem.REWARD_GRANT_ITEM.ITEM_CODE, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>RESULT_TYPE IN (values)</code>
+     * Fetch records that have <code>ITEM_CODE IN (values)</code>
      */
-    public List<RewardGrantItem> fetchByJResultType(String... values) {
-        return fetch(JRewardGrantItem.REWARD_GRANT_ITEM.RESULT_TYPE, values);
+    public List<RewardGrantItem> fetchByJItemCode(String... values) {
+        return fetch(JRewardGrantItem.REWARD_GRANT_ITEM.ITEM_CODE, values);
     }
 
     /**
-     * Fetch records that have <code>RESULT_META BETWEEN lowerInclusive AND
+     * Fetch records that have <code>ITEM_TYPE BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<RewardGrantItem> fetchRangeOfJResultMeta(JSONB lowerInclusive, JSONB upperInclusive) {
-        return fetchRange(JRewardGrantItem.REWARD_GRANT_ITEM.RESULT_META, lowerInclusive, upperInclusive);
+    public List<RewardGrantItem> fetchRangeOfJItemType(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JRewardGrantItem.REWARD_GRANT_ITEM.ITEM_TYPE, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>RESULT_META IN (values)</code>
+     * Fetch records that have <code>ITEM_TYPE IN (values)</code>
      */
-    public List<RewardGrantItem> fetchByJResultMeta(JSONB... values) {
-        return fetch(JRewardGrantItem.REWARD_GRANT_ITEM.RESULT_META, values);
+    public List<RewardGrantItem> fetchByJItemType(String... values) {
+        return fetch(JRewardGrantItem.REWARD_GRANT_ITEM.ITEM_TYPE, values);
+    }
+
+    /**
+     * Fetch records that have <code>STATUS BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<RewardGrantItem> fetchRangeOfJStatus(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JRewardGrantItem.REWARD_GRANT_ITEM.STATUS, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>STATUS IN (values)</code>
+     */
+    public List<RewardGrantItem> fetchByJStatus(String... values) {
+        return fetch(JRewardGrantItem.REWARD_GRANT_ITEM.STATUS, values);
+    }
+
+    /**
+     * Fetch records that have <code>FAIL_REASON BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<RewardGrantItem> fetchRangeOfJFailReason(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JRewardGrantItem.REWARD_GRANT_ITEM.FAIL_REASON, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>FAIL_REASON IN (values)</code>
+     */
+    public List<RewardGrantItem> fetchByJFailReason(String... values) {
+        return fetch(JRewardGrantItem.REWARD_GRANT_ITEM.FAIL_REASON, values);
     }
 
     /**

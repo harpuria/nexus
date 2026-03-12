@@ -40,7 +40,6 @@ import org.jooq.generated.tables.JMail.MailPath;
 import org.jooq.generated.tables.JOrganization.OrganizationPath;
 import org.jooq.generated.tables.JProduct.ProductPath;
 import org.jooq.generated.tables.JRewardGrant.RewardGrantPath;
-import org.jooq.generated.tables.JRewardGrantItem.RewardGrantItemPath;
 import org.jooq.generated.tables.JShop.ShopPath;
 import org.jooq.generated.tables.JShopProduct.ShopProductPath;
 import org.jooq.generated.tables.JUserMail.UserMailPath;
@@ -318,19 +317,6 @@ public class JGame extends TableImpl<GameRecord> {
             _rewardGrant = new RewardGrantPath(this, null, Keys.REWARD_GRANT__REWARD_GRANT_GAME_ID_FKEY.getInverseKey());
 
         return _rewardGrant;
-    }
-
-    private transient RewardGrantItemPath _rewardGrantItem;
-
-    /**
-     * Get the implicit to-many join path to the
-     * <code>nexus.REWARD_GRANT_ITEM</code> table
-     */
-    public RewardGrantItemPath rewardGrantItem() {
-        if (_rewardGrantItem == null)
-            _rewardGrantItem = new RewardGrantItemPath(this, null, Keys.REWARD_GRANT_ITEM__REWARD_GRANT_ITEM_GAME_ID_FKEY.getInverseKey());
-
-        return _rewardGrantItem;
     }
 
     private transient ShopPath _shop;

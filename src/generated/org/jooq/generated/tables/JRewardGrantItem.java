@@ -15,7 +15,6 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Index;
 import org.jooq.InverseForeignKey;
-import org.jooq.JSONB;
 import org.jooq.Name;
 import org.jooq.Path;
 import org.jooq.PlainSQL;
@@ -32,8 +31,6 @@ import org.jooq.UniqueKey;
 import org.jooq.generated.Indexes;
 import org.jooq.generated.JNexus;
 import org.jooq.generated.Keys;
-import org.jooq.generated.tables.JGame.GamePath;
-import org.jooq.generated.tables.JGameUser.GameUserPath;
 import org.jooq.generated.tables.JRewardGrant.RewardGrantPath;
 import org.jooq.generated.tables.records.RewardGrantItemRecord;
 import org.jooq.impl.DSL;
@@ -64,10 +61,10 @@ public class JRewardGrantItem extends TableImpl<RewardGrantItemRecord> {
     }
 
     /**
-     * The column <code>nexus.REWARD_GRANT_ITEM.GRANT_ITEM_ID</code>. 보상 지급 라인
-     * PK
+     * The column <code>nexus.REWARD_GRANT_ITEM.GRANT_ITEM_ID</code>. 보상 지급 아이템
+     * 정보 PK
      */
-    public final TableField<RewardGrantItemRecord, Integer> GRANT_ITEM_ID = createField(DSL.name("GRANT_ITEM_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"REWARD_GRANT_ITEM_GRANT_ITEM_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "보상 지급 라인 PK");
+    public final TableField<RewardGrantItemRecord, Integer> GRANT_ITEM_ID = createField(DSL.name("GRANT_ITEM_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"REWARD_GRANT_ITEM_GRANT_ITEM_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "보상 지급 아이템 정보 PK");
 
     /**
      * The column <code>nexus.REWARD_GRANT_ITEM.GRANT_ID</code>. REWARD_GRANT FK
@@ -75,43 +72,43 @@ public class JRewardGrantItem extends TableImpl<RewardGrantItemRecord> {
     public final TableField<RewardGrantItemRecord, Integer> GRANT_ID = createField(DSL.name("GRANT_ID"), SQLDataType.INTEGER.nullable(false), this, "REWARD_GRANT FK");
 
     /**
-     * The column <code>nexus.REWARD_GRANT_ITEM.GAME_ID</code>. 게임 ID (FK)
-     */
-    public final TableField<RewardGrantItemRecord, Integer> GAME_ID = createField(DSL.name("GAME_ID"), SQLDataType.INTEGER.nullable(false), this, "게임 ID (FK)");
-
-    /**
-     * The column <code>nexus.REWARD_GRANT_ITEM.USER_ID</code>. 유저 ID (FK)
-     */
-    public final TableField<RewardGrantItemRecord, Integer> USER_ID = createField(DSL.name("USER_ID"), SQLDataType.INTEGER.nullable(false), this, "유저 ID (FK)");
-
-    /**
-     * The column <code>nexus.REWARD_GRANT_ITEM.ITEM_CODE</code>. 지급 아이템
-     * 코드(ITEM.ITEM_CODE)
-     */
-    public final TableField<RewardGrantItemRecord, String> ITEM_CODE = createField(DSL.name("ITEM_CODE"), SQLDataType.VARCHAR(64).nullable(false), this, "지급 아이템 코드(ITEM.ITEM_CODE)");
-
-    /**
      * The column <code>nexus.REWARD_GRANT_ITEM.ITEM_ID</code>. 지급 당시 ITEM의
-     * ITEM_ID 스냅샷(선택)
+     * ITEM_ID 스냅샷
      */
-    public final TableField<RewardGrantItemRecord, Integer> ITEM_ID = createField(DSL.name("ITEM_ID"), SQLDataType.INTEGER, this, "지급 당시 ITEM의 ITEM_ID 스냅샷(선택)");
+    public final TableField<RewardGrantItemRecord, Integer> ITEM_ID = createField(DSL.name("ITEM_ID"), SQLDataType.INTEGER.nullable(false), this, "지급 당시 ITEM의 ITEM_ID 스냅샷");
 
     /**
-     * The column <code>nexus.REWARD_GRANT_ITEM.AMOUNT</code>. 지급 수량 (인스턴스형이면 1
-     * 또는 정책값)
+     * The column <code>nexus.REWARD_GRANT_ITEM.IS_STACKABLE</code>. 스택형 여부 스냅샷
      */
-    public final TableField<RewardGrantItemRecord, Long> AMOUNT = createField(DSL.name("AMOUNT"), SQLDataType.BIGINT.nullable(false).defaultValue(DSL.field(DSL.raw("0"), SQLDataType.BIGINT)), this, "지급 수량 (인스턴스형이면 1 또는 정책값)");
+    public final TableField<RewardGrantItemRecord, String> IS_STACKABLE = createField(DSL.name("IS_STACKABLE"), SQLDataType.CHAR(1).nullable(false), this, "스택형 여부 스냅샷");
 
     /**
-     * The column <code>nexus.REWARD_GRANT_ITEM.RESULT_TYPE</code>. 지급 결과 타입
+     * The column <code>nexus.REWARD_GRANT_ITEM.AMOUNT</code>. 지급 수량 (인스턴스형인 경우
+     * 1로 고정)
      */
-    public final TableField<RewardGrantItemRecord, String> RESULT_TYPE = createField(DSL.name("RESULT_TYPE"), SQLDataType.VARCHAR(16).nullable(false).defaultValue(DSL.field(DSL.raw("'OK'::character varying"), SQLDataType.VARCHAR)), this, "지급 결과 타입");
+    public final TableField<RewardGrantItemRecord, Long> AMOUNT = createField(DSL.name("AMOUNT"), SQLDataType.BIGINT.nullable(false).defaultValue(DSL.field(DSL.raw("0"), SQLDataType.BIGINT)), this, "지급 수량 (인스턴스형인 경우 1로 고정)");
 
     /**
-     * The column <code>nexus.REWARD_GRANT_ITEM.RESULT_META</code>. 대체지급 사유/추가
-     * 정보(선택)
+     * The column <code>nexus.REWARD_GRANT_ITEM.ITEM_CODE</code>. 조회 편의용 아이템 코드
+     * 스냅샷
      */
-    public final TableField<RewardGrantItemRecord, JSONB> RESULT_META = createField(DSL.name("RESULT_META"), SQLDataType.JSONB, this, "대체지급 사유/추가 정보(선택)");
+    public final TableField<RewardGrantItemRecord, String> ITEM_CODE = createField(DSL.name("ITEM_CODE"), SQLDataType.VARCHAR(64), this, "조회 편의용 아이템 코드 스냅샷");
+
+    /**
+     * The column <code>nexus.REWARD_GRANT_ITEM.ITEM_TYPE</code>. 아이템 타입 스냅샷
+     */
+    public final TableField<RewardGrantItemRecord, String> ITEM_TYPE = createField(DSL.name("ITEM_TYPE"), SQLDataType.VARCHAR(50).nullable(false), this, "아이템 타입 스냅샷");
+
+    /**
+     * The column <code>nexus.REWARD_GRANT_ITEM.STATUS</code>. 작업 성공 여부
+     */
+    public final TableField<RewardGrantItemRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(10).nullable(false).defaultValue(DSL.field(DSL.raw("'PENDING'::character varying"), SQLDataType.VARCHAR)), this, "작업 성공 여부");
+
+    /**
+     * The column <code>nexus.REWARD_GRANT_ITEM.FAIL_REASON</code>. 개별 아이템 지급 실패
+     * 사유
+     */
+    public final TableField<RewardGrantItemRecord, String> FAIL_REASON = createField(DSL.name("FAIL_REASON"), SQLDataType.VARCHAR(255), this, "개별 아이템 지급 실패 사유");
 
     /**
      * The column <code>nexus.REWARD_GRANT_ITEM.CREATED_AT</code>. 데이터 생성 날짜
@@ -207,7 +204,7 @@ public class JRewardGrantItem extends TableImpl<RewardGrantItemRecord> {
 
     @Override
     public List<Index> getIndexes() {
-        return Arrays.asList(Indexes.IDX_REWARD_GRANT_ITEM_CODE_TIME, Indexes.IDX_REWARD_GRANT_ITEM_GRANT, Indexes.IDX_REWARD_GRANT_ITEM_USER_TIME);
+        return Arrays.asList(Indexes.IDX_REWARD_GRANT_ITEM_GRANT);
     }
 
     @Override
@@ -217,19 +214,7 @@ public class JRewardGrantItem extends TableImpl<RewardGrantItemRecord> {
 
     @Override
     public List<ForeignKey<RewardGrantItemRecord, ?>> getReferences() {
-        return Arrays.asList(Keys.REWARD_GRANT_ITEM__REWARD_GRANT_ITEM_GAME_ID_FKEY, Keys.REWARD_GRANT_ITEM__REWARD_GRANT_ITEM_GRANT_ID_FKEY, Keys.REWARD_GRANT_ITEM__REWARD_GRANT_ITEM_USER_ID_FKEY);
-    }
-
-    private transient GamePath _game;
-
-    /**
-     * Get the implicit join path to the <code>nexus.GAME</code> table.
-     */
-    public GamePath game() {
-        if (_game == null)
-            _game = new GamePath(this, Keys.REWARD_GRANT_ITEM__REWARD_GRANT_ITEM_GAME_ID_FKEY, null);
-
-        return _game;
+        return Arrays.asList(Keys.REWARD_GRANT_ITEM__REWARD_GRANT_ITEM_GRANT_ID_FKEY);
     }
 
     private transient RewardGrantPath _rewardGrant;
@@ -244,23 +229,11 @@ public class JRewardGrantItem extends TableImpl<RewardGrantItemRecord> {
         return _rewardGrant;
     }
 
-    private transient GameUserPath _gameUser;
-
-    /**
-     * Get the implicit join path to the <code>nexus.GAME_USER</code> table.
-     */
-    public GameUserPath gameUser() {
-        if (_gameUser == null)
-            _gameUser = new GameUserPath(this, Keys.REWARD_GRANT_ITEM__REWARD_GRANT_ITEM_USER_ID_FKEY, null);
-
-        return _gameUser;
-    }
-
     @Override
     public List<Check<RewardGrantItemRecord>> getChecks() {
         return Arrays.asList(
             Internal.createCheck(this, DSL.name("REWARD_GRANT_ITEM_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
-            Internal.createCheck(this, DSL.name("REWARD_GRANT_ITEM_RESULT_TYPE_check"), "(((\"RESULT_TYPE\")::text = ANY ((ARRAY['OK'::character varying, 'REPLACED'::character varying, 'SKIPPED'::character varying])::text[])))", true)
+            Internal.createCheck(this, DSL.name("REWARD_GRANT_ITEM_STATUS_check"), "(((\"STATUS\")::text = ANY ((ARRAY['PENDING'::character varying, 'SUCCESS'::character varying, 'FAILED'::character varying])::text[])))", true)
         );
     }
 

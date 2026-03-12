@@ -1,6 +1,5 @@
 package com.qwerty.nexus.domain.game.reward.entity;
 
-import com.qwerty.nexus.domain.game.reward.SourceType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -8,14 +7,14 @@ import java.time.OffsetDateTime;
 
 @Getter
 @Builder
-public class RewardGrantEntity {
+public class RewardGrantItemEntity {
+    private Integer grantItemId;
     private Integer grantId;
-    private Integer gameId;
-    private Integer userId;
-    private String idempotencyKey;
-    private SourceType sourceType;
-    private String sourceId;
-    private Integer totalItemCount;
+    private Integer itemId;
+    private String isStackable;
+    private Long amount;
+    private String itemCode;
+    private String itemType;
     private String status;
     private String failReason;
     private OffsetDateTime createdAt;

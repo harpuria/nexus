@@ -66,9 +66,9 @@ public class JRewardGrant extends TableImpl<RewardGrantRecord> {
     }
 
     /**
-     * The column <code>nexus.REWARD_GRANT.GRANT_ID</code>. 보상 지급 헤더 PK
+     * The column <code>nexus.REWARD_GRANT.GRANT_ID</code>. 보상 지급 트랜잭션 PK
      */
-    public final TableField<RewardGrantRecord, Integer> GRANT_ID = createField(DSL.name("GRANT_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"REWARD_GRANT_GRANT_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "보상 지급 헤더 PK");
+    public final TableField<RewardGrantRecord, Integer> GRANT_ID = createField(DSL.name("GRANT_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"REWARD_GRANT_GRANT_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "보상 지급 트랜잭션 PK");
 
     /**
      * The column <code>nexus.REWARD_GRANT.GAME_ID</code>. 게임 ID (FK)
@@ -98,26 +98,19 @@ public class JRewardGrant extends TableImpl<RewardGrantRecord> {
     public final TableField<RewardGrantRecord, String> SOURCE_ID = createField(DSL.name("SOURCE_ID"), SQLDataType.VARCHAR(64).nullable(false), this, "출처 식별자(상품ID/메일ID/가챠결과ID 등)");
 
     /**
+     * The column <code>nexus.REWARD_GRANT.TOTAL_ITEM_COUNT</code>. 지급 아이템 종류 수
+     */
+    public final TableField<RewardGrantRecord, Integer> TOTAL_ITEM_COUNT = createField(DSL.name("TOTAL_ITEM_COUNT"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("0"), SQLDataType.INTEGER)), this, "지급 아이템 종류 수");
+
+    /**
      * The column <code>nexus.REWARD_GRANT.STATUS</code>. 작업 성공 여부
      */
     public final TableField<RewardGrantRecord, String> STATUS = createField(DSL.name("STATUS"), SQLDataType.VARCHAR(10).nullable(false).defaultValue(DSL.field(DSL.raw("'PENDING'::character varying"), SQLDataType.VARCHAR)), this, "작업 성공 여부");
 
     /**
-     * The column <code>nexus.REWARD_GRANT.FAIL_MESSAGE</code>. 실패시 저장하는 메시지
-     * (선택사항)
+     * The column <code>nexus.REWARD_GRANT.FAIL_REASON</code>. 보상 지급 실패 사유
      */
-    public final TableField<RewardGrantRecord, String> FAIL_MESSAGE = createField(DSL.name("FAIL_MESSAGE"), SQLDataType.VARCHAR(255), this, "실패시 저장하는 메시지 (선택사항)");
-
-    /**
-     * The column <code>nexus.REWARD_GRANT.ITEM_COUNT</code>. 지급 라인 수
-     */
-    public final TableField<RewardGrantRecord, Integer> ITEM_COUNT = createField(DSL.name("ITEM_COUNT"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("0"), SQLDataType.INTEGER)), this, "지급 라인 수");
-
-    /**
-     * The column <code>nexus.REWARD_GRANT.TOTAL_AMOUNT</code>. 합계(의미가 애매할 수 있어
-     * 필요 없으면 제거)
-     */
-    public final TableField<RewardGrantRecord, Long> TOTAL_AMOUNT = createField(DSL.name("TOTAL_AMOUNT"), SQLDataType.BIGINT.nullable(false).defaultValue(DSL.field(DSL.raw("0"), SQLDataType.BIGINT)), this, "합계(의미가 애매할 수 있어 필요 없으면 제거)");
+    public final TableField<RewardGrantRecord, String> FAIL_REASON = createField(DSL.name("FAIL_REASON"), SQLDataType.VARCHAR(255), this, "보상 지급 실패 사유");
 
     /**
      * The column <code>nexus.REWARD_GRANT.CREATED_AT</code>. 데이터 생성 날짜
