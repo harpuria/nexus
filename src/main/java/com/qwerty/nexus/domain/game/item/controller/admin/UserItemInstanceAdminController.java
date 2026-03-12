@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.game.item.controller;
+package com.qwerty.nexus.domain.game.item.controller.admin;
 
 import com.qwerty.nexus.domain.game.item.dto.request.UserItemInstanceCreateRequestDto;
 import com.qwerty.nexus.domain.game.item.dto.request.UserItemInstanceUpdateRequestDto;
@@ -18,11 +18,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping(ApiConstants.Path.USER_ITEM_INSTANCE_PATH)
+@RequestMapping(ApiConstants.Path.ADMIN_USER_ITEM_INSTANCE_PATH)
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "유저 인스턴스형 아이템", description = "유저 인스턴스형(ex:장비, 영웅, 스킨 등) 아이템 관련 API")
-public class UserItemInstanceController {
+@Tag(name = "유저 인스턴스형 아이템 (관리자)", description = "유저 인스턴스형(ex:장비, 영웅, 스킨 등) 아이템 관련 API (관리자)")
+public class UserItemInstanceAdminController {
     private final UserItemInstanceService service;
 
     /**

@@ -29,9 +29,9 @@ import java.util.Map;
 @Log4j2
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(ApiConstants.Path.AUTH_PATH)
-@Tag(name = "인증", description = "인증, 로그인, 로그아웃 관련 API")
-public class AuthController {
+@RequestMapping(ApiConstants.Path.CLIENT_AUTH_PATH)
+@Tag(name = "인증 (클라이언트)", description = "인증, 로그인, 로그아웃 관련 API (클라이언트)")
+public class AuthClientController {
     private final AuthService service;
     private final GoogleVerifierService googleVerifierService;
     private final AppleVerifierService appleVerifierService;

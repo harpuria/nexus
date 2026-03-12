@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.game.mail.controller;
+package com.qwerty.nexus.domain.game.mail.controller.admin;
 
 import com.qwerty.nexus.domain.game.mail.dto.request.MailCreateRequestDto;
 import com.qwerty.nexus.domain.game.mail.dto.request.MailUpdateRequestDto;
@@ -25,8 +25,8 @@ import java.util.List;
 @RestController
 @Validated
 @RequiredArgsConstructor
-@RequestMapping(ApiConstants.Path.MAIL_PATH)
-@Tag(name = "우편", description = "우편 메타데이터 API")
+@RequestMapping(ApiConstants.Path.ADMIN_MAIL_PATH)
+@Tag(name = "우편 (관리자)", description = "우편 메타데이터 API (관리자)")
 public class MailController {
     private final MailService mailService;
 

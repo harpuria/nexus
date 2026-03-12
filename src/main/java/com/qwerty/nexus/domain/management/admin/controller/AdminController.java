@@ -22,9 +22,9 @@ import org.springframework.web.bind.annotation.*;
 
 @Log4j2
 @RestController
-@RequestMapping(ApiConstants.Path.ADMIN_PATH)
+@RequestMapping(ApiConstants.Path.ADMIN_USER_PATH)
 @RequiredArgsConstructor
-@Tag(name = "관리자", description = "관리자 관련 API")
+@Tag(name = "관리자 유저 (관리자)", description = "관리자 유저 관련 API (관리자)")
 public class AdminController {
     private final AdminService service;
 

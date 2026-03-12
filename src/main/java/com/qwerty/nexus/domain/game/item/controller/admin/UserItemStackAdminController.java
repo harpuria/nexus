@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.game.item.controller;
+package com.qwerty.nexus.domain.game.item.controller.admin;
 
 import com.qwerty.nexus.domain.game.item.dto.request.UserItemStackCreateRequestDto;
 import com.qwerty.nexus.domain.game.item.dto.request.UserItemStackUpdateRequestDto;
@@ -18,11 +18,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping(ApiConstants.Path.USER_ITEM_STACK_PATH)
+@RequestMapping(ApiConstants.Path.ADMIN_USER_ITEM_STACK_PATH)
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "유저 스택형 아이템", description = "유저 스택형(ex: 재화, 소모품 등) 아이템 관련 API")
-public class UserItemStackController {
+@Tag(name = "유저 스택형 아이템 (관리자)", description = "유저 스택형(ex: 재화, 소모품 등) 아이템 관련 API (관리자)")
+public class UserItemStackAdminController {
     private final UserItemStackService service;
 
     /**

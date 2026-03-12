@@ -41,6 +41,10 @@
 - 기본 CRUD외의 메서드의 경우, **비즈니스 의도를 명확히 표현하는** 이름을 사용하며, 상세한 명명 규칙은 코덱스 판단에 따른다.
 
 #### 4.2.1 Controller Class
+- 컨트롤러는 API 호출주체에 따라 관리자(admin, 관리콘솔)와 클라이언트(client, 게임)패키지로 나뉜다.
+  - 관리자 컨트롤러 명명 : `[DOMAIN_NAME]AdminController`
+  - 클라이언트 컨트롤러 명명 : `[DOMAIN_NAME]ClientController`
+  - 어떤 API를 관리자 혹은 클라이언트로 호출할 것인가는 별도의 지시가 없는 한 Codex의 판단에 맡긴다
 - 컨트롤러 메서드는 **HTTP/REST 관점의 동사**를 사용한다.
 - 메서드명에 데이터베이스 중심 용어(`select`, `insert`, `update`, `delete`)를 사용하지 않는다.
 - CRUD 메서드 명명 가이드
@@ -111,6 +115,8 @@
 
 ### 6.1 Controller Class
 - `@RequestMapping`의 경로 값은 `ApiConstants.java`에 정의된 상수 사용하며, 상수가 없는 경우 새로 정의한다.
+  - 관리자 컨트롤러의 경로 형식 `ADMIN_[DOMAIN]_PATH`
+  - 클라이언트 컨트롤러의 경로 형식 `CLIENT_[DOMAIN]_PATH`
 - 반환 타입은 `ResponseEntity<ApiResponse<[TYPE]>>`를 사용한다.
 - Update API는 기본적으로 `@PatchMapping`을 사용하며, `@PutMapping` 사용은 리소스 전체 갱신이 필요한 경우에 한하여 사용한다.
 - Service method 호출 시 전달되는 매개변수에는 `RequestDto` 클래스를 사용한다.

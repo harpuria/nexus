@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.*;
 
 @Log4j2
 @RestController
-@RequestMapping(ApiConstants.Path.GAME_PATH)
+@RequestMapping(ApiConstants.Path.ADMIN_GAME_PATH)
 @RequiredArgsConstructor
-@Tag(name = "게임", description = "게임 관련 API")
+@Tag(name = "게임 (관리자)", description = "게임 관련 API (관리자)")
 public class GameController {
     private final GameService service;
 

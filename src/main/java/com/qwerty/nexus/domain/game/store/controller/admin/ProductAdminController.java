@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.game.store.controller;
+package com.qwerty.nexus.domain.game.store.controller.admin;
 
 import com.qwerty.nexus.domain.game.store.dto.request.ProductBuyRequestDto;
 import com.qwerty.nexus.domain.game.store.dto.request.ProductCreateRequestDto;
@@ -20,21 +20,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(ApiConstants.Path.CLIENT_PRODUCT_PATH)
+@RequestMapping(ApiConstants.Path.ADMIN_PRODUCT_PATH)
 @RequiredArgsConstructor
-@Tag(name = "상품", description = "상품 관련 API")
-public class ProductController {
+@Tag(name = "상품 (관리자)", description = "상품 관련 API (관리자)")
+public class ProductAdminController {
     private final ProductService productService;
-
-    /*
-     *
-     * [Client]
-     * GET /api/v1/store/shops - 유저가 볼 수 있는 상점 목록 조회
-     * GET /api/v1/store/shops/{shopCode} - 특정 상점 상세 조회
-     * GET /api/v1/store/shops/{shopCode}/products - 특정 상점의 상품 목록 조회
-     * POST /api/v1/store/shop-products/{shopProductId}/purchase - 상품 구매
-     *
-     */
 
     /**
      * 상품 정보 생성

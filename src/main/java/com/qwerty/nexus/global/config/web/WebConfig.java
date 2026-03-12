@@ -17,8 +17,6 @@ public class WebConfig implements WebMvcConfigurer {
         // 게임 클라이언트 인터셉터 등록
         registry.addInterceptor(gameClientInterceptor)
                 .addPathPatterns("/api/v1/**") // 적용범위
-                .excludePathPatterns("/api/v1/auth/**") // 예외 (로그인, 토큰 처리)
-                .excludePathPatterns("/api/v1/admin/**", "/api/v1/game/**", "/api/v1/org/**") // 예외 (관리 도메인)
-                .excludePathPatterns("/swagger-ui/**", "/v3/api-docs/**"); // 예외 (스웨거 관련)
+                .excludePathPatterns("/api/v1/auth/**"); // 예외 (로그인, 토큰 처리)
     }
 }

@@ -29,9 +29,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Log4j2
 @RestController
-@RequestMapping(ApiConstants.Path.ORG_PATH)
+@RequestMapping(ApiConstants.Path.ADMIN_ORG_PATH)
 @RequiredArgsConstructor
-@Tag(name = "단체", description = "단체 관련 API")
+@Tag(name = "단체 (관리자)", description = "단체 관련 API (관리자)")
 public class OrganizationController {
     private final OrganizationService organizationService;
 

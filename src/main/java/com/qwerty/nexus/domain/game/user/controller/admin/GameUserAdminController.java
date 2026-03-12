@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.game.user.controller;
+package com.qwerty.nexus.domain.game.user.controller.admin;
 
 import com.qwerty.nexus.domain.game.user.dto.request.GameUserBlockRequestDto;
 import com.qwerty.nexus.domain.game.user.dto.request.GameUserCreateRequestDto;
@@ -24,10 +24,10 @@ import java.time.OffsetDateTime;
 
 @Log4j2
 @RestController
-@RequestMapping(ApiConstants.Path.GAME_USER_PATH)
+@RequestMapping(ApiConstants.Path.ADMIN_GAME_USER_PATH)
 @RequiredArgsConstructor
-@Tag(name = "게임 유저", description = "게임 유저 관련 API")
-public class GameUserController {
+@Tag(name = "게임 유저 (관리자)", description = "게임 유저 관련 API (관리자)")
+public class GameUserAdminController {
     private final GameUserService gameUserService;
 
     /**
@@ -101,7 +101,7 @@ public class GameUserController {
     }
 
     /**
-     * 유저 삭제 처리 (논리적 삭제, 삭제의 경우 부득이한 상황이 아니면 할 일은 없을듯)
+     * 유저 삭제 처리 (논리적 삭제, 삭제의 경우 부득이한 상황이 아니면 할 일 없음.)
      * @param userId
      * @return
      */

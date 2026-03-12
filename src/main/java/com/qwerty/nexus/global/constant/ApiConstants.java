@@ -31,32 +31,52 @@ public final class ApiConstants {
     // =================================================================
     // API 버전 및 경로 관련
     // =================================================================
-
     public static final class Path {
         private Path() {}
 
+        // 관리자(ADMIN), 클라이언트(CLIENT) 기본 경로
+        public static final String ADMIN_API_BASE_PATH = "/admin";
         public static final String API_VERSION = "v1";
-        public static final String API_BASE_PATH = "/api/" + API_VERSION;
+        public static final String CLIENT_API_BASE_PATH = "/api/" + API_VERSION;
 
         // 도메인별 기본 경로
-        public static final String AUTH_PATH = API_BASE_PATH + "/auth";
-        public static final String ADMIN_PATH = API_BASE_PATH + "/admin";
-        public static final String ORG_PATH = API_BASE_PATH + "/org";
-        public static final String GAME_PATH = API_BASE_PATH + "/game";
-        public static final String GAME_USER_PATH = API_BASE_PATH + "/game-user";
-        public static final String PRODUCT_PATH = API_BASE_PATH + "/product";
-        public static final String SHOP_PATH = API_BASE_PATH + "/shop";
-        public static final String COUPON_PATH = API_BASE_PATH + "/coupon";
-        public static final String MAIL_PATH = API_BASE_PATH + "/mail";
-        public static final String USER_MAIL_PATH = API_BASE_PATH + "/user-mail";
+        public static final String AUTH_PATH = "/auth";
+        public static final String GAME_USER_PATH = "/game-user";
+        public static final String PRODUCT_PATH = "/product";
+        public static final String SHOP_PATH = "/shop";
+        public static final String COUPON_PATH = "/coupon";
+        public static final String MAIL_PATH = "/mail";
+        public static final String USER_MAIL_PATH = "/user-mail";
+        public static final String ITEM_PATH = "/item";
+        public static final String USER_ITEM_STACK_PATH = "/user-item-stack";
+        public static final String USER_ITEM_INSTANCE_PATH = "/user-item-instance";
 
-        public static final String ITEM_PATH = API_BASE_PATH + "/item";
-        public static final String USER_ITEM_STACK_PATH = API_BASE_PATH + "/user-item-stack";
-        public static final String USER_ITEM_INSTANCE_PATH = API_BASE_PATH + "/user-item-instance";
+        // 관리자 호출 API 경로 (ADMIN, ORG, GAME 은 관리자에서만 사용가능하므로 바로 경로 작성함)
+        public static final String ADMIN_USER_PATH = ADMIN_API_BASE_PATH + "/admin-user";
+        public static final String ADMIN_ORG_PATH = ADMIN_API_BASE_PATH + "/org";
+        public static final String ADMIN_GAME_PATH = ADMIN_API_BASE_PATH + "/game";
+        public static final String ADMIN_AUTH_PATH = ADMIN_API_BASE_PATH + AUTH_PATH;
+        public static final String ADMIN_GAME_USER_PATH = ADMIN_API_BASE_PATH + GAME_USER_PATH;
+        public static final String ADMIN_PRODUCT_PATH = ADMIN_API_BASE_PATH + PRODUCT_PATH;
+        public static final String ADMIN_SHOP_PATH = ADMIN_API_BASE_PATH + SHOP_PATH;
+        public static final String ADMIN_COUPON_PATH = ADMIN_API_BASE_PATH + COUPON_PATH;
+        public static final String ADMIN_MAIL_PATH = ADMIN_API_BASE_PATH + MAIL_PATH;
+        public static final String ADMIN_USER_MAIL_PATH = ADMIN_API_BASE_PATH + USER_MAIL_PATH;
+        public static final String ADMIN_ITEM_PATH = ADMIN_API_BASE_PATH + ITEM_PATH;
+        public static final String ADMIN_USER_ITEM_STACK_PATH = ADMIN_API_BASE_PATH + USER_ITEM_STACK_PATH;
+        public static final String ADMIN_USER_ITEM_INSTANCE_PATH = ADMIN_API_BASE_PATH + USER_ITEM_INSTANCE_PATH;
 
-        public static final String GAME_TABLE_PATH = API_BASE_PATH + "/game-table";
-        public static final String TABLE_COLUMN_PATH = API_BASE_PATH + "/table-column";
-        public static final String USER_COLUMN_DATA_PATH = API_BASE_PATH + "/user-column-data";
+        // 클라이언트 호출 API 기본 경로
+        public static final String CLIENT_AUTH_PATH = CLIENT_API_BASE_PATH + AUTH_PATH;
+        public static final String CLIENT_GAME_USER_PATH = CLIENT_API_BASE_PATH + GAME_USER_PATH;
+        public static final String CLIENT_PRODUCT_PATH = CLIENT_API_BASE_PATH + PRODUCT_PATH;
+        public static final String CLIENT_SHOP_PATH = CLIENT_API_BASE_PATH + SHOP_PATH;
+        public static final String CLIENT_COUPON_PATH = CLIENT_API_BASE_PATH + COUPON_PATH;
+        public static final String CLIENT_MAIL_PATH = CLIENT_API_BASE_PATH + MAIL_PATH;
+        public static final String CLIENT_USER_MAIL_PATH = CLIENT_API_BASE_PATH + USER_MAIL_PATH;
+        public static final String CLIENT_ITEM_PATH = CLIENT_API_BASE_PATH + ITEM_PATH;
+        public static final String CLIENT_USER_ITEM_STACK_PATH = CLIENT_API_BASE_PATH + USER_ITEM_STACK_PATH;
+        public static final String CLIENT_USER_ITEM_INSTANCE_PATH = CLIENT_API_BASE_PATH + USER_ITEM_INSTANCE_PATH;
     }
 
     // =================================================================
@@ -393,7 +413,7 @@ public final class ApiConstants {
      * @return 전체 경로
      */
     public static String buildDomainPath(String domain) {
-        return Path.API_BASE_PATH + "/" + domain.toLowerCase();
+        return Path.CLIENT_API_BASE_PATH + "/" + domain.toLowerCase();
     }
 
     /**

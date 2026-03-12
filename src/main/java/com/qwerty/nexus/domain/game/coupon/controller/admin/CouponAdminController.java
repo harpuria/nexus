@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.game.coupon.controller;
+package com.qwerty.nexus.domain.game.coupon.controller.admin;
 
 import com.qwerty.nexus.domain.game.coupon.dto.request.CouponCreateRequestDto;
 import com.qwerty.nexus.domain.game.coupon.dto.request.CouponUpdateRequestDto;
@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.*;
 
 @Log4j2
 @RestController
-@RequestMapping(ApiConstants.Path.COUPON_PATH)
+@RequestMapping(ApiConstants.Path.ADMIN_COUPON_PATH)
 @RequiredArgsConstructor
-@Tag(name = "쿠폰", description = "쿠폰 관련 API")
-public class CouponController {
+@Tag(name = "쿠폰 (관리자)", description = "쿠폰 관련 API (관리자)")
+public class CouponAdminController {
     private final CouponService couponService;
 
     /**
@@ -70,7 +70,7 @@ public class CouponController {
     }
 
     /**
-     * 쿠폰 사용
+     * 쿠폰 사용 (운영툴에서 테스트용도로 사용 하는 것임. 불필요시 추후 삭제)
      * @param requestDto
      * @return
      */

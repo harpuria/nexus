@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.game.store.controller;
+package com.qwerty.nexus.domain.game.store.controller.admin;
 
 import com.qwerty.nexus.domain.game.store.dto.request.ShopCreateRequestDto;
 import com.qwerty.nexus.domain.game.store.dto.request.ShopUpdateRequestDto;
@@ -22,11 +22,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(ApiConstants.Path.CLIENT_SHOP_PATH)
+@RequestMapping(ApiConstants.Path.ADMIN_SHOP_PATH)
 @RequiredArgsConstructor
 @Validated
-@Tag(name = "상점", description = "상점 관련 API")
-public class ShopController {
+@Tag(name = "상점 (관리자)", description = "상점 관련 API (관리자)")
+public class ShopAdminController {
     private final ShopService shopService;
 
     @PostMapping

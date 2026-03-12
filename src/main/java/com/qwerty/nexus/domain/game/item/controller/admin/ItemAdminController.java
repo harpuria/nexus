@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.game.item.controller;
+package com.qwerty.nexus.domain.game.item.controller.admin;
 
 import com.qwerty.nexus.domain.game.item.dto.request.ItemCreateRequestDto;
 import com.qwerty.nexus.domain.game.item.dto.request.ItemUpdateRequestDto;
@@ -18,11 +18,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping(ApiConstants.Path.ITEM_PATH)
+@RequestMapping(ApiConstants.Path.ADMIN_ITEM_PATH)
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "아이템", description = "아이템 관련 API")
-public class ItemController {
+@Tag(name = "아이템 (관리자)", description = "아이템 관련 API (관리자)")
+public class ItemAdminController {
     private final ItemService service;
 
     /**

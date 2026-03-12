@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.game.mail.controller;
+package com.qwerty.nexus.domain.game.mail.controller.client;
 
 import com.qwerty.nexus.domain.game.mail.dto.request.UserMailActionRequestDto;
 import com.qwerty.nexus.domain.game.mail.dto.request.UserMailBulkReceiveRequestDto;
@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.*;
 @Log4j2
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(ApiConstants.Path.USER_MAIL_PATH)
-@Tag(name = "유저 우편", description = "유저 우편함 API")
-public class UserMailController {
+@RequestMapping(ApiConstants.Path.CLIENT_USER_MAIL_PATH)
+@Tag(name = "유저 우편 (클라이언트)", description = "유저 우편함 API (클라이언트)")
+public class UserMailClientController {
     private final UserMailService userMailService;
 
     /**
