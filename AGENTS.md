@@ -127,7 +127,22 @@
 - 롤백 없이 부분 업데이트를 수행하는 것은 허용되지 않는다.
 - 다중 쿼리 간 일관성이 요구되지 않는 한 읽기 전용 작업은 트랜잭션 처리되지 않아야 한다.
 - 필요한 경우 읽기 전용 트랜잭션 범위에 `@Transactional(readOnly = true)`를 사용한다.
-- 기본 코드 스타일은 `AdminService.java`를 참조하한다.
+- 모든 아이템(Item)의 보상(Rewards)지급 처리는 RewardService 에서 담당한다.
+```java
+// 우편 보상 지급 처리 예시 코드
+GrantDto grantDto = GrantDto.builder()
+        .gameId(userMailEntity.getGameId())
+        .sourceId(dto.getUserMailId().toString())
+        .rewards(CommonUtil.jsonbToDto(userMailEntity.getRewards(), RewardDto.class))
+        .sourceType(SourceType.MAIL)
+        .build();
+
+boolean grantRst = rewardService.grant(grantDto);
+
+if(!grantRst)
+    return Result.Failure.of("우편 보상 지급 처리 실패.", ErrorCode.INTERNAL_ERROR.getCode());
+```
+- 기본 코드 스타일은 `AdminService.java`를 참조한다.
 
 ### 6.3 Repository Class
 - Select query는 기본적으로 `IS_DEL = ‘N’` 조건을 포함해야 한다.

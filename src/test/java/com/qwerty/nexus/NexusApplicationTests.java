@@ -3,7 +3,7 @@ package com.qwerty.nexus;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qwerty.nexus.domain.game.store.product.dto.ProductInfo;
+import com.qwerty.nexus.domain.game.store.dto.ProductInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

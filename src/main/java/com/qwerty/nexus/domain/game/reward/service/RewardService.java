@@ -45,7 +45,7 @@ public class RewardService {
         int grantId = 0;
         int grantItemId = 0;
 
-        // validation check
+        // 지급 요청 정보 검증처리
         validateGrantRequest(grantDto);
 
         // 아이템 지급 트랜잭션 등록 - PENDING
@@ -89,6 +89,7 @@ public class RewardService {
                         .isStackable(isStackable)
                         .itemCode(rewardItemInfo.getItemCode())
                         .itemType(rewardItemInfo.getItemType().name())
+                        .amount(reward.getAmount())
                         .status("PENDING")
                         .createdBy(REWARD_SERVICE_ACTOR)
                         .updatedBy(REWARD_SERVICE_ACTOR)
