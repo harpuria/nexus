@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.game.mail.controller.client;
+package com.qwerty.nexus.domain.game.mail.controller.admin;
 
 import com.qwerty.nexus.domain.game.mail.dto.request.UserMailActionRequestDto;
 import com.qwerty.nexus.domain.game.mail.dto.request.UserMailBulkReceiveRequestDto;
@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.*;
 @Log4j2
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(ApiConstants.Path.CLIENT_USER_MAIL_PATH)
-@Tag(name = "유저 우편함 (클라이언트)", description = "유저 우편함 API (클라이언트)")
-public class UserMailClientController {
+@RequestMapping(ApiConstants.Path.ADMIN_MAIL_PATH)
+@Tag(name = "유저 우편함 (관리자)", description = "유저 우편함 API (관리자)")
+public class UserMailAdminController {
     private final UserMailService userMailService;
 
     /**
-     * 우편함 열기 (우편 목록)
+     * 유저 우편함 목록 확인
      * @param userId
      * @param page
      * @param size
@@ -57,7 +57,7 @@ public class UserMailClientController {
     }
 
     /**
-     * 우편 단건 읽기 (읽음 Y)
+     * 우편 단건 읽기 (읽음 처리 X)
      * @param userMailId
      * @param requestDto
      * @return
@@ -71,6 +71,20 @@ public class UserMailClientController {
         requestDto.setUserMailId(userMailId);
         Result<UserMailResponseDto> result = userMailService.getUserMail(requestDto);
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
+    }
+
+    // TODO - 이 밑으로는 어드민에서 기능확인용으로 사용하고. 추후 삭제하거나 보완조치 할 것
+
+    /**
+     * 우편 전체 보상 수령 (읽음 Y, 보상 Y)
+     * @param requestDto
+     * @return
+     */
+    @PatchMapping("/receive-all")
+    @Operation(summary = "유저 우편 전체 보상 수령")
+    public ResponseEntity<ApiResponse<Void>> receiveAllUserMail(@Valid @RequestBody UserMailBulkReceiveRequestDto requestDto) {
+        Result<Void> result = userMailService.receiveAllUserMail(requestDto);
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
     /**
@@ -87,18 +101,6 @@ public class UserMailClientController {
     ) {
         requestDto.setUserMailId(userMailId);
         Result<Void> result = userMailService.receiveUserMail(requestDto);
-        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
-    }
-
-    /**
-     * 우편 전체 보상 수령 (읽음 Y, 보상 Y)
-     * @param requestDto
-     * @return
-     */
-    @PatchMapping("/receive-all")
-    @Operation(summary = "유저 우편 전체 보상 수령")
-    public ResponseEntity<ApiResponse<Void>> receiveAllUserMail(@Valid @RequestBody UserMailBulkReceiveRequestDto requestDto) {
-        Result<Void> result = userMailService.receiveAllUserMail(requestDto);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 

@@ -37,11 +37,6 @@ public class ProductRepository {
         this.dao = new ProductDao(configuration);
     }
 
-    /**
-     * 상품 정보 생성
-     * @param entity
-     * @return
-     */
     public Integer insertProduct(ProductEntity entity) {
         ProductRecord record = dslContext.newRecord(PRODUCT, entity);
         record.store();
@@ -49,11 +44,6 @@ public class ProductRepository {
         return record.getProductId();
     }
 
-    /**
-     * 상품 정보 수정
-     * @param entity
-     * @return
-     */
     public int updateProduct(ProductEntity entity) {
         ProductRecord record = dslContext.newRecord(PRODUCT, entity);
         record.changed(PRODUCT.GAME_ID, entity.getGameId() != null);
@@ -69,11 +59,6 @@ public class ProductRepository {
         return record.update();
     }
 
-    /**
-     * 상품 논리 삭제
-     * @param entity
-     * @return
-     */
     public int deleteProduct(ProductEntity entity) {
         ProductRecord record = dslContext.newRecord(PRODUCT, entity);
         record.setIsDel("Y");
@@ -83,11 +68,6 @@ public class ProductRepository {
         return record.update();
     }
 
-    /**
-     * 하나의 상품 정보 가져오기
-     * @param productId
-     * @return
-     */
     public Optional<ProductEntity> findByProductId(Integer productId){
         return Optional.ofNullable(
                 dslContext.select(selectProductWithShopFields())
@@ -106,12 +86,27 @@ public class ProductRepository {
         );
     }
 
-    /**
-     * 상품 목록 정보 가져오기
-     * @param paging
-     * @param gameId
-     * @return
-     */
+    public Optional<ProductEntity> findByGameIdAndShopProductId(int gameId, int shopProductId) {
+        return Optional.ofNullable(
+                dslContext.select(selectProductWithShopFields())
+                        .from(PRODUCT)
+                        .join(SHOP_PRODUCT)
+                        .on(SHOP_PRODUCT.PRODUCT_ID.eq(PRODUCT.PRODUCT_ID))
+                        .join(SHOP)
+                        .on(SHOP.SHOP_ID.eq(SHOP_PRODUCT.SHOP_ID))
+                        .where(PRODUCT.IS_DEL.eq("N"))
+                        .and(PRODUCT.GAME_ID.eq(gameId))
+                        .and(SHOP_PRODUCT.IS_DEL.eq("N"))
+                        .and(SHOP_PRODUCT.GAME_ID.eq(gameId))
+                        .and(SHOP_PRODUCT.SHOP_PRODUCT_ID.eq(shopProductId))
+                        .and(SHOP.IS_DEL.eq("N"))
+                        .and(SHOP.GAME_ID.eq(gameId))
+                        .orderBy(SHOP_PRODUCT.SORT_ORDER.asc(), SHOP_PRODUCT.SHOP_PRODUCT_ID.asc())
+                        .limit(1)
+                        .fetchOneInto(ProductEntity.class)
+        );
+    }
+
     public List<ProductEntity> findAllByGameIdAndKeyword(PagingEntity paging, int gameId) {
         Condition condition = DSL.noCondition();
 
@@ -147,6 +142,31 @@ public class ProductRepository {
                 .fetchInto(ProductEntity.class);
     }
 
+    public List<ProductEntity> findAllByGameIdAndShopCode(PagingEntity paging, int gameId, String shopCode) {
+        int size = paging.getSize() > 0 ? paging.getSize() : ApiConstants.Pagination.DEFAULT_PAGE_SIZE;
+        int page = Math.max(paging.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
+        int offset = page * size;
+        SortField<?> sortField = resolveSortField(paging.getSort(), paging.getDirection());
+
+        return dslContext.select(selectProductWithShopFields())
+                .from(PRODUCT)
+                .join(SHOP_PRODUCT)
+                .on(SHOP_PRODUCT.PRODUCT_ID.eq(PRODUCT.PRODUCT_ID))
+                .join(SHOP)
+                .on(SHOP.SHOP_ID.eq(SHOP_PRODUCT.SHOP_ID))
+                .where(PRODUCT.IS_DEL.eq("N"))
+                .and(PRODUCT.GAME_ID.eq(gameId))
+                .and(SHOP_PRODUCT.IS_DEL.eq("N"))
+                .and(SHOP_PRODUCT.GAME_ID.eq(gameId))
+                .and(SHOP.IS_DEL.eq("N"))
+                .and(SHOP.GAME_ID.eq(gameId))
+                .and(SHOP.SHOP_CODE.eq(shopCode))
+                .orderBy(sortField, SHOP_PRODUCT.SHOP_PRODUCT_ID.asc())
+                .limit(size)
+                .offset(offset)
+                .fetchInto(ProductEntity.class);
+    }
+
     public long countByGameIdAndKeyword(PagingEntity paging, int gameId) {
         Condition condition = DSL.noCondition();
 
@@ -165,6 +185,25 @@ public class ProductRepository {
         Long totalCount = dslContext.selectCount()
                 .from(PRODUCT)
                 .where(condition)
+                .fetchOne(0, Long.class);
+
+        return totalCount != null ? totalCount : 0L;
+    }
+
+    public long countByGameIdAndShopCode(int gameId, String shopCode) {
+        Long totalCount = dslContext.selectCount()
+                .from(PRODUCT)
+                .join(SHOP_PRODUCT)
+                .on(SHOP_PRODUCT.PRODUCT_ID.eq(PRODUCT.PRODUCT_ID))
+                .join(SHOP)
+                .on(SHOP.SHOP_ID.eq(SHOP_PRODUCT.SHOP_ID))
+                .where(PRODUCT.IS_DEL.eq("N"))
+                .and(PRODUCT.GAME_ID.eq(gameId))
+                .and(SHOP_PRODUCT.IS_DEL.eq("N"))
+                .and(SHOP_PRODUCT.GAME_ID.eq(gameId))
+                .and(SHOP.IS_DEL.eq("N"))
+                .and(SHOP.GAME_ID.eq(gameId))
+                .and(SHOP.SHOP_CODE.eq(shopCode))
                 .fetchOne(0, Long.class);
 
         return totalCount != null ? totalCount : 0L;

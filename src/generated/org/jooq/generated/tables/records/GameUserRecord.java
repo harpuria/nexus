@@ -239,10 +239,55 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
     }
 
     /**
+     * Setter for <code>nexus.GAME_USER.LAST_LOGIN_AT</code>. 마지막 로그인 날짜
+     */
+    public GameUserRecord setLastLoginAt(OffsetDateTime value) {
+        set(14, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.GAME_USER.LAST_LOGIN_AT</code>. 마지막 로그인 날짜
+     */
+    public OffsetDateTime getLastLoginAt() {
+        return (OffsetDateTime) get(14);
+    }
+
+    /**
+     * Setter for <code>nexus.GAME_USER.LAST_LOGOUT_AT</code>. 마지막 로그아웃 날짜
+     */
+    public GameUserRecord setLastLogoutAt(OffsetDateTime value) {
+        set(15, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.GAME_USER.LAST_LOGOUT_AT</code>. 마지막 로그아웃 날짜
+     */
+    public OffsetDateTime getLastLogoutAt() {
+        return (OffsetDateTime) get(15);
+    }
+
+    /**
+     * Setter for <code>nexus.GAME_USER.LOGIN_COUNT</code>. 로그인 횟수
+     */
+    public GameUserRecord setLoginCount(Integer value) {
+        set(16, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.GAME_USER.LOGIN_COUNT</code>. 로그인 횟수
+     */
+    public Integer getLoginCount() {
+        return (Integer) get(16);
+    }
+
+    /**
      * Setter for <code>nexus.GAME_USER.CREATED_AT</code>. 데이터 생성 날짜
      */
     public GameUserRecord setCreatedAt(OffsetDateTime value) {
-        set(14, value);
+        set(17, value);
         return this;
     }
 
@@ -250,14 +295,14 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
      * Getter for <code>nexus.GAME_USER.CREATED_AT</code>. 데이터 생성 날짜
      */
     public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(14);
+        return (OffsetDateTime) get(17);
     }
 
     /**
      * Setter for <code>nexus.GAME_USER.CREATED_BY</code>. 데이터 생성자 ID
      */
     public GameUserRecord setCreatedBy(String value) {
-        set(15, value);
+        set(18, value);
         return this;
     }
 
@@ -265,14 +310,14 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
      * Getter for <code>nexus.GAME_USER.CREATED_BY</code>. 데이터 생성자 ID
      */
     public String getCreatedBy() {
-        return (String) get(15);
+        return (String) get(18);
     }
 
     /**
      * Setter for <code>nexus.GAME_USER.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public GameUserRecord setUpdatedAt(OffsetDateTime value) {
-        set(16, value);
+        set(19, value);
         return this;
     }
 
@@ -280,14 +325,14 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
      * Getter for <code>nexus.GAME_USER.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(16);
+        return (OffsetDateTime) get(19);
     }
 
     /**
      * Setter for <code>nexus.GAME_USER.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public GameUserRecord setUpdatedBy(String value) {
-        set(17, value);
+        set(20, value);
         return this;
     }
 
@@ -295,14 +340,14 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
      * Getter for <code>nexus.GAME_USER.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public String getUpdatedBy() {
-        return (String) get(17);
+        return (String) get(20);
     }
 
     /**
      * Setter for <code>nexus.GAME_USER.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public GameUserRecord setIsDel(String value) {
-        set(18, value);
+        set(21, value);
         return this;
     }
 
@@ -310,7 +355,7 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
      * Getter for <code>nexus.GAME_USER.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public String getIsDel() {
-        return (String) get(18);
+        return (String) get(21);
     }
 
     // -------------------------------------------------------------------------
@@ -336,7 +381,7 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
     /**
      * Create a detached, initialised GameUserRecord
      */
-    public GameUserRecord(Integer userId, Integer gameId, String userLId, String userLPw, Provider provider, String socialId, String nickname, String device, OffsetDateTime blockStartDate, OffsetDateTime blockEndDate, String blockReason, String isWithdrawal, OffsetDateTime withdrawalDate, String withdrawalReason, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public GameUserRecord(Integer userId, Integer gameId, String userLId, String userLPw, Provider provider, String socialId, String nickname, String device, OffsetDateTime blockStartDate, OffsetDateTime blockEndDate, String blockReason, String isWithdrawal, OffsetDateTime withdrawalDate, String withdrawalReason, OffsetDateTime lastLoginAt, OffsetDateTime lastLogoutAt, Integer loginCount, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JGameUser.GAME_USER);
 
         setUserId(userId);
@@ -353,6 +398,9 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
         setIsWithdrawal(isWithdrawal);
         setWithdrawalDate(withdrawalDate);
         setWithdrawalReason(withdrawalReason);
+        setLastLoginAt(lastLoginAt);
+        setLastLogoutAt(lastLogoutAt);
+        setLoginCount(loginCount);
         setCreatedAt(createdAt);
         setCreatedBy(createdBy);
         setUpdatedAt(updatedAt);
@@ -382,6 +430,9 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
             setIsWithdrawal(value.getIsWithdrawal());
             setWithdrawalDate(value.getWithdrawalDate());
             setWithdrawalReason(value.getWithdrawalReason());
+            setLastLoginAt(value.getLastLoginAt());
+            setLastLogoutAt(value.getLastLogoutAt());
+            setLoginCount(value.getLoginCount());
             setCreatedAt(value.getCreatedAt());
             setCreatedBy(value.getCreatedBy());
             setUpdatedAt(value.getUpdatedAt());

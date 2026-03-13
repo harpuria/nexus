@@ -26,30 +26,30 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 @RequestMapping(ApiConstants.Path.ADMIN_MAIL_PATH)
-@Tag(name = "우편 (관리자)", description = "우편 메타데이터 API (관리자)")
-public class MailController {
+@Tag(name = "우편 메타데이터 (관리자)", description = "우편 메타데이터 API (관리자)")
+public class MailAdminController {
     private final MailService mailService;
 
     /**
-     * 우편 생성
+     * 우편 메타데이터 생성
      * @param requestDto
      * @return
      */
     @PostMapping
-    @Operation(summary = "우편 생성")
+    @Operation(summary = "우편 메타데이터 생성")
     public ResponseEntity<ApiResponse<Void>> createMail(@Valid @RequestBody MailCreateRequestDto requestDto) {
         Result<Void> result = mailService.createMail(requestDto);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
     /**
-     * 우편 수정
+     * 우편 메타데이터 수정
      * @param mailId
      * @param requestDto
      * @return
      */
     @PatchMapping("/{mailId}")
-    @Operation(summary = "우편 수정")
+    @Operation(summary = "우편 메타데이터 수정")
     public ResponseEntity<ApiResponse<Void>> updateMail(
             @PathVariable("mailId") Integer mailId,
             @Valid @RequestBody MailUpdateRequestDto requestDto
@@ -60,13 +60,13 @@ public class MailController {
     }
 
     /**
-     * 우편 삭제
+     * 우편 메타데이터 삭제
      * @param mailId
      * @param updatedBy
      * @return
      */
     @DeleteMapping("/{mailId}")
-    @Operation(summary = "우편 삭제")
+    @Operation(summary = "우편 메타데이터 삭제")
     public ResponseEntity<ApiResponse<Void>> deleteMail(
             @PathVariable("mailId") Integer mailId,
             @RequestParam @NotBlank(message = "updatedBy는 필수입니다.") String updatedBy
@@ -76,19 +76,19 @@ public class MailController {
     }
 
     /**
-     * 우편 단건 조회
+     * 우편 메타데이터 단건 조회
      * @param mailId
      * @return
      */
     @GetMapping("/{mailId}")
-    @Operation(summary = "우편 단건 조회")
+    @Operation(summary = "우편 메타데이터 단건 조회")
     public ResponseEntity<ApiResponse<MailResponseDto>> getMail(@PathVariable("mailId") Integer mailId) {
         Result<MailResponseDto> result = mailService.getMail(mailId);
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
     /**
-     * 우편 목록 조회
+     * 우편 메타데이터 목록 조회
      * @param gameId
      * @param page
      * @param size
@@ -98,7 +98,7 @@ public class MailController {
      * @return
      */
     @GetMapping("/list/{gameId}")
-    @Operation(summary = "우편 목록 조회")
+    @Operation(summary = "우편 메타데이터 목록 조회")
     public ResponseEntity<ApiResponse<MailListResponseDto>> listMails(
             @PathVariable("gameId") Integer gameId,
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
@@ -119,7 +119,7 @@ public class MailController {
     }
 
     /**
-     * 우편 발송 (즉시)
+     * 유저에게 우편 발송 (즉시)
      * @return
      */
     @PostMapping("/send/{mailId}")

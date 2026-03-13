@@ -140,6 +140,21 @@ public class JGameUser extends TableImpl<GameUserRecord> {
     public final TableField<GameUserRecord, String> WITHDRAWAL_REASON = createField(DSL.name("WITHDRAWAL_REASON"), SQLDataType.VARCHAR(255), this, "게임탈퇴사유");
 
     /**
+     * The column <code>nexus.GAME_USER.LAST_LOGIN_AT</code>. 마지막 로그인 날짜
+     */
+    public final TableField<GameUserRecord, OffsetDateTime> LAST_LOGIN_AT = createField(DSL.name("LAST_LOGIN_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "마지막 로그인 날짜");
+
+    /**
+     * The column <code>nexus.GAME_USER.LAST_LOGOUT_AT</code>. 마지막 로그아웃 날짜
+     */
+    public final TableField<GameUserRecord, OffsetDateTime> LAST_LOGOUT_AT = createField(DSL.name("LAST_LOGOUT_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6), this, "마지막 로그아웃 날짜");
+
+    /**
+     * The column <code>nexus.GAME_USER.LOGIN_COUNT</code>. 로그인 횟수
+     */
+    public final TableField<GameUserRecord, Integer> LOGIN_COUNT = createField(DSL.name("LOGIN_COUNT"), SQLDataType.INTEGER.defaultValue(DSL.field(DSL.raw("0"), SQLDataType.INTEGER)), this, "로그인 횟수");
+
+    /**
      * The column <code>nexus.GAME_USER.CREATED_AT</code>. 데이터 생성 날짜
      */
     public final TableField<GameUserRecord, OffsetDateTime> CREATED_AT = createField(DSL.name("CREATED_AT"), SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false), this, "데이터 생성 날짜");

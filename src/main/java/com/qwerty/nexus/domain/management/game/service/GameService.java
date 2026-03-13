@@ -151,7 +151,6 @@ public class GameService {
 
         return Result.Success.of(response, "게임 목록 조회 완료.");
     }
-
     public boolean checkExistsClientId(String clientId){
         String normalizedClientId = CommonUtil.normalizeText(clientId);
 

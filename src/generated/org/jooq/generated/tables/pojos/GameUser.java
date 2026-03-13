@@ -32,6 +32,9 @@ public class GameUser implements Serializable {
     private String isWithdrawal;
     private OffsetDateTime withdrawalDate;
     private String withdrawalReason;
+    private OffsetDateTime lastLoginAt;
+    private OffsetDateTime lastLogoutAt;
+    private Integer loginCount;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;
@@ -55,6 +58,9 @@ public class GameUser implements Serializable {
         this.isWithdrawal = value.isWithdrawal;
         this.withdrawalDate = value.withdrawalDate;
         this.withdrawalReason = value.withdrawalReason;
+        this.lastLoginAt = value.lastLoginAt;
+        this.lastLogoutAt = value.lastLogoutAt;
+        this.loginCount = value.loginCount;
         this.createdAt = value.createdAt;
         this.createdBy = value.createdBy;
         this.updatedAt = value.updatedAt;
@@ -77,6 +83,9 @@ public class GameUser implements Serializable {
         String isWithdrawal,
         OffsetDateTime withdrawalDate,
         String withdrawalReason,
+        OffsetDateTime lastLoginAt,
+        OffsetDateTime lastLogoutAt,
+        Integer loginCount,
         OffsetDateTime createdAt,
         String createdBy,
         OffsetDateTime updatedAt,
@@ -97,6 +106,9 @@ public class GameUser implements Serializable {
         this.isWithdrawal = isWithdrawal;
         this.withdrawalDate = withdrawalDate;
         this.withdrawalReason = withdrawalReason;
+        this.lastLoginAt = lastLoginAt;
+        this.lastLogoutAt = lastLogoutAt;
+        this.loginCount = loginCount;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.updatedAt = updatedAt;
@@ -321,6 +333,51 @@ public class GameUser implements Serializable {
     }
 
     /**
+     * Getter for <code>nexus.GAME_USER.LAST_LOGIN_AT</code>. 마지막 로그인 날짜
+     */
+    public OffsetDateTime getLastLoginAt() {
+        return this.lastLoginAt;
+    }
+
+    /**
+     * Setter for <code>nexus.GAME_USER.LAST_LOGIN_AT</code>. 마지막 로그인 날짜
+     */
+    public GameUser setLastLoginAt(OffsetDateTime lastLoginAt) {
+        this.lastLoginAt = lastLoginAt;
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.GAME_USER.LAST_LOGOUT_AT</code>. 마지막 로그아웃 날짜
+     */
+    public OffsetDateTime getLastLogoutAt() {
+        return this.lastLogoutAt;
+    }
+
+    /**
+     * Setter for <code>nexus.GAME_USER.LAST_LOGOUT_AT</code>. 마지막 로그아웃 날짜
+     */
+    public GameUser setLastLogoutAt(OffsetDateTime lastLogoutAt) {
+        this.lastLogoutAt = lastLogoutAt;
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.GAME_USER.LOGIN_COUNT</code>. 로그인 횟수
+     */
+    public Integer getLoginCount() {
+        return this.loginCount;
+    }
+
+    /**
+     * Setter for <code>nexus.GAME_USER.LOGIN_COUNT</code>. 로그인 횟수
+     */
+    public GameUser setLoginCount(Integer loginCount) {
+        this.loginCount = loginCount;
+        return this;
+    }
+
+    /**
      * Getter for <code>nexus.GAME_USER.CREATED_AT</code>. 데이터 생성 날짜
      */
     public OffsetDateTime getCreatedAt() {
@@ -488,6 +545,24 @@ public class GameUser implements Serializable {
         }
         else if (!this.withdrawalReason.equals(other.withdrawalReason))
             return false;
+        if (this.lastLoginAt == null) {
+            if (other.lastLoginAt != null)
+                return false;
+        }
+        else if (!this.lastLoginAt.equals(other.lastLoginAt))
+            return false;
+        if (this.lastLogoutAt == null) {
+            if (other.lastLogoutAt != null)
+                return false;
+        }
+        else if (!this.lastLogoutAt.equals(other.lastLogoutAt))
+            return false;
+        if (this.loginCount == null) {
+            if (other.loginCount != null)
+                return false;
+        }
+        else if (!this.loginCount.equals(other.loginCount))
+            return false;
         if (this.createdAt == null) {
             if (other.createdAt != null)
                 return false;
@@ -539,6 +614,9 @@ public class GameUser implements Serializable {
         result = prime * result + ((this.isWithdrawal == null) ? 0 : this.isWithdrawal.hashCode());
         result = prime * result + ((this.withdrawalDate == null) ? 0 : this.withdrawalDate.hashCode());
         result = prime * result + ((this.withdrawalReason == null) ? 0 : this.withdrawalReason.hashCode());
+        result = prime * result + ((this.lastLoginAt == null) ? 0 : this.lastLoginAt.hashCode());
+        result = prime * result + ((this.lastLogoutAt == null) ? 0 : this.lastLogoutAt.hashCode());
+        result = prime * result + ((this.loginCount == null) ? 0 : this.loginCount.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
@@ -565,6 +643,9 @@ public class GameUser implements Serializable {
         sb.append(", ").append(isWithdrawal);
         sb.append(", ").append(withdrawalDate);
         sb.append(", ").append(withdrawalReason);
+        sb.append(", ").append(lastLoginAt);
+        sb.append(", ").append(lastLogoutAt);
+        sb.append(", ").append(loginCount);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(createdBy);
         sb.append(", ").append(updatedAt);

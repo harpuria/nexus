@@ -24,30 +24,30 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(ApiConstants.Path.ADMIN_COUPON_PATH)
 @RequiredArgsConstructor
-@Tag(name = "쿠폰 (관리자)", description = "쿠폰 관련 API (관리자)")
+@Tag(name = "쿠폰 메타데이터 (관리자)", description = "쿠폰 메타데이터 관련 API (관리자)")
 public class CouponAdminController {
     private final CouponService couponService;
 
     /**
-     * 쿠폰 생성
+     * 쿠폰 메타데이터 생성
      * @param requestDto
      * @return
      */
     @PostMapping
-    @Operation(summary = "쿠폰 생성")
+    @Operation(summary = "쿠폰 메타데이터 생성")
     public ResponseEntity<ApiResponse<Void>> createCoupon(@Valid @RequestBody CouponCreateRequestDto requestDto) {
         Result<Void> result = couponService.createCoupon(requestDto);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
     /**
-     * 쿠폰 수정
+     * 쿠폰 메타데이터 수정
      * @param couponId
      * @param requestDto
      * @return
      */
     @PatchMapping("/{couponId}")
-    @Operation(summary = "쿠폰 수정")
+    @Operation(summary = "쿠폰 메타데이터 수정")
     public ResponseEntity<ApiResponse<Void>> updateCoupon(
             @PathVariable("couponId") Integer couponId,
             @Valid @RequestBody CouponUpdateRequestDto requestDto
@@ -63,21 +63,9 @@ public class CouponAdminController {
      * @return
      */
     @DeleteMapping("/{couponId}")
-    @Operation(summary = "쿠폰 삭제")
+    @Operation(summary = "쿠폰 메타데이터 삭제")
     public ResponseEntity<ApiResponse<Void>> deleteCoupon(@PathVariable("couponId") Integer couponId) {
         Result<Void> result = couponService.deleteCoupon(couponId);
-        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
-    }
-
-    /**
-     * 쿠폰 사용 (운영툴에서 테스트용도로 사용 하는 것임. 불필요시 추후 삭제)
-     * @param requestDto
-     * @return
-     */
-    @PostMapping("/use")
-    @Operation(summary = "쿠폰 사용")
-    public ResponseEntity<ApiResponse<Void>> useCoupon(@Valid @RequestBody UseCouponRequestDto requestDto) {
-        Result<Void> result = couponService.useCoupon(requestDto);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
@@ -87,7 +75,7 @@ public class CouponAdminController {
      * @return
      */
     @GetMapping("/{couponId}")
-    @Operation(summary = "쿠폰 단건 조회")
+    @Operation(summary = "쿠폰 메타데이터 단건 조회")
     public ResponseEntity<ApiResponse<CouponResponseDto>> getCoupon(@PathVariable("couponId") Integer couponId) {
         Result<CouponResponseDto> result = couponService.getCoupon(couponId);
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
@@ -104,7 +92,7 @@ public class CouponAdminController {
      * @return
      */
     @GetMapping("/list/{gameId}")
-    @Operation(summary = "쿠폰 목록 조회")
+    @Operation(summary = "쿠폰 메타데이터 목록 조회")
     public ResponseEntity<ApiResponse<CouponListResponseDto>> listCoupons(
             @PathVariable("gameId") Integer gameId,
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
@@ -129,4 +117,20 @@ public class CouponAdminController {
         pagingRequestDto.setKeyword(keyword);
         return pagingRequestDto;
     }
+
+    // TODO - 아래 API 들은 어드민에서 관리 및 테스트용도로 사용. 불필요시 추후 삭제하거나 코드 보완.
+
+    /**
+     * 쿠폰 사용
+     * @param requestDto
+     * @return
+     */
+    @PostMapping("/use")
+    @Operation(summary = "쿠폰 사용")
+    public ResponseEntity<ApiResponse<Void>> useCoupon(@Valid @RequestBody UseCouponRequestDto requestDto) {
+        Result<Void> result = couponService.useCoupon(requestDto);
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
+    }
+
+
 }

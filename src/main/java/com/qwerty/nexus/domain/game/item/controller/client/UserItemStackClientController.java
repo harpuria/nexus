@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserItemStackClientController {
     private final UserItemStackService service;
 
+    // TODO - 스택형이면 소모품인 경우 아이템을 사용하는 거도 고려해야함
+
     /**
      * 유저 스택형 아이템 목록 조회
      * @param userId

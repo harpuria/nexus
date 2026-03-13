@@ -6,6 +6,7 @@ import com.qwerty.nexus.domain.game.store.dto.response.ShopListResponseDto;
 import com.qwerty.nexus.domain.game.store.dto.response.ShopResponseDto;
 import com.qwerty.nexus.domain.game.store.entity.ShopEntity;
 import com.qwerty.nexus.domain.game.store.repository.ShopRepository;
+import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.PagingEntity;
 import com.qwerty.nexus.global.paging.PagingRequestDto;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,16 +45,16 @@ public class ShopService {
 
         Integer shopId = shopRepository.insertShop(entity);
         if (shopId == null) {
-            return Result.Failure.of("상점 생성에 실패했습니다.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("Failed to create shop.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(null, "상점 생성 성공.");
+        return Result.Success.of(null, ApiConstants.Messages.Success.CREATED);
     }
 
     @Transactional
     public Result<Void> updateShop(ShopUpdateRequestDto requestDto) {
         if (shopRepository.findByShopId(requestDto.getShopId()).isEmpty()) {
-            return Result.Failure.of("상점 정보가 존재하지 않습니다.", ErrorCode.NOT_FOUND.getCode());
+            return Result.Failure.of("Shop not found.", ErrorCode.NOT_FOUND.getCode());
         }
 
         ShopEntity entity = ShopEntity.builder()
@@ -72,16 +74,16 @@ public class ShopService {
 
         int updateCount = shopRepository.updateShop(entity);
         if (updateCount <= 0) {
-            return Result.Failure.of("상점 수정에 실패했습니다.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("Failed to update shop.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(null, "상점 수정 성공.");
+        return Result.Success.of(null, ApiConstants.Messages.Success.UPDATED);
     }
 
     @Transactional
     public Result<Void> deleteShop(Integer shopId, String updatedBy) {
         if (shopRepository.findByShopId(shopId).isEmpty()) {
-            return Result.Failure.of("상점 정보가 존재하지 않습니다.", ErrorCode.NOT_FOUND.getCode());
+            return Result.Failure.of("Shop not found.", ErrorCode.NOT_FOUND.getCode());
         }
 
         ShopEntity entity = ShopEntity.builder()
@@ -92,22 +94,23 @@ public class ShopService {
 
         int deleteCount = shopRepository.updateShop(entity);
         if (deleteCount <= 0) {
-            return Result.Failure.of("상점 삭제에 실패했습니다.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("Failed to delete shop.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        return Result.Success.of(null, "상점 삭제 성공.");
+        return Result.Success.of(null, ApiConstants.Messages.Success.DELETED);
     }
 
+    @Transactional(readOnly = true)
     public Result<ShopResponseDto> getShop(Integer shopId) {
-        return null;
-        /*return shopRepository.findByShopId(shopId)
-                .map(ShopResponseDto::from)
-                .map(dto -> Result.Success.of(dto, "상점 조회 성공."))
-                .orElseGet(() -> Result.Failure.of("상점 정보가 존재하지 않습니다.", ErrorCode.NOT_FOUND.getCode()));
+        Optional<ShopEntity> shop = shopRepository.findByShopId(shopId);
+        if (shop.isEmpty()) {
+            return Result.Failure.of("Shop not found.", ErrorCode.NOT_FOUND.getCode());
+        }
 
-         */
+        return Result.Success.of(ShopResponseDto.from(shop.get()), ApiConstants.Messages.Success.RETRIEVED);
     }
 
+    @Transactional(readOnly = true)
     public Result<ShopListResponseDto> listShops(PagingRequestDto pagingRequestDto, int gameId) {
         PagingEntity pagingEntity = PagingUtil.getPagingEntity(pagingRequestDto);
 
@@ -132,6 +135,21 @@ public class ShopService {
                 .hasPrevious(hasPrevious)
                 .build();
 
-        return Result.Success.of(responseDto, "상점 목록 조회 성공.");
+        return Result.Success.of(responseDto, ApiConstants.Messages.Success.RETRIEVED);
+    }
+
+    @Transactional(readOnly = true)
+    public Result<ShopListResponseDto> listStoreShops(PagingRequestDto pagingRequestDto, int gameId) {
+        return listShops(pagingRequestDto, gameId);
+    }
+
+    @Transactional(readOnly = true)
+    public Result<ShopResponseDto> getStoreShop(int gameId, String shopCode) {
+        Optional<ShopEntity> shop = shopRepository.findByGameIdAndShopCode(gameId, shopCode);
+        if (shop.isEmpty()) {
+            return Result.Failure.of("Shop not found.", ErrorCode.NOT_FOUND.getCode());
+        }
+
+        return Result.Success.of(ShopResponseDto.from(shop.get()), ApiConstants.Messages.Success.RETRIEVED);
     }
 }

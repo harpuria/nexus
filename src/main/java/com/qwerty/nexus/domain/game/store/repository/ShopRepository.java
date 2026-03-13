@@ -65,6 +65,16 @@ public class ShopRepository {
                 .fetchOneInto(ShopEntity.class));
     }
 
+    public Optional<ShopEntity> findByGameIdAndShopCode(Integer gameId, String shopCode) {
+        return Optional.ofNullable(
+                dslContext.selectFrom(SHOP)
+                        .where(SHOP.IS_DEL.eq("N"))
+                        .and(SHOP.GAME_ID.eq(gameId))
+                        .and(SHOP.SHOP_CODE.eq(shopCode))
+                        .fetchOneInto(ShopEntity.class)
+        );
+    }
+
     public List<ShopEntity> findAllByGameIdAndKeyword(PagingEntity paging, int gameId) {
         Condition condition = DSL.noCondition();
 

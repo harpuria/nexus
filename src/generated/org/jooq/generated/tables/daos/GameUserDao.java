@@ -268,6 +268,51 @@ public class GameUserDao extends DAOImpl<GameUserRecord, GameUser, Integer> {
     }
 
     /**
+     * Fetch records that have <code>LAST_LOGIN_AT BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<GameUser> fetchRangeOfJLastLoginAt(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
+        return fetchRange(JGameUser.GAME_USER.LAST_LOGIN_AT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>LAST_LOGIN_AT IN (values)</code>
+     */
+    public List<GameUser> fetchByJLastLoginAt(OffsetDateTime... values) {
+        return fetch(JGameUser.GAME_USER.LAST_LOGIN_AT, values);
+    }
+
+    /**
+     * Fetch records that have <code>LAST_LOGOUT_AT BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<GameUser> fetchRangeOfJLastLogoutAt(OffsetDateTime lowerInclusive, OffsetDateTime upperInclusive) {
+        return fetchRange(JGameUser.GAME_USER.LAST_LOGOUT_AT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>LAST_LOGOUT_AT IN (values)</code>
+     */
+    public List<GameUser> fetchByJLastLogoutAt(OffsetDateTime... values) {
+        return fetch(JGameUser.GAME_USER.LAST_LOGOUT_AT, values);
+    }
+
+    /**
+     * Fetch records that have <code>LOGIN_COUNT BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<GameUser> fetchRangeOfJLoginCount(Integer lowerInclusive, Integer upperInclusive) {
+        return fetchRange(JGameUser.GAME_USER.LOGIN_COUNT, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>LOGIN_COUNT IN (values)</code>
+     */
+    public List<GameUser> fetchByJLoginCount(Integer... values) {
+        return fetch(JGameUser.GAME_USER.LOGIN_COUNT, values);
+    }
+
+    /**
      * Fetch records that have <code>CREATED_AT BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */

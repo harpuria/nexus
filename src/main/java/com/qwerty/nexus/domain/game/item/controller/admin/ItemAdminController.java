@@ -21,30 +21,30 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(ApiConstants.Path.ADMIN_ITEM_PATH)
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "아이템 (관리자)", description = "아이템 관련 API (관리자)")
+@Tag(name = "아이템 메타데이터 (관리자)", description = "아이템 메타데이터 관련 API (관리자)")
 public class ItemAdminController {
     private final ItemService service;
 
     /**
-     * 아이템 정보 생성
+     * 아이템 메타데이터 생성
      * @param dto
      * @return
      */
     @PostMapping
-    @Operation(summary = "아이템 정보 생성")
+    @Operation(summary = "아이템 메타데이터 생성")
     public ResponseEntity<ApiResponse<Void>> createItem(@Valid @RequestBody ItemCreateRequestDto dto) {
         Result<Void> result = service.createItem(dto);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
     /**
-     * 아이템 정보 수정
+     * 아이템 메타데이터 수정
      * @param itemId
      * @param dto
      * @return
      */
     @PatchMapping("/{itemId}")
-    @Operation(summary = "아이템 정보 수정")
+    @Operation(summary = "아이템 메타데이터 수정")
     public ResponseEntity<ApiResponse<Void>> updateItem(@PathVariable("itemId") int itemId, @Valid @RequestBody ItemUpdateRequestDto dto) {
         dto.setItemId(itemId);
         Result<Void> result = service.updateItem(dto);
@@ -52,12 +52,12 @@ public class ItemAdminController {
     }
 
     /**
-     * 아이템 정보 삭제 (논리적 삭제)
+     * 아이템 메타데이터 삭제
      * @param itemId
      * @return
      */
     @DeleteMapping("/{itemId}")
-    @Operation(summary = "아이템 정보 삭제")
+    @Operation(summary = "아이템 메타데이터 삭제")
     public ResponseEntity<ApiResponse<Void>> deleteItem(@PathVariable("itemId") int itemId) {
         ItemUpdateRequestDto dto = new ItemUpdateRequestDto();
         dto.setItemId(itemId);
@@ -67,19 +67,19 @@ public class ItemAdminController {
     }
 
     /**
-     * 아이템 단건 조회
+     * 아이템 메타데이터 단건 조회
      * @param itemId
      * @return
      */
     @GetMapping("/{itemId}")
-    @Operation(summary = "아이템 단건 조회")
+    @Operation(summary = "아이템 메타데이터 단건 조회")
     public ResponseEntity<ApiResponse<ItemResponseDto>> getItem(@PathVariable("itemId") int itemId) {
         Result<ItemResponseDto> result = service.getItem(itemId);
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
     /**
-     * 아이템 목록 조회
+     * 아이템 메타데이터 목록 조회
      * @param gameId
      * @param page
      * @param size
@@ -89,7 +89,7 @@ public class ItemAdminController {
      * @return
      */
     @GetMapping("/list/{gameId}")
-    @Operation(summary = "아이템 목록 조회")
+    @Operation(summary = "아이템 메타데이터 목록 조회")
     public ResponseEntity<ApiResponse<ItemListResponseDto>> listItems(
             @PathVariable("gameId") int gameId,
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
