@@ -22,13 +22,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(ApiConstants.Path.CLIENT_STORE_PATH)
 @RequiredArgsConstructor
-@Tag(name = "Store (Client)", description = "Store query and purchase API (Client)")
+@Tag(name = "상점 (클라이언트)", description = "상점 조회 및 구매 API (클라이언트)")
 public class StoreClientController {
     private final ProductService productService;
     private final ShopService shopService;
 
     @GetMapping("/shops")
-    @Operation(summary = "List stores")
+    @Operation(summary = "상점 목록 조회")
     public ResponseEntity<ApiResponse<ShopListResponseDto>> listStoreShops(
             @RequestParam int gameId,
             @RequestParam(defaultValue = "" + ApiConstants.Pagination.DEFAULT_PAGE_NUMBER) int page,
@@ -47,7 +47,7 @@ public class StoreClientController {
     }
 
     @GetMapping("/shops/{shopCode}")
-    @Operation(summary = "Get store")
+    @Operation(summary = "상점 단건 조회")
     public ResponseEntity<ApiResponse<ShopResponseDto>> getStoreShop(
             @PathVariable String shopCode,
             @RequestParam int gameId
@@ -57,7 +57,7 @@ public class StoreClientController {
     }
 
     @GetMapping("/shops/{shopCode}/products")
-    @Operation(summary = "List store products")
+    @Operation(summary = "상점 상품 목록 조회")
     public ResponseEntity<ApiResponse<ProductListResponseDto>> listStoreProducts(
             @PathVariable String shopCode,
             @RequestParam int gameId,
@@ -77,7 +77,7 @@ public class StoreClientController {
     }
 
     @PostMapping("/shop-products/{shopProductId}/purchase")
-    @Operation(summary = "Purchase product")
+    @Operation(summary = "상품 구매")
     public ResponseEntity<ApiResponse<Void>> createStorePurchase(
             @PathVariable Integer shopProductId,
             @RequestParam int gameId,
