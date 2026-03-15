@@ -26,18 +26,6 @@ public class UserItemInstanceAdminController {
     private final UserItemInstanceService service;
 
     /**
-     * 유저 인스턴스형 아이템 생성
-     * @param dto
-     * @return
-     */
-    @PostMapping
-    @Operation(summary = "유저 인스턴스형 아이템 생성")
-    public ResponseEntity<ApiResponse<Void>> createUserItemInstance(@Valid @RequestBody UserItemInstanceCreateRequestDto dto) {
-        Result<Void> result = service.createUserItemInstance(dto);
-        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
-    }
-
-    /**
      * 유저 인스턴스형 아이템 수정
      * @param userItemId
      * @param dto

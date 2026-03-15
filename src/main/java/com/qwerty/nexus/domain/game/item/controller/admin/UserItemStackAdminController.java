@@ -26,18 +26,6 @@ public class UserItemStackAdminController {
     private final UserItemStackService service;
 
     /**
-     * 유저 스택형 아이템 생성
-     * @param dto
-     * @return
-     */
-    @PostMapping
-    @Operation(summary = "유저 스택형 아이템 생성")
-    public ResponseEntity<ApiResponse<Void>> createUserItemStack(@Valid @RequestBody UserItemStackCreateRequestDto dto) {
-        Result<Void> result = service.createUserItemStack(dto);
-        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
-    }
-
-    /**
      * 유저 스택형 아이템 수정
      * @param userItemStackId
      * @param dto
