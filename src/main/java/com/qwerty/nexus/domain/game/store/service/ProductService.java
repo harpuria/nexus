@@ -169,15 +169,6 @@ public class ProductService {
     }
 
     @Transactional
-    public Result<Void> buyProduct(ProductBuyRequestDto dto) {
-        if (dto.getProductId() <= 0 || dto.getUserId() <= 0) {
-            return Result.Failure.of("유효하지 않은 상품 ID 또는 유저 ID입니다.", ErrorCode.INVALID_REQUEST.getCode());
-        }
-
-        return Result.Failure.of("상점 상품 구매 정책이 아직 구현되지 않았습니다.", ErrorCode.INVALID_REQUEST.getCode());
-    }
-
-    @Transactional
     public Result<Void> purchaseStoreProduct(ShopProductPurchaseRequestDto dto, int gameId) {
         if (dto.getShopProductId() == null || dto.getShopProductId() <= 0 || dto.getUserId() <= 0) {
             return Result.Failure.of("유효하지 않은 상점 상품 ID 또는 유저 ID입니다.", ErrorCode.INVALID_REQUEST.getCode());

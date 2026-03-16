@@ -68,18 +68,6 @@ public class ProductAdminController {
     }
 
     /**
-     * 상품 구매 및 지급 (테스트용도)
-     * @param requestDto
-     * @return
-     */
-    @PostMapping("/buy")
-    @Operation(summary = "상품 구매 및 지급")
-    public ResponseEntity<ApiResponse<Void>> buyProduct(@Valid @RequestBody ProductBuyRequestDto requestDto) {
-        Result<Void> result = productService.buyProduct(requestDto);
-        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
-    }
-
-    /**
      * 상품 목록 조회
      * @param gameId
      * @param page
@@ -111,12 +99,12 @@ public class ProductAdminController {
     }
 
     /**
-     * 하나의 상품 조회
+     * 상품 단건 조회
      * @param productId
      * @return
      */
     @GetMapping("/{productId}")
-    @Operation(summary = "하나의 상품 조회")
+    @Operation(summary = "상품 단건 조회")
     public ResponseEntity<ApiResponse<ProductDetailResponseDto>> getProduct(@PathVariable("productId") int productId){
         Result<ProductDetailResponseDto> result = productService.getProduct(productId);
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);

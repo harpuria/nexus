@@ -122,8 +122,10 @@ public class StoreAdminController {
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
+    // TODO - 아래 API 들은 어드민에서 관리 및 테스트용도로 사용. 불필요시 추후 삭제하거나 코드 보완.
+
     /**
-     * 상품 구매 (테스트용)
+     * 상품 구매
      * @param shopProductId
      * @param gameId
      * @param requestDto

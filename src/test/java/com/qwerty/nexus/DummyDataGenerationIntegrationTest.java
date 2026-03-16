@@ -52,6 +52,14 @@ class DummyDataGenerationIntegrationTest {
     private final OrganizationRepository organizationRepository;
     private final GameRepository gameRepository;
 
+    private final int ADMIN_MAX = 20;
+    private final int GAME_MAX = 20;
+    private final int USER_MAX = 20;
+    private final int STACK_ITEM_MAX = 10;
+    private final int INSTANCE_ITEM_MAX = 10;
+    private final int COUPON_MAX = 10;
+
+
     @Autowired
     DummyDataGenerationIntegrationTest(
             AdminService adminService,
@@ -86,7 +94,7 @@ class DummyDataGenerationIntegrationTest {
         String batchKey = UUID.randomUUID().toString().substring(0, 8);
         List<AdminRole> adminRoles = List.of(AdminRole.ADMIN, AdminRole.NONE);
 
-        for (int i = 1; i <= 100; i++) {
+        for (int i = 1; i <= ADMIN_MAX; i++) {
             AdminCreateRequestDto dto = new AdminCreateRequestDto();
             dto.setLoginId("dummy_admin_" + batchKey + "_" + i);
             dto.setLoginPw("admin_pw_" + i);
@@ -99,7 +107,7 @@ class DummyDataGenerationIntegrationTest {
             Assertions.assertInstanceOf(Result.Success.class, result, "관리자 생성 실패 index=" + i);
         }
 
-        for (int i = 1; i <= 100; i++) {
+        for (int i = 1; i <= GAME_MAX; i++) {
             GameCreateRequestDto dto = new GameCreateRequestDto();
             dto.setOrgId(1);
             dto.setName("더미게임_" + batchKey + "_" + i);
@@ -110,7 +118,7 @@ class DummyDataGenerationIntegrationTest {
             Assertions.assertInstanceOf(Result.Success.class, result, "게임 생성 실패 index=" + i);
         }
 
-        for (int i = 1; i <= 500; i++) {
+        for (int i = 1; i <= USER_MAX; i++) {
             GameUserCreateRequestDto dto = new GameUserCreateRequestDto();
             dto.setGameId(1);
             dto.setUserLId("dummy_user_" + batchKey + "_" + i);
@@ -125,7 +133,7 @@ class DummyDataGenerationIntegrationTest {
             Assertions.assertInstanceOf(Result.Success.class, result, "유저 생성 실패 index=" + i);
         }
 
-        for (int i = 1; i <= 50; i++) {
+        for (int i = 1; i <= STACK_ITEM_MAX; i++) {
             ItemCreateRequestDto dto = new ItemCreateRequestDto();
             dto.setGameId(1);
             dto.setItemCode("STACK_ITEM_" + batchKey + "_" + i);
@@ -143,7 +151,7 @@ class DummyDataGenerationIntegrationTest {
             Assertions.assertInstanceOf(Result.Success.class, result, "스택형 아이템 생성 실패 index=" + i);
         }
 
-        for (int i = 1; i <= 50; i++) {
+        for (int i = 1; i <= INSTANCE_ITEM_MAX; i++) {
             ItemCreateRequestDto dto = new ItemCreateRequestDto();
             dto.setGameId(1);
             dto.setItemCode("INSTANCE_ITEM_" + batchKey + "_" + i);
@@ -161,7 +169,7 @@ class DummyDataGenerationIntegrationTest {
             Assertions.assertInstanceOf(Result.Success.class, result, "인스턴스형 아이템 생성 실패 index=" + i);
         }
 
-        for (int i = 1; i <= 100; i++) {
+        for (int i = 1; i <= COUPON_MAX; i++) {
             CouponCreateRequestDto dto = new CouponCreateRequestDto();
             dto.setGameId(1);
             dto.setName("더미 쿠폰 " + i);
@@ -219,7 +227,7 @@ class DummyDataGenerationIntegrationTest {
             dto.setName("더미 상점 " + i);
             dto.setDesc("통합 테스트 더미 상점");
             dto.setShopType("NORMAL");
-            dto.setTimeLimitType("ALWAYS");
+            dto.setTimeLimitType("UNLIMITED");
             dto.setOpenAt(LocalDateTime.now().minusDays(1));
             dto.setCloseAt(LocalDateTime.now().plusYears(1));
             dto.setSortOrder(i);
