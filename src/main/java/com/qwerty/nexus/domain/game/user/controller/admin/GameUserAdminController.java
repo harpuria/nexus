@@ -132,6 +132,13 @@ public class GameUserAdminController {
 
     /**
      * 게임 유저 목록 조회
+     * @param gameId
+     * @param page
+     * @param size
+     * @param sort
+     * @param keyword
+     * @param direction
+     * @return
      */
     @GetMapping("/list/{gameId}")
     @Operation(summary = "게임 유저 목록 조회")

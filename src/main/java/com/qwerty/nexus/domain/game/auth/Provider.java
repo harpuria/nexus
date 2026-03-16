@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.auth;
+package com.qwerty.nexus.domain.game.auth;
 
 public enum Provider {
     GOOGLE,

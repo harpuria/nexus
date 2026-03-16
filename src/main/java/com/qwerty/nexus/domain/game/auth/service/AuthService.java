@@ -1,8 +1,8 @@
-package com.qwerty.nexus.domain.auth.service;
+package com.qwerty.nexus.domain.game.auth.service;
 
-import com.qwerty.nexus.domain.auth.Provider;
-import com.qwerty.nexus.domain.auth.dto.request.AuthRequestDto;
-import com.qwerty.nexus.domain.auth.dto.response.AuthResponseDto;
+import com.qwerty.nexus.domain.game.auth.Provider;
+import com.qwerty.nexus.domain.game.auth.dto.request.AuthRequestDto;
+import com.qwerty.nexus.domain.game.auth.dto.response.AuthResponseDto;
 import com.qwerty.nexus.domain.game.item.entity.ItemEntity;
 import com.qwerty.nexus.domain.game.item.entity.UserItemStackEntity;
 import com.qwerty.nexus.domain.game.item.repository.ItemRepository;

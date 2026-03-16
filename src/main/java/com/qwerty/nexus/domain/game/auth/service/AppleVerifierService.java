@@ -1,4 +1,4 @@
-package com.qwerty.nexus.domain.auth.service;
+package com.qwerty.nexus.domain.game.auth.service;
 
 import org.springframework.stereotype.Service;
 

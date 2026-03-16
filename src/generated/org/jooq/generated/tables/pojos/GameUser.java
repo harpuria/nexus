@@ -4,7 +4,7 @@
 package org.jooq.generated.tables.pojos;
 
 
-import com.qwerty.nexus.domain.auth.Provider;
+import com.qwerty.nexus.domain.game.auth.Provider;
 
 import java.io.Serializable;
 import java.time.OffsetDateTime;

@@ -1,9 +1,8 @@
 package com.qwerty.nexus.domain.game.user.entity;
 
-import com.qwerty.nexus.domain.auth.Provider;
+import com.qwerty.nexus.domain.game.auth.Provider;
 import lombok.Builder;
 import lombok.Getter;
-import org.jooq.generated.tables.records.GameUserRecord;
 
 import java.time.OffsetDateTime;
 

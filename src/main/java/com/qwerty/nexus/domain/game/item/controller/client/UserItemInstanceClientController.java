@@ -25,7 +25,12 @@ import org.springframework.web.bind.annotation.*;
 public class UserItemInstanceClientController {
     private final UserItemInstanceService service;
 
-    // TODO - 인스턴스형이면 강화, 장착 등 상태값을 갱신하는 작업도 필요할 것임
+    /*
+        TODO - 인스턴스형형 추가할만한 API 목록
+        1) 아이템 장착
+        2) 아이템 버리기 (IS_DEL Y 처리)
+        3) 아이템 강화
+     */
 
     /**
      * 유저 인스턴스형 아이템 목록 조회

@@ -1,10 +1,10 @@
-package com.qwerty.nexus.domain.auth.service;
+package com.qwerty.nexus.domain.game.auth.service;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
-import com.qwerty.nexus.domain.auth.dto.request.AuthRequestDto;
+import com.qwerty.nexus.domain.game.auth.dto.request.AuthRequestDto;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 

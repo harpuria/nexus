@@ -40,7 +40,7 @@ public class UserItemStackAdminController {
     }
 
     /**
-     * 유저 스택형 아이템 삭제
+     * 유저 스택형 아이템 삭제 (유저 아이템과 유저는 강하게 연결되어있기 때문에, 삭제는 가급적 금지)
      * @param userItemStackId
      * @return
      */

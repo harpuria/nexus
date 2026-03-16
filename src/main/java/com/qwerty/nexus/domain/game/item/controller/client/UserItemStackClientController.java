@@ -25,7 +25,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserItemStackClientController {
     private final UserItemStackService service;
 
-    // TODO - 스택형이면 소모품인 경우 아이템을 사용하는 거도 고려해야함
+    /*
+        TODO - 스택형 추가할만한 API 목록
+        1) 소모품 아이템 사용
+        2) 아이템 버리기 (DEL 이 아니고 수량을 0 으로 만들면 될듯)
+     */
 
     /**
      * 유저 스택형 아이템 목록 조회

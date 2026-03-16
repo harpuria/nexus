@@ -1,12 +1,12 @@
-package com.qwerty.nexus.domain.auth.controller;
+package com.qwerty.nexus.domain.game.auth.controller;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.qwerty.nexus.domain.auth.Provider;
-import com.qwerty.nexus.domain.auth.dto.request.AuthRequestDto;
-import com.qwerty.nexus.domain.auth.dto.response.AuthResponseDto;
-import com.qwerty.nexus.domain.auth.service.AppleVerifierService;
-import com.qwerty.nexus.domain.auth.service.AuthService;
-import com.qwerty.nexus.domain.auth.service.GoogleVerifierService;
+import com.qwerty.nexus.domain.game.auth.Provider;
+import com.qwerty.nexus.domain.game.auth.dto.request.AuthRequestDto;
+import com.qwerty.nexus.domain.game.auth.dto.response.AuthResponseDto;
+import com.qwerty.nexus.domain.game.auth.service.AppleVerifierService;
+import com.qwerty.nexus.domain.game.auth.service.AuthService;
+import com.qwerty.nexus.domain.game.auth.service.GoogleVerifierService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.response.ApiResponse;
 import com.qwerty.nexus.global.response.ResponseEntityUtils;

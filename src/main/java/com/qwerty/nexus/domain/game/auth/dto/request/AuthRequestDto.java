@@ -1,8 +1,8 @@
-package com.qwerty.nexus.domain.auth.dto.request;
+package com.qwerty.nexus.domain.game.auth.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.qwerty.nexus.domain.auth.Provider;
+import com.qwerty.nexus.domain.game.auth.Provider;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

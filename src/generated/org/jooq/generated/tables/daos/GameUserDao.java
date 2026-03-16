@@ -4,7 +4,7 @@
 package org.jooq.generated.tables.daos;
 
 
-import com.qwerty.nexus.domain.auth.Provider;
+import com.qwerty.nexus.domain.game.auth.Provider;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -15,7 +15,6 @@ import org.jooq.generated.tables.JGameUser;
 import org.jooq.generated.tables.pojos.GameUser;
 import org.jooq.generated.tables.records.GameUserRecord;
 import org.jooq.impl.DAOImpl;
-import org.jooq.impl.EnumConverter;
 
 
 /**

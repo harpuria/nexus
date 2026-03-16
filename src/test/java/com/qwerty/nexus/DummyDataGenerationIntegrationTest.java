@@ -1,6 +1,6 @@
 package com.qwerty.nexus;
 
-import com.qwerty.nexus.domain.auth.Provider;
+import com.qwerty.nexus.domain.game.auth.Provider;
 import com.qwerty.nexus.domain.game.coupon.TimeLimitType;
 import com.qwerty.nexus.domain.game.coupon.dto.request.CouponCreateRequestDto;
 import com.qwerty.nexus.domain.game.coupon.service.CouponService;
