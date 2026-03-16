@@ -45,7 +45,7 @@ public class ShopService {
 
         Integer shopId = shopRepository.insertShop(entity);
         if (shopId == null) {
-            return Result.Failure.of("Failed to create shop.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("상점 생성에 실패했습니다.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
         return Result.Success.of(null, ApiConstants.Messages.Success.CREATED);
@@ -54,7 +54,7 @@ public class ShopService {
     @Transactional
     public Result<Void> updateShop(ShopUpdateRequestDto requestDto) {
         if (shopRepository.findByShopId(requestDto.getShopId()).isEmpty()) {
-            return Result.Failure.of("Shop not found.", ErrorCode.NOT_FOUND.getCode());
+            return Result.Failure.of("상점을 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }
 
         ShopEntity entity = ShopEntity.builder()
@@ -74,7 +74,7 @@ public class ShopService {
 
         int updateCount = shopRepository.updateShop(entity);
         if (updateCount <= 0) {
-            return Result.Failure.of("Failed to update shop.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("상점 수정에 실패했습니다.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
         return Result.Success.of(null, ApiConstants.Messages.Success.UPDATED);
@@ -83,7 +83,7 @@ public class ShopService {
     @Transactional
     public Result<Void> deleteShop(Integer shopId, String updatedBy) {
         if (shopRepository.findByShopId(shopId).isEmpty()) {
-            return Result.Failure.of("Shop not found.", ErrorCode.NOT_FOUND.getCode());
+            return Result.Failure.of("상점을 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }
 
         ShopEntity entity = ShopEntity.builder()
@@ -94,7 +94,7 @@ public class ShopService {
 
         int deleteCount = shopRepository.updateShop(entity);
         if (deleteCount <= 0) {
-            return Result.Failure.of("Failed to delete shop.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("상점 삭제에 실패했습니다.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
         return Result.Success.of(null, ApiConstants.Messages.Success.DELETED);
@@ -104,7 +104,7 @@ public class ShopService {
     public Result<ShopResponseDto> getShop(Integer shopId) {
         Optional<ShopEntity> shop = shopRepository.findByShopId(shopId);
         if (shop.isEmpty()) {
-            return Result.Failure.of("Shop not found.", ErrorCode.NOT_FOUND.getCode());
+            return Result.Failure.of("상점을 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }
 
         return Result.Success.of(ShopResponseDto.from(shop.get()), ApiConstants.Messages.Success.RETRIEVED);
@@ -147,7 +147,7 @@ public class ShopService {
     public Result<ShopResponseDto> getStoreShop(int gameId, String shopCode) {
         Optional<ShopEntity> shop = shopRepository.findByGameIdAndShopCode(gameId, shopCode);
         if (shop.isEmpty()) {
-            return Result.Failure.of("Shop not found.", ErrorCode.NOT_FOUND.getCode());
+            return Result.Failure.of("상점을 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }
 
         return Result.Success.of(ShopResponseDto.from(shop.get()), ApiConstants.Messages.Success.RETRIEVED);

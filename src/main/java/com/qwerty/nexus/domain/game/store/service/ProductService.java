@@ -43,7 +43,7 @@ public class ProductService {
 
         Integer createdProductId = productRepository.insertProduct(entity);
         if (createdProductId == null) {
-            return Result.Failure.of("Failed to create product.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("상품 생성에 실패했습니다.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
         return Result.Success.of(null, ApiConstants.Messages.Success.CREATED);
@@ -52,12 +52,12 @@ public class ProductService {
     @Transactional
     public Result<Void> updateProduct(ProductUpdateRequestDto dto) {
         if (dto.getProductId() == null || dto.getProductId() <= 0) {
-            return Result.Failure.of("Invalid product id.", ErrorCode.INVALID_REQUEST.getCode());
+            return Result.Failure.of("유효하지 않은 상품 ID입니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
         Optional<ProductEntity> product = productRepository.findByProductId(dto.getProductId());
         if (product.isEmpty()) {
-            return Result.Failure.of("Product not found.", ErrorCode.NOT_FOUND.getCode());
+            return Result.Failure.of("상품을 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }
 
         ProductEntity entity = ProductEntity.builder()
@@ -74,16 +74,14 @@ public class ProductService {
                 .build();
 
         int updateCount = productRepository.updateProduct(entity);
-        String type = "updated";
-        if ("Y".equalsIgnoreCase(dto.getIsDel())) {
-            type = "deleted";
-        }
+        boolean isDeleteRequest = "Y".equalsIgnoreCase(dto.getIsDel());
 
         if (updateCount <= 0) {
-            return Result.Failure.of("Product " + type + " failed.", ErrorCode.INTERNAL_ERROR.getCode());
+            String failureMessage = isDeleteRequest ? "상품 삭제에 실패했습니다." : "상품 수정에 실패했습니다.";
+            return Result.Failure.of(failureMessage, ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        if ("deleted".equals(type)) {
+        if (isDeleteRequest) {
             return Result.Success.of(null, ApiConstants.Messages.Success.DELETED);
         }
 
@@ -94,7 +92,7 @@ public class ProductService {
     public Result<ProductListResponseDto> listProducts(PagingRequestDto dto, int gameId) {
         PagingEntity pagingEntity = PagingUtil.getPagingEntity(dto);
         if (pagingEntity == null) {
-            return Result.Failure.of("Invalid paging request.", ErrorCode.INVALID_REQUEST.getCode());
+            return Result.Failure.of("유효하지 않은 페이징 요청입니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
         int validatedSize = pagingEntity.getSize();
@@ -125,12 +123,12 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Result<ProductListResponseDto> listStoreProducts(PagingRequestDto dto, int gameId, String shopCode) {
         if (shopCode == null || shopCode.isBlank()) {
-            return Result.Failure.of("Invalid shopCode.", ErrorCode.INVALID_REQUEST.getCode());
+            return Result.Failure.of("유효하지 않은 상점 코드입니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
         PagingEntity pagingEntity = PagingUtil.getPagingEntity(dto);
         if (pagingEntity == null) {
-            return Result.Failure.of("Invalid paging request.", ErrorCode.INVALID_REQUEST.getCode());
+            return Result.Failure.of("유효하지 않은 페이징 요청입니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
         int validatedSize = pagingEntity.getSize();
@@ -163,7 +161,7 @@ public class ProductService {
         Optional<ProductEntity> product = productRepository.findByProductId(productId);
 
         if (product.isEmpty()) {
-            return Result.Failure.of("Product not found.", ErrorCode.NOT_FOUND.getCode());
+            return Result.Failure.of("상품을 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }
 
         ProductDetailResponseDto response = ProductDetailResponseDto.from(product.get());
@@ -173,35 +171,35 @@ public class ProductService {
     @Transactional
     public Result<Void> buyProduct(ProductBuyRequestDto dto) {
         if (dto.getProductId() <= 0 || dto.getUserId() <= 0) {
-            return Result.Failure.of("Invalid productId or userId.", ErrorCode.INVALID_REQUEST.getCode());
+            return Result.Failure.of("유효하지 않은 상품 ID 또는 유저 ID입니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
-        return Result.Failure.of("SHOP_PRODUCT purchase policy is not implemented yet.", ErrorCode.INVALID_REQUEST.getCode());
+        return Result.Failure.of("상점 상품 구매 정책이 아직 구현되지 않았습니다.", ErrorCode.INVALID_REQUEST.getCode());
     }
 
     @Transactional
     public Result<Void> purchaseStoreProduct(ShopProductPurchaseRequestDto dto, int gameId) {
         if (dto.getShopProductId() == null || dto.getShopProductId() <= 0 || dto.getUserId() <= 0) {
-            return Result.Failure.of("Invalid shopProductId or userId.", ErrorCode.INVALID_REQUEST.getCode());
+            return Result.Failure.of("유효하지 않은 상점 상품 ID 또는 유저 ID입니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
         Optional<ProductEntity> product = productRepository.findByGameIdAndShopProductId(gameId, dto.getShopProductId());
         if (product.isEmpty()) {
-            return Result.Failure.of("Product not found.", ErrorCode.NOT_FOUND.getCode());
+            return Result.Failure.of("상품을 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }
 
-        return Result.Failure.of("SHOP_PRODUCT purchase logic is not implemented yet.", ErrorCode.INVALID_REQUEST.getCode());
+        return Result.Failure.of("상점 상품 구매 로직이 아직 구현되지 않았습니다.", ErrorCode.INVALID_REQUEST.getCode());
     }
 
     @Transactional
     public Result<Void> deleteProduct(Integer productId) {
         if (productId == null || productId <= 0) {
-            return Result.Failure.of("Invalid product id.", ErrorCode.INVALID_REQUEST.getCode());
+            return Result.Failure.of("유효하지 않은 상품 ID입니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
         Optional<ProductEntity> product = productRepository.findByProductId(productId);
         if (product.isEmpty()) {
-            return Result.Failure.of("Product not found.", ErrorCode.NOT_FOUND.getCode());
+            return Result.Failure.of("상품을 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }
 
         int deleteCount = productRepository.deleteProduct(
@@ -212,7 +210,7 @@ public class ProductService {
         );
 
         if (deleteCount <= 0) {
-            return Result.Failure.of("Failed to delete product.", ErrorCode.INTERNAL_ERROR.getCode());
+            return Result.Failure.of("상품 삭제에 실패했습니다.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
         return Result.Success.of(null, ApiConstants.Messages.Success.DELETED);
