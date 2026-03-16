@@ -29,6 +29,7 @@ import org.jooq.JSONB;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
@@ -51,6 +52,7 @@ class DummyDataGenerationIntegrationTest {
     private final OrganizationRepository organizationRepository;
     private final GameRepository gameRepository;
 
+    @Autowired
     DummyDataGenerationIntegrationTest(
             AdminService adminService,
             GameService gameService,
