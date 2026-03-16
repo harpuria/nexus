@@ -1,9 +1,11 @@
 package com.qwerty.nexus.domain.game.store.controller.admin;
 
+import com.qwerty.nexus.domain.game.store.dto.request.ShopProductPurchaseRequestDto;
 import com.qwerty.nexus.domain.game.store.dto.request.StoreProductCreateRequestDto;
 import com.qwerty.nexus.domain.game.store.dto.request.StoreProductUpdateRequestDto;
 import com.qwerty.nexus.domain.game.store.dto.response.StoreProductListResponseDto;
 import com.qwerty.nexus.domain.game.store.dto.response.StoreProductResponseDto;
+import com.qwerty.nexus.domain.game.store.service.ProductService;
 import com.qwerty.nexus.domain.game.store.service.StoreService;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.PagingRequestDto;
@@ -25,10 +27,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(ApiConstants.Path.ADMIN_STORE_PATH)
 @RequiredArgsConstructor
 @Validated
-@Tag(name = "스토어 (관리자)", description = "스토어 상점 판매 상품 구성 API (관리자)")
+@Tag(name = "상점 판매 상품 메타데이터 (관리자)", description = "상점 판매 상품 메타데이터 관련 API (관리자)")
 public class StoreAdminController {
     private final StoreService storeService;
+    private final ProductService productService;
 
+    /**
+     * 상점 판매 상품 등록
+     * @param requestDto
+     * @return
+     */
     @PostMapping("/shop-products")
     @Operation(summary = "상점 판매 상품 등록")
     public ResponseEntity<ApiResponse<Void>> createShopProduct(@Valid @RequestBody StoreProductCreateRequestDto requestDto) {
@@ -36,6 +44,12 @@ public class StoreAdminController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
+    /**
+     * 상점 판매 상품 수정
+     * @param shopProductId
+     * @param requestDto
+     * @return
+     */
     @PatchMapping("/shop-products/{shopProductId}")
     @Operation(summary = "상점 판매 상품 수정")
     public ResponseEntity<ApiResponse<Void>> updateShopProduct(
@@ -48,6 +62,12 @@ public class StoreAdminController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
+    /**
+     * 상점 판매 상품 삭제
+     * @param shopProductId
+     * @param updatedBy
+     * @return
+     */
     @DeleteMapping("/shop-products/{shopProductId}")
     @Operation(summary = "상점 판매 상품 삭제")
     public ResponseEntity<ApiResponse<Void>> deleteShopProduct(
@@ -58,6 +78,11 @@ public class StoreAdminController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
+    /**
+     * 상점 판매 상품 단건 조회
+     * @param shopProductId
+     * @return
+     */
     @GetMapping("/shop-products/{shopProductId}")
     @Operation(summary = "상점 판매 상품 단건 조회")
     public ResponseEntity<ApiResponse<StoreProductResponseDto>> getShopProduct(
@@ -67,6 +92,16 @@ public class StoreAdminController {
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
+    /**
+     * 상점 판매 상품 목록 조회
+     * @param shopId
+     * @param gameId
+     * @param page
+     * @param size
+     * @param sort
+     * @param direction
+     * @return
+     */
     @GetMapping("/shops/{shopId}/shop-products")
     @Operation(summary = "상점 판매 상품 목록 조회")
     public ResponseEntity<ApiResponse<StoreProductListResponseDto>> listShopProducts(
@@ -85,5 +120,25 @@ public class StoreAdminController {
 
         Result<StoreProductListResponseDto> result = storeService.listShopProducts(pagingRequestDto, gameId, shopId);
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
+    }
+
+    /**
+     * 상품 구매 (테스트용)
+     * @param shopProductId
+     * @param gameId
+     * @param requestDto
+     * @return
+     */
+    @PostMapping("/shop-products/{shopProductId}/purchase")
+    @Operation(summary = "상품 구매")
+    public ResponseEntity<ApiResponse<Void>> createStorePurchase(
+            @PathVariable Integer shopProductId,
+            @RequestParam int gameId,
+            @Valid @RequestBody ShopProductPurchaseRequestDto requestDto
+    ) {
+        requestDto.setShopProductId(shopProductId);
+
+        Result<Void> result = productService.purchaseStoreProduct(requestDto, gameId);
+        return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 }

@@ -22,29 +22,29 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(ApiConstants.Path.ADMIN_PRODUCT_PATH)
 @RequiredArgsConstructor
-@Tag(name = "상품 (관리자)", description = "상품 관련 API (관리자)")
+@Tag(name = "상품 메타데이터 (관리자)", description = "상품 메타데이터 관련 API (관리자)")
 public class ProductAdminController {
     private final ProductService productService;
 
     /**
-     * 상품 정보 생성
+     * 상품 메타데이터 생성
      * @param requestDto
      * @return
      */
     @PostMapping
-    @Operation(summary = "상품 정보 생성")
+    @Operation(summary = "상품 메타데이터 생성")
     public ResponseEntity<ApiResponse<Void>> createProduct(@Valid @RequestBody ProductCreateRequestDto requestDto){
         Result<Void> result = productService.createProduct(requestDto);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
     /**
-     * 상품 정보 수정
+     * 상품 메타데이터 수정
      * @param requestDto
      * @return
      */
     @PatchMapping("/{productId}")
-    @Operation(summary = "상품 정보 수정")
+    @Operation(summary = "상품 메타데이터 수정")
     public ResponseEntity<ApiResponse<Void>> updateProduct(
             @PathVariable("productId") Integer productId,
             @Valid @RequestBody ProductUpdateRequestDto requestDto
@@ -56,19 +56,19 @@ public class ProductAdminController {
     }
 
     /**
-     * 상품 정보 삭제 (논리적 삭제)
+     * 상품 메타데이터 삭제
      * @param productId
      * @return
      */
     @DeleteMapping("/{productId}")
-    @Operation(summary = "상품 정보 삭제")
+    @Operation(summary = "상품 메타데이터 삭제")
     public ResponseEntity<ApiResponse<Void>> deleteProduct(@PathVariable("productId") Integer productId){
         Result<Void> result = productService.deleteProduct(productId);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
     /**
-     * 상품 구매 및 지급
+     * 상품 구매 및 지급 (테스트용도)
      * @param requestDto
      * @return
      */

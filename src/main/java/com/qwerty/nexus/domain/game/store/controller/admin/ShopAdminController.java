@@ -25,19 +25,30 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(ApiConstants.Path.ADMIN_SHOP_PATH)
 @RequiredArgsConstructor
 @Validated
-@Tag(name = "상점 (관리자)", description = "상점 관련 API (관리자)")
+@Tag(name = "상점 메타데이터 (관리자)", description = "상점 메타데이터 API (관리자)")
 public class ShopAdminController {
     private final ShopService shopService;
 
+    /**
+     * 상점 메타데이터 생성
+     * @param requestDto
+     * @return
+     */
     @PostMapping
-    @Operation(summary = "상점 생성")
+    @Operation(summary = "상점 메타데이터 생성")
     public ResponseEntity<ApiResponse<Void>> createShop(@Valid @RequestBody ShopCreateRequestDto requestDto) {
         Result<Void> result = shopService.createShop(requestDto);
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.CREATED);
     }
 
+    /**
+     * 상점 메타데이터 수정
+     * @param shopId
+     * @param requestDto
+     * @return
+     */
     @PatchMapping("/{shopId}")
-    @Operation(summary = "상점 수정")
+    @Operation(summary = "상점 메타데이터 수정")
     public ResponseEntity<ApiResponse<Void>> updateShop(
             @PathVariable("shopId") Integer shopId,
             @Valid @RequestBody ShopUpdateRequestDto requestDto
@@ -48,8 +59,14 @@ public class ShopAdminController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
+    /**
+     * 상점 메타데이터 삭제
+     * @param shopId
+     * @param updatedBy
+     * @return
+     */
     @DeleteMapping("/{shopId}")
-    @Operation(summary = "상점 삭제")
+    @Operation(summary = "상점 메타데이터 삭제")
     public ResponseEntity<ApiResponse<Void>> deleteShop(
             @PathVariable("shopId") Integer shopId,
             @RequestParam @NotBlank(message = "updatedBy는 필수입니다.") @Parameter(example = "admin") String updatedBy
@@ -58,6 +75,11 @@ public class ShopAdminController {
         return ResponseEntityUtils.toResponseEntityVoid(result, HttpStatus.OK);
     }
 
+    /**
+     * 상점 단건 조회
+     * @param shopId
+     * @return
+     */
     @GetMapping("/{shopId}")
     @Operation(summary = "상점 단건 조회")
     public ResponseEntity<ApiResponse<ShopResponseDto>> getShop(@PathVariable("shopId") Integer shopId) {
@@ -65,6 +87,16 @@ public class ShopAdminController {
         return ResponseEntityUtils.toResponseEntity(result, HttpStatus.OK);
     }
 
+    /**
+     * 상점 목록 조회
+     * @param gameId
+     * @param page
+     * @param size
+     * @param sort
+     * @param direction
+     * @param keyword
+     * @return
+     */
     @GetMapping("/list/{gameId}")
     @Operation(summary = "상점 목록 조회")
     public ResponseEntity<ApiResponse<ShopListResponseDto>> listShops(
