@@ -51,6 +51,7 @@ public final class ApiConstants {
         public static final String USER_ITEM_STACK_PATH = "/user-item-stack";
         public static final String USER_ITEM_INSTANCE_PATH = "/user-item-instance";
         public static final String STORE_PATH = "/store";
+        public static final String ATTENDANCE_PATH = "/attendances";
 
         // 관리자 호출 API 경로 (ADMIN, ORG, GAME 은 관리자에서만 사용가능하므로 바로 경로 작성함)
         public static final String ADMIN_USER_PATH = ADMIN_API_BASE_PATH + "/admin-user";
@@ -67,6 +68,7 @@ public final class ApiConstants {
         public static final String ADMIN_USER_ITEM_STACK_PATH = ADMIN_API_BASE_PATH + USER_ITEM_STACK_PATH;
         public static final String ADMIN_USER_ITEM_INSTANCE_PATH = ADMIN_API_BASE_PATH + USER_ITEM_INSTANCE_PATH;
         public static final String ADMIN_STORE_PATH = ADMIN_API_BASE_PATH + STORE_PATH;
+        public static final String ADMIN_ATTENDANCE_PATH = ADMIN_API_BASE_PATH + ATTENDANCE_PATH;
 
         // 클라이언트 호출 API 기본 경로
         public static final String CLIENT_AUTH_PATH = CLIENT_API_BASE_PATH + AUTH_PATH;
@@ -81,6 +83,7 @@ public final class ApiConstants {
         public static final String CLIENT_USER_ITEM_INSTANCE_PATH = CLIENT_API_BASE_PATH + USER_ITEM_INSTANCE_PATH;
 
         public static final String CLIENT_STORE_PATH = CLIENT_API_BASE_PATH + STORE_PATH;
+        public static final String CLIENT_ATTENDANCE_PATH = CLIENT_API_BASE_PATH + ATTENDANCE_PATH;
     }
 
     // =================================================================
