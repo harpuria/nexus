@@ -69,7 +69,7 @@ public class JItem extends TableImpl<ItemRecord> {
     /**
      * The column <code>nexus.ITEM.ITEM_ID</code>. 아이템 PK
      */
-    public final TableField<ItemRecord, Integer> ITEM_ID = createField(DSL.name("ITEM_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"ITEM_ITEM_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "아이템 PK");
+    public final TableField<ItemRecord, Integer> ITEM_ID = createField(DSL.name("ITEM_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"ITEM_ITEM_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "아이템 PK");
 
     /**
      * The column <code>nexus.ITEM.GAME_ID</code>. 게임 ID (FK)

@@ -75,7 +75,7 @@ public class JGame extends TableImpl<GameRecord> {
     /**
      * The column <code>nexus.GAME.GAME_ID</code>. GAME 테이블 기본키 (PK)
      */
-    public final TableField<GameRecord, Integer> GAME_ID = createField(DSL.name("GAME_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"GAME_GAME_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME 테이블 기본키 (PK)");
+    public final TableField<GameRecord, Integer> GAME_ID = createField(DSL.name("GAME_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"GAME_GAME_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "GAME 테이블 기본키 (PK)");
 
     /**
      * The column <code>nexus.GAME.ORG_ID</code>. 게임 소속 (FK)

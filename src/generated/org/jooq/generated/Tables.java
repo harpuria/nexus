@@ -5,6 +5,8 @@ package org.jooq.generated;
 
 
 import org.jooq.generated.tables.JAdmin;
+import org.jooq.generated.tables.JAttendance;
+import org.jooq.generated.tables.JAttendanceReward;
 import org.jooq.generated.tables.JCoupon;
 import org.jooq.generated.tables.JCouponUseLog;
 import org.jooq.generated.tables.JGame;
@@ -17,6 +19,7 @@ import org.jooq.generated.tables.JRewardGrant;
 import org.jooq.generated.tables.JRewardGrantItem;
 import org.jooq.generated.tables.JShop;
 import org.jooq.generated.tables.JShopProduct;
+import org.jooq.generated.tables.JUserAttendance;
 import org.jooq.generated.tables.JUserItemInstance;
 import org.jooq.generated.tables.JUserItemStack;
 import org.jooq.generated.tables.JUserMail;
@@ -32,6 +35,16 @@ public class Tables {
      * The table <code>nexus.ADMIN</code>.
      */
     public static final JAdmin ADMIN = JAdmin.ADMIN;
+
+    /**
+     * The table <code>nexus.ATTENDANCE</code>.
+     */
+    public static final JAttendance ATTENDANCE = JAttendance.ATTENDANCE;
+
+    /**
+     * The table <code>nexus.ATTENDANCE_REWARD</code>.
+     */
+    public static final JAttendanceReward ATTENDANCE_REWARD = JAttendanceReward.ATTENDANCE_REWARD;
 
     /**
      * The table <code>nexus.COUPON</code>.
@@ -92,6 +105,11 @@ public class Tables {
      * The table <code>nexus.SHOP_PRODUCT</code>.
      */
     public static final JShopProduct SHOP_PRODUCT = JShopProduct.SHOP_PRODUCT;
+
+    /**
+     * The table <code>nexus.USER_ATTENDANCE</code>.
+     */
+    public static final JUserAttendance USER_ATTENDANCE = JUserAttendance.USER_ATTENDANCE;
 
     /**
      * The table <code>nexus.USER_ITEM_INSTANCE</code>.

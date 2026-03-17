@@ -65,7 +65,7 @@ public class JUserItemStack extends TableImpl<UserItemStackRecord> {
      * The column <code>nexus.USER_ITEM_STACK.USER_ITEM_STACK_ID</code>. 유저 스택형
      * 보유 PK
      */
-    public final TableField<UserItemStackRecord, Integer> USER_ITEM_STACK_ID = createField(DSL.name("USER_ITEM_STACK_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"USER_ITEM_STACK_USER_ITEM_STACK_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "유저 스택형 보유 PK");
+    public final TableField<UserItemStackRecord, Integer> USER_ITEM_STACK_ID = createField(DSL.name("USER_ITEM_STACK_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"USER_ITEM_STACK_USER_ITEM_STACK_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "유저 스택형 보유 PK");
 
     /**
      * The column <code>nexus.USER_ITEM_STACK.USER_ID</code>. GAME_USER PK(FK)

@@ -63,7 +63,7 @@ public class JProduct extends TableImpl<ProductRecord> {
     /**
      * The column <code>nexus.PRODUCT.PRODUCT_ID</code>. 상품 PK
      */
-    public final TableField<ProductRecord, Integer> PRODUCT_ID = createField(DSL.name("PRODUCT_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"PRODUCT_PRODUCT_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "상품 PK");
+    public final TableField<ProductRecord, Integer> PRODUCT_ID = createField(DSL.name("PRODUCT_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"PRODUCT_PRODUCT_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "상품 PK");
 
     /**
      * The column <code>nexus.PRODUCT.GAME_ID</code>. 게임 ID (FK)

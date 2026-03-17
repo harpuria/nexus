@@ -11,6 +11,8 @@ import org.jooq.Catalog;
 import org.jooq.Sequence;
 import org.jooq.Table;
 import org.jooq.generated.tables.JAdmin;
+import org.jooq.generated.tables.JAttendance;
+import org.jooq.generated.tables.JAttendanceReward;
 import org.jooq.generated.tables.JCoupon;
 import org.jooq.generated.tables.JCouponUseLog;
 import org.jooq.generated.tables.JGame;
@@ -23,6 +25,7 @@ import org.jooq.generated.tables.JRewardGrant;
 import org.jooq.generated.tables.JRewardGrantItem;
 import org.jooq.generated.tables.JShop;
 import org.jooq.generated.tables.JShopProduct;
+import org.jooq.generated.tables.JUserAttendance;
 import org.jooq.generated.tables.JUserItemInstance;
 import org.jooq.generated.tables.JUserItemStack;
 import org.jooq.generated.tables.JUserMail;
@@ -46,6 +49,16 @@ public class JNexus extends SchemaImpl {
      * The table <code>nexus.ADMIN</code>.
      */
     public final JAdmin ADMIN = JAdmin.ADMIN;
+
+    /**
+     * The table <code>nexus.ATTENDANCE</code>.
+     */
+    public final JAttendance ATTENDANCE = JAttendance.ATTENDANCE;
+
+    /**
+     * The table <code>nexus.ATTENDANCE_REWARD</code>.
+     */
+    public final JAttendanceReward ATTENDANCE_REWARD = JAttendanceReward.ATTENDANCE_REWARD;
 
     /**
      * The table <code>nexus.COUPON</code>.
@@ -108,6 +121,11 @@ public class JNexus extends SchemaImpl {
     public final JShopProduct SHOP_PRODUCT = JShopProduct.SHOP_PRODUCT;
 
     /**
+     * The table <code>nexus.USER_ATTENDANCE</code>.
+     */
+    public final JUserAttendance USER_ATTENDANCE = JUserAttendance.USER_ATTENDANCE;
+
+    /**
      * The table <code>nexus.USER_ITEM_INSTANCE</code>.
      */
     public final JUserItemInstance USER_ITEM_INSTANCE = JUserItemInstance.USER_ITEM_INSTANCE;
@@ -139,6 +157,8 @@ public class JNexus extends SchemaImpl {
     public final List<Sequence<?>> getSequences() {
         return Arrays.asList(
             Sequences.ADMIN_ADMIN_ID_SEQ,
+            Sequences.ATTENDANCE_ATTENDANCE_ID_SEQ,
+            Sequences.ATTENDANCE_REWARD_ATTENDANCE_REWARD_ID_SEQ,
             Sequences.COUPON_COUPON_ID_SEQ,
             Sequences.COUPON_USE_LOG_LOG_ID_SEQ,
             Sequences.GAME_GAME_ID_SEQ,
@@ -151,6 +171,7 @@ public class JNexus extends SchemaImpl {
             Sequences.REWARD_GRANT_ITEM_GRANT_ITEM_ID_SEQ,
             Sequences.SHOP_PRODUCT_SHOP_PRODUCT_ID_SEQ,
             Sequences.SHOP_SHOP_ID_SEQ,
+            Sequences.USER_ATTENDANCE_USER_ATTENDANCE_ID_SEQ,
             Sequences.USER_ITEM_INSTANCE_USER_ITEM_ID_SEQ,
             Sequences.USER_ITEM_STACK_USER_ITEM_STACK_ID_SEQ,
             Sequences.USER_MAIL_USER_MAIL_ID_SEQ
@@ -161,6 +182,8 @@ public class JNexus extends SchemaImpl {
     public final List<Table<?>> getTables() {
         return Arrays.asList(
             JAdmin.ADMIN,
+            JAttendance.ATTENDANCE,
+            JAttendanceReward.ATTENDANCE_REWARD,
             JCoupon.COUPON,
             JCouponUseLog.COUPON_USE_LOG,
             JGame.GAME,
@@ -173,6 +196,7 @@ public class JNexus extends SchemaImpl {
             JRewardGrantItem.REWARD_GRANT_ITEM,
             JShop.SHOP,
             JShopProduct.SHOP_PRODUCT,
+            JUserAttendance.USER_ATTENDANCE,
             JUserItemInstance.USER_ITEM_INSTANCE,
             JUserItemStack.USER_ITEM_STACK,
             JUserMail.USER_MAIL

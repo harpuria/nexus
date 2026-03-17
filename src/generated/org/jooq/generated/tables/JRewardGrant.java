@@ -68,7 +68,7 @@ public class JRewardGrant extends TableImpl<RewardGrantRecord> {
     /**
      * The column <code>nexus.REWARD_GRANT.GRANT_ID</code>. 보상 지급 트랜잭션 PK
      */
-    public final TableField<RewardGrantRecord, Integer> GRANT_ID = createField(DSL.name("GRANT_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('\"REWARD_GRANT_GRANT_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "보상 지급 트랜잭션 PK");
+    public final TableField<RewardGrantRecord, Integer> GRANT_ID = createField(DSL.name("GRANT_ID"), SQLDataType.INTEGER.nullable(false).defaultValue(DSL.field(DSL.raw("nextval('nexus.\"REWARD_GRANT_GRANT_ID_seq\"'::regclass)"), SQLDataType.INTEGER)), this, "보상 지급 트랜잭션 PK");
 
     /**
      * The column <code>nexus.REWARD_GRANT.GAME_ID</code>. 게임 ID (FK)
