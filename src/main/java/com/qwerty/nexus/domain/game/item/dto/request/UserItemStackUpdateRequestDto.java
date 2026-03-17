@@ -18,7 +18,7 @@ public class UserItemStackUpdateRequestDto {
     @Positive
     private Integer itemId;
     @PositiveOrZero
-    private Long amount;
+    private Long qty;
     @Size(max = 64)
     private String updatedBy;
     @Pattern(regexp = "^[YNyn]$")

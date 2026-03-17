@@ -22,7 +22,7 @@ public class StoreProductResponseDto extends BaseResponseDto {
     private LocalDateTime saleEndAt;
     private String priceType;
     private String priceItemCode;
-    private Long priceAmount;
+    private Long priceQty;
     private String storeSku;
     private String purchaseLimitType;
     private Integer purchaseLimitCount;
@@ -43,7 +43,7 @@ public class StoreProductResponseDto extends BaseResponseDto {
                 .saleEndAt(entity.getSaleEndAt())
                 .priceType(entity.getPriceType())
                 .priceItemCode(entity.getPriceItemCode())
-                .priceAmount(entity.getPriceAmount())
+                .priceQty(entity.getPriceQty())
                 .storeSku(entity.getStoreSku())
                 .purchaseLimitType(entity.getPurchaseLimitType())
                 .purchaseLimitCount(entity.getPurchaseLimitCount())

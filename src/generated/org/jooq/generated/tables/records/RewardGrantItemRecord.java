@@ -85,19 +85,19 @@ public class RewardGrantItemRecord extends UpdatableRecordImpl<RewardGrantItemRe
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT_ITEM.AMOUNT</code>. 지급 수량 (인스턴스형인 경우
-     * 1로 고정)
+     * Setter for <code>nexus.REWARD_GRANT_ITEM.QTY</code>. 지급 수량 (인스턴스형인 경우 1로
+     * 고정)
      */
-    public RewardGrantItemRecord setAmount(Long value) {
+    public RewardGrantItemRecord setQty(Long value) {
         set(4, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT_ITEM.AMOUNT</code>. 지급 수량 (인스턴스형인 경우
-     * 1로 고정)
+     * Getter for <code>nexus.REWARD_GRANT_ITEM.QTY</code>. 지급 수량 (인스턴스형인 경우 1로
+     * 고정)
      */
-    public Long getAmount() {
+    public Long getQty() {
         return (Long) get(4);
     }
 
@@ -263,14 +263,14 @@ public class RewardGrantItemRecord extends UpdatableRecordImpl<RewardGrantItemRe
     /**
      * Create a detached, initialised RewardGrantItemRecord
      */
-    public RewardGrantItemRecord(Integer grantItemId, Integer grantId, Integer itemId, String isStackable, Long amount, String itemCode, String itemType, String status, String failReason, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public RewardGrantItemRecord(Integer grantItemId, Integer grantId, Integer itemId, String isStackable, Long qty, String itemCode, String itemType, String status, String failReason, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JRewardGrantItem.REWARD_GRANT_ITEM);
 
         setGrantItemId(grantItemId);
         setGrantId(grantId);
         setItemId(itemId);
         setIsStackable(isStackable);
-        setAmount(amount);
+        setQty(qty);
         setItemCode(itemCode);
         setItemType(itemType);
         setStatus(status);
@@ -294,7 +294,7 @@ public class RewardGrantItemRecord extends UpdatableRecordImpl<RewardGrantItemRe
             setGrantId(value.getGrantId());
             setItemId(value.getItemId());
             setIsStackable(value.getIsStackable());
-            setAmount(value.getAmount());
+            setQty(value.getQty());
             setItemCode(value.getItemCode());
             setItemType(value.getItemType());
             setStatus(value.getStatus());

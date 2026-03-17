@@ -234,7 +234,7 @@ public class ProductRepository {
                 SHOP_PRODUCT.SALE_END_AT.as("saleEndAt"),
                 SHOP_PRODUCT.PRICE_TYPE.as("priceType"),
                 SHOP_PRODUCT.PRICE_ITEM_CODE.as("priceItemCode"),
-                DSL.cast(SHOP_PRODUCT.PRICE_AMOUNT, BigDecimal.class).as("priceAmount"),
+                DSL.cast(SHOP_PRODUCT.PRICE_QTY, BigDecimal.class).as("priceQty"),
                 SHOP_PRODUCT.STORE_SKU.as("storeSku"),
                 SHOP_PRODUCT.PURCHASE_LIMIT_TYPE.as("purchaseLimitType"),
                 SHOP_PRODUCT.PURCHASE_LIMIT_COUNT.as("purchaseLimitCount")
@@ -252,7 +252,7 @@ public class ProductRepository {
             case "name" -> PRODUCT.NAME;
             case "shopid", "shop_id" -> SHOP_PRODUCT.SHOP_ID;
             case "sortorder", "sort_order" -> SHOP_PRODUCT.SORT_ORDER;
-            case "priceamount", "price_amount" -> SHOP_PRODUCT.PRICE_AMOUNT;
+            case "priceqty", "price_qty" -> SHOP_PRODUCT.PRICE_QTY;
             case "updatedat", "updated_at" -> PRODUCT.UPDATED_AT;
             case "createdat", "created_at" -> PRODUCT.CREATED_AT;
             default -> PRODUCT.CREATED_AT;

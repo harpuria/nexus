@@ -11,7 +11,7 @@ public class UserItemStackEntity {
     private Integer userItemStackId;
     private Integer userId;
     private Integer itemId;
-    private Long amount;
+    private Long qty;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;

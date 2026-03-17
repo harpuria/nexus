@@ -194,19 +194,19 @@ public class ShopProductRecord extends UpdatableRecordImpl<ShopProductRecord> {
     }
 
     /**
-     * Setter for <code>nexus.SHOP_PRODUCT.PRICE_AMOUNT</code>. 가격 수량/금액(현금이면
-     * 센트/원 단위 정책에 맞춰)
+     * Setter for <code>nexus.SHOP_PRODUCT.PRICE_QTY</code>. 가격 수량/금액(현금이면 센트/원
+     * 단위 정책에 맞춰)
      */
-    public ShopProductRecord setPriceAmount(Long value) {
+    public ShopProductRecord setPriceQty(Long value) {
         set(11, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.SHOP_PRODUCT.PRICE_AMOUNT</code>. 가격 수량/금액(현금이면
-     * 센트/원 단위 정책에 맞춰)
+     * Getter for <code>nexus.SHOP_PRODUCT.PRICE_QTY</code>. 가격 수량/금액(현금이면 센트/원
+     * 단위 정책에 맞춰)
      */
-    public Long getPriceAmount() {
+    public Long getPriceQty() {
         return (Long) get(11);
     }
 
@@ -408,7 +408,7 @@ public class ShopProductRecord extends UpdatableRecordImpl<ShopProductRecord> {
     /**
      * Create a detached, initialised ShopProductRecord
      */
-    public ShopProductRecord(Integer shopProductId, Integer gameId, Integer shopId, Integer productId, Integer sortOrder, String isVisible, String timeLimitType, LocalDateTime saleStartAt, LocalDateTime saleEndAt, String priceType, String priceItemCode, Long priceAmount, String storeSku, String purchaseLimitType, Integer purchaseLimitCount, JSONB buyCondition, JSONB discount, JSONB tags, OffsetDateTime createdAt, OffsetDateTime updatedAt, String createdBy, String updatedBy, String isDel) {
+    public ShopProductRecord(Integer shopProductId, Integer gameId, Integer shopId, Integer productId, Integer sortOrder, String isVisible, String timeLimitType, LocalDateTime saleStartAt, LocalDateTime saleEndAt, String priceType, String priceItemCode, Long priceQty, String storeSku, String purchaseLimitType, Integer purchaseLimitCount, JSONB buyCondition, JSONB discount, JSONB tags, OffsetDateTime createdAt, OffsetDateTime updatedAt, String createdBy, String updatedBy, String isDel) {
         super(JShopProduct.SHOP_PRODUCT);
 
         setShopProductId(shopProductId);
@@ -422,7 +422,7 @@ public class ShopProductRecord extends UpdatableRecordImpl<ShopProductRecord> {
         setSaleEndAt(saleEndAt);
         setPriceType(priceType);
         setPriceItemCode(priceItemCode);
-        setPriceAmount(priceAmount);
+        setPriceQty(priceQty);
         setStoreSku(storeSku);
         setPurchaseLimitType(purchaseLimitType);
         setPurchaseLimitCount(purchaseLimitCount);
@@ -455,7 +455,7 @@ public class ShopProductRecord extends UpdatableRecordImpl<ShopProductRecord> {
             setSaleEndAt(value.getSaleEndAt());
             setPriceType(value.getPriceType());
             setPriceItemCode(value.getPriceItemCode());
-            setPriceAmount(value.getPriceAmount());
+            setPriceQty(value.getPriceQty());
             setStoreSku(value.getStoreSku());
             setPurchaseLimitType(value.getPurchaseLimitType());
             setPurchaseLimitCount(value.getPurchaseLimitCount());

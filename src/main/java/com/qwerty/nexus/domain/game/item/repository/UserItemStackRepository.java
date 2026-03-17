@@ -48,7 +48,7 @@ public class UserItemStackRepository {
         UserItemStackRecord record = dslContext.newRecord(USER_ITEM_STACK, entity);
         record.changed(USER_ITEM_STACK.USER_ID, entity.getUserId() != null);
         record.changed(USER_ITEM_STACK.ITEM_ID, entity.getItemId() != null);
-        record.changed(USER_ITEM_STACK.AMOUNT, entity.getAmount() != null);
+        record.changed(USER_ITEM_STACK.QTY, entity.getQty() != null);
         record.changed(USER_ITEM_STACK.UPDATED_BY, entity.getUpdatedBy() != null);
         record.changed(USER_ITEM_STACK.IS_DEL, entity.getIsDel() != null);
         return record.update();
@@ -82,16 +82,16 @@ public class UserItemStackRepository {
     /**
      * 유저 스택형 아이디 수량 수정 (증가)
      * @param entity
-     * @param amount
+     * @param qty
      * @return
      */
-    public int updateUserItemAmountAddByUserIdAndItemId(UserItemStackEntity entity, Long amount) {
-        if (entity.getUserId() == null || entity.getItemId() == null || amount == null) {
+    public int updateUserItemQtyAddByUserIdAndItemId(UserItemStackEntity entity, Long qty) {
+        if (entity.getUserId() == null || entity.getItemId() == null || qty == null) {
             return 0;
         }
 
         var query = dslContext.update(USER_ITEM_STACK)
-                .set(USER_ITEM_STACK.AMOUNT, USER_ITEM_STACK.AMOUNT.plus(amount));
+                .set(USER_ITEM_STACK.QTY, USER_ITEM_STACK.QTY.plus(qty));
 
         if (entity.getUpdatedBy() != null) {
             query.set(USER_ITEM_STACK.UPDATED_BY, entity.getUpdatedBy());
@@ -106,16 +106,16 @@ public class UserItemStackRepository {
     /**
      * 유저 스택형 아이디 수량 수정 (감소)
      * @param entity
-     * @param amount
+     * @param qty
      * @return
      */
-    public int updateUserItemAmountSubtractByUserIdAndItemId(UserItemStackEntity entity, Long amount) {
-        if (entity.getUserId() == null || entity.getItemId() == null || amount == null || amount <= 0) {
+    public int updateUserItemQtySubtractByUserIdAndItemId(UserItemStackEntity entity, Long qty) {
+        if (entity.getUserId() == null || entity.getItemId() == null || qty == null || qty <= 0) {
             return 0;
         }
 
         var query = dslContext.update(USER_ITEM_STACK)
-                .set(USER_ITEM_STACK.AMOUNT, USER_ITEM_STACK.AMOUNT.minus(amount));
+                .set(USER_ITEM_STACK.QTY, USER_ITEM_STACK.QTY.minus(qty));
 
         if (entity.getUpdatedBy() != null) {
             query.set(USER_ITEM_STACK.UPDATED_BY, entity.getUpdatedBy());
@@ -123,7 +123,7 @@ public class UserItemStackRepository {
 
         return query.where(USER_ITEM_STACK.USER_ID.eq(entity.getUserId()))
                 .and(USER_ITEM_STACK.ITEM_ID.eq(entity.getItemId()))
-                .and(USER_ITEM_STACK.AMOUNT.ge(amount))
+                .and(USER_ITEM_STACK.QTY.ge(qty))
                 .and(USER_ITEM_STACK.IS_DEL.eq("N"))
                 .execute();
     }
@@ -148,7 +148,7 @@ public class UserItemStackRepository {
         int size = pagingEntity.getSize() > 0 ? pagingEntity.getSize() : ApiConstants.Pagination.DEFAULT_PAGE_SIZE;
         int page = Math.max(pagingEntity.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
 
-        return dslContext.select(USER_ITEM_STACK.USER_ITEM_STACK_ID, ITEM.NAME.as("itemName"), USER_ITEM_STACK.AMOUNT)
+        return dslContext.select(USER_ITEM_STACK.USER_ITEM_STACK_ID, ITEM.NAME.as("itemName"), USER_ITEM_STACK.QTY)
                 .from(USER_ITEM_STACK)
                 .innerJoin(ITEM).on(USER_ITEM_STACK.ITEM_ID.eq(ITEM.ITEM_ID))
                 .where(condition)
@@ -195,7 +195,7 @@ public class UserItemStackRepository {
             case "useritemstackid", "user_item_stack_id" -> USER_ITEM_STACK.USER_ITEM_STACK_ID;
             case "userid", "user_id" -> USER_ITEM_STACK.USER_ID;
             case "itemid", "item_id" -> USER_ITEM_STACK.ITEM_ID;
-            case "amount" -> USER_ITEM_STACK.AMOUNT;
+            case "qty" -> USER_ITEM_STACK.QTY;
             case "name", "itemname" -> ITEM.NAME;
             case "updatedat", "updated_at" -> USER_ITEM_STACK.UPDATED_AT;
             case "createdat", "created_at" -> USER_ITEM_STACK.CREATED_AT;

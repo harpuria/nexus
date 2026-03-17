@@ -34,7 +34,7 @@ public class UserItemStackService {
         UserItemStackEntity entity = UserItemStackEntity.builder()
                 .userId(dto.getUserId())
                 .itemId(dto.getItemId())
-                .amount(dto.getAmount())
+                .qty(dto.getQty())
                 .createdBy(dto.getCreatedBy())
                 .updatedBy(dto.getCreatedBy())
                 .build();
@@ -58,7 +58,7 @@ public class UserItemStackService {
                 .userItemStackId(dto.getUserItemStackId())
                 .userId(dto.getUserId())
                 .itemId(dto.getItemId())
-                .amount(dto.getAmount())
+                .qty(dto.getQty())
                 .updatedBy(dto.getUpdatedBy())
                 .build();
 

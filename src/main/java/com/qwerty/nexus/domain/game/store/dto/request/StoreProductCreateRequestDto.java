@@ -58,8 +58,8 @@ public class StoreProductCreateRequestDto {
     private String priceItemCode;
 
     @Schema(example = "1000")
-    @PositiveOrZero(message = "priceAmount는 0 이상이어야 합니다.")
-    private Long priceAmount;
+    @PositiveOrZero(message = "priceQty는 0 이상이어야 합니다.")
+    private Long priceQty;
 
     @Schema(example = "starter_pack_1")
     @Size(max = 128, message = "storeSku는 128자 이하여야 합니다.")

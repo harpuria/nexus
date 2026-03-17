@@ -29,7 +29,7 @@ public class ProductResponseDto extends BaseResponseDto {
     private LocalDateTime saleEndAt;
     private String priceType;
     private String priceItemCode;
-    private BigDecimal priceAmount;
+    private BigDecimal priceQty;
     private String storeSku;
 
     public static ProductResponseDto from(ProductEntity productEntity) {
@@ -51,7 +51,7 @@ public class ProductResponseDto extends BaseResponseDto {
                 .saleEndAt(productEntity.getSaleEndAt())
                 .priceType(productEntity.getPriceType())
                 .priceItemCode(productEntity.getPriceItemCode())
-                .priceAmount(productEntity.getPriceAmount())
+                .priceQty(productEntity.getPriceQty())
                 .storeSku(productEntity.getStoreSku())
                 .build();
     }

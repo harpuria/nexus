@@ -83,10 +83,10 @@ public class JRewardGrantItem extends TableImpl<RewardGrantItemRecord> {
     public final TableField<RewardGrantItemRecord, String> IS_STACKABLE = createField(DSL.name("IS_STACKABLE"), SQLDataType.CHAR(1).nullable(false), this, "스택형 여부 스냅샷");
 
     /**
-     * The column <code>nexus.REWARD_GRANT_ITEM.AMOUNT</code>. 지급 수량 (인스턴스형인 경우
-     * 1로 고정)
+     * The column <code>nexus.REWARD_GRANT_ITEM.QTY</code>. 지급 수량 (인스턴스형인 경우 1로
+     * 고정)
      */
-    public final TableField<RewardGrantItemRecord, Long> AMOUNT = createField(DSL.name("AMOUNT"), SQLDataType.BIGINT.nullable(false).defaultValue(DSL.field(DSL.raw("0"), SQLDataType.BIGINT)), this, "지급 수량 (인스턴스형인 경우 1로 고정)");
+    public final TableField<RewardGrantItemRecord, Long> QTY = createField(DSL.name("QTY"), SQLDataType.BIGINT.nullable(false).defaultValue(DSL.field(DSL.raw("0"), SQLDataType.BIGINT)), this, "지급 수량 (인스턴스형인 경우 1로 고정)");
 
     /**
      * The column <code>nexus.REWARD_GRANT_ITEM.ITEM_CODE</code>. 조회 편의용 아이템 코드

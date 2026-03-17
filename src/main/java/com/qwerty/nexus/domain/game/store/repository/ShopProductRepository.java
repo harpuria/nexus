@@ -48,7 +48,7 @@ public class ShopProductRepository {
         record.changed(SHOP_PRODUCT.SALE_END_AT, entity.getSaleEndAt() != null);
         record.changed(SHOP_PRODUCT.PRICE_TYPE, entity.getPriceType() != null);
         record.changed(SHOP_PRODUCT.PRICE_ITEM_CODE, entity.getPriceItemCode() != null);
-        record.changed(SHOP_PRODUCT.PRICE_AMOUNT, entity.getPriceAmount() != null);
+        record.changed(SHOP_PRODUCT.PRICE_QTY, entity.getPriceQty() != null);
         record.changed(SHOP_PRODUCT.STORE_SKU, entity.getStoreSku() != null);
         record.changed(SHOP_PRODUCT.PURCHASE_LIMIT_TYPE, entity.getPurchaseLimitType() != null);
         record.changed(SHOP_PRODUCT.PURCHASE_LIMIT_COUNT, entity.getPurchaseLimitCount() != null);
@@ -130,7 +130,7 @@ public class ShopProductRepository {
             case "shopproductid", "shop_product_id" -> SHOP_PRODUCT.SHOP_PRODUCT_ID;
             case "productid", "product_id" -> SHOP_PRODUCT.PRODUCT_ID;
             case "sortorder", "sort_order" -> SHOP_PRODUCT.SORT_ORDER;
-            case "priceamount", "price_amount" -> SHOP_PRODUCT.PRICE_AMOUNT;
+            case "priceqty", "price_qty" -> SHOP_PRODUCT.PRICE_QTY;
             case "updatedat", "updated_at" -> SHOP_PRODUCT.UPDATED_AT;
             case "createdat", "created_at" -> SHOP_PRODUCT.CREATED_AT;
             default -> SHOP_PRODUCT.CREATED_AT;

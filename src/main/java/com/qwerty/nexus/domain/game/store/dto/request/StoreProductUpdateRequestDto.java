@@ -51,8 +51,8 @@ public class StoreProductUpdateRequestDto {
     @Size(max = 64, message = "priceItemCode는 64자 이하여야 합니다.")
     private String priceItemCode;
 
-    @PositiveOrZero(message = "priceAmount는 0 이상이어야 합니다.")
-    private Long priceAmount;
+    @PositiveOrZero(message = "priceQty는 0 이상이어야 합니다.")
+    private Long priceQty;
 
     @Size(max = 128, message = "storeSku는 128자 이하여야 합니다.")
     private String storeSku;

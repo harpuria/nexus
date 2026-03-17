@@ -18,7 +18,6 @@ import org.jooq.JSONB;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 import java.time.OffsetDateTime;
 import java.util.Optional;
@@ -89,7 +88,7 @@ public class RewardService {
                         .isStackable(isStackable)
                         .itemCode(rewardItemInfo.getItemCode())
                         .itemType(rewardItemInfo.getItemType().name())
-                        .amount(reward.getAmount())
+                        .qty(reward.getQty())
                         .status("PENDING")
                         .createdBy(REWARD_SERVICE_ACTOR)
                         .updatedBy(REWARD_SERVICE_ACTOR)
@@ -106,7 +105,7 @@ public class RewardService {
                             .updatedBy(REWARD_SERVICE_ACTOR)
                             .build();
 
-                    userItemStackRepository.updateUserItemAmountAddByUserIdAndItemId(userItemStackEntity, reward.getAmount());
+                    userItemStackRepository.updateUserItemQtyAddByUserIdAndItemId(userItemStackEntity, reward.getQty());
                 }else{
                     // NON-STACK (INSTANCE)
                     UserItemInstanceEntity userItemInstanceEntity = UserItemInstanceEntity.builder()
@@ -194,8 +193,8 @@ public class RewardService {
                 throw new IllegalArgumentException("보상 itemId가 올바르지 않습니다.");
             }
 
-            if (reward.getAmount() == null || reward.getAmount() <= 0) {
-                throw new IllegalArgumentException("보상 amount는 1 이상이어야 합니다.");
+            if (reward.getQty() == null || reward.getQty() <= 0) {
+                throw new IllegalArgumentException("보상 qty는 1 이상이어야 합니다.");
             }
         }
     }

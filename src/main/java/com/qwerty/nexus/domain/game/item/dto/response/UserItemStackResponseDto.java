@@ -12,7 +12,7 @@ public class UserItemStackResponseDto extends BaseResponseDto {
     private Integer userItemStackId;
     private Integer userId;
     private Integer itemId;
-    private Long amount;
+    private Long qty;
     private String itemName;
 
     public static UserItemStackResponseDto from(UserItemStackEntity entity) {
@@ -20,7 +20,7 @@ public class UserItemStackResponseDto extends BaseResponseDto {
                 .userItemStackId(entity.getUserItemStackId())
                 .userId(entity.getUserId())
                 .itemId(entity.getItemId())
-                .amount(entity.getAmount())
+                .qty(entity.getQty())
                 .build();
     }
 
@@ -28,7 +28,7 @@ public class UserItemStackResponseDto extends BaseResponseDto {
         return UserItemStackResponseDto.builder()
                 .userItemStackId(result.getUserItemStackId())
                 .itemName(result.getItemName())
-                .amount(result.getAmount())
+                .qty(result.getQty())
                 .build();
     }
 }

@@ -21,7 +21,7 @@ public class StoreProductEntity {
     private LocalDateTime saleEndAt;
     private String priceType;
     private String priceItemCode;
-    private Long priceAmount;
+    private Long priceQty;
     private String storeSku;
     private String purchaseLimitType;
     private Integer purchaseLimitCount;

@@ -68,17 +68,17 @@ public class UserItemStackRecord extends UpdatableRecordImpl<UserItemStackRecord
     }
 
     /**
-     * Setter for <code>nexus.USER_ITEM_STACK.AMOUNT</code>. 보유 수량
+     * Setter for <code>nexus.USER_ITEM_STACK.QTY</code>. 보유 수량
      */
-    public UserItemStackRecord setAmount(Long value) {
+    public UserItemStackRecord setQty(Long value) {
         set(3, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.USER_ITEM_STACK.AMOUNT</code>. 보유 수량
+     * Getter for <code>nexus.USER_ITEM_STACK.QTY</code>. 보유 수량
      */
-    public Long getAmount() {
+    public Long getQty() {
         return (Long) get(3);
     }
 
@@ -180,13 +180,13 @@ public class UserItemStackRecord extends UpdatableRecordImpl<UserItemStackRecord
     /**
      * Create a detached, initialised UserItemStackRecord
      */
-    public UserItemStackRecord(Integer userItemStackId, Integer userId, Integer itemId, Long amount, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public UserItemStackRecord(Integer userItemStackId, Integer userId, Integer itemId, Long qty, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JUserItemStack.USER_ITEM_STACK);
 
         setUserItemStackId(userItemStackId);
         setUserId(userId);
         setItemId(itemId);
-        setAmount(amount);
+        setQty(qty);
         setCreatedAt(createdAt);
         setCreatedBy(createdBy);
         setUpdatedAt(updatedAt);
@@ -205,7 +205,7 @@ public class UserItemStackRecord extends UpdatableRecordImpl<UserItemStackRecord
             setUserItemStackId(value.getUserItemStackId());
             setUserId(value.getUserId());
             setItemId(value.getItemId());
-            setAmount(value.getAmount());
+            setQty(value.getQty());
             setCreatedAt(value.getCreatedAt());
             setCreatedBy(value.getCreatedBy());
             setUpdatedAt(value.getUpdatedAt());

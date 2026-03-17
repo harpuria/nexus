@@ -65,7 +65,7 @@ public enum ErrorCode {
     ORDER_CANNOT_BE_CANCELLED("ORDER003", "취소할 수 없는 주문 상태입니다", HttpStatus.BAD_REQUEST),
     INSUFFICIENT_STOCK("ORDER004", "재고가 부족합니다", HttpStatus.CONFLICT),
     INVALID_ORDER_STATUS("ORDER005", "주문 상태가 올바르지 않습니다", HttpStatus.BAD_REQUEST),
-    ORDER_AMOUNT_MISMATCH("ORDER006", "주문 금액이 일치하지 않습니다", HttpStatus.BAD_REQUEST),
+    ORDER_QTY_MISMATCH("ORDER006", "주문 금액이 일치하지 않습니다", HttpStatus.BAD_REQUEST),
 
     // =================================================================
     // 결제 관련 에러 (PAYMENT)
@@ -73,7 +73,7 @@ public enum ErrorCode {
     PAYMENT_FAILED("PAY001", "결제에 실패했습니다", HttpStatus.BAD_REQUEST),
     PAYMENT_CANCELLED("PAY002", "결제가 취소되었습니다", HttpStatus.CONFLICT),
     INVALID_PAYMENT_METHOD("PAY003", "유효하지 않은 결제 수단입니다", HttpStatus.BAD_REQUEST),
-    PAYMENT_AMOUNT_MISMATCH("PAY004", "결제 금액이 일치하지 않습니다", HttpStatus.BAD_REQUEST),
+    PAYMENT_QTY_MISMATCH("PAY004", "결제 금액이 일치하지 않습니다", HttpStatus.BAD_REQUEST),
     REFUND_FAILED("PAY005", "환불 처리에 실패했습니다", HttpStatus.INTERNAL_SERVER_ERROR),
 
     // =================================================================

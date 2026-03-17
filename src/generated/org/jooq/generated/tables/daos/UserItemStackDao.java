@@ -100,18 +100,18 @@ public class UserItemStackDao extends DAOImpl<UserItemStackRecord, UserItemStack
     }
 
     /**
-     * Fetch records that have <code>AMOUNT BETWEEN lowerInclusive AND
+     * Fetch records that have <code>QTY BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<UserItemStack> fetchRangeOfJAmount(Long lowerInclusive, Long upperInclusive) {
-        return fetchRange(JUserItemStack.USER_ITEM_STACK.AMOUNT, lowerInclusive, upperInclusive);
+    public List<UserItemStack> fetchRangeOfJQty(Long lowerInclusive, Long upperInclusive) {
+        return fetchRange(JUserItemStack.USER_ITEM_STACK.QTY, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>AMOUNT IN (values)</code>
+     * Fetch records that have <code>QTY IN (values)</code>
      */
-    public List<UserItemStack> fetchByJAmount(Long... values) {
-        return fetch(JUserItemStack.USER_ITEM_STACK.AMOUNT, values);
+    public List<UserItemStack> fetchByJQty(Long... values) {
+        return fetch(JUserItemStack.USER_ITEM_STACK.QTY, values);
     }
 
     /**

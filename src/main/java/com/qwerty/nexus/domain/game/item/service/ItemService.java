@@ -66,7 +66,7 @@ public class ItemService {
         for (Integer userId : userIdList) {
             UserItemStackEntity userItemStackEntity = UserItemStackEntity.builder()
                     .userId(userId)
-                    .amount(dto.getDefaultStack())
+                    .qty(dto.getDefaultStack())
                     .itemId(createdId)
                     .createdBy(dto.getCreatedBy())
                     .updatedBy(dto.getCreatedBy())

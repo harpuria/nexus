@@ -39,7 +39,7 @@ public class CouponCreateRequestDto {
     @Size(max = 255, message = "쿠폰 코드는 255자 이하여야 합니다.")
     private String code;
 
-    @Schema(example = "[{\"itemId\":1, \"amount\": 1000}]")
+    @Schema(example = "[{\"itemId\":1, \"qty\": 1000}]")
     @NotNull(message = "쿠폰 보상 정보는 필수입니다.")
     private JSONB rewards;
 

@@ -78,9 +78,9 @@ public class JUserItemStack extends TableImpl<UserItemStackRecord> {
     public final TableField<UserItemStackRecord, Integer> ITEM_ID = createField(DSL.name("ITEM_ID"), SQLDataType.INTEGER.nullable(false), this, "ITEM PK(FK)");
 
     /**
-     * The column <code>nexus.USER_ITEM_STACK.AMOUNT</code>. 보유 수량
+     * The column <code>nexus.USER_ITEM_STACK.QTY</code>. 보유 수량
      */
-    public final TableField<UserItemStackRecord, Long> AMOUNT = createField(DSL.name("AMOUNT"), SQLDataType.BIGINT.nullable(false).defaultValue(DSL.field(DSL.raw("0"), SQLDataType.BIGINT)), this, "보유 수량");
+    public final TableField<UserItemStackRecord, Long> QTY = createField(DSL.name("QTY"), SQLDataType.BIGINT.nullable(false).defaultValue(DSL.field(DSL.raw("0"), SQLDataType.BIGINT)), this, "보유 수량");
 
     /**
      * The column <code>nexus.USER_ITEM_STACK.CREATED_AT</code>. 데이터 생성 날짜

@@ -30,7 +30,7 @@ public class ShopProduct implements Serializable {
     private LocalDateTime saleEndAt;
     private String priceType;
     private String priceItemCode;
-    private Long priceAmount;
+    private Long priceQty;
     private String storeSku;
     private String purchaseLimitType;
     private Integer purchaseLimitCount;
@@ -57,7 +57,7 @@ public class ShopProduct implements Serializable {
         this.saleEndAt = value.saleEndAt;
         this.priceType = value.priceType;
         this.priceItemCode = value.priceItemCode;
-        this.priceAmount = value.priceAmount;
+        this.priceQty = value.priceQty;
         this.storeSku = value.storeSku;
         this.purchaseLimitType = value.purchaseLimitType;
         this.purchaseLimitCount = value.purchaseLimitCount;
@@ -83,7 +83,7 @@ public class ShopProduct implements Serializable {
         LocalDateTime saleEndAt,
         String priceType,
         String priceItemCode,
-        Long priceAmount,
+        Long priceQty,
         String storeSku,
         String purchaseLimitType,
         Integer purchaseLimitCount,
@@ -107,7 +107,7 @@ public class ShopProduct implements Serializable {
         this.saleEndAt = saleEndAt;
         this.priceType = priceType;
         this.priceItemCode = priceItemCode;
-        this.priceAmount = priceAmount;
+        this.priceQty = priceQty;
         this.storeSku = storeSku;
         this.purchaseLimitType = purchaseLimitType;
         this.purchaseLimitCount = purchaseLimitCount;
@@ -293,19 +293,19 @@ public class ShopProduct implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.SHOP_PRODUCT.PRICE_AMOUNT</code>. 가격 수량/금액(현금이면
-     * 센트/원 단위 정책에 맞춰)
+     * Getter for <code>nexus.SHOP_PRODUCT.PRICE_QTY</code>. 가격 수량/금액(현금이면 센트/원
+     * 단위 정책에 맞춰)
      */
-    public Long getPriceAmount() {
-        return this.priceAmount;
+    public Long getPriceQty() {
+        return this.priceQty;
     }
 
     /**
-     * Setter for <code>nexus.SHOP_PRODUCT.PRICE_AMOUNT</code>. 가격 수량/금액(현금이면
-     * 센트/원 단위 정책에 맞춰)
+     * Setter for <code>nexus.SHOP_PRODUCT.PRICE_QTY</code>. 가격 수량/금액(현금이면 센트/원
+     * 단위 정책에 맞춰)
      */
-    public ShopProduct setPriceAmount(Long priceAmount) {
-        this.priceAmount = priceAmount;
+    public ShopProduct setPriceQty(Long priceQty) {
+        this.priceQty = priceQty;
         return this;
     }
 
@@ -559,11 +559,11 @@ public class ShopProduct implements Serializable {
         }
         else if (!this.priceItemCode.equals(other.priceItemCode))
             return false;
-        if (this.priceAmount == null) {
-            if (other.priceAmount != null)
+        if (this.priceQty == null) {
+            if (other.priceQty != null)
                 return false;
         }
-        else if (!this.priceAmount.equals(other.priceAmount))
+        else if (!this.priceQty.equals(other.priceQty))
             return false;
         if (this.storeSku == null) {
             if (other.storeSku != null)
@@ -649,7 +649,7 @@ public class ShopProduct implements Serializable {
         result = prime * result + ((this.saleEndAt == null) ? 0 : this.saleEndAt.hashCode());
         result = prime * result + ((this.priceType == null) ? 0 : this.priceType.hashCode());
         result = prime * result + ((this.priceItemCode == null) ? 0 : this.priceItemCode.hashCode());
-        result = prime * result + ((this.priceAmount == null) ? 0 : this.priceAmount.hashCode());
+        result = prime * result + ((this.priceQty == null) ? 0 : this.priceQty.hashCode());
         result = prime * result + ((this.storeSku == null) ? 0 : this.storeSku.hashCode());
         result = prime * result + ((this.purchaseLimitType == null) ? 0 : this.purchaseLimitType.hashCode());
         result = prime * result + ((this.purchaseLimitCount == null) ? 0 : this.purchaseLimitCount.hashCode());
@@ -679,7 +679,7 @@ public class ShopProduct implements Serializable {
         sb.append(", ").append(saleEndAt);
         sb.append(", ").append(priceType);
         sb.append(", ").append(priceItemCode);
-        sb.append(", ").append(priceAmount);
+        sb.append(", ").append(priceQty);
         sb.append(", ").append(storeSku);
         sb.append(", ").append(purchaseLimitType);
         sb.append(", ").append(purchaseLimitCount);

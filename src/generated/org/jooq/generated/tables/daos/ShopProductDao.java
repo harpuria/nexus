@@ -222,18 +222,18 @@ public class ShopProductDao extends DAOImpl<ShopProductRecord, ShopProduct, Inte
     }
 
     /**
-     * Fetch records that have <code>PRICE_AMOUNT BETWEEN lowerInclusive AND
+     * Fetch records that have <code>PRICE_QTY BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<ShopProduct> fetchRangeOfJPriceAmount(Long lowerInclusive, Long upperInclusive) {
-        return fetchRange(JShopProduct.SHOP_PRODUCT.PRICE_AMOUNT, lowerInclusive, upperInclusive);
+    public List<ShopProduct> fetchRangeOfJPriceQty(Long lowerInclusive, Long upperInclusive) {
+        return fetchRange(JShopProduct.SHOP_PRODUCT.PRICE_QTY, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>PRICE_AMOUNT IN (values)</code>
+     * Fetch records that have <code>PRICE_QTY IN (values)</code>
      */
-    public List<ShopProduct> fetchByJPriceAmount(Long... values) {
-        return fetch(JShopProduct.SHOP_PRODUCT.PRICE_AMOUNT, values);
+    public List<ShopProduct> fetchByJPriceQty(Long... values) {
+        return fetch(JShopProduct.SHOP_PRODUCT.PRICE_QTY, values);
     }
 
     /**

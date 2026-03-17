@@ -115,18 +115,18 @@ public class RewardGrantItemDao extends DAOImpl<RewardGrantItemRecord, RewardGra
     }
 
     /**
-     * Fetch records that have <code>AMOUNT BETWEEN lowerInclusive AND
+     * Fetch records that have <code>QTY BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<RewardGrantItem> fetchRangeOfJAmount(Long lowerInclusive, Long upperInclusive) {
-        return fetchRange(JRewardGrantItem.REWARD_GRANT_ITEM.AMOUNT, lowerInclusive, upperInclusive);
+    public List<RewardGrantItem> fetchRangeOfJQty(Long lowerInclusive, Long upperInclusive) {
+        return fetchRange(JRewardGrantItem.REWARD_GRANT_ITEM.QTY, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>AMOUNT IN (values)</code>
+     * Fetch records that have <code>QTY IN (values)</code>
      */
-    public List<RewardGrantItem> fetchByJAmount(Long... values) {
-        return fetch(JRewardGrantItem.REWARD_GRANT_ITEM.AMOUNT, values);
+    public List<RewardGrantItem> fetchByJQty(Long... values) {
+        return fetch(JRewardGrantItem.REWARD_GRANT_ITEM.QTY, values);
     }
 
     /**

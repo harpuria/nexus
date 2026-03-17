@@ -3,7 +3,6 @@ package com.qwerty.nexus;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qwerty.nexus.domain.game.store.dto.ProductInfo;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -14,12 +13,5 @@ class NexusApplicationTests {
 	@Test
 	void contextLoads() throws JsonProcessingException {
 
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<ProductInfo> test = objectMapper.readValue("[{\"itemId\" : 1, \"amount\" : 100}]", new TypeReference<List<ProductInfo>>() {});
-
-        for(ProductInfo t : test){
-            System.out.println(t.getItemId());
-            System.out.println(t.getAmount());
-        }
 	}
 }

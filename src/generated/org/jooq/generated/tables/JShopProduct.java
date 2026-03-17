@@ -123,10 +123,10 @@ public class JShopProduct extends TableImpl<ShopProductRecord> {
     public final TableField<ShopProductRecord, String> PRICE_ITEM_CODE = createField(DSL.name("PRICE_ITEM_CODE"), SQLDataType.VARCHAR(64), this, "결제 재화 코드(PRICE_TYPE=SOFT일 때)");
 
     /**
-     * The column <code>nexus.SHOP_PRODUCT.PRICE_AMOUNT</code>. 가격 수량/금액(현금이면
-     * 센트/원 단위 정책에 맞춰)
+     * The column <code>nexus.SHOP_PRODUCT.PRICE_QTY</code>. 가격 수량/금액(현금이면 센트/원
+     * 단위 정책에 맞춰)
      */
-    public final TableField<ShopProductRecord, Long> PRICE_AMOUNT = createField(DSL.name("PRICE_AMOUNT"), SQLDataType.BIGINT.nullable(false).defaultValue(DSL.field(DSL.raw("0"), SQLDataType.BIGINT)), this, "가격 수량/금액(현금이면 센트/원 단위 정책에 맞춰)");
+    public final TableField<ShopProductRecord, Long> PRICE_QTY = createField(DSL.name("PRICE_QTY"), SQLDataType.BIGINT.nullable(false).defaultValue(DSL.field(DSL.raw("0"), SQLDataType.BIGINT)), this, "가격 수량/금액(현금이면 센트/원 단위 정책에 맞춰)");
 
     /**
      * The column <code>nexus.SHOP_PRODUCT.STORE_SKU</code>. 스토어 결제

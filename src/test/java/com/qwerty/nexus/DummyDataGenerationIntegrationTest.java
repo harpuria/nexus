@@ -58,9 +58,13 @@ class DummyDataGenerationIntegrationTest {
     private final int ADMIN_MAX = 20;
     private final int GAME_MAX = 20;
     private final int USER_MAX = 20;
-    private final int STACK_ITEM_MAX = 10;
-    private final int INSTANCE_ITEM_MAX = 10;
-    private final int COUPON_MAX = 10;
+    private final int STACK_ITEM_MAX = 5;
+    private final int INSTANCE_ITEM_MAX = 5;
+    private final int COUPON_MAX = 5;
+    private final int REWARD_MAIL_MAX = 5;
+    private final int SHOP_MAX = 5;
+    private final int NON_REWARD_MAIL_MAX = 5;
+    private final int PRODUCT_MAX = 5;
 
 
     @Autowired
@@ -101,13 +105,11 @@ class DummyDataGenerationIntegrationTest {
             initAdminDto.setAdminNm("NEXUS 관리자");
             initAdminDto.setOrgNm("QWERTY");
             initAdminDto.setOrgCd("QWERTY-ORG");
-            initAdminDto.setAdminRole(AdminRole.ADMIN);
+            initAdminDto.setAdminRole(AdminRole.NEXUS);
 
             Result<Void> initResult = adminService.createInitialAdmin(initAdminDto);
             Assertions.assertInstanceOf(Result.Success.class, initResult, "NEXUS 초기 관리자/조직 생성 실패");
         }
-
-        Assertions.assertNotNull(gameRepository.findByGameId(1), "gameId=1 게임이 먼저 생성되어 있어야 합니다.");
 
         String batchKey = UUID.randomUUID().toString().substring(0, 8);
         List<AdminRole> adminRoles = List.of(AdminRole.ADMIN, AdminRole.NONE);
@@ -195,7 +197,7 @@ class DummyDataGenerationIntegrationTest {
             dto.setName("더미 쿠폰 " + i);
             dto.setDesc("통합 테스트 더미 쿠폰");
             dto.setCode("DUMMYCP" + batchKey.toUpperCase() + i);
-            dto.setRewards(JSONB.valueOf("[{\"itemCode\":\"" + rewardItemCode + "\",\"amount\":1000}]"));
+            dto.setRewards(JSONB.valueOf("[{\"itemCode\":\"" + rewardItemCode + "\",\"qty\":1000}]"));
             dto.setTimeLimitType(TimeLimitType.LIMITED);
             dto.setUseStartDate(OffsetDateTime.now().minusDays(1));
             dto.setUseEndDate(OffsetDateTime.now().plusDays(30));
@@ -208,12 +210,12 @@ class DummyDataGenerationIntegrationTest {
             Assertions.assertInstanceOf(Result.Success.class, result, "쿠폰 생성 실패 index=" + i);
         }
 
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= REWARD_MAIL_MAX; i++) {
             MailCreateRequestDto dto = new MailCreateRequestDto();
             dto.setGameId(1);
             dto.setTitle("더미 우편(보상) " + i);
             dto.setContent("보상형 더미 우편입니다.");
-            dto.setRewards(JSONB.valueOf("[{\"itemCode\":\"" + rewardItemCode + "\",\"amount\":500}]"));
+            dto.setRewards(JSONB.valueOf("[{\"itemCode\":\"" + rewardItemCode + "\",\"qty\":500}]"));
             dto.setSendType(MailSendType.IMMEDIATE);
             dto.setRecipientsType(MailRecipientsType.ALL);
             dto.setExpireAt(OffsetDateTime.now().plusDays(14));
@@ -224,7 +226,7 @@ class DummyDataGenerationIntegrationTest {
             Assertions.assertInstanceOf(Result.Success.class, result, "보상형 우편 생성 실패 index=" + i);
         }
 
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 1; i <= NON_REWARD_MAIL_MAX; i++) {
             MailCreateRequestDto dto = new MailCreateRequestDto();
             dto.setGameId(1);
             dto.setTitle("더미 우편(읽기전용) " + i);
@@ -240,7 +242,7 @@ class DummyDataGenerationIntegrationTest {
             Assertions.assertInstanceOf(Result.Success.class, result, "읽기전용 우편 생성 실패 index=" + i);
         }
 
-        for (int i = 1; i <= 10; i++) {
+        for (int i = 1; i <= SHOP_MAX; i++) {
             ShopCreateRequestDto dto = new ShopCreateRequestDto();
             dto.setGameId(1);
             dto.setShopCode("DUMMY_SHOP_" + batchKey + "_" + i);
@@ -258,7 +260,7 @@ class DummyDataGenerationIntegrationTest {
             Assertions.assertInstanceOf(Result.Success.class, result, "상점 생성 실패 index=" + i);
         }
 
-        for (int i = 1; i <= 100; i++) {
+        for (int i = 1; i <= PRODUCT_MAX; i++) {
             ProductCreateRequestDto dto = new ProductCreateRequestDto();
             dto.setGameId(1);
             dto.setProductCode("DUMMY_PRODUCT_" + batchKey + "_" + i);

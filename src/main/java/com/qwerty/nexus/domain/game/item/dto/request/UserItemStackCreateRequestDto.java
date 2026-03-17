@@ -18,7 +18,7 @@ public class UserItemStackCreateRequestDto {
     @NotNull @Positive
     private Integer itemId;
     @NotNull @PositiveOrZero
-    private Long amount;
+    private Long qty;
     @NotBlank @Size(max = 64)
     private String createdBy;
 }

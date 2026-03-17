@@ -8,5 +8,5 @@ import lombok.Setter;
 public class UserItemStackListResult {
     private Integer userItemStackId;
     private String itemName;
-    private Long amount;
+    private Long qty;
 }

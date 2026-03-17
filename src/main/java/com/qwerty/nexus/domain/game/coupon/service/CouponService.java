@@ -13,7 +13,6 @@ import com.qwerty.nexus.domain.game.coupon.entity.CouponEntity;
 import com.qwerty.nexus.domain.game.coupon.entity.CouponUseLogEntity;
 import com.qwerty.nexus.domain.game.coupon.repository.CouponRepository;
 import com.qwerty.nexus.domain.game.item.entity.ItemEntity;
-import com.qwerty.nexus.domain.game.item.entity.UserItemInstanceEntity;
 import com.qwerty.nexus.domain.game.item.entity.UserItemStackEntity;
 import com.qwerty.nexus.domain.game.item.repository.ItemRepository;
 import com.qwerty.nexus.domain.game.item.repository.UserItemInstanceRepository;
@@ -33,12 +32,10 @@ import com.qwerty.nexus.global.util.CommonUtil;
 import com.qwerty.nexus.global.paging.PagingUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.jooq.JSONB;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -253,7 +250,7 @@ public class CouponService {
         List<ResolvedCouponReward> resolvedRewards = new ArrayList<>();
 
         for (RewardDto rewardInfo : rewardInfos) {
-            if (rewardInfo.getItemId() <= 0 || rewardInfo.getAmount() == null || rewardInfo.getAmount() <= 0) {
+            if (rewardInfo.getItemId() <= 0 || rewardInfo.getQty() == null || rewardInfo.getQty() <= 0) {
                 return Result.Failure.of("쿠폰 보상 정보가 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
             }
 
@@ -273,23 +270,23 @@ public class CouponService {
                         .build();
 
                 Optional<UserItemStackEntity> userItem = userItemStackRepository.findByUserIdAndItemId(userItemCondition);
-                long currentAmount = userItem.map(UserItemStackEntity::getAmount).orElse(0L);
-                long calculatedAmount = currentAmount + rewardInfo.getAmount();
+                long currentQty = userItem.map(UserItemStackEntity::getQty).orElse(0L);
+                long calculatedQty = currentQty + rewardInfo.getQty();
                 Long maxStack = item.getMaxStack();
-                if (maxStack != null && maxStack < calculatedAmount) {
+                if (maxStack != null && maxStack < calculatedQty) {
                     return Result.Failure.of("보유 가능한 최대 아이템 수량을 초과했습니다.", ErrorCode.INVALID_REQUEST.getCode());
                 }
 
-                resolvedRewards.add(new ResolvedCouponReward(rewardInfo.getItemId(), rewardInfo.getAmount(), true));
+                resolvedRewards.add(new ResolvedCouponReward(rewardInfo.getItemId(), rewardInfo.getQty(), true));
                 continue;
             }
 
             if (isInstanceReward(item)) {
-                if (rewardInfo.getAmount() > Integer.MAX_VALUE) {
+                if (rewardInfo.getQty() > Integer.MAX_VALUE) {
                     return Result.Failure.of("쿠폰 보상 정보가 올바르지 않습니다.", ErrorCode.INVALID_REQUEST.getCode());
                 }
 
-                resolvedRewards.add(new ResolvedCouponReward(rewardInfo.getItemId(), rewardInfo.getAmount(), false));
+                resolvedRewards.add(new ResolvedCouponReward(rewardInfo.getItemId(), rewardInfo.getQty(), false));
                 continue;
             }
 
@@ -440,7 +437,7 @@ public class CouponService {
         return false;
     }
 
-    private record ResolvedCouponReward(Integer itemId, Long amount, boolean stackReward) {
+    private record ResolvedCouponReward(Integer itemId, Long qty, boolean stackReward) {
     }
 
     private List<RewardDto> parseRewardList(CouponEntity couponEntity) {

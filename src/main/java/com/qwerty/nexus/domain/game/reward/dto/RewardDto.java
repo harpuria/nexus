@@ -15,5 +15,5 @@ import lombok.Setter;
 public class RewardDto {
     private Integer itemId;
     private String itemCode;
-    private Long amount;
+    private Long qty;
 }

@@ -20,7 +20,7 @@ public class RewardGrantItem implements Serializable {
     private Integer grantId;
     private Integer itemId;
     private String isStackable;
-    private Long amount;
+    private Long qty;
     private String itemCode;
     private String itemType;
     private String status;
@@ -38,7 +38,7 @@ public class RewardGrantItem implements Serializable {
         this.grantId = value.grantId;
         this.itemId = value.itemId;
         this.isStackable = value.isStackable;
-        this.amount = value.amount;
+        this.qty = value.qty;
         this.itemCode = value.itemCode;
         this.itemType = value.itemType;
         this.status = value.status;
@@ -55,7 +55,7 @@ public class RewardGrantItem implements Serializable {
         Integer grantId,
         Integer itemId,
         String isStackable,
-        Long amount,
+        Long qty,
         String itemCode,
         String itemType,
         String status,
@@ -70,7 +70,7 @@ public class RewardGrantItem implements Serializable {
         this.grantId = grantId;
         this.itemId = itemId;
         this.isStackable = isStackable;
-        this.amount = amount;
+        this.qty = qty;
         this.itemCode = itemCode;
         this.itemType = itemType;
         this.status = status;
@@ -147,19 +147,19 @@ public class RewardGrantItem implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.REWARD_GRANT_ITEM.AMOUNT</code>. 지급 수량 (인스턴스형인 경우
-     * 1로 고정)
+     * Getter for <code>nexus.REWARD_GRANT_ITEM.QTY</code>. 지급 수량 (인스턴스형인 경우 1로
+     * 고정)
      */
-    public Long getAmount() {
-        return this.amount;
+    public Long getQty() {
+        return this.qty;
     }
 
     /**
-     * Setter for <code>nexus.REWARD_GRANT_ITEM.AMOUNT</code>. 지급 수량 (인스턴스형인 경우
-     * 1로 고정)
+     * Setter for <code>nexus.REWARD_GRANT_ITEM.QTY</code>. 지급 수량 (인스턴스형인 경우 1로
+     * 고정)
      */
-    public RewardGrantItem setAmount(Long amount) {
-        this.amount = amount;
+    public RewardGrantItem setQty(Long qty) {
+        this.qty = qty;
         return this;
     }
 
@@ -335,11 +335,11 @@ public class RewardGrantItem implements Serializable {
         }
         else if (!this.isStackable.equals(other.isStackable))
             return false;
-        if (this.amount == null) {
-            if (other.amount != null)
+        if (this.qty == null) {
+            if (other.qty != null)
                 return false;
         }
-        else if (!this.amount.equals(other.amount))
+        else if (!this.qty.equals(other.qty))
             return false;
         if (this.itemCode == null) {
             if (other.itemCode != null)
@@ -406,7 +406,7 @@ public class RewardGrantItem implements Serializable {
         result = prime * result + ((this.grantId == null) ? 0 : this.grantId.hashCode());
         result = prime * result + ((this.itemId == null) ? 0 : this.itemId.hashCode());
         result = prime * result + ((this.isStackable == null) ? 0 : this.isStackable.hashCode());
-        result = prime * result + ((this.amount == null) ? 0 : this.amount.hashCode());
+        result = prime * result + ((this.qty == null) ? 0 : this.qty.hashCode());
         result = prime * result + ((this.itemCode == null) ? 0 : this.itemCode.hashCode());
         result = prime * result + ((this.itemType == null) ? 0 : this.itemType.hashCode());
         result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
@@ -427,7 +427,7 @@ public class RewardGrantItem implements Serializable {
         sb.append(", ").append(grantId);
         sb.append(", ").append(itemId);
         sb.append(", ").append(isStackable);
-        sb.append(", ").append(amount);
+        sb.append(", ").append(qty);
         sb.append(", ").append(itemCode);
         sb.append(", ").append(itemType);
         sb.append(", ").append(status);

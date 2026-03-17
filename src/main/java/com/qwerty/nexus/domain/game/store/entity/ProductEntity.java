@@ -29,7 +29,7 @@ public class ProductEntity {
     private LocalDateTime saleEndAt;
     private String priceType;
     private String priceItemCode;
-    private BigDecimal priceAmount;
+    private BigDecimal priceQty;
     private String storeSku;
     private String purchaseLimitType;
     private Integer purchaseLimitCount;

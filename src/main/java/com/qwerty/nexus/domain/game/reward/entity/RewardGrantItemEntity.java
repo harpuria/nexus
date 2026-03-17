@@ -12,7 +12,7 @@ public class RewardGrantItemEntity {
     private Integer grantId;
     private Integer itemId;
     private String isStackable;
-    private Long amount;
+    private Long qty;
     private String itemCode;
     private String itemType;
     private String status;

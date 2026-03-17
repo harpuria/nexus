@@ -19,7 +19,7 @@ public class UserItemStack implements Serializable {
     private Integer userItemStackId;
     private Integer userId;
     private Integer itemId;
-    private Long amount;
+    private Long qty;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;
@@ -32,7 +32,7 @@ public class UserItemStack implements Serializable {
         this.userItemStackId = value.userItemStackId;
         this.userId = value.userId;
         this.itemId = value.itemId;
-        this.amount = value.amount;
+        this.qty = value.qty;
         this.createdAt = value.createdAt;
         this.createdBy = value.createdBy;
         this.updatedAt = value.updatedAt;
@@ -44,7 +44,7 @@ public class UserItemStack implements Serializable {
         Integer userItemStackId,
         Integer userId,
         Integer itemId,
-        Long amount,
+        Long qty,
         OffsetDateTime createdAt,
         String createdBy,
         OffsetDateTime updatedAt,
@@ -54,7 +54,7 @@ public class UserItemStack implements Serializable {
         this.userItemStackId = userItemStackId;
         this.userId = userId;
         this.itemId = itemId;
-        this.amount = amount;
+        this.qty = qty;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.updatedAt = updatedAt;
@@ -110,17 +110,17 @@ public class UserItemStack implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.USER_ITEM_STACK.AMOUNT</code>. 보유 수량
+     * Getter for <code>nexus.USER_ITEM_STACK.QTY</code>. 보유 수량
      */
-    public Long getAmount() {
-        return this.amount;
+    public Long getQty() {
+        return this.qty;
     }
 
     /**
-     * Setter for <code>nexus.USER_ITEM_STACK.AMOUNT</code>. 보유 수량
+     * Setter for <code>nexus.USER_ITEM_STACK.QTY</code>. 보유 수량
      */
-    public UserItemStack setAmount(Long amount) {
-        this.amount = amount;
+    public UserItemStack setQty(Long qty) {
+        this.qty = qty;
         return this;
     }
 
@@ -226,11 +226,11 @@ public class UserItemStack implements Serializable {
         }
         else if (!this.itemId.equals(other.itemId))
             return false;
-        if (this.amount == null) {
-            if (other.amount != null)
+        if (this.qty == null) {
+            if (other.qty != null)
                 return false;
         }
-        else if (!this.amount.equals(other.amount))
+        else if (!this.qty.equals(other.qty))
             return false;
         if (this.createdAt == null) {
             if (other.createdAt != null)
@@ -272,7 +272,7 @@ public class UserItemStack implements Serializable {
         result = prime * result + ((this.userItemStackId == null) ? 0 : this.userItemStackId.hashCode());
         result = prime * result + ((this.userId == null) ? 0 : this.userId.hashCode());
         result = prime * result + ((this.itemId == null) ? 0 : this.itemId.hashCode());
-        result = prime * result + ((this.amount == null) ? 0 : this.amount.hashCode());
+        result = prime * result + ((this.qty == null) ? 0 : this.qty.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
@@ -288,7 +288,7 @@ public class UserItemStack implements Serializable {
         sb.append(userItemStackId);
         sb.append(", ").append(userId);
         sb.append(", ").append(itemId);
-        sb.append(", ").append(amount);
+        sb.append(", ").append(qty);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(createdBy);
         sb.append(", ").append(updatedAt);
