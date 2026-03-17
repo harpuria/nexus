@@ -19,6 +19,8 @@ import com.qwerty.nexus.domain.game.user.dto.request.GameUserCreateRequestDto;
 import com.qwerty.nexus.domain.game.user.service.GameUserService;
 import com.qwerty.nexus.domain.management.admin.AdminRole;
 import com.qwerty.nexus.domain.management.admin.dto.request.AdminCreateRequestDto;
+import com.qwerty.nexus.domain.management.admin.dto.request.AdminInitCreateRequestDto;
+import com.qwerty.nexus.domain.management.admin.repository.AdminRepository;
 import com.qwerty.nexus.domain.management.admin.service.AdminService;
 import com.qwerty.nexus.domain.management.game.dto.request.GameCreateRequestDto;
 import com.qwerty.nexus.domain.management.game.repository.GameRepository;
@@ -49,6 +51,7 @@ class DummyDataGenerationIntegrationTest {
     private final MailService mailService;
     private final ShopService shopService;
     private final ProductService productService;
+    private final AdminRepository adminRepository;
     private final OrganizationRepository organizationRepository;
     private final GameRepository gameRepository;
 
@@ -70,6 +73,7 @@ class DummyDataGenerationIntegrationTest {
             MailService mailService,
             ShopService shopService,
             ProductService productService,
+            AdminRepository adminRepository,
             OrganizationRepository organizationRepository,
             GameRepository gameRepository
     ) {
@@ -81,6 +85,7 @@ class DummyDataGenerationIntegrationTest {
         this.mailService = mailService;
         this.shopService = shopService;
         this.productService = productService;
+        this.adminRepository = adminRepository;
         this.organizationRepository = organizationRepository;
         this.gameRepository = gameRepository;
     }
@@ -88,7 +93,20 @@ class DummyDataGenerationIntegrationTest {
     @Test
     @DisplayName("더미 데이터 통합 생성 테스트")
     void createDummyDataSet() {
-        Assertions.assertNotNull(organizationRepository.findByOrgId(1), "orgId=1 단체가 먼저 생성되어 있어야 합니다.");
+        if (adminRepository.findByLoginId("admin").isEmpty()) {
+            AdminInitCreateRequestDto initAdminDto = new AdminInitCreateRequestDto();
+            initAdminDto.setLoginId("admin");
+            initAdminDto.setLoginPw("admin");
+            initAdminDto.setAdminEmail("admin@nexus.test");
+            initAdminDto.setAdminNm("NEXUS 관리자");
+            initAdminDto.setOrgNm("QWERTY");
+            initAdminDto.setOrgCd("QWERTY-ORG");
+            initAdminDto.setAdminRole(AdminRole.ADMIN);
+
+            Result<Void> initResult = adminService.createInitialAdmin(initAdminDto);
+            Assertions.assertInstanceOf(Result.Success.class, initResult, "NEXUS 초기 관리자/조직 생성 실패");
+        }
+
         Assertions.assertNotNull(gameRepository.findByGameId(1), "gameId=1 게임이 먼저 생성되어 있어야 합니다.");
 
         String batchKey = UUID.randomUUID().toString().substring(0, 8);
@@ -169,13 +187,15 @@ class DummyDataGenerationIntegrationTest {
             Assertions.assertInstanceOf(Result.Success.class, result, "인스턴스형 아이템 생성 실패 index=" + i);
         }
 
+        String rewardItemCode = "STACK_ITEM_" + batchKey + "_1";
+
         for (int i = 1; i <= COUPON_MAX; i++) {
             CouponCreateRequestDto dto = new CouponCreateRequestDto();
             dto.setGameId(1);
             dto.setName("더미 쿠폰 " + i);
             dto.setDesc("통합 테스트 더미 쿠폰");
             dto.setCode("DUMMYCP" + batchKey.toUpperCase() + i);
-            dto.setRewards(JSONB.valueOf("[{\"itemCode\":\"STACK_ITEM\",\"amount\":1000}]"));
+            dto.setRewards(JSONB.valueOf("[{\"itemCode\":\"" + rewardItemCode + "\",\"amount\":1000}]"));
             dto.setTimeLimitType(TimeLimitType.LIMITED);
             dto.setUseStartDate(OffsetDateTime.now().minusDays(1));
             dto.setUseEndDate(OffsetDateTime.now().plusDays(30));
@@ -193,7 +213,7 @@ class DummyDataGenerationIntegrationTest {
             dto.setGameId(1);
             dto.setTitle("더미 우편(보상) " + i);
             dto.setContent("보상형 더미 우편입니다.");
-            dto.setRewards(JSONB.valueOf("[{\"itemCode\":\"STACK_ITEM\",\"amount\":500}]"));
+            dto.setRewards(JSONB.valueOf("[{\"itemCode\":\"" + rewardItemCode + "\",\"amount\":500}]"));
             dto.setSendType(MailSendType.IMMEDIATE);
             dto.setRecipientsType(MailRecipientsType.ALL);
             dto.setExpireAt(OffsetDateTime.now().plusDays(14));
@@ -246,7 +266,7 @@ class DummyDataGenerationIntegrationTest {
             dto.setDesc("통합 테스트 더미 상품");
             dto.setImageUrl("https://dummy.nexus/images/" + i + ".png");
             dto.setProductType("PACKAGE");
-            dto.setRewards(JSONB.valueOf("[{\"itemCode\":\"STACK_ITEM\",\"qty\":100}]"));
+            dto.setRewards(JSONB.valueOf("[{\"itemCode\":\"" + rewardItemCode + "\",\"qty\":100}]"));
             dto.setCreatedBy("dummy-seeder");
             dto.setUpdatedBy("dummy-seeder");
 
