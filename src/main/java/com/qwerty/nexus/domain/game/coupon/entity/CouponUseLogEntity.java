@@ -14,6 +14,7 @@ public class CouponUseLogEntity {
     private Integer couponId;
     private Integer userId;
     private OffsetDateTime usedAt;
+    private String status;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;

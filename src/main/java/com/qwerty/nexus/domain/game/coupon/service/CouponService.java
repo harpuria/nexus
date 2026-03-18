@@ -311,6 +311,7 @@ public class CouponService {
                 .couponId(coupon.getCouponId())
                 .userId(dto.getUserId())
                 .usedAt(OffsetDateTime.now())
+                .status("SUCCESS")
                 .createdBy(actor)
                 .updatedBy(actor)
                 .build();

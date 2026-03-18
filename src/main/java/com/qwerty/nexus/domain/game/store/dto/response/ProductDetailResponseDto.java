@@ -1,7 +1,7 @@
 package com.qwerty.nexus.domain.game.store.dto.response;
 
-import com.qwerty.nexus.domain.game.store.entity.ProductEntity;
 import com.qwerty.nexus.domain.game.reward.dto.RewardDto;
+import com.qwerty.nexus.domain.game.store.result.ProductResult;
 import com.qwerty.nexus.global.dto.BaseResponseDto;
 import com.qwerty.nexus.global.util.CommonUtil;
 import lombok.Getter;
@@ -38,7 +38,7 @@ public class ProductDetailResponseDto extends BaseResponseDto {
     private String purchaseLimitType;
     private Integer purchaseLimitCount;
 
-    public static ProductDetailResponseDto from(ProductEntity entity) {
+    public static ProductDetailResponseDto from(ProductResult entity) {
         return ProductDetailResponseDto.builder()
                 .productId(entity.getProductId())
                 .gameId(entity.getGameId())

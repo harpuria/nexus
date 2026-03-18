@@ -1,6 +1,6 @@
 package com.qwerty.nexus.domain.game.store.dto.response;
 
-import com.qwerty.nexus.domain.game.store.entity.ProductEntity;
+import com.qwerty.nexus.domain.game.store.result.ProductResult;
 import com.qwerty.nexus.global.dto.BaseResponseDto;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -32,7 +32,7 @@ public class ProductResponseDto extends BaseResponseDto {
     private BigDecimal priceQty;
     private String storeSku;
 
-    public static ProductResponseDto from(ProductEntity productEntity) {
+    public static ProductResponseDto from(ProductResult productEntity) {
         return ProductResponseDto.builder()
                 .productId(productEntity.getProductId())
                 .gameId(productEntity.getGameId())

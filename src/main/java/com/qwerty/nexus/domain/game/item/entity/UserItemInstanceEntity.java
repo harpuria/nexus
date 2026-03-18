@@ -12,6 +12,7 @@ public class UserItemInstanceEntity {
     private Integer userItemId;
     private Integer userId;
     private Integer itemId;
+    private String instanceType;
     private JSONB stateJson;
     private OffsetDateTime acquiredAt;
     private OffsetDateTime createdAt;

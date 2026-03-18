@@ -2,6 +2,7 @@ package com.qwerty.nexus.domain.game.attendance.repository;
 
 import com.qwerty.nexus.domain.game.attendance.entity.AttendanceEntity;
 import com.qwerty.nexus.domain.game.attendance.entity.AttendanceRewardEntity;
+import com.qwerty.nexus.domain.game.attendance.entity.UserAttendanceEntity;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.PagingEntity;
 import org.jooq.*;
@@ -129,22 +130,22 @@ public class AttendanceRepository {
                 .fetchInto(AttendanceRewardEntity.class);
     }
 
-    public Optional<AttendanceEntity> findUserAttendanceByGameIdAndAttendanceIdAndUserId(Integer gameId, Integer attendanceId, Long userId) {
+    public Optional<UserAttendanceEntity> findUserAttendanceByGameIdAndAttendanceIdAndUserId(Integer gameId, Integer attendanceId, Long userId) {
         return Optional.ofNullable(dslContext.selectFrom(USER_ATTENDANCE)
                 .where(USER_ATTENDANCE.GAME_ID.eq(gameId)
                         .and(USER_ATTENDANCE.ATTENDANCE_ID.eq(attendanceId))
                         .and(USER_ATTENDANCE.USER_ID.eq(userId))
                         .and(USER_ATTENDANCE.IS_DEL.eq("N")))
-                .fetchOneInto(AttendanceEntity.class));
+                .fetchOneInto(UserAttendanceEntity.class));
     }
 
-    public Integer insertUserAttendance(AttendanceEntity attendanceEntity) {
+    public Integer insertUserAttendance(UserAttendanceEntity attendanceEntity) {
         UserAttendanceRecord record = dslContext.newRecord(USER_ATTENDANCE, attendanceEntity);
         record.store();
         return record.getUserAttendanceId();
     }
 
-    public int updateUserAttendance(AttendanceEntity attendanceEntity) {
+    public int updateUserAttendance(UserAttendanceEntity attendanceEntity) {
         UserAttendanceRecord record = dslContext.newRecord(USER_ATTENDANCE, attendanceEntity);
         record.changed(USER_ATTENDANCE.LAST_ATTENDED_DATE, attendanceEntity.getLastAttendedDate() != null);
         record.changed(USER_ATTENDANCE.CURRENT_STREAK, attendanceEntity.getCurrentStreak() != null);
