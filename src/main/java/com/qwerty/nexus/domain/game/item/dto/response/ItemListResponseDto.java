@@ -6,4 +6,11 @@ import java.util.List;
 
 @Builder
 public record ItemListResponseDto(
+        List<ItemResponseDto> items,
+        int page,
+        int size,
+        long totalCount,
+        int totalPages,
+        boolean hasNext,
+        boolean hasPrevious
 ) {}
