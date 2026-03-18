@@ -13,6 +13,7 @@ public class GameEntity {
     private Integer gameId;
     private Integer orgId;
     private String name;
+    private String imagePath;
     private UUID clientAppId;
     private UUID signatureKey;
     private String googleClientId;

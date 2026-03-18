@@ -35,7 +35,6 @@ public class ItemCreateRequestDto {
     private String rarity;
     @Size(max = 255)
     private String iconPath;
-    private JSONB metaJson;
     @NotBlank @Size(max = 64)
     private String createdBy;
 }

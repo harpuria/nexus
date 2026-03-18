@@ -29,16 +29,15 @@ public class AdminController {
     private final AdminService service;
 
     /**
-     * 초기 사용자 등록 (SUPER 관리자)
+     * 넥서스 초기 사용자 등록 (NEXUS 총괄 관리자)
      * @param dto 초기 생성할 관리자 정보를 담은 객체 (DTO)
      * @return 성공 혹은 실패 메시지, 오류코드 (실패시)
      */
     @PostMapping("/initialize")
-    @Operation(summary = "초기 사용자 등록 (SUPER 관리자)")
+    @Operation(summary = "초기 사용자 등록 (NEXUS 관리자)")
     public ResponseEntity<ApiResponse<Void>> createInitialAdmin(
             @Parameter @RequestBody AdminInitCreateRequestDto dto){
-        // 초기 사용자는 무조건 SUPER 관리자로 등록
-        dto.setAdminRole(AdminRole.SUPER);
+        dto.setAdminRole(AdminRole.NEXUS);
 
         Result<Void> result = service.createInitialAdmin(dto);
 
