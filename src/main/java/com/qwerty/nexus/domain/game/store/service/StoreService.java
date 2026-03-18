@@ -4,12 +4,12 @@ import com.qwerty.nexus.domain.game.store.dto.request.StoreProductCreateRequestD
 import com.qwerty.nexus.domain.game.store.dto.request.StoreProductUpdateRequestDto;
 import com.qwerty.nexus.domain.game.store.dto.response.StoreProductListResponseDto;
 import com.qwerty.nexus.domain.game.store.dto.response.StoreProductResponseDto;
-import com.qwerty.nexus.domain.game.store.entity.ProductEntity;
 import com.qwerty.nexus.domain.game.store.entity.ShopEntity;
 import com.qwerty.nexus.domain.game.store.entity.StoreProductEntity;
 import com.qwerty.nexus.domain.game.store.repository.ProductRepository;
 import com.qwerty.nexus.domain.game.store.repository.ShopProductRepository;
 import com.qwerty.nexus.domain.game.store.repository.ShopRepository;
+import com.qwerty.nexus.domain.game.store.result.ProductResult;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.PagingEntity;
@@ -218,7 +218,7 @@ public class StoreService {
             return failure;
         }
 
-        Optional<ProductEntity> product = productRepository.findByProductId(productId);
+        Optional<ProductResult> product = productRepository.findByProductId(productId);
         if (product.isEmpty()) {
             return Result.Failure.of("상품 정보를 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }

@@ -1,9 +1,7 @@
 package com.qwerty.nexus.domain.game.item.entity;
 
-import com.qwerty.nexus.domain.game.item.ItemType;
 import lombok.Builder;
 import lombok.Getter;
-import org.jooq.JSONB;
 
 import java.time.OffsetDateTime;
 
@@ -15,13 +13,12 @@ public class ItemEntity {
     private String itemCode;
     private String name;
     private String desc;
-    private ItemType itemType;
+    private String itemType;
     private String isStackable;
     private Long defaultStack;
     private Long maxStack;
     private String rarity;
     private String imagePath;
-    private JSONB metaJson;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;

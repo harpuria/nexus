@@ -1,6 +1,7 @@
 package com.qwerty.nexus.domain.game.store.repository;
 
 import com.qwerty.nexus.domain.game.store.entity.ProductEntity;
+import com.qwerty.nexus.domain.game.store.result.ProductResult;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.paging.PagingEntity;
 import org.jooq.Condition;
@@ -68,7 +69,7 @@ public class ProductRepository {
         return record.update();
     }
 
-    public Optional<ProductEntity> findByProductId(Integer productId){
+    public Optional<ProductResult> findByProductId(Integer productId){
         return Optional.ofNullable(
                 dslContext.select(selectProductWithShopFields())
                         .from(PRODUCT)
@@ -82,11 +83,11 @@ public class ProductRepository {
                         .and(PRODUCT.IS_DEL.eq("N"))
                         .orderBy(SHOP_PRODUCT.SORT_ORDER.asc().nullsLast(), SHOP_PRODUCT.SHOP_PRODUCT_ID.asc().nullsLast())
                         .limit(1)
-                        .fetchOneInto(ProductEntity.class)
+                        .fetchOneInto(ProductResult.class)
         );
     }
 
-    public Optional<ProductEntity> findByGameIdAndShopProductId(int gameId, int shopProductId) {
+    public Optional<ProductResult> findByGameIdAndShopProductId(int gameId, int shopProductId) {
         return Optional.ofNullable(
                 dslContext.select(selectProductWithShopFields())
                         .from(PRODUCT)
@@ -103,11 +104,11 @@ public class ProductRepository {
                         .and(SHOP.GAME_ID.eq(gameId))
                         .orderBy(SHOP_PRODUCT.SORT_ORDER.asc(), SHOP_PRODUCT.SHOP_PRODUCT_ID.asc())
                         .limit(1)
-                        .fetchOneInto(ProductEntity.class)
+                        .fetchOneInto(ProductResult.class)
         );
     }
 
-    public List<ProductEntity> findAllByGameIdAndKeyword(PagingEntity paging, int gameId) {
+    public List<ProductResult> findAllByGameIdAndKeyword(PagingEntity paging, int gameId) {
         Condition condition = DSL.noCondition();
 
         condition = condition.and(PRODUCT.IS_DEL.eq("N"));
@@ -139,10 +140,10 @@ public class ProductRepository {
                 .orderBy(sortField)
                 .limit(size)
                 .offset(offset)
-                .fetchInto(ProductEntity.class);
+                .fetchInto(ProductResult.class);
     }
 
-    public List<ProductEntity> findAllByGameIdAndShopCode(PagingEntity paging, int gameId, String shopCode) {
+    public List<ProductResult> findAllByGameIdAndShopCode(PagingEntity paging, int gameId, String shopCode) {
         int size = paging.getSize() > 0 ? paging.getSize() : ApiConstants.Pagination.DEFAULT_PAGE_SIZE;
         int page = Math.max(paging.getPage(), ApiConstants.Pagination.DEFAULT_PAGE_NUMBER);
         int offset = page * size;
@@ -164,7 +165,7 @@ public class ProductRepository {
                 .orderBy(sortField, SHOP_PRODUCT.SHOP_PRODUCT_ID.asc())
                 .limit(size)
                 .offset(offset)
-                .fetchInto(ProductEntity.class);
+                .fetchInto(ProductResult.class);
     }
 
     public long countByGameIdAndKeyword(PagingEntity paging, int gameId) {

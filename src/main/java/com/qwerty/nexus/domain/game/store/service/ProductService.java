@@ -9,6 +9,7 @@ import com.qwerty.nexus.domain.game.store.dto.response.ProductListResponseDto;
 import com.qwerty.nexus.domain.game.store.dto.response.ProductResponseDto;
 import com.qwerty.nexus.domain.game.store.entity.ProductEntity;
 import com.qwerty.nexus.domain.game.store.repository.ProductRepository;
+import com.qwerty.nexus.domain.game.store.result.ProductResult;
 import com.qwerty.nexus.global.constant.ApiConstants;
 import com.qwerty.nexus.global.exception.ErrorCode;
 import com.qwerty.nexus.global.paging.PagingEntity;
@@ -55,7 +56,7 @@ public class ProductService {
             return Result.Failure.of("유효하지 않은 상품 ID입니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
-        Optional<ProductEntity> product = productRepository.findByProductId(dto.getProductId());
+        Optional<ProductResult> product = productRepository.findByProductId(dto.getProductId());
         if (product.isEmpty()) {
             return Result.Failure.of("상품을 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }
@@ -158,7 +159,7 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public Result<ProductDetailResponseDto> getProduct(int productId) {
-        Optional<ProductEntity> product = productRepository.findByProductId(productId);
+        Optional<ProductResult> product = productRepository.findByProductId(productId);
 
         if (product.isEmpty()) {
             return Result.Failure.of("상품을 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
@@ -174,7 +175,7 @@ public class ProductService {
             return Result.Failure.of("유효하지 않은 상점 상품 ID 또는 유저 ID입니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
-        Optional<ProductEntity> product = productRepository.findByGameIdAndShopProductId(gameId, dto.getShopProductId());
+        Optional<ProductResult> product = productRepository.findByGameIdAndShopProductId(gameId, dto.getShopProductId());
         if (product.isEmpty()) {
             return Result.Failure.of("상품을 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }
@@ -188,7 +189,7 @@ public class ProductService {
             return Result.Failure.of("유효하지 않은 상품 ID입니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
-        Optional<ProductEntity> product = productRepository.findByProductId(productId);
+        Optional<ProductResult> product = productRepository.findByProductId(productId);
         if (product.isEmpty()) {
             return Result.Failure.of("상품을 찾을 수 없습니다.", ErrorCode.NOT_FOUND.getCode());
         }

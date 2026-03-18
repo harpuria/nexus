@@ -6,6 +6,7 @@ import com.qwerty.nexus.domain.game.attendance.dto.response.AttendanceResponseDt
 import com.qwerty.nexus.domain.game.attendance.dto.response.AttendanceRewardResponseDto;
 import com.qwerty.nexus.domain.game.attendance.entity.AttendanceEntity;
 import com.qwerty.nexus.domain.game.attendance.entity.AttendanceRewardEntity;
+import com.qwerty.nexus.domain.game.attendance.entity.UserAttendanceEntity;
 import com.qwerty.nexus.domain.game.attendance.repository.AttendanceRepository;
 import com.qwerty.nexus.domain.game.reward.SourceType;
 import com.qwerty.nexus.domain.game.reward.dto.GrantDto;
@@ -192,11 +193,11 @@ public class AttendanceService {
             return Result.Failure.of("종료된 출석 이벤트입니다.", ErrorCode.INVALID_REQUEST.getCode());
         }
 
-        Optional<AttendanceEntity> userAttendanceOptional = attendanceRepository.findUserAttendanceByGameIdAndAttendanceIdAndUserId(
+        Optional<UserAttendanceEntity> userAttendanceOptional = attendanceRepository.findUserAttendanceByGameIdAndAttendanceIdAndUserId(
                 requestDto.getGameId(), attendanceId, requestDto.getUserId().longValue());
 
         LocalDate today = LocalDate.now();
-        AttendanceEntity userAttendance = userAttendanceOptional.orElseGet(() -> AttendanceEntity.builder()
+        UserAttendanceEntity userAttendance = userAttendanceOptional.orElseGet(() -> UserAttendanceEntity.builder()
                 .gameId(requestDto.getGameId())
                 .attendanceId(attendanceId)
                 .userId(requestDto.getUserId().longValue())
@@ -252,7 +253,7 @@ public class AttendanceService {
             return Result.Failure.of("출석 보상 지급 처리 실패.", ErrorCode.INTERNAL_ERROR.getCode());
         }
 
-        AttendanceEntity updateUserAttendance = AttendanceEntity.builder()
+        UserAttendanceEntity updateUserAttendance = UserAttendanceEntity.builder()
                 .userAttendanceId(userAttendance.getUserAttendanceId())
                 .gameId(requestDto.getGameId())
                 .attendanceId(attendanceId)

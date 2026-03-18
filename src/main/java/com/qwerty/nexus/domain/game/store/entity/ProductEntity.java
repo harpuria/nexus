@@ -4,8 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import org.jooq.JSONB;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Getter
@@ -19,20 +17,6 @@ public class ProductEntity {
     private String imageUrl;
     private String productType;
     private JSONB rewards;
-    private Integer shopProductId;
-    private Integer shopId;
-    private String shopName;
-    private Integer sortOrder;
-    private String isVisible;
-    private String timeLimitType;
-    private LocalDateTime saleStartAt;
-    private LocalDateTime saleEndAt;
-    private String priceType;
-    private String priceItemCode;
-    private BigDecimal priceQty;
-    private String storeSku;
-    private String purchaseLimitType;
-    private Integer purchaseLimitCount;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
     private String createdBy;

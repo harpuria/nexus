@@ -23,6 +23,9 @@ public class GameUserEntity {
     private String isWithdrawal;
     private OffsetDateTime withdrawalDate;
     private String withdrawalReason;
+    private OffsetDateTime lastLoginAt;
+    private OffsetDateTime lastLogoutAt;
+    private Integer loginCount;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;

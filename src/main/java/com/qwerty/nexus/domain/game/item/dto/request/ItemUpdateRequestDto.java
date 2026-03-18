@@ -8,7 +8,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.jooq.JSONB;
 
 @Getter
 @Setter
@@ -39,8 +38,6 @@ public class ItemUpdateRequestDto {
     @Size(max = 255)
     @Schema(example = "/images/sample.png")
     private String iconPath;
-    @Schema(example = "{\"key\":\"value\"}")
-    private JSONB metaJson;
     @Size(max = 64)
     @Schema(example = "admin")
     private String updatedBy;
