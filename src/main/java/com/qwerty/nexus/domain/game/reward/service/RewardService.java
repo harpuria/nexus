@@ -87,7 +87,7 @@ public class RewardService {
                         .itemId(rewardItemInfo.getItemId())
                         .isStackable(isStackable)
                         .itemCode(rewardItemInfo.getItemCode())
-                        .itemType(rewardItemInfo.getItemType().name())
+                        .itemType(rewardItemInfo.getItemType())
                         .qty(reward.getQty())
                         .status("PENDING")
                         .createdBy(REWARD_SERVICE_ACTOR)
