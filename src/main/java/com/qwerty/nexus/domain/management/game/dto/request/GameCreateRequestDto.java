@@ -15,9 +15,18 @@ public class GameCreateRequestDto {
     @Schema(example = "그리즐리키우기")
     private String name;
 
+    @Schema(example = "/images/games/grizzly-raising.png")
+    private String imagePath;
+
+    @Schema(example = "sample-client-id.apps.googleusercontent.com")
+    private String googleClientId;
+
+    @Schema(example = "sample-google-client-secret")
+    private String googleClientSecret;
+
     @Schema(example = "admin")
     private String createdBy;
 
-    @Schema(example = "0.01")
+    @Schema(example = "1.0.0")
     private String version;
 }

@@ -1,7 +1,7 @@
 package com.qwerty.nexus.domain.game.user.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,20 +15,21 @@ public class GameUserBlockRequestDto {
     @Schema(example = "1")
     private Integer userId;
 
-    @Schema(example = "2025-09-15T00:00:00+09:00")
+    @Schema(example = "2026-03-18T09:00:00+09:00")
     private OffsetDateTime blockStartDate;
 
-    @Schema(example = "정지 사유")
+    @Schema(example = "예시 설명입니다.")
     private String blockReason;
 
-    @Schema(example = "userTest")
+    @Schema(example = "admin")
     private String updatedBy;
 
     // no database column
-    @Schema(example = "7")
+    @Schema(example = "1")
     private int blockDay; // 정지일수
 
     // no parameter
     @JsonIgnore
+    @Schema(hidden = true)
     private OffsetDateTime blockEndDate;
 }

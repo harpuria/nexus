@@ -50,8 +50,11 @@ public class GameRepository {
         GameRecord record = dslContext.newRecord(GAME, game);
         record.changed(GAME.ORG_ID, game.getOrgId() != null);
         record.changed(GAME.NAME, game.getName() != null);
+        record.changed(GAME.IMAGE_PATH, game.getImagePath() != null);
         record.changed(GAME.CLIENT_APP_ID, game.getClientAppId() != null);
         record.changed(GAME.SIGNATURE_KEY, game.getSignatureKey() != null);
+        record.changed(GAME.GOOGLE_CLIENT_ID, game.getGoogleClientId() != null);
+        record.changed(GAME.GOOGLE_CLIENT_SECRET, game.getGoogleClientSecret() != null);
         record.changed(GAME.STATUS, game.getStatus() != null);
         record.changed(GAME.VERSION, game.getVersion() != null);
         record.changed(GAME.UPDATED_BY, game.getUpdatedBy() != null);

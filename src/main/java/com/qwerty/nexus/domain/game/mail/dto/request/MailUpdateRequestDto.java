@@ -1,8 +1,8 @@
 package com.qwerty.nexus.domain.game.mail.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.qwerty.nexus.domain.game.mail.MailRecipientsType;
 import com.qwerty.nexus.domain.game.mail.MailSendType;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -20,28 +20,35 @@ import java.time.OffsetDateTime;
 public class MailUpdateRequestDto {
     @NotNull(message = "mailId는 필수입니다.")
     @Positive(message = "mailId는 1 이상이어야 합니다.")
+    @Schema(example = "1")
     private Integer mailId;
 
-    @Schema(example = "오픈 기념 우편(수정)")
     @Size(max = 255, message = "title은 255자 이하여야 합니다.")
+    @Schema(example = "sample")
     private String title;
 
-    @Schema(example = "보상이 일부 조정되었습니다.")
     @Size(max = 4000, message = "content는 4000자 이하여야 합니다.")
+    @Schema(example = "sample")
     private String content;
 
+    @Schema(example = "[{\"itemId\":1,\"qty\":100}]")
     private JSONB rewards;
 
+    @Schema(example = "sample")
     private MailSendType sendType;
 
+    @Schema(example = "sample")
     private MailRecipientsType recipientsType;
 
+    @Schema(example = "2026-03-18T09:00:00+09:00")
     private OffsetDateTime expireAt;
 
     @NotBlank(message = "updatedBy는 필수입니다.")
     @Size(max = 64, message = "updatedBy는 64자 이하여야 합니다.")
+    @Schema(example = "admin")
     private String updatedBy;
 
     @Size(max = 1, message = "isDel은 Y/N만 허용됩니다.")
+    @Schema(example = "N")
     private String isDel;
 }
