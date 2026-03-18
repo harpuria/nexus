@@ -12,17 +12,31 @@ import java.time.OffsetDateTime;
 @SuperBuilder
 public class GameUserResponseDto extends BaseResponseDto {
     private Integer userId;
+
     private Integer gameId;
+
     private String userLId;
+
     private String userLPw;
+
     private String nickname;
+
     private Provider provider;
+
+    private String socialId;
+
     private String device;
+
     private OffsetDateTime blockStartDate;
+
     private OffsetDateTime blockEndDate;
+
     private String blockReason;
+
     private String isWithdrawal;
+
     private OffsetDateTime withdrawalDate;
+
     private String withdrawalReason;
 
     public static GameUserResponseDto from(GameUserEntity entity){
@@ -33,6 +47,7 @@ public class GameUserResponseDto extends BaseResponseDto {
                 .userLPw(entity.getUserLPw())
                 .nickname(entity.getNickname())
                 .provider(entity.getProvider())
+                .socialId(entity.getSocialId())
                 .device(entity.getDevice())
                 .blockStartDate(entity.getBlockStartDate())
                 .blockEndDate(entity.getBlockEndDate())

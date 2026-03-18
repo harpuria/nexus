@@ -10,8 +10,12 @@ import java.time.OffsetDateTime;
 public class BaseResponseDto {
     // 각 테이블마다 들어가 있는 공통 컬럼
     private OffsetDateTime createdAt;
+
     private String createdBy;
+
     private OffsetDateTime updatedAt;
+
     private String updatedBy;
+
     private String isDel;
 }

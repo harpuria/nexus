@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.reward.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import com.qwerty.nexus.domain.game.reward.SourceType;
 import lombok.Builder;
 import lombok.Getter;

@@ -14,6 +14,15 @@ public class GameUpdateRequestDto {
     @Schema(example = "그리즐리키우기(변경)")
     private String name;
 
+    @Schema(example = "/images/games/grizzly-raising-v2.png")
+    private String imagePath;
+
+    @Schema(example = "sample-client-id.apps.googleusercontent.com")
+    private String googleClientId;
+
+    @Schema(example = "sample-google-client-secret")
+    private String googleClientSecret;
+
     @Schema(example = "OPERATING")
     private GameStatus status;
 
@@ -23,10 +32,11 @@ public class GameUpdateRequestDto {
     @Schema(example = "admin")
     private String updatedBy;
 
-    @Schema(example = "0.01")
+    @Schema(example = "1.0.1")
     private String version;
 
     // no parameter
     @JsonIgnore
+    @Schema(hidden = true)
     private int gameId;
 }

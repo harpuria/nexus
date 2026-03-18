@@ -78,6 +78,7 @@ public class GameUserService {
                 .userLPw(dto.getUserLPw())
                 .nickname(dto.getNickname())
                 .provider(dto.getProvider())
+                .socialId(dto.getSocialId())
                 .device(dto.getDevice())
                 .blockStartDate(dto.getBlockStartDate())
                 .blockEndDate(dto.getBlockEndDate())

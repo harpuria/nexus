@@ -12,13 +12,23 @@ import java.util.UUID;
 @SuperBuilder
 public class GameResponseDto extends BaseResponseDto {
     private Integer gameId;
+
     private Integer orgId;
+
     private String name;
+
+    private String imagePath;
+
     private UUID clientAppId;
+
     private UUID signatureKey;
+
     private String googleClientId;
+
     private String googleClientSecret;
+
     private GameStatus status;
+
     private String version;
 
     public static GameResponseDto from(GameEntity entity) {
@@ -26,6 +36,7 @@ public class GameResponseDto extends BaseResponseDto {
                 .gameId(entity.getGameId())
                 .orgId(entity.getOrgId())
                 .name(entity.getName())
+                .imagePath(entity.getImagePath())
                 .clientAppId(entity.getClientAppId())
                 .signatureKey(entity.getSignatureKey())
                 .googleClientId(entity.getGoogleClientId())

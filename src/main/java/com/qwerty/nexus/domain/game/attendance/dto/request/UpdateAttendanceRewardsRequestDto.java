@@ -1,5 +1,6 @@
 package com.qwerty.nexus.domain.game.attendance.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -15,7 +16,9 @@ import java.util.List;
 @NoArgsConstructor
 public class UpdateAttendanceRewardsRequestDto {
     @NotEmpty
+    @Schema(example = "[]")
     private List<@Valid AttendanceRewardRequestDto> rewards;
     @NotBlank @Size(max = 64)
+    @Schema(example = "admin")
     private String updatedBy;
 }
