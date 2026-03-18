@@ -101,6 +101,21 @@ public class UserItemInstanceDao extends DAOImpl<UserItemInstanceRecord, UserIte
     }
 
     /**
+     * Fetch records that have <code>INSTANCE_TYPE BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<UserItemInstance> fetchRangeOfJInstanceType(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JUserItemInstance.USER_ITEM_INSTANCE.INSTANCE_TYPE, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>INSTANCE_TYPE IN (values)</code>
+     */
+    public List<UserItemInstance> fetchByJInstanceType(String... values) {
+        return fetch(JUserItemInstance.USER_ITEM_INSTANCE.INSTANCE_TYPE, values);
+    }
+
+    /**
      * Fetch records that have <code>STATE_JSON BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */

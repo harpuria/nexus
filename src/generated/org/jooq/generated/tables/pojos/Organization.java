@@ -19,7 +19,7 @@ public class Organization implements Serializable {
     private Integer orgId;
     private String orgNm;
     private String orgCd;
-    private String logoPath;
+    private String imagePath;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;
@@ -32,7 +32,7 @@ public class Organization implements Serializable {
         this.orgId = value.orgId;
         this.orgNm = value.orgNm;
         this.orgCd = value.orgCd;
-        this.logoPath = value.logoPath;
+        this.imagePath = value.imagePath;
         this.createdAt = value.createdAt;
         this.createdBy = value.createdBy;
         this.updatedAt = value.updatedAt;
@@ -44,7 +44,7 @@ public class Organization implements Serializable {
         Integer orgId,
         String orgNm,
         String orgCd,
-        String logoPath,
+        String imagePath,
         OffsetDateTime createdAt,
         String createdBy,
         OffsetDateTime updatedAt,
@@ -54,7 +54,7 @@ public class Organization implements Serializable {
         this.orgId = orgId;
         this.orgNm = orgNm;
         this.orgCd = orgCd;
-        this.logoPath = logoPath;
+        this.imagePath = imagePath;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.updatedAt = updatedAt;
@@ -110,17 +110,17 @@ public class Organization implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.ORGANIZATION.LOGO_PATH</code>. 단체 로고 이미지 경로
+     * Getter for <code>nexus.ORGANIZATION.IMAGE_PATH</code>. 이미지 경로 (단체 로고)
      */
-    public String getLogoPath() {
-        return this.logoPath;
+    public String getImagePath() {
+        return this.imagePath;
     }
 
     /**
-     * Setter for <code>nexus.ORGANIZATION.LOGO_PATH</code>. 단체 로고 이미지 경로
+     * Setter for <code>nexus.ORGANIZATION.IMAGE_PATH</code>. 이미지 경로 (단체 로고)
      */
-    public Organization setLogoPath(String logoPath) {
-        this.logoPath = logoPath;
+    public Organization setImagePath(String imagePath) {
+        this.imagePath = imagePath;
         return this;
     }
 
@@ -226,11 +226,11 @@ public class Organization implements Serializable {
         }
         else if (!this.orgCd.equals(other.orgCd))
             return false;
-        if (this.logoPath == null) {
-            if (other.logoPath != null)
+        if (this.imagePath == null) {
+            if (other.imagePath != null)
                 return false;
         }
-        else if (!this.logoPath.equals(other.logoPath))
+        else if (!this.imagePath.equals(other.imagePath))
             return false;
         if (this.createdAt == null) {
             if (other.createdAt != null)
@@ -272,7 +272,7 @@ public class Organization implements Serializable {
         result = prime * result + ((this.orgId == null) ? 0 : this.orgId.hashCode());
         result = prime * result + ((this.orgNm == null) ? 0 : this.orgNm.hashCode());
         result = prime * result + ((this.orgCd == null) ? 0 : this.orgCd.hashCode());
-        result = prime * result + ((this.logoPath == null) ? 0 : this.logoPath.hashCode());
+        result = prime * result + ((this.imagePath == null) ? 0 : this.imagePath.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
@@ -288,7 +288,7 @@ public class Organization implements Serializable {
         sb.append(orgId);
         sb.append(", ").append(orgNm);
         sb.append(", ").append(orgCd);
-        sb.append(", ").append(logoPath);
+        sb.append(", ").append(imagePath);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(createdBy);
         sb.append(", ").append(updatedAt);

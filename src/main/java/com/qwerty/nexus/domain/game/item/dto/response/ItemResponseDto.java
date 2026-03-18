@@ -33,7 +33,7 @@ public class ItemResponseDto extends BaseResponseDto {
                 .isStackable(entity.getIsStackable())
                 .maxStack(entity.getMaxStack())
                 .rarity(entity.getRarity())
-                .iconPath(entity.getIconPath())
+                .iconPath(entity.getImagePath())
                 .metaJson(entity.getMetaJson())
                 .build();
     }

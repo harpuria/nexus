@@ -4,11 +4,8 @@
 package org.jooq.generated.tables.records;
 
 
-import com.qwerty.nexus.domain.game.item.ItemType;
-
 import java.time.OffsetDateTime;
 
-import org.jooq.JSONB;
 import org.jooq.Record1;
 import org.jooq.generated.tables.JItem;
 import org.jooq.generated.tables.pojos.Item;
@@ -101,7 +98,7 @@ public class ItemRecord extends UpdatableRecordImpl<ItemRecord> {
     /**
      * Setter for <code>nexus.ITEM.ITEM_TYPE</code>. 아이템 타입
      */
-    public ItemRecord setItemType(ItemType value) {
+    public ItemRecord setItemType(String value) {
         set(5, value);
         return this;
     }
@@ -109,8 +106,8 @@ public class ItemRecord extends UpdatableRecordImpl<ItemRecord> {
     /**
      * Getter for <code>nexus.ITEM.ITEM_TYPE</code>. 아이템 타입
      */
-    public ItemType getItemType() {
-        return (ItemType) get(5);
+    public String getItemType() {
+        return (String) get(5);
     }
 
     /**
@@ -174,40 +171,25 @@ public class ItemRecord extends UpdatableRecordImpl<ItemRecord> {
     }
 
     /**
-     * Setter for <code>nexus.ITEM.ICON_PATH</code>. 아이콘 경로(선택)
+     * Setter for <code>nexus.ITEM.IMAGE_PATH</code>. 이미지 경로 (아이템)
      */
-    public ItemRecord setIconPath(String value) {
+    public ItemRecord setImagePath(String value) {
         set(10, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.ITEM.ICON_PATH</code>. 아이콘 경로(선택)
+     * Getter for <code>nexus.ITEM.IMAGE_PATH</code>. 이미지 경로 (아이템)
      */
-    public String getIconPath() {
+    public String getImagePath() {
         return (String) get(10);
-    }
-
-    /**
-     * Setter for <code>nexus.ITEM.META_JSON</code>. 마스터 메타(선택): 기본스탯/카테고리/태그 등
-     */
-    public ItemRecord setMetaJson(JSONB value) {
-        set(11, value);
-        return this;
-    }
-
-    /**
-     * Getter for <code>nexus.ITEM.META_JSON</code>. 마스터 메타(선택): 기본스탯/카테고리/태그 등
-     */
-    public JSONB getMetaJson() {
-        return (JSONB) get(11);
     }
 
     /**
      * Setter for <code>nexus.ITEM.CREATED_AT</code>. 데이터 생성 날짜
      */
     public ItemRecord setCreatedAt(OffsetDateTime value) {
-        set(12, value);
+        set(11, value);
         return this;
     }
 
@@ -215,14 +197,14 @@ public class ItemRecord extends UpdatableRecordImpl<ItemRecord> {
      * Getter for <code>nexus.ITEM.CREATED_AT</code>. 데이터 생성 날짜
      */
     public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(12);
+        return (OffsetDateTime) get(11);
     }
 
     /**
      * Setter for <code>nexus.ITEM.CREATED_BY</code>. 데이터 생성자 ID
      */
     public ItemRecord setCreatedBy(String value) {
-        set(13, value);
+        set(12, value);
         return this;
     }
 
@@ -230,14 +212,14 @@ public class ItemRecord extends UpdatableRecordImpl<ItemRecord> {
      * Getter for <code>nexus.ITEM.CREATED_BY</code>. 데이터 생성자 ID
      */
     public String getCreatedBy() {
-        return (String) get(13);
+        return (String) get(12);
     }
 
     /**
      * Setter for <code>nexus.ITEM.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public ItemRecord setUpdatedAt(OffsetDateTime value) {
-        set(14, value);
+        set(13, value);
         return this;
     }
 
@@ -245,14 +227,14 @@ public class ItemRecord extends UpdatableRecordImpl<ItemRecord> {
      * Getter for <code>nexus.ITEM.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(14);
+        return (OffsetDateTime) get(13);
     }
 
     /**
      * Setter for <code>nexus.ITEM.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public ItemRecord setUpdatedBy(String value) {
-        set(15, value);
+        set(14, value);
         return this;
     }
 
@@ -260,14 +242,14 @@ public class ItemRecord extends UpdatableRecordImpl<ItemRecord> {
      * Getter for <code>nexus.ITEM.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public String getUpdatedBy() {
-        return (String) get(15);
+        return (String) get(14);
     }
 
     /**
      * Setter for <code>nexus.ITEM.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public ItemRecord setIsDel(String value) {
-        set(16, value);
+        set(15, value);
         return this;
     }
 
@@ -275,7 +257,7 @@ public class ItemRecord extends UpdatableRecordImpl<ItemRecord> {
      * Getter for <code>nexus.ITEM.IS_DEL</code>. 데이터 삭제 여부 (기본값 N)
      */
     public String getIsDel() {
-        return (String) get(16);
+        return (String) get(15);
     }
 
     // -------------------------------------------------------------------------
@@ -301,7 +283,7 @@ public class ItemRecord extends UpdatableRecordImpl<ItemRecord> {
     /**
      * Create a detached, initialised ItemRecord
      */
-    public ItemRecord(Integer itemId, Integer gameId, String itemCode, String name, String desc, ItemType itemType, String isStackable, Long defaultStack, Long maxStack, String rarity, String iconPath, JSONB metaJson, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public ItemRecord(Integer itemId, Integer gameId, String itemCode, String name, String desc, String itemType, String isStackable, Long defaultStack, Long maxStack, String rarity, String imagePath, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JItem.ITEM);
 
         setItemId(itemId);
@@ -314,8 +296,7 @@ public class ItemRecord extends UpdatableRecordImpl<ItemRecord> {
         setDefaultStack(defaultStack);
         setMaxStack(maxStack);
         setRarity(rarity);
-        setIconPath(iconPath);
-        setMetaJson(metaJson);
+        setImagePath(imagePath);
         setCreatedAt(createdAt);
         setCreatedBy(createdBy);
         setUpdatedAt(updatedAt);
@@ -341,8 +322,7 @@ public class ItemRecord extends UpdatableRecordImpl<ItemRecord> {
             setDefaultStack(value.getDefaultStack());
             setMaxStack(value.getMaxStack());
             setRarity(value.getRarity());
-            setIconPath(value.getIconPath());
-            setMetaJson(value.getMetaJson());
+            setImagePath(value.getImagePath());
             setCreatedAt(value.getCreatedAt());
             setCreatedBy(value.getCreatedBy());
             setUpdatedAt(value.getUpdatedAt());

@@ -71,11 +71,28 @@ public class UserItemInstanceRecord extends UpdatableRecordImpl<UserItemInstance
     }
 
     /**
+     * Setter for <code>nexus.USER_ITEM_INSTANCE.INSTANCE_TYPE</code>. 인스턴스 아이템
+     * 타입
+     */
+    public UserItemInstanceRecord setInstanceType(String value) {
+        set(3, value);
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.USER_ITEM_INSTANCE.INSTANCE_TYPE</code>. 인스턴스 아이템
+     * 타입
+     */
+    public String getInstanceType() {
+        return (String) get(3);
+    }
+
+    /**
      * Setter for <code>nexus.USER_ITEM_INSTANCE.STATE_JSON</code>.
      * 상태값(레벨/성급/옵션/잠금/장착 등)
      */
     public UserItemInstanceRecord setStateJson(JSONB value) {
-        set(3, value);
+        set(4, value);
         return this;
     }
 
@@ -84,14 +101,14 @@ public class UserItemInstanceRecord extends UpdatableRecordImpl<UserItemInstance
      * 상태값(레벨/성급/옵션/잠금/장착 등)
      */
     public JSONB getStateJson() {
-        return (JSONB) get(3);
+        return (JSONB) get(4);
     }
 
     /**
      * Setter for <code>nexus.USER_ITEM_INSTANCE.ACQUIRED_AT</code>. 획득 일시
      */
     public UserItemInstanceRecord setAcquiredAt(OffsetDateTime value) {
-        set(4, value);
+        set(5, value);
         return this;
     }
 
@@ -99,14 +116,14 @@ public class UserItemInstanceRecord extends UpdatableRecordImpl<UserItemInstance
      * Getter for <code>nexus.USER_ITEM_INSTANCE.ACQUIRED_AT</code>. 획득 일시
      */
     public OffsetDateTime getAcquiredAt() {
-        return (OffsetDateTime) get(4);
+        return (OffsetDateTime) get(5);
     }
 
     /**
      * Setter for <code>nexus.USER_ITEM_INSTANCE.CREATED_AT</code>. 데이터 생성 날짜
      */
     public UserItemInstanceRecord setCreatedAt(OffsetDateTime value) {
-        set(5, value);
+        set(6, value);
         return this;
     }
 
@@ -114,14 +131,14 @@ public class UserItemInstanceRecord extends UpdatableRecordImpl<UserItemInstance
      * Getter for <code>nexus.USER_ITEM_INSTANCE.CREATED_AT</code>. 데이터 생성 날짜
      */
     public OffsetDateTime getCreatedAt() {
-        return (OffsetDateTime) get(5);
+        return (OffsetDateTime) get(6);
     }
 
     /**
      * Setter for <code>nexus.USER_ITEM_INSTANCE.CREATED_BY</code>. 데이터 생성자 ID
      */
     public UserItemInstanceRecord setCreatedBy(String value) {
-        set(6, value);
+        set(7, value);
         return this;
     }
 
@@ -129,14 +146,14 @@ public class UserItemInstanceRecord extends UpdatableRecordImpl<UserItemInstance
      * Getter for <code>nexus.USER_ITEM_INSTANCE.CREATED_BY</code>. 데이터 생성자 ID
      */
     public String getCreatedBy() {
-        return (String) get(6);
+        return (String) get(7);
     }
 
     /**
      * Setter for <code>nexus.USER_ITEM_INSTANCE.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public UserItemInstanceRecord setUpdatedAt(OffsetDateTime value) {
-        set(7, value);
+        set(8, value);
         return this;
     }
 
@@ -144,14 +161,14 @@ public class UserItemInstanceRecord extends UpdatableRecordImpl<UserItemInstance
      * Getter for <code>nexus.USER_ITEM_INSTANCE.UPDATED_AT</code>. 데이터 수정 날짜
      */
     public OffsetDateTime getUpdatedAt() {
-        return (OffsetDateTime) get(7);
+        return (OffsetDateTime) get(8);
     }
 
     /**
      * Setter for <code>nexus.USER_ITEM_INSTANCE.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public UserItemInstanceRecord setUpdatedBy(String value) {
-        set(8, value);
+        set(9, value);
         return this;
     }
 
@@ -159,7 +176,7 @@ public class UserItemInstanceRecord extends UpdatableRecordImpl<UserItemInstance
      * Getter for <code>nexus.USER_ITEM_INSTANCE.UPDATED_BY</code>. 데이터 수정자 ID
      */
     public String getUpdatedBy() {
-        return (String) get(8);
+        return (String) get(9);
     }
 
     /**
@@ -167,7 +184,7 @@ public class UserItemInstanceRecord extends UpdatableRecordImpl<UserItemInstance
      * N)
      */
     public UserItemInstanceRecord setIsDel(String value) {
-        set(9, value);
+        set(10, value);
         return this;
     }
 
@@ -176,7 +193,7 @@ public class UserItemInstanceRecord extends UpdatableRecordImpl<UserItemInstance
      * N)
      */
     public String getIsDel() {
-        return (String) get(9);
+        return (String) get(10);
     }
 
     // -------------------------------------------------------------------------
@@ -202,12 +219,13 @@ public class UserItemInstanceRecord extends UpdatableRecordImpl<UserItemInstance
     /**
      * Create a detached, initialised UserItemInstanceRecord
      */
-    public UserItemInstanceRecord(Integer userItemId, Integer userId, Integer itemId, JSONB stateJson, OffsetDateTime acquiredAt, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public UserItemInstanceRecord(Integer userItemId, Integer userId, Integer itemId, String instanceType, JSONB stateJson, OffsetDateTime acquiredAt, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JUserItemInstance.USER_ITEM_INSTANCE);
 
         setUserItemId(userItemId);
         setUserId(userId);
         setItemId(itemId);
+        setInstanceType(instanceType);
         setStateJson(stateJson);
         setAcquiredAt(acquiredAt);
         setCreatedAt(createdAt);
@@ -228,6 +246,7 @@ public class UserItemInstanceRecord extends UpdatableRecordImpl<UserItemInstance
             setUserItemId(value.getUserItemId());
             setUserId(value.getUserId());
             setItemId(value.getItemId());
+            setInstanceType(value.getInstanceType());
             setStateJson(value.getStateJson());
             setAcquiredAt(value.getAcquiredAt());
             setCreatedAt(value.getCreatedAt());

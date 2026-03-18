@@ -47,7 +47,7 @@ public class ItemService {
                 .defaultStack(dto.getDefaultStack())
                 .maxStack(dto.getMaxStack())
                 .rarity(dto.getRarity())
-                .iconPath(dto.getIconPath())
+                .imagePath(dto.getIconPath())
                 .metaJson(dto.getMetaJson())
                 .createdBy(dto.getCreatedBy())
                 .updatedBy(dto.getCreatedBy())
@@ -94,7 +94,7 @@ public class ItemService {
                 .defaultStack(dto.getDefaultStack())
                 .maxStack(dto.getMaxStack())
                 .rarity(dto.getRarity())
-                .iconPath(dto.getIconPath())
+                .imagePath(dto.getIconPath())
                 .metaJson(dto.getMetaJson())
                 .updatedBy(dto.getUpdatedBy())
                 .build();

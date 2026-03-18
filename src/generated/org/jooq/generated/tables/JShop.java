@@ -261,7 +261,6 @@ public class JShop extends TableImpl<ShopRecord> {
         return Arrays.asList(
             Internal.createCheck(this, DSL.name("SHOP_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
             Internal.createCheck(this, DSL.name("SHOP_IS_VISIBLE_check"), "((\"IS_VISIBLE\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
-            Internal.createCheck(this, DSL.name("SHOP_SHOP_TYPE_check"), "(((\"SHOP_TYPE\")::text = ANY ((ARRAY['NORMAL'::character varying, 'PACKAGE'::character varying, 'GACHA'::character varying, 'EVENT'::character varying, 'EXCHANGE'::character varying, 'ETC'::character varying])::text[])))", true),
             Internal.createCheck(this, DSL.name("SHOP_TIME_LIMIT_TYPE_check"), "(((\"TIME_LIMIT_TYPE\")::text = ANY ((ARRAY['LIMITED'::character varying, 'UNLIMITED'::character varying])::text[])))", true)
         );
     }

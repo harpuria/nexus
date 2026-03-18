@@ -259,16 +259,16 @@ public class ShopProduct implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.SHOP_PRODUCT.PRICE_TYPE</code>. 가격 타입(인게임재화/현금/무료
-     * 등)
+     * Getter for <code>nexus.SHOP_PRODUCT.PRICE_TYPE</code>. 가격
+     * 타입(인게임재화/현금/광고/무료)
      */
     public String getPriceType() {
         return this.priceType;
     }
 
     /**
-     * Setter for <code>nexus.SHOP_PRODUCT.PRICE_TYPE</code>. 가격 타입(인게임재화/현금/무료
-     * 등)
+     * Setter for <code>nexus.SHOP_PRODUCT.PRICE_TYPE</code>. 가격
+     * 타입(인게임재화/현금/광고/무료)
      */
     public ShopProduct setPriceType(String priceType) {
         this.priceType = priceType;
@@ -277,7 +277,7 @@ public class ShopProduct implements Serializable {
 
     /**
      * Getter for <code>nexus.SHOP_PRODUCT.PRICE_ITEM_CODE</code>. 결제 재화
-     * 코드(PRICE_TYPE=SOFT일 때)
+     * 코드(PRICE_TYPE=CURRENCY)
      */
     public String getPriceItemCode() {
         return this.priceItemCode;
@@ -285,7 +285,7 @@ public class ShopProduct implements Serializable {
 
     /**
      * Setter for <code>nexus.SHOP_PRODUCT.PRICE_ITEM_CODE</code>. 결제 재화
-     * 코드(PRICE_TYPE=SOFT일 때)
+     * 코드(PRICE_TYPE=CURRENCY)
      */
     public ShopProduct setPriceItemCode(String priceItemCode) {
         this.priceItemCode = priceItemCode;
@@ -311,7 +311,7 @@ public class ShopProduct implements Serializable {
 
     /**
      * Getter for <code>nexus.SHOP_PRODUCT.STORE_SKU</code>. 스토어 결제
-     * SKU(PRICE_TYPE=HARD일 때)
+     * SKU(PRICE_TYPE=CASH)
      */
     public String getStoreSku() {
         return this.storeSku;
@@ -319,7 +319,7 @@ public class ShopProduct implements Serializable {
 
     /**
      * Setter for <code>nexus.SHOP_PRODUCT.STORE_SKU</code>. 스토어 결제
-     * SKU(PRICE_TYPE=HARD일 때)
+     * SKU(PRICE_TYPE=CASH)
      */
     public ShopProduct setStoreSku(String storeSku) {
         this.storeSku = storeSku;

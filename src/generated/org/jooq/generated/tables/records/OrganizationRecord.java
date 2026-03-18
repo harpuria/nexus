@@ -68,17 +68,17 @@ public class OrganizationRecord extends UpdatableRecordImpl<OrganizationRecord> 
     }
 
     /**
-     * Setter for <code>nexus.ORGANIZATION.LOGO_PATH</code>. 단체 로고 이미지 경로
+     * Setter for <code>nexus.ORGANIZATION.IMAGE_PATH</code>. 이미지 경로 (단체 로고)
      */
-    public OrganizationRecord setLogoPath(String value) {
+    public OrganizationRecord setImagePath(String value) {
         set(3, value);
         return this;
     }
 
     /**
-     * Getter for <code>nexus.ORGANIZATION.LOGO_PATH</code>. 단체 로고 이미지 경로
+     * Getter for <code>nexus.ORGANIZATION.IMAGE_PATH</code>. 이미지 경로 (단체 로고)
      */
-    public String getLogoPath() {
+    public String getImagePath() {
         return (String) get(3);
     }
 
@@ -180,13 +180,13 @@ public class OrganizationRecord extends UpdatableRecordImpl<OrganizationRecord> 
     /**
      * Create a detached, initialised OrganizationRecord
      */
-    public OrganizationRecord(Integer orgId, String orgNm, String orgCd, String logoPath, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
+    public OrganizationRecord(Integer orgId, String orgNm, String orgCd, String imagePath, OffsetDateTime createdAt, String createdBy, OffsetDateTime updatedAt, String updatedBy, String isDel) {
         super(JOrganization.ORGANIZATION);
 
         setOrgId(orgId);
         setOrgNm(orgNm);
         setOrgCd(orgCd);
-        setLogoPath(logoPath);
+        setImagePath(imagePath);
         setCreatedAt(createdAt);
         setCreatedBy(createdBy);
         setUpdatedAt(updatedAt);
@@ -205,7 +205,7 @@ public class OrganizationRecord extends UpdatableRecordImpl<OrganizationRecord> 
             setOrgId(value.getOrgId());
             setOrgNm(value.getOrgNm());
             setOrgCd(value.getOrgCd());
-            setLogoPath(value.getLogoPath());
+            setImagePath(value.getImagePath());
             setCreatedAt(value.getCreatedAt());
             setCreatedBy(value.getCreatedBy());
             setUpdatedAt(value.getUpdatedAt());

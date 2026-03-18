@@ -232,8 +232,7 @@ public class JProduct extends TableImpl<ProductRecord> {
     @Override
     public List<Check<ProductRecord>> getChecks() {
         return Arrays.asList(
-            Internal.createCheck(this, DSL.name("PRODUCT_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
-            Internal.createCheck(this, DSL.name("PRODUCT_PRODUCT_TYPE_check"), "(((\"PRODUCT_TYPE\")::text = ANY ((ARRAY['PACKAGE'::character varying, 'ITEM'::character varying, 'CURRENCY'::character varying, 'SUBSCRIPTION'::character varying, 'ETC'::character varying])::text[])))", true)
+            Internal.createCheck(this, DSL.name("PRODUCT_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true)
         );
     }
 

@@ -81,7 +81,7 @@ public class JCoupon extends TableImpl<CouponRecord> {
     /**
      * The column <code>nexus.COUPON.DESC</code>. 쿠폰 상세 설명
      */
-    public final TableField<CouponRecord, String> DESC = createField(DSL.name("DESC"), SQLDataType.VARCHAR(255).nullable(false), this, "쿠폰 상세 설명");
+    public final TableField<CouponRecord, String> DESC = createField(DSL.name("DESC"), SQLDataType.CLOB.nullable(false), this, "쿠폰 상세 설명");
 
     /**
      * The column <code>nexus.COUPON.CODE</code>. 쿠폰 코드

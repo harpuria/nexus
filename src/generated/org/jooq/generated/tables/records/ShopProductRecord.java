@@ -160,8 +160,8 @@ public class ShopProductRecord extends UpdatableRecordImpl<ShopProductRecord> {
     }
 
     /**
-     * Setter for <code>nexus.SHOP_PRODUCT.PRICE_TYPE</code>. 가격 타입(인게임재화/현금/무료
-     * 등)
+     * Setter for <code>nexus.SHOP_PRODUCT.PRICE_TYPE</code>. 가격
+     * 타입(인게임재화/현금/광고/무료)
      */
     public ShopProductRecord setPriceType(String value) {
         set(9, value);
@@ -169,8 +169,8 @@ public class ShopProductRecord extends UpdatableRecordImpl<ShopProductRecord> {
     }
 
     /**
-     * Getter for <code>nexus.SHOP_PRODUCT.PRICE_TYPE</code>. 가격 타입(인게임재화/현금/무료
-     * 등)
+     * Getter for <code>nexus.SHOP_PRODUCT.PRICE_TYPE</code>. 가격
+     * 타입(인게임재화/현금/광고/무료)
      */
     public String getPriceType() {
         return (String) get(9);
@@ -178,7 +178,7 @@ public class ShopProductRecord extends UpdatableRecordImpl<ShopProductRecord> {
 
     /**
      * Setter for <code>nexus.SHOP_PRODUCT.PRICE_ITEM_CODE</code>. 결제 재화
-     * 코드(PRICE_TYPE=SOFT일 때)
+     * 코드(PRICE_TYPE=CURRENCY)
      */
     public ShopProductRecord setPriceItemCode(String value) {
         set(10, value);
@@ -187,7 +187,7 @@ public class ShopProductRecord extends UpdatableRecordImpl<ShopProductRecord> {
 
     /**
      * Getter for <code>nexus.SHOP_PRODUCT.PRICE_ITEM_CODE</code>. 결제 재화
-     * 코드(PRICE_TYPE=SOFT일 때)
+     * 코드(PRICE_TYPE=CURRENCY)
      */
     public String getPriceItemCode() {
         return (String) get(10);
@@ -212,7 +212,7 @@ public class ShopProductRecord extends UpdatableRecordImpl<ShopProductRecord> {
 
     /**
      * Setter for <code>nexus.SHOP_PRODUCT.STORE_SKU</code>. 스토어 결제
-     * SKU(PRICE_TYPE=HARD일 때)
+     * SKU(PRICE_TYPE=CASH)
      */
     public ShopProductRecord setStoreSku(String value) {
         set(12, value);
@@ -221,7 +221,7 @@ public class ShopProductRecord extends UpdatableRecordImpl<ShopProductRecord> {
 
     /**
      * Getter for <code>nexus.SHOP_PRODUCT.STORE_SKU</code>. 스토어 결제
-     * SKU(PRICE_TYPE=HARD일 때)
+     * SKU(PRICE_TYPE=CASH)
      */
     public String getStoreSku() {
         return (String) get(12);

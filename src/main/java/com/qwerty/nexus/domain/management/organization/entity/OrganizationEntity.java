@@ -11,7 +11,7 @@ public class OrganizationEntity {
     private Integer orgId;
     private String orgNm;
     private String orgCd;
-    private String logoPath;
+    private String imagePath;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;

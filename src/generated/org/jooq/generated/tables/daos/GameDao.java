@@ -104,6 +104,21 @@ public class GameDao extends DAOImpl<GameRecord, Game, Integer> {
     }
 
     /**
+     * Fetch records that have <code>IMAGE_PATH BETWEEN lowerInclusive AND
+     * upperInclusive</code>
+     */
+    public List<Game> fetchRangeOfJImagePath(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JGame.GAME.IMAGE_PATH, lowerInclusive, upperInclusive);
+    }
+
+    /**
+     * Fetch records that have <code>IMAGE_PATH IN (values)</code>
+     */
+    public List<Game> fetchByJImagePath(String... values) {
+        return fetch(JGame.GAME.IMAGE_PATH, values);
+    }
+
+    /**
      * Fetch records that have <code>CLIENT_APP_ID BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */

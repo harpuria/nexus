@@ -4,8 +4,6 @@
 package org.jooq.generated.tables;
 
 
-import com.qwerty.nexus.domain.game.item.ItemType;
-
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,7 +15,6 @@ import org.jooq.Field;
 import org.jooq.ForeignKey;
 import org.jooq.Index;
 import org.jooq.InverseForeignKey;
-import org.jooq.JSONB;
 import org.jooq.Name;
 import org.jooq.Path;
 import org.jooq.PlainSQL;
@@ -39,7 +36,6 @@ import org.jooq.generated.tables.JUserItemInstance.UserItemInstancePath;
 import org.jooq.generated.tables.JUserItemStack.UserItemStackPath;
 import org.jooq.generated.tables.records.ItemRecord;
 import org.jooq.impl.DSL;
-import org.jooq.impl.EnumConverter;
 import org.jooq.impl.Internal;
 import org.jooq.impl.SQLDataType;
 import org.jooq.impl.TableImpl;
@@ -94,7 +90,7 @@ public class JItem extends TableImpl<ItemRecord> {
     /**
      * The column <code>nexus.ITEM.ITEM_TYPE</code>. 아이템 타입
      */
-    public final TableField<ItemRecord, ItemType> ITEM_TYPE = createField(DSL.name("ITEM_TYPE"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.field(DSL.raw("'ETC'::character varying"), SQLDataType.VARCHAR)), this, "아이템 타입", new EnumConverter<String, ItemType>(String.class, ItemType.class));
+    public final TableField<ItemRecord, String> ITEM_TYPE = createField(DSL.name("ITEM_TYPE"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.field(DSL.raw("'ETC'::character varying"), SQLDataType.VARCHAR)), this, "아이템 타입");
 
     /**
      * The column <code>nexus.ITEM.IS_STACKABLE</code>. 스택형 여부 (Y:수량형, N:인스턴스형)
@@ -117,14 +113,9 @@ public class JItem extends TableImpl<ItemRecord> {
     public final TableField<ItemRecord, String> RARITY = createField(DSL.name("RARITY"), SQLDataType.VARCHAR(32), this, "등급(선택)");
 
     /**
-     * The column <code>nexus.ITEM.ICON_PATH</code>. 아이콘 경로(선택)
+     * The column <code>nexus.ITEM.IMAGE_PATH</code>. 이미지 경로 (아이템)
      */
-    public final TableField<ItemRecord, String> ICON_PATH = createField(DSL.name("ICON_PATH"), SQLDataType.VARCHAR(255), this, "아이콘 경로(선택)");
-
-    /**
-     * The column <code>nexus.ITEM.META_JSON</code>. 마스터 메타(선택): 기본스탯/카테고리/태그 등
-     */
-    public final TableField<ItemRecord, JSONB> META_JSON = createField(DSL.name("META_JSON"), SQLDataType.JSONB, this, "마스터 메타(선택): 기본스탯/카테고리/태그 등");
+    public final TableField<ItemRecord, String> IMAGE_PATH = createField(DSL.name("IMAGE_PATH"), SQLDataType.CLOB, this, "이미지 경로 (아이템)");
 
     /**
      * The column <code>nexus.ITEM.CREATED_AT</code>. 데이터 생성 날짜
@@ -275,8 +266,7 @@ public class JItem extends TableImpl<ItemRecord> {
     public List<Check<ItemRecord>> getChecks() {
         return Arrays.asList(
             Internal.createCheck(this, DSL.name("ITEM_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
-            Internal.createCheck(this, DSL.name("ITEM_IS_DEL_check1"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
-            Internal.createCheck(this, DSL.name("ITEM_ITEM_TYPE_check"), "(((\"ITEM_TYPE\")::text = ANY ((ARRAY['CURRENCY'::character varying, 'CONSUMABLE'::character varying, 'HERO'::character varying, 'EQUIP'::character varying, 'SKIN'::character varying, 'ETC'::character varying])::text[])))", true)
+            Internal.createCheck(this, DSL.name("ITEM_IS_DEL_check1"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true)
         );
     }
 

@@ -90,7 +90,7 @@ public class JAdmin extends TableImpl<AdminRecord> {
     /**
      * The column <code>nexus.ADMIN.ADMIN_ROLE</code>. 관리자 권한
      */
-    public final TableField<AdminRecord, AdminRole> ADMIN_ROLE = createField(DSL.name("ADMIN_ROLE"), SQLDataType.VARCHAR(255).nullable(false).defaultValue(DSL.field(DSL.raw("'NO_ROLE'::character varying"), SQLDataType.VARCHAR)), this, "관리자 권한", new EnumConverter<String, AdminRole>(String.class, AdminRole.class));
+    public final TableField<AdminRecord, AdminRole> ADMIN_ROLE = createField(DSL.name("ADMIN_ROLE"), SQLDataType.VARCHAR(10).nullable(false).defaultValue(DSL.field(DSL.raw("'NONE'::character varying"), SQLDataType.VARCHAR)), this, "관리자 권한", new EnumConverter<String, AdminRole>(String.class, AdminRole.class));
 
     /**
      * The column <code>nexus.ADMIN.ADMIN_EMAIL</code>. 관리자 이메일

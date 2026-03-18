@@ -111,16 +111,16 @@ public class JShopProduct extends TableImpl<ShopProductRecord> {
     public final TableField<ShopProductRecord, LocalDateTime> SALE_END_AT = createField(DSL.name("SALE_END_AT"), SQLDataType.LOCALDATETIME(0), this, "판매 종료(LIMITED일 때)");
 
     /**
-     * The column <code>nexus.SHOP_PRODUCT.PRICE_TYPE</code>. 가격 타입(인게임재화/현금/무료
-     * 등)
+     * The column <code>nexus.SHOP_PRODUCT.PRICE_TYPE</code>. 가격
+     * 타입(인게임재화/현금/광고/무료)
      */
-    public final TableField<ShopProductRecord, String> PRICE_TYPE = createField(DSL.name("PRICE_TYPE"), SQLDataType.VARCHAR(16).nullable(false).defaultValue(DSL.field(DSL.raw("'SOFT'::character varying"), SQLDataType.VARCHAR)), this, "가격 타입(인게임재화/현금/무료 등)");
+    public final TableField<ShopProductRecord, String> PRICE_TYPE = createField(DSL.name("PRICE_TYPE"), SQLDataType.VARCHAR(16).nullable(false).defaultValue(DSL.field(DSL.raw("'SOFT'::character varying"), SQLDataType.VARCHAR)), this, "가격 타입(인게임재화/현금/광고/무료)");
 
     /**
      * The column <code>nexus.SHOP_PRODUCT.PRICE_ITEM_CODE</code>. 결제 재화
-     * 코드(PRICE_TYPE=SOFT일 때)
+     * 코드(PRICE_TYPE=CURRENCY)
      */
-    public final TableField<ShopProductRecord, String> PRICE_ITEM_CODE = createField(DSL.name("PRICE_ITEM_CODE"), SQLDataType.VARCHAR(64), this, "결제 재화 코드(PRICE_TYPE=SOFT일 때)");
+    public final TableField<ShopProductRecord, String> PRICE_ITEM_CODE = createField(DSL.name("PRICE_ITEM_CODE"), SQLDataType.VARCHAR(64), this, "결제 재화 코드(PRICE_TYPE=CURRENCY)");
 
     /**
      * The column <code>nexus.SHOP_PRODUCT.PRICE_QTY</code>. 가격 수량/금액(현금이면 센트/원
@@ -130,9 +130,9 @@ public class JShopProduct extends TableImpl<ShopProductRecord> {
 
     /**
      * The column <code>nexus.SHOP_PRODUCT.STORE_SKU</code>. 스토어 결제
-     * SKU(PRICE_TYPE=HARD일 때)
+     * SKU(PRICE_TYPE=CASH)
      */
-    public final TableField<ShopProductRecord, String> STORE_SKU = createField(DSL.name("STORE_SKU"), SQLDataType.VARCHAR(128), this, "스토어 결제 SKU(PRICE_TYPE=HARD일 때)");
+    public final TableField<ShopProductRecord, String> STORE_SKU = createField(DSL.name("STORE_SKU"), SQLDataType.VARCHAR(128), this, "스토어 결제 SKU(PRICE_TYPE=CASH)");
 
     /**
      * The column <code>nexus.SHOP_PRODUCT.PURCHASE_LIMIT_TYPE</code>. 구매 제한 타입
@@ -311,7 +311,7 @@ public class JShopProduct extends TableImpl<ShopProductRecord> {
         return Arrays.asList(
             Internal.createCheck(this, DSL.name("SHOP_PRODUCT_IS_DEL_check"), "((\"IS_DEL\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
             Internal.createCheck(this, DSL.name("SHOP_PRODUCT_IS_VISIBLE_check"), "((\"IS_VISIBLE\" = ANY (ARRAY['Y'::bpchar, 'N'::bpchar])))", true),
-            Internal.createCheck(this, DSL.name("SHOP_PRODUCT_PRICE_TYPE_check"), "(((\"PRICE_TYPE\")::text = ANY ((ARRAY['SOFT'::character varying, 'HARD'::character varying, 'FREE'::character varying, 'ETC'::character varying])::text[])))", true),
+            Internal.createCheck(this, DSL.name("SHOP_PRODUCT_PRICE_TYPE_check"), "(((\"PRICE_TYPE\")::text = ANY ((ARRAY['CASH'::character varying, 'CURRENCY'::character varying, 'AD'::character varying, 'FREE'::character varying])::text[])))", true),
             Internal.createCheck(this, DSL.name("SHOP_PRODUCT_PURCHASE_LIMIT_TYPE_check"), "(((\"PURCHASE_LIMIT_TYPE\")::text = ANY ((ARRAY['UNLIMITED'::character varying, 'DAILY'::character varying, 'WEEKLY'::character varying, 'MONTHLY'::character varying, 'LIFETIME'::character varying])::text[])))", true),
             Internal.createCheck(this, DSL.name("SHOP_PRODUCT_TIME_LIMIT_TYPE_check"), "(((\"TIME_LIMIT_TYPE\")::text = ANY ((ARRAY['LIMITED'::character varying, 'UNLIMITED'::character varying])::text[])))", true)
         );

@@ -125,9 +125,9 @@ public class JGameUser extends TableImpl<GameUserRecord> {
     public final TableField<GameUserRecord, String> BLOCK_REASON = createField(DSL.name("BLOCK_REASON"), SQLDataType.VARCHAR(255), this, "계정 정지 사유");
 
     /**
-     * The column <code>nexus.GAME_USER.IS_WITHDRAWAL</code>. 회원탈퇴여부
+     * The column <code>nexus.GAME_USER.IS_WITHDRAWAL</code>. 회원 탈퇴 여부
      */
-    public final TableField<GameUserRecord, String> IS_WITHDRAWAL = createField(DSL.name("IS_WITHDRAWAL"), SQLDataType.CHAR(1).nullable(false).defaultValue(DSL.field(DSL.raw("'N'::bpchar"), SQLDataType.CHAR)), this, "회원탈퇴여부");
+    public final TableField<GameUserRecord, String> IS_WITHDRAWAL = createField(DSL.name("IS_WITHDRAWAL"), SQLDataType.CHAR(1).nullable(false).defaultValue(DSL.field(DSL.raw("'N'::bpchar"), SQLDataType.CHAR)), this, "회원 탈퇴 여부");
 
     /**
      * The column <code>nexus.GAME_USER.WITHDRAWAL_DATE</code>. 게임탈퇴날짜

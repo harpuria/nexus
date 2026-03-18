@@ -4,19 +4,15 @@
 package org.jooq.generated.tables.daos;
 
 
-import com.qwerty.nexus.domain.game.item.ItemType;
-
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
 import org.jooq.Configuration;
-import org.jooq.JSONB;
 import org.jooq.generated.tables.JItem;
 import org.jooq.generated.tables.pojos.Item;
 import org.jooq.generated.tables.records.ItemRecord;
 import org.jooq.impl.DAOImpl;
-import org.jooq.impl.EnumConverter;
 
 
 /**
@@ -137,14 +133,14 @@ public class ItemDao extends DAOImpl<ItemRecord, Item, Integer> {
      * Fetch records that have <code>ITEM_TYPE BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<Item> fetchRangeOfJItemType(ItemType lowerInclusive, ItemType upperInclusive) {
+    public List<Item> fetchRangeOfJItemType(String lowerInclusive, String upperInclusive) {
         return fetchRange(JItem.ITEM.ITEM_TYPE, lowerInclusive, upperInclusive);
     }
 
     /**
      * Fetch records that have <code>ITEM_TYPE IN (values)</code>
      */
-    public List<Item> fetchByJItemType(ItemType... values) {
+    public List<Item> fetchByJItemType(String... values) {
         return fetch(JItem.ITEM.ITEM_TYPE, values);
     }
 
@@ -209,33 +205,18 @@ public class ItemDao extends DAOImpl<ItemRecord, Item, Integer> {
     }
 
     /**
-     * Fetch records that have <code>ICON_PATH BETWEEN lowerInclusive AND
+     * Fetch records that have <code>IMAGE_PATH BETWEEN lowerInclusive AND
      * upperInclusive</code>
      */
-    public List<Item> fetchRangeOfJIconPath(String lowerInclusive, String upperInclusive) {
-        return fetchRange(JItem.ITEM.ICON_PATH, lowerInclusive, upperInclusive);
+    public List<Item> fetchRangeOfJImagePath(String lowerInclusive, String upperInclusive) {
+        return fetchRange(JItem.ITEM.IMAGE_PATH, lowerInclusive, upperInclusive);
     }
 
     /**
-     * Fetch records that have <code>ICON_PATH IN (values)</code>
+     * Fetch records that have <code>IMAGE_PATH IN (values)</code>
      */
-    public List<Item> fetchByJIconPath(String... values) {
-        return fetch(JItem.ITEM.ICON_PATH, values);
-    }
-
-    /**
-     * Fetch records that have <code>META_JSON BETWEEN lowerInclusive AND
-     * upperInclusive</code>
-     */
-    public List<Item> fetchRangeOfJMetaJson(JSONB lowerInclusive, JSONB upperInclusive) {
-        return fetchRange(JItem.ITEM.META_JSON, lowerInclusive, upperInclusive);
-    }
-
-    /**
-     * Fetch records that have <code>META_JSON IN (values)</code>
-     */
-    public List<Item> fetchByJMetaJson(JSONB... values) {
-        return fetch(JItem.ITEM.META_JSON, values);
+    public List<Item> fetchByJImagePath(String... values) {
+        return fetch(JItem.ITEM.IMAGE_PATH, values);
     }
 
     /**

@@ -194,7 +194,7 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
     }
 
     /**
-     * Setter for <code>nexus.GAME_USER.IS_WITHDRAWAL</code>. 회원탈퇴여부
+     * Setter for <code>nexus.GAME_USER.IS_WITHDRAWAL</code>. 회원 탈퇴 여부
      */
     public GameUserRecord setIsWithdrawal(String value) {
         set(11, value);
@@ -202,7 +202,7 @@ public class GameUserRecord extends UpdatableRecordImpl<GameUserRecord> {
     }
 
     /**
-     * Getter for <code>nexus.GAME_USER.IS_WITHDRAWAL</code>. 회원탈퇴여부
+     * Getter for <code>nexus.GAME_USER.IS_WITHDRAWAL</code>. 회원 탈퇴 여부
      */
     public String getIsWithdrawal() {
         return (String) get(11);

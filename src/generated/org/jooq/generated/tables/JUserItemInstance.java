@@ -80,6 +80,12 @@ public class JUserItemInstance extends TableImpl<UserItemInstanceRecord> {
     public final TableField<UserItemInstanceRecord, Integer> ITEM_ID = createField(DSL.name("ITEM_ID"), SQLDataType.INTEGER.nullable(false), this, "ITEM PK(FK)");
 
     /**
+     * The column <code>nexus.USER_ITEM_INSTANCE.INSTANCE_TYPE</code>. 인스턴스 아이템
+     * 타입
+     */
+    public final TableField<UserItemInstanceRecord, String> INSTANCE_TYPE = createField(DSL.name("INSTANCE_TYPE"), SQLDataType.VARCHAR(64).nullable(false).defaultValue(DSL.field(DSL.raw("'ETC'::character varying"), SQLDataType.VARCHAR)), this, "인스턴스 아이템 타입");
+
+    /**
      * The column <code>nexus.USER_ITEM_INSTANCE.STATE_JSON</code>.
      * 상태값(레벨/성급/옵션/잠금/장착 등)
      */

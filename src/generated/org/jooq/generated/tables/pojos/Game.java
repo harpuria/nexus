@@ -22,6 +22,7 @@ public class Game implements Serializable {
     private Integer gameId;
     private Integer orgId;
     private String name;
+    private String imagePath;
     private UUID clientAppId;
     private UUID signatureKey;
     private String googleClientId;
@@ -40,6 +41,7 @@ public class Game implements Serializable {
         this.gameId = value.gameId;
         this.orgId = value.orgId;
         this.name = value.name;
+        this.imagePath = value.imagePath;
         this.clientAppId = value.clientAppId;
         this.signatureKey = value.signatureKey;
         this.googleClientId = value.googleClientId;
@@ -57,6 +59,7 @@ public class Game implements Serializable {
         Integer gameId,
         Integer orgId,
         String name,
+        String imagePath,
         UUID clientAppId,
         UUID signatureKey,
         String googleClientId,
@@ -72,6 +75,7 @@ public class Game implements Serializable {
         this.gameId = gameId;
         this.orgId = orgId;
         this.name = name;
+        this.imagePath = imagePath;
         this.clientAppId = clientAppId;
         this.signatureKey = signatureKey;
         this.googleClientId = googleClientId;
@@ -127,6 +131,21 @@ public class Game implements Serializable {
      */
     public Game setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.GAME.IMAGE_PATH</code>. 이미지 경로 (게임 아이콘)
+     */
+    public String getImagePath() {
+        return this.imagePath;
+    }
+
+    /**
+     * Setter for <code>nexus.GAME.IMAGE_PATH</code>. 이미지 경로 (게임 아이콘)
+     */
+    public Game setImagePath(String imagePath) {
+        this.imagePath = imagePath;
         return this;
     }
 
@@ -324,6 +343,12 @@ public class Game implements Serializable {
         }
         else if (!this.name.equals(other.name))
             return false;
+        if (this.imagePath == null) {
+            if (other.imagePath != null)
+                return false;
+        }
+        else if (!this.imagePath.equals(other.imagePath))
+            return false;
         if (this.clientAppId == null) {
             if (other.clientAppId != null)
                 return false;
@@ -400,6 +425,7 @@ public class Game implements Serializable {
         result = prime * result + ((this.gameId == null) ? 0 : this.gameId.hashCode());
         result = prime * result + ((this.orgId == null) ? 0 : this.orgId.hashCode());
         result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        result = prime * result + ((this.imagePath == null) ? 0 : this.imagePath.hashCode());
         result = prime * result + ((this.clientAppId == null) ? 0 : this.clientAppId.hashCode());
         result = prime * result + ((this.signatureKey == null) ? 0 : this.signatureKey.hashCode());
         result = prime * result + ((this.googleClientId == null) ? 0 : this.googleClientId.hashCode());
@@ -421,6 +447,7 @@ public class Game implements Serializable {
         sb.append(gameId);
         sb.append(", ").append(orgId);
         sb.append(", ").append(name);
+        sb.append(", ").append(imagePath);
         sb.append(", ").append(clientAppId);
         sb.append(", ").append(signatureKey);
         sb.append(", ").append(googleClientId);

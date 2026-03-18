@@ -20,7 +20,7 @@ public class ItemEntity {
     private Long defaultStack;
     private Long maxStack;
     private String rarity;
-    private String iconPath;
+    private String imagePath;
     private JSONB metaJson;
     private OffsetDateTime createdAt;
     private String createdBy;

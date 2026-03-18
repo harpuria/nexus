@@ -288,14 +288,14 @@ public class GameUser implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.GAME_USER.IS_WITHDRAWAL</code>. 회원탈퇴여부
+     * Getter for <code>nexus.GAME_USER.IS_WITHDRAWAL</code>. 회원 탈퇴 여부
      */
     public String getIsWithdrawal() {
         return this.isWithdrawal;
     }
 
     /**
-     * Setter for <code>nexus.GAME_USER.IS_WITHDRAWAL</code>. 회원탈퇴여부
+     * Setter for <code>nexus.GAME_USER.IS_WITHDRAWAL</code>. 회원 탈퇴 여부
      */
     public GameUser setIsWithdrawal(String isWithdrawal) {
         this.isWithdrawal = isWithdrawal;

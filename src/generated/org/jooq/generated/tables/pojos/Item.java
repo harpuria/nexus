@@ -4,12 +4,8 @@
 package org.jooq.generated.tables.pojos;
 
 
-import com.qwerty.nexus.domain.game.item.ItemType;
-
 import java.io.Serializable;
 import java.time.OffsetDateTime;
-
-import org.jooq.JSONB;
 
 
 /**
@@ -25,13 +21,12 @@ public class Item implements Serializable {
     private String itemCode;
     private String name;
     private String desc;
-    private ItemType itemType;
+    private String itemType;
     private String isStackable;
     private Long defaultStack;
     private Long maxStack;
     private String rarity;
-    private String iconPath;
-    private JSONB metaJson;
+    private String imagePath;
     private OffsetDateTime createdAt;
     private String createdBy;
     private OffsetDateTime updatedAt;
@@ -51,8 +46,7 @@ public class Item implements Serializable {
         this.defaultStack = value.defaultStack;
         this.maxStack = value.maxStack;
         this.rarity = value.rarity;
-        this.iconPath = value.iconPath;
-        this.metaJson = value.metaJson;
+        this.imagePath = value.imagePath;
         this.createdAt = value.createdAt;
         this.createdBy = value.createdBy;
         this.updatedAt = value.updatedAt;
@@ -66,13 +60,12 @@ public class Item implements Serializable {
         String itemCode,
         String name,
         String desc,
-        ItemType itemType,
+        String itemType,
         String isStackable,
         Long defaultStack,
         Long maxStack,
         String rarity,
-        String iconPath,
-        JSONB metaJson,
+        String imagePath,
         OffsetDateTime createdAt,
         String createdBy,
         OffsetDateTime updatedAt,
@@ -89,8 +82,7 @@ public class Item implements Serializable {
         this.defaultStack = defaultStack;
         this.maxStack = maxStack;
         this.rarity = rarity;
-        this.iconPath = iconPath;
-        this.metaJson = metaJson;
+        this.imagePath = imagePath;
         this.createdAt = createdAt;
         this.createdBy = createdBy;
         this.updatedAt = updatedAt;
@@ -176,14 +168,14 @@ public class Item implements Serializable {
     /**
      * Getter for <code>nexus.ITEM.ITEM_TYPE</code>. 아이템 타입
      */
-    public ItemType getItemType() {
+    public String getItemType() {
         return this.itemType;
     }
 
     /**
      * Setter for <code>nexus.ITEM.ITEM_TYPE</code>. 아이템 타입
      */
-    public Item setItemType(ItemType itemType) {
+    public Item setItemType(String itemType) {
         this.itemType = itemType;
         return this;
     }
@@ -249,32 +241,17 @@ public class Item implements Serializable {
     }
 
     /**
-     * Getter for <code>nexus.ITEM.ICON_PATH</code>. 아이콘 경로(선택)
+     * Getter for <code>nexus.ITEM.IMAGE_PATH</code>. 이미지 경로 (아이템)
      */
-    public String getIconPath() {
-        return this.iconPath;
+    public String getImagePath() {
+        return this.imagePath;
     }
 
     /**
-     * Setter for <code>nexus.ITEM.ICON_PATH</code>. 아이콘 경로(선택)
+     * Setter for <code>nexus.ITEM.IMAGE_PATH</code>. 이미지 경로 (아이템)
      */
-    public Item setIconPath(String iconPath) {
-        this.iconPath = iconPath;
-        return this;
-    }
-
-    /**
-     * Getter for <code>nexus.ITEM.META_JSON</code>. 마스터 메타(선택): 기본스탯/카테고리/태그 등
-     */
-    public JSONB getMetaJson() {
-        return this.metaJson;
-    }
-
-    /**
-     * Setter for <code>nexus.ITEM.META_JSON</code>. 마스터 메타(선택): 기본스탯/카테고리/태그 등
-     */
-    public Item setMetaJson(JSONB metaJson) {
-        this.metaJson = metaJson;
+    public Item setImagePath(String imagePath) {
+        this.imagePath = imagePath;
         return this;
     }
 
@@ -422,17 +399,11 @@ public class Item implements Serializable {
         }
         else if (!this.rarity.equals(other.rarity))
             return false;
-        if (this.iconPath == null) {
-            if (other.iconPath != null)
+        if (this.imagePath == null) {
+            if (other.imagePath != null)
                 return false;
         }
-        else if (!this.iconPath.equals(other.iconPath))
-            return false;
-        if (this.metaJson == null) {
-            if (other.metaJson != null)
-                return false;
-        }
-        else if (!this.metaJson.equals(other.metaJson))
+        else if (!this.imagePath.equals(other.imagePath))
             return false;
         if (this.createdAt == null) {
             if (other.createdAt != null)
@@ -481,8 +452,7 @@ public class Item implements Serializable {
         result = prime * result + ((this.defaultStack == null) ? 0 : this.defaultStack.hashCode());
         result = prime * result + ((this.maxStack == null) ? 0 : this.maxStack.hashCode());
         result = prime * result + ((this.rarity == null) ? 0 : this.rarity.hashCode());
-        result = prime * result + ((this.iconPath == null) ? 0 : this.iconPath.hashCode());
-        result = prime * result + ((this.metaJson == null) ? 0 : this.metaJson.hashCode());
+        result = prime * result + ((this.imagePath == null) ? 0 : this.imagePath.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
         result = prime * result + ((this.createdBy == null) ? 0 : this.createdBy.hashCode());
         result = prime * result + ((this.updatedAt == null) ? 0 : this.updatedAt.hashCode());
@@ -505,8 +475,7 @@ public class Item implements Serializable {
         sb.append(", ").append(defaultStack);
         sb.append(", ").append(maxStack);
         sb.append(", ").append(rarity);
-        sb.append(", ").append(iconPath);
-        sb.append(", ").append(metaJson);
+        sb.append(", ").append(imagePath);
         sb.append(", ").append(createdAt);
         sb.append(", ").append(createdBy);
         sb.append(", ").append(updatedAt);

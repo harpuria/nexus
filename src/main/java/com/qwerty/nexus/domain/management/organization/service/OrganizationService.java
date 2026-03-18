@@ -35,7 +35,7 @@ public class OrganizationService {
         OrganizationEntity organizationEntity = OrganizationEntity.builder()
                 .orgNm(dto.getOrgNm())
                 .orgCd(dto.getOrgCd())
-                .logoPath(dto.getLogoPath())
+                .imagePath(dto.getLogoPath())
                 .createdBy(dto.getCreatedBy())
                 .updatedBy(dto.getCreatedBy())
                 .isDel("N")
@@ -65,7 +65,7 @@ public class OrganizationService {
                 .orgId(dto.getOrgId())
                 .orgNm(dto.getOrgNm())
                 .orgCd(dto.getOrgCd())
-                .logoPath(dto.getLogoPath())
+                .imagePath(dto.getLogoPath())
                 .updatedBy(dto.getUpdatedBy())
                 .build();
 

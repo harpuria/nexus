@@ -88,6 +88,11 @@ public class JGame extends TableImpl<GameRecord> {
     public final TableField<GameRecord, String> NAME = createField(DSL.name("NAME"), SQLDataType.VARCHAR(255).nullable(false), this, "게임 이름");
 
     /**
+     * The column <code>nexus.GAME.IMAGE_PATH</code>. 이미지 경로 (게임 아이콘)
+     */
+    public final TableField<GameRecord, String> IMAGE_PATH = createField(DSL.name("IMAGE_PATH"), SQLDataType.CLOB, this, "이미지 경로 (게임 아이콘)");
+
+    /**
      * The column <code>nexus.GAME.CLIENT_APP_ID</code>. 클라이언트 앱 아이디
      */
     public final TableField<GameRecord, UUID> CLIENT_APP_ID = createField(DSL.name("CLIENT_APP_ID"), SQLDataType.UUID.nullable(false), this, "클라이언트 앱 아이디");

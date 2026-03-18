@@ -51,8 +51,7 @@ public class ItemRepository {
         record.changed(ITEM.DEFAULT_STACK, entity.getDefaultStack() != null);
         record.changed(ITEM.MAX_STACK, entity.getMaxStack() != null);
         record.changed(ITEM.RARITY, entity.getRarity() != null);
-        record.changed(ITEM.ICON_PATH, entity.getIconPath() != null);
-        record.changed(ITEM.META_JSON, entity.getMetaJson() != null);
+        record.changed(ITEM.IMAGE_PATH, entity.getImagePath() != null);
         record.changed(ITEM.UPDATED_BY, entity.getUpdatedBy() != null);
         record.changed(ITEM.IS_DEL, entity.getIsDel() != null);
         return record.update();

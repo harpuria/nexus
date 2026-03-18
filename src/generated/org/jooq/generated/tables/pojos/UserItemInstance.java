@@ -21,6 +21,7 @@ public class UserItemInstance implements Serializable {
     private Integer userItemId;
     private Integer userId;
     private Integer itemId;
+    private String instanceType;
     private JSONB stateJson;
     private OffsetDateTime acquiredAt;
     private OffsetDateTime createdAt;
@@ -35,6 +36,7 @@ public class UserItemInstance implements Serializable {
         this.userItemId = value.userItemId;
         this.userId = value.userId;
         this.itemId = value.itemId;
+        this.instanceType = value.instanceType;
         this.stateJson = value.stateJson;
         this.acquiredAt = value.acquiredAt;
         this.createdAt = value.createdAt;
@@ -48,6 +50,7 @@ public class UserItemInstance implements Serializable {
         Integer userItemId,
         Integer userId,
         Integer itemId,
+        String instanceType,
         JSONB stateJson,
         OffsetDateTime acquiredAt,
         OffsetDateTime createdAt,
@@ -59,6 +62,7 @@ public class UserItemInstance implements Serializable {
         this.userItemId = userItemId;
         this.userId = userId;
         this.itemId = itemId;
+        this.instanceType = instanceType;
         this.stateJson = stateJson;
         this.acquiredAt = acquiredAt;
         this.createdAt = createdAt;
@@ -114,6 +118,23 @@ public class UserItemInstance implements Serializable {
      */
     public UserItemInstance setItemId(Integer itemId) {
         this.itemId = itemId;
+        return this;
+    }
+
+    /**
+     * Getter for <code>nexus.USER_ITEM_INSTANCE.INSTANCE_TYPE</code>. 인스턴스 아이템
+     * 타입
+     */
+    public String getInstanceType() {
+        return this.instanceType;
+    }
+
+    /**
+     * Setter for <code>nexus.USER_ITEM_INSTANCE.INSTANCE_TYPE</code>. 인스턴스 아이템
+     * 타입
+     */
+    public UserItemInstance setInstanceType(String instanceType) {
+        this.instanceType = instanceType;
         return this;
     }
 
@@ -253,6 +274,12 @@ public class UserItemInstance implements Serializable {
         }
         else if (!this.itemId.equals(other.itemId))
             return false;
+        if (this.instanceType == null) {
+            if (other.instanceType != null)
+                return false;
+        }
+        else if (!this.instanceType.equals(other.instanceType))
+            return false;
         if (this.stateJson == null) {
             if (other.stateJson != null)
                 return false;
@@ -305,6 +332,7 @@ public class UserItemInstance implements Serializable {
         result = prime * result + ((this.userItemId == null) ? 0 : this.userItemId.hashCode());
         result = prime * result + ((this.userId == null) ? 0 : this.userId.hashCode());
         result = prime * result + ((this.itemId == null) ? 0 : this.itemId.hashCode());
+        result = prime * result + ((this.instanceType == null) ? 0 : this.instanceType.hashCode());
         result = prime * result + ((this.stateJson == null) ? 0 : this.stateJson.hashCode());
         result = prime * result + ((this.acquiredAt == null) ? 0 : this.acquiredAt.hashCode());
         result = prime * result + ((this.createdAt == null) ? 0 : this.createdAt.hashCode());
@@ -322,6 +350,7 @@ public class UserItemInstance implements Serializable {
         sb.append(userItemId);
         sb.append(", ").append(userId);
         sb.append(", ").append(itemId);
+        sb.append(", ").append(instanceType);
         sb.append(", ").append(stateJson);
         sb.append(", ").append(acquiredAt);
         sb.append(", ").append(createdAt);

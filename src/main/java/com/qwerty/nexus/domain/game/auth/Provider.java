@@ -3,7 +3,8 @@ package com.qwerty.nexus.domain.game.auth;
 public enum Provider {
     GOOGLE,
     APPLE,
-    META,
+    FACEBOOK,
+    X,
     KAKAO,
     NAVER,
     GUEST,
