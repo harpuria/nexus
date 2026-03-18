@@ -6,4 +6,11 @@ import java.util.List;
 
 @Builder
 public record GameUserListResponseDto(
+        List<GameUserResponseDto> users,
+        int page,
+        int size,
+        long totalCount,
+        int totalPages,
+        boolean hasNext,
+        boolean hasPrevious
 ) {}
